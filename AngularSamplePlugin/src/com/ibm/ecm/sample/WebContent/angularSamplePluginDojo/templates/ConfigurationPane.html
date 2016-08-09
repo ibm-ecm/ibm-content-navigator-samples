@@ -1,0 +1,17 @@
+<div>
+	<table class="propertyTable" role="presentation">
+        <tr>
+            <td class="propertyRowLabel">
+                <span class="required">*</span>
+                <label for="${id}_nytimes_apikey">New York Times API Key:</label>&nbsp;
+                <div data-dojo-type="ecm/widget/HoverHelp" data-dojo-attach-point="nyTimesAPIKeyHoverHelp" 
+                		message="An API key to use the New York Times Top Stories v2 API. You can obtain this at https://developer.nytimes.com/signup. Select the Top Stories V2 API from the drop down."></div>
+            </td>
+            <td class="propertyRowValue">
+                <div id="${id}_nytimes_apikey" data-dojo-attach-point="nyTimesAPIKey" 
+	                data-dojo-attach-event="onKeyUp: _onFieldChange"
+	                data-dojo-type="ecm/widget/ValidationTextBox" required="true" trim="true" propercase="false"></div>
+            </td>
+        </tr>
+    </table>
+</div>

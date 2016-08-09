@@ -1,0 +1,7 @@
+.apt_generated
+target
+target/*
+.DS_Store
+app/**/*.map
+app/**/*.js
+node_modules/**

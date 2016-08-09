@@ -1,0 +1,76 @@
+.TestFeatureIcon {
+	width: 32px;
+	height: 32px;
+	background-image: url('images/samplePlugin.svg');
+	background-repeat: no-repeat;
+	background-position: -16px -16px; 
+}
+
+angular-sample .tabLink {
+  padding: 5px 10px;
+  text-decoration: none;
+  margin-top: 10px;
+  display: inline-block;
+  background-color: #eee;
+  border-radius: 4px;
+}
+
+angular-sample .tabLink:visited, angular-sample .tabLink:link {
+  color: #607D8B;
+}
+
+angular-sample .tabLink:hover {
+  color: #039be5;
+  background-color: #CFD8DC;
+}
+
+angular-sample a.router-link-active {
+  color: #039be5;
+}
+
+.ang-sample-pane {
+    padding: 5px 15px;
+}
+
+.ang-sample-pane table {
+    border-spacing: 0;
+}
+
+.ang-sample-pane td {
+    padding: 10px;
+}
+
+.ang-sample-pane .nameColumn {
+  white-space: nowrap;
+}
+
+.ang-sample-pane .topNewsStoryIcon,
+.ang-sample-pane .topStoryColumn {
+  border-bottom: 1px solid #efeff1;
+}
+
+.ang-sample-pane .topNewsStoryIcon {
+  width: 75px;
+}
+
+.ang-sample-pane .topStoryColumn {
+  vertical-align: top;
+}
+
+.ang-sample-pane .topStoryTitle {
+  font-weight: bold;
+}
+
+angular-sample .topStoryTitle a,
+angular-sample .topStoryTitle a:visited, 
+angular-sample .topStoryTitle a:link {
+  color: #000;
+}
+
+angular-sample .tabLtopStoryTitle a:hover {
+  text-decoration: underline;
+}
+
+.ang-sample-pane .topStoryAbstract {
+  font-size: ".85em";
+}

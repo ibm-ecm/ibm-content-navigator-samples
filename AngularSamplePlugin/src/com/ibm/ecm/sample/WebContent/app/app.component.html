@@ -1,0 +1,52 @@
+<h1>Angular 2 TypeScript App</h1>
+<a href="#" (click)="setSelectedPane(0)" class="tabLink">ICN API Test</a>
+<a href="#" (click)="setSelectedPane(1)" class="tabLink">Plugin Service Test</a>
+<div *ngIf="selectedPane == 0" class="ang-sample-pane">
+    <h2 class="tableArea">List of Desktop repositories:</h2>
+    <table style="width: 400px">
+        <tr *ngFor="let repository of repositories; let i=index" [style.background-color]="i%2==0 ? '#ecf8fd': ''">
+            <td>
+                <div [ngSwitch]="repository.type">
+                    <div *ngSwitchWhen="'cm'" class="cmRepositoryIcon"></div>
+                    <div *ngSwitchWhen="'od'" class="odRepositoryIcon"></div>
+                    <div *ngSwitchWhen="'cmis'" class="cmisRepositoryIcon"></div>
+                    <div *ngSwitchWhen="'box'" class="boxRepositoryIcon"></div>
+                    <div *ngSwitchWhen="'p8'" class="p8RepositoryIcon"></div>
+                    <div *ngSwitchDefault class="repositoryIcon"></div>
+                </div>
+            </td>
+            <td>{{repository.name}}</td>
+            <td>
+                <span [ngSwitch]="repository.type">
+                    <span *ngSwitchWhen="'cm'">Content Manager</span>
+                    <span *ngSwitchWhen="'od'">Content Manager OnDemand</span>
+                    <span *ngSwitchWhen="'cmis'">Content Management Interoperability Services (CMIS)</span>
+                    <span *ngSwitchWhen="'box'">Box</span>
+                    <span *ngSwitchWhen="'p8'">FileNet Content Manager</span>
+                    <span *ngSwitchDefault>{{repository.type}}</span>
+                </span>
+            </td>
+        </tr>
+    </table>
+    <h2 class="tableArea">Search templates in the default repository {{defaultRepository.name}}:</h2>
+    <table style="width: 650px">
+        <tr *ngFor="let searchTemplate of searchTemplates; let i=index" [style.background-color]="i%2==0 ? '#ecf8fd': ''">
+            <td>{{searchTemplate.id}}</td>
+            <td class="nameColumn">{{searchTemplate.name}}</td>
+            <td class="nameColumn">{{searchTemplate.description}}</td>
+        </tr>
+    </table>
+</div>
+<div *ngIf="selectedPane == 1" class="ang-sample-pane">
+    <h2 class="tableArea">Plugin Service API Test</h2>
+    <button (click)="getNYTimesTopStories()">Retrieve top news stories</button>
+    <table style="width: 100%">
+        <tr *ngFor="let story of topNewsStories; let i=index" class="topStoryRow">
+            <td class="topNewsStoryIcon"><img *ngIf="story.multimedia.length > 0" src="{{story.multimedia[0].url}}"/></td>
+            <td class="topStoryColumn">
+                <div class="topStoryTitle"><a href="#" (click)="openStory(story)">{{story.title}}</a></div>
+                <div class="topStoryAbstract">{{story.abstract}}</div>
+            </td>
+        </tr>
+    </table>
+</div>
