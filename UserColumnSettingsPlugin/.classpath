@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/Applications/eclipse/apis/navigatorAPI.jar"/>
+	<classpathentry kind="lib" path="/navigator/build/lib/j2ee/j2ee.jar"/>
+	<classpathentry kind="lib" path="/navigator/build/lib/p8/Jace.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
