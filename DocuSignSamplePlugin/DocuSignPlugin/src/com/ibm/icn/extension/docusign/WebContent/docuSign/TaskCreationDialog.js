@@ -1,8 +1,3 @@
-/**
- * Licensed Materials - Property of IBM (C) Copyright IBM Corp. 2016 US Government Users Restricted Rights - Use,
- * duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
- */
-
 define([ 
 	"dojo/_base/declare",
 	"dojo/_base/lang", 
@@ -36,6 +31,7 @@ define([
 				this.taskParameters.docusignUserName = this.taskCreationPane.getDocusignUser();
 				this.taskParameters.docusignPassword = this.taskCreationPane.getDocusignPassword();
 				this.taskParameters.docusignIntegratorKey = this.taskCreationPane.getDocusignIntegrationKey();
+				this.taskParameters.docusignP8Folder = this.taskCreationPane.getDocusignP8Folder();
 				
 				this.inherited(arguments);
 			}
