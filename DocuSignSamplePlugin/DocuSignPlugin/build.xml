@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="DocuSign Plugin Build" default="all" basedir=".">
+
+<target name="clean">
+	<delete failonerror="false">
+		<fileset dir=".">
+			<include name="*.jar" />
+		</fileset>
+	</delete>	
+	<delete dir="./bin/com" failonerror="false"/>
+</target>
+
+<target name="buildPlugin">
+	<javac destdir="./bin" srcdir="./src" debug="on">
+		<classpath>
+			<pathelement location="./lib/navigatorAPI.jar" />
+			<pathelement location="./lib/taskManagerAPI.jar" />
+			<pathelement location="./lib/com.ibm.ws.prereq.commonj-twm.jar" />
+			<pathelement location="./lib/acmapi.jar" />
+			<pathelement location="./lib/Jace.jar" />
+			<pathelement location="./lib/JSON4J.jar" />
+			<pathelement location="./lib/j2ee.jar" />
+			<pathelement location="./lib/struts-1.1.jar" />
+			<pathelement location="./lib/pe.jar" />
+			<pathelement location="./lib/taskServiceClient.jar" />
+			<pathelement location="./lib/ICNTasks.jar" />
+		</classpath>
+	</javac>
+	<copy todir="./bin" overwrite="yes">
+		<fileset dir="./src">
+			<include name="com/ibm/icn/extension/docusign/WebContent/**/*.*" />
+		</fileset>
+	</copy>
+
+	<jar destfile="./DocuSignPlugin.jar" manifest="./src/META-INF/MANIFEST.MF" update="true">
+		<fileset dir="./bin">
+			<include name="**/*.*" />
+		</fileset>
+	</jar>
+</target>
+
+
+<target name="all" depends="clean,buildPlugin"></target>
+</project>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="DocuSignPlugin/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 6 [1.6.0_65-b14-468]"/>
+	<classpathentry kind="lib" path="DocuSignPlugin/lib/j2ee.jar"/>
+	<classpathentry kind="lib" path="DocuSignPlugin/lib/Jace.jar"/>
+	<classpathentry kind="lib" path="DocuSignPlugin/lib/JSON4J.jar"/>
+	<classpathentry kind="lib" path="DocuSignPlugin/lib/log4.jar"/>
+	<classpathentry kind="lib" path="DocuSignPlugin/lib/navigatorAPI.jar"/>
+	<classpathentry kind="lib" path="DocuSignPlugin/lib/com.ibm.ws.prereq.commonj-twm.jar"/>
+	<classpathentry kind="lib" path="DocuSignPlugin/lib/ICNTasks.jar"/>
+	<classpathentry kind="lib" path="DocuSignPlugin/lib/taskManagerAPI.jar"/>
+	<classpathentry kind="lib" path="DocuSignPlugin/lib/taskServiceClient.jar"/>
+	<classpathentry kind="output" path="DocuSignPlugin/bin"/>
+</classpath>

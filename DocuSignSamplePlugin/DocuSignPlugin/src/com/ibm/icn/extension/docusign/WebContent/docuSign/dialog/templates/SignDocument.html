@@ -1,0 +1,55 @@
+<div data-dojo-type="dijit.layout.BorderContainer"
+	data-dojo-attach-point="_mainContent"
+	data-dojo-props="gutters:true, liveSplitters:false">
+	<div data-dojo-type="dijit.layout.ContentPane"
+		data-dojo-props="region:'top', splitter:false"
+		data-dojo-attach-point="_appSpacePane" style="padding-bottom: 10px;">
+		<div data-dojo-attach-point="_infoPane"
+			class="inlineMessage inlineMessageWarning infoClass">
+			<div class="messageIcon"></div>
+			<div class="messageText" role="alert"
+				data-dojo-attach-point="_infoText"></div>
+		</div>
+	</div>
+	<div data-dojo-type="dijit.layout.ContentPane"
+		data-dojo-props="splitter:true, region:'center'"
+		class="ecmRoleMembersPane" data-dojo-attach-point="_membersPane">
+
+		<div class="ecmCommonPropertiesPane">
+			<table class="propertyTable" role="presentation">
+				<tr>
+					<td class="propertyRowLabel"><span class="required">*</span> <label
+						for="${id}_name">Name of Signer:</label>&nbsp;
+						<div data-dojo-type="ecm/widget/HoverHelp">Name of signer</div></td>
+					<td class="propertyRowValue">
+						<div id="${id}_name" data-dojo-type="dijit.form.TextBox"
+							trim="true" data-dojo-attach-point="_nameTextBox"
+							data-dojo-attach-event="onKeyUp: _onKeyPress"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="propertyRowLabel"><span class="required">*</span> <label
+						for="${id}_email">Email of Signer:</label>&nbsp;
+						<div data-dojo-type="ecm/widget/HoverHelp">Email of signer</div></td>
+					<td class="propertyRowValue">
+						<div id="${id}_email" data-dojo-type="dijit.form.TextBox"
+							trim="true" data-dojo-attach-point="_emailTextBox"
+							data-dojo-attach-event="onKeyUp: _onKeyPress, onBlur: _onEmailMouseOut">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="propertyRowLabel"><span class="required">*</span> <label
+						for="${id}_subject">Subject of Email:</label>&nbsp;
+						<div data-dojo-type="ecm/widget/HoverHelp">Subject of email
+							sent to signer</div></td>
+					<td class="propertyRowValue">
+						<div id="${id}_subject" data-dojo-type="dijit.form.TextBox"
+							trim="true" data-dojo-attach-point="_subjectTextBox"
+							data-dojo-attach-event="onKeyUp: _onKeyPress"></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

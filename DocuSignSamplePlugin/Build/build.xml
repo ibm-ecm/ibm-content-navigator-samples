@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="DocuSign Widget Build" default="all" basedir=".">
+<property name="plugin.home" value="../DocuSignPlugin" />
+<property name="webapp.home" value="../DocuSignWidgets" />
+<property name="icmregistry.home" value="../ICMRegistry" />
+<target name="clean">
+	<delete failonerror="false">
+		<fileset dir=".">
+			<include name="*.jar" />
+			<include name="*.zip" />
+		</fileset>
+	</delete>	
+	<ant inheritall="false" antfile="${plugin.home}/build.xml" target="clean"/> 
+	<ant inheritall="false" antfile="${webapp.home}/build.xml"  target="clean"/> 
+</target>
+
+<target name="package">
+	<ant inheritall="false" antfile="${plugin.home}/build.xml"/> 
+	<ant inheritall="false" antfile="${webapp.home}/build.xml"/> 
+
+	    <zip destfile="../DocuSignWidgets.zip">
+			<fileset dir="${plugin.home}">
+				<include name="*.jar" />
+			</fileset>
+			<fileset dir="${webapp.home}">
+				<include name="*.ear" />
+			</fileset>
+			<zipfileset dir="${icmregistry.home}"  prefix="ICMRegistry">
+			</zipfileset>
+        </zip>
+
+</target>
+
+
+<target name="all" depends="clean,package"></target>
+</project>

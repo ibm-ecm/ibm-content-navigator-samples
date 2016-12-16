@@ -1,0 +1,67 @@
+<div data-dojo-type="dijit.layout.BorderContainer"
+	data-dojo-attach-point="_mainContent"
+	data-dojo-props="gutters:true, liveSplitters:false">
+	<div data-dojo-type="dijit.layout.ContentPane"
+		data-dojo-props="splitter:true, region:'center'"
+		class="ecmRoleMembersPane" data-dojo-attach-point="_membersPane">
+
+		<div class="ecmCommonPropertiesPane">
+			<table class="propertyTable" role="presentation">
+				<tr>
+					<td class="propertyRowLabel"><label for="${id}_name">Status:</label>&nbsp;
+						<div data-dojo-type="ecm/widget/HoverHelp">Signature status</div>
+					</td>
+					<td class="propertyRowValue">
+						<div id="${id}_name" data-dojo-attach-point="_statusDiv"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="propertyRowLabel"><label for="${id}_name">Name
+							of Signer:</label>&nbsp;
+						<div data-dojo-type="ecm/widget/HoverHelp">Name of signer</div></td>
+					<td class="propertyRowValue">
+						<div id="${id}_name" data-dojo-attach-point="_nameDiv"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="propertyRowLabel"><label for="${id}_email">Email
+							of Signer:</label>&nbsp;
+						<div data-dojo-type="ecm/widget/HoverHelp">Email of signer</div></td>
+					<td class="propertyRowValue">
+						<div id="${id}_email" data-dojo-attach-point="_emailDiv"></div>
+					</td>
+				</tr>
+				<tr>
+					<td class="propertyRowLabel"><label for="${id}_subject">Subject
+							of Email:</label>&nbsp;
+						<div data-dojo-type="ecm/widget/HoverHelp">Subject of email
+							sent to signer</div></td>
+					<td class="propertyRowValue">
+						<div id="${id}_subject" data-dojo-attach-point="_subjectDiv">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="propertyRowLabel"><label for="${id}_sentTime">Sent
+							On:</label>&nbsp;
+						<div data-dojo-type="ecm/widget/HoverHelp">Document was sent
+							for signature on this time.</div></td>
+					<td class="propertyRowValue">
+						<div id="${id}_sentTime" data-dojo-attach-point="_sentTimeDiv">
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="propertyRowLabel"><label for="${id}_completedTime">Completed
+							On:</label>&nbsp;
+						<div data-dojo-type="ecm/widget/HoverHelp">Document was
+							signed on this time.</div></td>
+					<td class="propertyRowValue">
+						<div id="${id}_completedTime"
+							data-dojo-attach-point="_completedTimeDiv"></div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
