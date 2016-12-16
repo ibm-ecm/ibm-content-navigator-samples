@@ -1,0 +1,144 @@
+.navLayoutRefreshTheme .ecmContentList .refreshButton .dijitButtonNode {
+	background: transparent !important;
+	border: none !important;
+	padding: 0 !important;
+}
+
+.navLayoutRefreshTheme .ecmContentList .refreshButtonIcon {
+	width: 20px;
+	height: 20px;
+	background: url("images/refresh.svg") center no-repeat;
+}
+
+.navLayoutRefreshTheme .ecmTeamspaceIcon {
+	width: 17px;
+	height: 17px;
+	background-repeat: no-repeat;
+	background-position: top left;
+	background-image: url("/navigator/ecm/widget/resources/images/teamspaces16.png");
+}
+
+.navLayoutRefreshTheme .ecmContentList .ecmStatusIcon {
+	float: none;
+}
+
+.navLayoutRefreshHomePane .selectedItem .dijitButtonText {
+	color: black !important;
+	font-weight: bold !important;
+}
+
+.navLayoutRefreshHomePane .ecmContentList .Bar:first-child,
+.navLayoutRefreshBrowsePane .ecmContentList .Bar:first-child {
+    border-bottom: 0;
+    padding: 5px 2px 10px;
+}
+
+.navLayoutRefreshHomePane .ecmContentList .Bar:nth-child(2),
+.navLayoutRefreshBrowsePane .ecmContentList .Bar:nth-child(2) {
+	margin-bottom: 10px;
+}
+
+.navLayoutRefreshMyCheckouts .ecmContentList .Bar:first-child {
+	padding-top: 10px;
+}
+
+.navLayoutRefreshTheme .ecmBreadcrumb .breadcrumbItem {
+	padding: 0 5px 0 0;
+	font-weight: bold;
+	font-size: .8em !important;
+}
+
+.navLayoutRefreshTheme .ecmBreadcrumb .breadcrumbItem.clickableItem {
+	font-weight: normal;
+	color: #5a6464;
+}
+
+.navLayoutRefreshTheme .ecmBreadcrumb .breadcrumbItem.clickableItem:hover {
+	color: #4178BE;
+}
+
+.ecm.oneui.navLayoutRefreshTheme .gridx .gridxHeaderRow, 
+.ecm.oneui.navLayoutRefreshTheme .dojoxGrid .dojoxGridHeaderRow {
+	background: transparent none;
+	filter: none;
+	border-color: rgba(65, 120, 190, 0.5) transparent;
+	border-width: 1px 0;
+}
+
+.ecm.oneui.navLayoutRefreshTheme .compact .gridxHeaderRow .gridxCell,
+.ecm.oneui.navLayoutRefreshTheme .dojoxGridHeaderRow .dojoxGridCell {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.ecm.oneui.navLayoutRefreshTheme .gridxDesktop.gridx .gridxHeaderRow .gridxCell:hover, 
+.ecm.oneui.navLayoutRefreshTheme .gridxDesktop.gridx .gridxHeader .gridxHeaderRow .gridxHeaderRowInner .gridxHeaderCellFocus.gridxCell, 
+.ecm.oneui.navLayoutRefreshTheme .dojoxGrid .dojoxGridHeaderRow .dojoxGridCell:hover, 
+.ecm.oneui.navLayoutRefreshTheme .dojoxGrid .dojoxGridHeader .dojoxGridHeaderRow .gridxHeaderRowInner .dojoxGridHeaderCellFocus.dojoxGridCell {
+	background: transparent none;
+	filter: none;
+	text-decoration: underline;
+}
+
+.oneui.navLayoutRefreshTheme .gridxHeaderRow .gridxCell {
+	color: #4178BE;
+	border-right-color: rgba(65, 120, 190, 0.1);
+}
+
+.ecm.oneui.navLayoutRefreshTheme .compact .gridxBody .gridxCell, 
+.ecm.oneui.navLayoutRefreshTheme .dojoxGridBody .dojoxGridCell {
+	padding-top: 9px;
+	padding-bottom: 7px !important;
+	vertical-align: middle;
+}
+
+.featureConfigPane .ecmDesktopFeatureConfig .gridxMain {
+    height: 100%;
+}
+
+.navLayoutRefreshTheme .ecmToolbar .dijitButton .dijitButtonNode, 
+.navLayoutRefreshTheme .ecmToolbar .dijitDropDownButton .dijitButtonNode, 
+.navLayoutRefreshTheme .ecmToolbar .dijitComboButton .dijitButtonNode, 
+.navLayoutRefreshTheme .ecmToolbar .dijitToggleButton .dijitButtonNode {
+	background: transparent;
+	text-shadow: none;
+	border: none;
+	box-shadow: none;
+	padding: 0;
+	margin: 0 10px 0 0;
+	color: #4178BE;
+}
+
+.navLayoutRefreshTheme .ecmToolbar .dijitButtonDisabled .dijitButtonNode, 
+.navLayoutRefreshTheme .ecmToolbar .dijitDropDownButtonDisabled .dijitButtonNode, 
+.navLayoutRefreshTheme .ecmToolbar .dijitComboButtonDisabled .dijitButtonNode, 
+.navLayoutRefreshTheme .ecmToolbar .dijitToggleButtonDisabled .dijitButtonNode {
+	color: #A4A6AB;
+}
+
+.navLayoutRefreshTheme .ecmContentList .magazineView .title {
+	font-size: 1.46em;
+	margin-bottom: 5px;
+}
+
+.navLayoutRefreshTheme .ecmContentList .gridx .contentState {
+	vertical-align: middle;
+}
+
+.ecm.oneui .gridx .gridxRowSelected .gridxRowTable .gridxCell, 
+.ecm.oneui .gridx .gridxRowOver.gridxRowSelected .gridxRowTable .gridxCell, 
+.ecm.oneui .dojoxGrid .dojoxGridRowSelected .gridxRowTable .gridxCell, 
+.ecm.oneui .dojoxGrid .dojoxGridRowOver.dojoxGridRowSelected .gridxRowTable .gridxCell {
+	background-color: #f0f2f4;
+	border-bottom-color: #5aaafa;
+}
+
+.ecm.oneui.navLayoutRefreshTheme .gridx .gridxRowOver .gridxRowTable .gridxCell, 
+.ecm.oneui.navLayoutRefreshTheme .dojoxGrid .dojoxGridRowOver .gridxRowTable .gridxCell {
+	background-color: #fafaff;
+}
+
+.navLayoutRefreshTheme .gridxBodyEmpty {
+	padding: 30px 10px;
+	font-size: .88em;
+}
