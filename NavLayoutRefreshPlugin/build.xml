@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<project name="NavLayoutRefreshPlugin" default="all" basedir=".">
+
+	<target name="all" depends="clean,compile,jar" />
+
+	<path id="classpath">
+		<pathelement location="./lib/j2ee.jar" />
+		<pathelement location="./lib/commons-lang-2.6.jar" />
+		<pathelement location="./lib/commons-configuration-1.7.jar" />
+		<pathelement location="./lib/navigatorAPI.jar" />
+		<pathelement location="./temp" />
+	</path>
+
+	<target name="clean">
+		<delete dir="temp" />
+	</target>
+
+	<target name="compile">
+		<mkdir dir="temp" />
+		<javac srcdir="src" destdir="temp" source="1.6" target="1.6" debug="true">
+			<classpath refid="classpath" />
+			<include name="**/*.java" />
+		</javac>
+		<mkdir dir="temp/com/ibm/ecm/icn/nls"/>
+        <copy todir="temp/com/ibm/ecm/icn/nls">
+            <fileset dir="src/com/ibm/ecm/icn/nls">
+                <include name="*.*" />
+            </fileset>
+        </copy>
+	</target>
+
+	<target name="jar">
+		<copy todir="temp">
+			<fileset dir="src">
+				<include name="**/WebContent/**" />
+			</fileset>
+		</copy>
+		<jar jarfile="NavLayoutRefreshPlugin.jar">
+			<fileset dir="./temp" includes="**/*" />
+			<manifest>
+				<attribute name="Plugin-Class" value="com.ibm.ecm.icn.NavLayoutRefreshPlugin" />
+				<section name="build">
+					<attribute name="Built-By" value="${user.name}" />
+					<attribute name="Build" value="${TODAY}" />
+				</section>
+			</manifest>
+		</jar>
+		<delete dir="temp" />
+	</target>
+
+</project>
