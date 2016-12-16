@@ -1,8 +1,3 @@
-/**
- * Licensed Materials - Property of IBM (C) Copyright IBM Corp. 2016 US Government Users Restricted Rights - Use,
- * duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
- */
-
 define([
 	"dojo/_base/declare",
 	"dojo/_base/lang",
@@ -52,6 +47,8 @@ define([
 			this._showRepositories();
 		},
 		
+        /**
+        * Returns true if this pane contains all valid values. */
         validate: function() { 
 			return true;
 		},
@@ -70,6 +67,10 @@ define([
 		
 		getDocusignIntegrationKey: function () {
 			return this.docuSignIntegrationKey.get('value');
+		},
+		
+		getDocusignP8Folder: function () {
+			return this.docuSignP8Folder.get('value');
 		},
 		
 		_showRepositories: function () {
