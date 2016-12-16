@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="768px" height="128px" viewBox="0 0 768 128" style="enable-background:new 0 0 768 128;" xml:space="preserve">
+<style type="text/css">
+	.iconBaseColor{fill:#4178BE;}
+	.iconSelectedColor{fill:#FFFFFF;}
+	.st0{fill:#4178BE;}
+</style>
+<path class="iconBaseColor" d="M157.1,21c-4.5,0-8.1,3.6-8.1,8.1s3.6,8.1,8.1,8.1s8.1-3.6,8.1-8.1S161.5,21,157.1,21z M157.1,35.7
+	c-3.7,0-6.6-2.9-6.6-6.6s2.9-6.6,6.6-6.6s6.6,2.9,6.6,6.6S160.7,35.7,157.1,35.7z"/>
+<rect x="165.8" y="35.7" transform="matrix(0.7071 -0.7071 0.7071 0.7071 21.2126 129.8515)" class="iconBaseColor" width="3.1" height="7.3"/>
+<circle class="iconBaseColor" cx="163.7" cy="35.7" r="0.7"/>
+<polygon class="iconBaseColor" points="352,30 352,38 360,34 "/>
+<polygon class="iconBaseColor" points="345,30 345,38 353,34 "/>
+<path class="iconBaseColor" d="M597,21v16.1v0.8l5.1,5.1h0.8H619V21H597z M618,42h-15v-5h-5V22h20V42z"/>
+<polygon class="iconBaseColor" points="613.7,28.9 612.5,27.7 606.3,33.9 603.5,31.1 602.3,32.3 606.3,36.3 "/>
+<path class="iconSelectedColor" d="M597,85v16.1v0.8l5.1,5.1h0.8H619V85H597z M618,106h-15v-5h-5V86h20V106z"/>
+<polygon class="iconSelectedColor" points="613.7,92.9 612.5,91.7 606.3,97.9 603.5,95.1 602.3,96.3 606.3,100.3 "/>
+<path class="iconBaseColor" d="M480,30c-1.1,0-2,0.9-2,2s0.9,2,2,2c1.1,0,2-0.9,2-2S481.1,30,480,30z"/>
+<path class="iconBaseColor" d="M488.4,32c0-0.4-0.1-0.9-0.1-1.3l2.7-2.3l-2.3-3.7l-3.2,1c-0.7-0.7-1.6-1.2-2.6-1.5l-0.7-3.1h-4.4
+	l-0.7,3.1c-1,0.4-1.8,0.9-2.6,1.5l-3.2-1l-2.1,3.7l2.7,2.3c-0.1,0.4-0.1,0.9-0.1,1.3c0,0.4,0.1,0.9,0.1,1.3l-2.7,2.3l2.3,3.7l3.2-1
+	c0.7,0.7,1.6,1.2,2.6,1.5l0.7,3.1h4.4l0.7-3.1c1-0.4,1.8-0.9,2.6-1.5l3.2,1l2.1-3.7l-2.7-2.3C488.4,32.9,488.4,32.4,488.4,32z
+	 M480,36.4c-2.4,0-4.4-2-4.4-4.4s2-4.4,4.4-4.4s4.4,2,4.4,4.4S482.4,36.4,480,36.4z"/>
+<path class="iconSelectedColor" d="M277,87v3.1V105h22V90.1V87H277z M298,104h-20V92h20V104z"/>
+<path class="iconSelectedColor" d="M282,98c0.8,0,1.5-0.6,1.5-1.5s-0.6-1.5-1.5-1.5s-1.5,0.6-1.5,1.5S281.2,98,282,98z"/>
+<polygon class="iconBaseColor" points="214,42 235,42 235,43 213,43 213,21 214,21 "/>
+<rect x="216" y="35" class="iconBaseColor" width="6" height="5"/>
+<path class="iconBaseColor" d="M228,29v5h-12v-5H228z"/>
+<rect x="216" y="23" class="iconBaseColor" width="18" height="5"/>
+<polygon class="iconBaseColor" points="539,35 549,30 539,25 "/>
+<g id="favoritesBrandSelected">
+</g>
+<path class="iconSelectedColor" d="M157.1,85c-4.5,0-8.1,3.6-8.1,8.1c0,4.5,3.6,8.1,8.1,8.1s8.1-3.6,8.1-8.1
+	C165.1,88.6,161.5,85,157.1,85z M157.1,99.7c-3.7,0-6.6-2.9-6.6-6.6c0-3.7,2.9-6.6,6.6-6.6s6.6,2.9,6.6,6.6
+	C163.7,96.7,160.7,99.7,157.1,99.7z"/>
+<rect x="165.8" y="99.7" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -24.0507 148.6042)" class="iconSelectedColor" width="3.1" height="7.3"/>
+<circle class="iconSelectedColor" cx="163.7" cy="99.7" r="0.7"/>
+<path class="iconSelectedColor" d="M488.4,96c0-0.4-0.1-0.9-0.1-1.3l2.7-2.3l-2.3-3.7l-3.2,1c-0.7-0.7-1.6-1.2-2.6-1.5l-0.7-3.1
+	h-4.4l-0.7,3.1c-1,0.4-1.8,0.9-2.6,1.5l-3.2-1l-2.1,3.7l2.7,2.3c-0.1,0.4-0.1,0.9-0.1,1.3c0,0.4,0.1,0.9,0.1,1.3l-2.7,2.3l2.3,3.7
+	l3.2-1c0.7,0.7,1.6,1.2,2.6,1.5l0.7,3.1h4.4l0.7-3.1c1-0.4,1.8-0.9,2.6-1.5l3.2,1l2.1-3.7l-2.7-2.3C488.4,96.9,488.4,96.4,488.4,96z
+	 M480,100.4c-2.4,0-4.4-2-4.4-4.4s2-4.4,4.4-4.4s4.4,2,4.4,4.4S482.4,100.4,480,100.4z"/>
+<path class="iconSelectedColor" d="M480,94c-1.1,0-2,0.9-2,2c0,1.1,0.9,2,2,2c1.1,0,2-0.9,2-2C482,94.9,481.1,94,480,94z"/>
+<polygon class="iconSelectedColor" points="214,106 235,106 235,107 214.5,107 213,107 213,106.3 213,85 214,85 "/>
+<rect x="216" y="99" class="iconSelectedColor" width="6" height="5"/>
+<path class="iconSelectedColor" d="M228,93v5h-12v-5H228z"/>
+<rect x="216" y="87" class="iconSelectedColor" width="18" height="5"/>
+<g id="favoritesLight">
+</g>
+<g id="browseLight">
+</g>
+<g id="searchLight">
+</g>
+<g id="etLight">
+</g>
+<g id="workLight">
+</g>
+<g id="tasksLight">
+</g>
+<g id="adminLight">
+</g>
+<g id="teamspacesLight">
+</g>
+<g id="icaLight">
+</g>
+<g id="videoLight">
+</g>
+<g id="browseDark">
+</g>
+<g id="searchDark">
+</g>
+<g id="etDark">
+</g>
+<g id="workDark">
+</g>
+<g id="tasksDark">
+</g>
+<g id="adminDark">
+</g>
+<g id="teamspacesDark">
+</g>
+<g id="icaDark">
+</g>
+<g id="videoDark">
+</g>
+<g id="favoritesDark">
+</g>
+<path class="iconBaseColor" d="M32,21L21.8,31.3l2.2,2.2V43h16v-9.5l2.2-2.2L32,21z M34,42h-4v-6h4V42z M38.6,32.5L32,25.9l-6.6,6.6
+	L24.9,32l6.6-6.6l0.5-0.5l0.5,0.5l6.6,6.6L38.6,32.5z"/>
+<path class="iconSelectedColor" d="M32,85L21.8,95.3l2.2,2.2v9.5h16v-9.5l2.2-2.2L32,85z M34,106h-4v-6h4V106z M38.6,96.5L32,89.9
+	l-6.6,6.6L24.9,96l6.6-6.6l0.5-0.5l0.5,0.5l6.6,6.6L38.6,96.5z"/>
+<path class="iconBaseColor" d="M105,28v-2h-2v-2H89v2h-2v2h-2v11h22V28H105z M90,25h12v1H90V25z M99,34h-6v-1h6V34z M104,28H88v-1
+	h16V28z"/>
+<path class="iconSelectedColor" d="M105,93v-2h-2v-2H89v2h-2v2h-2v11h22V93H105z M90,90h12v1H90V90z M99,99h-6v-1h6V99z M104,93H88
+	v-1h16V93z"/>
+<path class="st0" d="M284,102h-4v-2c0-0.6,0.4-1,1-1h2c0.6,0,1,0.4,1,1V102z"/>
+<path class="iconSelectedColor" d="M294,98c0.8,0,1.5-0.6,1.5-1.5s-0.6-1.5-1.5-1.5s-1.5,0.6-1.5,1.5S293.2,98,294,98z"/>
+<path class="st0" d="M296,102h-4v-2c0-0.6,0.4-1,1-1h2c0.6,0,1,0.4,1,1V102z"/>
+<path class="iconSelectedColor" d="M288,98c0.8,0,1.5-0.6,1.5-1.5s-0.6-1.5-1.5-1.5s-1.5,0.6-1.5,1.5S287.2,98,288,98z"/>
+<path class="st0" d="M290,102h-4v-2c0-0.6,0.4-1,1-1h2c0.6,0,1,0.4,1,1V102z"/>
+<path class="iconBaseColor" d="M277,23v3.1V41h22V26.1V23H277z M298,40h-20V28h20V40z"/>
+<path class="iconBaseColor" d="M341,23v3.1V41h22V26.1V23H341z M362,40h-20V28h20V40z"/>
+<polygon class="iconSelectedColor" points="352,94 352,102 360,98 "/>
+<polygon class="iconSelectedColor" points="345,94 345,102 353,98 "/>
+<path class="iconSelectedColor" d="M341,87v3.1V105h22V90.1V87H341z M362,104h-20V92h20V104z"/>
+<path class="iconBaseColor" d="M405,23v3.1V41h22V26.1V23H405z M426,40h-20V28h20V40z"/>
+<path class="iconBaseColor" d="M282,34c0.8,0,1.5-0.6,1.5-1.5c0-0.8-0.6-1.5-1.5-1.5s-1.5,0.6-1.5,1.5C280.5,33.4,281.2,34,282,34z"
+	/>
+<path class="iconBaseColor" d="M284,38h-4v-2c0-0.6,0.4-1,1-1h2c0.6,0,1,0.4,1,1V38z"/>
+<path class="iconBaseColor" d="M294,34c0.8,0,1.5-0.6,1.5-1.5c0-0.8-0.6-1.5-1.5-1.5s-1.5,0.6-1.5,1.5C292.5,33.4,293.2,34,294,34z"
+	/>
+<path class="iconBaseColor" d="M296,38h-4v-2c0-0.6,0.4-1,1-1h2c0.6,0,1,0.4,1,1V38z"/>
+<path class="iconBaseColor" d="M288,34c0.8,0,1.5-0.6,1.5-1.5c0-0.8-0.6-1.5-1.5-1.5s-1.5,0.6-1.5,1.5C286.5,33.4,287.2,34,288,34z"
+	/>
+<path class="iconBaseColor" d="M290,38h-4v-2c0-0.6,0.4-1,1-1h2c0.6,0,1,0.4,1,1V38z"/>
+<rect x="408" y="30" class="iconBaseColor" width="5" height="1"/>
+<rect x="408" y="37" class="iconBaseColor" width="5" height="1"/>
+<rect x="410" y="31" class="iconBaseColor" width="1" height="6"/>
+<rect x="415" y="32" class="iconBaseColor" width="9" height="1"/>
+<rect x="415" y="35" class="iconBaseColor" width="9" height="1"/>
+<path class="iconSelectedColor" d="M405,87v3.1V105h22V90.1V87H405z M426,104h-20V92h20V104z"/>
+<rect x="408" y="94" class="iconSelectedColor" width="5" height="1"/>
+<rect x="408" y="101" class="iconSelectedColor" width="5" height="1"/>
+<rect x="410" y="95" class="iconSelectedColor" width="1" height="6"/>
+<rect x="415" y="96" class="iconSelectedColor" width="9" height="1"/>
+<rect x="415" y="99" class="iconSelectedColor" width="9" height="1"/>
+<path class="iconBaseColor" d="M533,21v22h22V21H533z M553,40h-4.1c-0.2,0.6-0.8,1-1.4,1s-1.2-0.4-1.4-1H535v-1h11.1
+	c0.2-0.6,0.8-1,1.4-1s1.2,0.4,1.4,1h4.1V40z M553,37h-18V23h18V37z"/>
+<polygon class="iconSelectedColor" points="539,99 549,94 539,89 "/>
+<path class="iconSelectedColor" d="M533,85v22h22V85H533z M553,104h-4.1c-0.2,0.6-0.8,1-1.4,1s-1.2-0.4-1.4-1H535v-1h11.1
+	c0.2-0.6,0.8-1,1.4-1s1.2,0.4,1.4,1h4.1V104z M553,101h-18V87h18V101z"/>
+</svg>
