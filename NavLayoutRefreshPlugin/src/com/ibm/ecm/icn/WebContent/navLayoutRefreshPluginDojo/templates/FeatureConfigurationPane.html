@@ -1,0 +1,103 @@
+<div class="ecmDesktopFeatureConfig">
+	<table class="propertyTable" role="presentation">
+        <tr>
+            <td class="propertyRowLabel" valign="top"><label>${messages.admin_feature_config_show_my_checkouts_label}</label>&nbsp;
+                <div data-dojo-type="ecm/widget/HoverHelp"
+                    data-dojo-attach-point="_layout_myCheckouts_hover_help"
+                    data-dojo-props="isFocusable: true">${messages.admin_feature_config_show_my_checkouts_hoverhelp}</div>
+            </td>
+            <td class="propertyRowValue" style="padding-left: 12px; padding-right: 12px;">
+                <fieldset style="margin: 0 1px;">
+                    <legend style="display: none;">${messages.admin_feature_config_show_my_checkouts_label}</legend>
+                    <div data-dojo-props="type: 'radio', name: '${id}_myCheckouts', id: '${id}_myCheckouts_enabled'"
+                        data-dojo-attach-point="_myCheckoutsEnabled"
+                        data-dojo-type="ecm/widget/RadioButton"
+                        data-dojo-attach-event="onChange: _onMyCheckoutsEnabledChange"></div>
+                    <label for="${id}_myCheckouts_enabled">${messages.admin_show}</label>
+                    <br/>
+                    <div data-dojo-props="type: 'radio', name: '${id}_myCheckouts', id: '${id}_myCheckouts_disabled', checked: true"
+                        data-dojo-attach-point="_myCheckoutsDisabled"
+                        data-dojo-type="ecm/widget/RadioButton"></div>
+                    <label for="${id}_myCheckouts_disabled">${messages.admin_hide}</label>
+                </fieldset>
+                <table data-dojo-attach-point="_myCheckoutsRepositorySettingsTable" role="presentation"></table>
+            </td>
+        </tr>
+		<tr>
+			<td class="propertyRowLabel" valign="middle">
+				<div style="display: block">
+					<span class="required">*</span>&nbsp;<label for="${id}_default_repository" style="margin-top: 3px;">${messages.admin_desktop_layout_default_repository}</label>&nbsp;
+					<div data-dojo-type="ecm/widget/HoverHelp" data-dojo-attach-point="_layout_default_repository_hover_help">
+						${messages.admin_desktop_layout_default_repository_layout_hover}
+					</div>
+				</div>
+			</td>
+			<td class="propertyRowValue" style="padding-left: 12px; padding-right: 12px;">
+				<div data-dojo-type="ecm/widget/FilteringSelect"
+					data-dojo-attach-point="_defaultRepository"
+					data-dojo-props='id: "${id}_default_repository", required: true, labelType: "text", label: "label", searchAttr: "label", identifier: "value", maxHeight: 150, style: { width: "400px" }'
+					data-dojo-attach-event="onChange: _onChangeDefaultRepository">
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td class="propertyRowLabel" valign="top"><label>${messages.admin_feature_config_selected_repositories_label}</label>&nbsp;
+				<div data-dojo-type="ecm/widget/HoverHelp"
+					data-dojo-attach-point="_selRepositories_hover_help"
+					data-dojo-props="isFocusable: true">${messages.admin_feature_config_selected_repositories_hoverhelp}</div>
+			</td>
+			<td class="propertyRowValue" style="padding-left: 12px; padding-right: 12px;">
+				<div data-dojo-attach-point="_selRepositoriesGridArea"></div>
+			</td>
+		</tr>
+		<tr>
+		    <td class="propertyRowLabel" valign="top"><label>${messages.admin_feature_config_views}</label>&nbsp;
+				<div data-dojo-type="ecm/widget/HoverHelp" 
+					 data-dojo-attach-point="_selViews_hover_help"
+					 data-dojo-props="isFocusable: true">
+					${messages.admin_feature_config_views_hoverhelp}
+				</div>
+			</td>
+			<td class="propertyRowValue" style="padding-left: 12px; padding-right: 12px;">
+				<div data-dojo-attach-point="_selViewsGridArea" class="dijitInline" style="width: 300px; height: 145px"></div>
+				<div class="dijitInline">
+		 		    <button data-dojo-type="dijit/form/Button" showLabel="false" iconClass="moveUpButton" data-dojo-attach-point="moveUpViewButton" data-dojo-attach-event="onClick: _onMoveUpView">&#8743;</button>
+		 		    <br>
+		  		    <button data-dojo-type="dijit/form/Button" showLabel="false" iconClass="moveDownButton" data-dojo-attach-point="moveDownViewButton" data-dojo-attach-event="onClick: _onMoveDownView">&#8744;</button>
+		  		</div>   
+			</td>
+		</tr>
+		<tr>
+			<td class="propertyRowLabel" valign="top"><label>${messages.admin_feature_config_docinfopane_label}</label>&nbsp;
+				<div data-dojo-type="ecm/widget/HoverHelp"
+					data-dojo-attach-point="_layout_docinfopane_hover_help"
+					data-dojo-props="isFocusable: true">${messages.admin_feature_config_docinfopane_hoverhelp}</div>
+			</td>
+			<td class="propertyRowValue docInfoPaneProps"
+				style="padding-left: 12px; padding-right: 12px;">
+				<fieldset>
+					<legend style="display: none;">${messages.admin_feature_config_docinfopane_label}</legend>
+					<div
+						data-dojo-props="type: 'radio', name: '${id}_docinfopane', id: '${id}_docinfopane_enabled', checked: true"
+						data-dojo-attach-point="_docinfopaneEnabled"
+						data-dojo-type="ecm/widget/RadioButton"
+						data-dojo-attach-event="onClick:_onDocInfoPaneEnabledClick"></div>
+					<label for="${id}_docinfopane_enabled">${messages.admin_show}</label>
+					<div class="docInfoDefaultOpen">
+						<label for="${id}_docInfoPaneDefault">${messages.admin_feature_config_docinfopane_default_label}</label>
+						<div data-dojo-attach-point="_docInfoPaneDefault"
+							data-dojo-type="ecm/widget/FilteringSelect"
+							data-dojo-attach-event="onChange: _onFieldChange"
+							data-dojo-props="id: '${id}_docInfoPaneDefault', required: false, labelType: 'text', label: 'label', searchAttr: 'label'"></div>
+					</div>
+					<div
+						data-dojo-props="type: 'radio', name: '${id}_docinfopane', id: '${id}_docinfopane_disabled'"
+						data-dojo-attach-point="_docinfopaneDisabled"
+						data-dojo-type="ecm/widget/RadioButton"
+						data-dojo-attach-event="onClick:_onDocInfoPaneDisabledClick"></div>
+					<label for="${id}_docinfopane_disabled">${messages.admin_hide}</label>
+				</fieldset>
+			</td>
+		 </tr>
+	</table>
+</div>
