@@ -4,7 +4,7 @@ This sample plug-in demonstrates how to define a custom layout for IBM Content N
 The layout consists of a horizontal navigation bar with a drop-down menu for selecting feature panes and tabs for accessing secondary feature panes.
 For example, selecting Home in the features menu gives you access to the Favorites and My Checkouts tabs.
 
-![picture alt](https://ibm.box.com/shared/static/9w0m693snic7wuhodolyp2wf5gdyk41g.jpg "Navigation Layout Refresh plug-in")
+![navlayoutrefreshplugin](https://cloud.githubusercontent.com/assets/19176545/21283581/a3e056c4-c3b9-11e6-9c66-daeda42d0c25.jpg "Navigation Layout Refresh plug-in")
 
 ## Getting started
 
