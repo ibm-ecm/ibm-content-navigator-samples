@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Ant-Version: Apache Ant 1.7.1
-Created-By: 2.4 (IBM Corporation)
-Plugin-Class: com.ibm.ecm.icn.sample.SampleMultipartDocMergerPlugin
-
-Name: build
-Built-By: icnPlgin
-Build: ${TODAY}
-
