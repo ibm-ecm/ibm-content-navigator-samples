@@ -15,7 +15,7 @@ Use these instructions to help you get the plug-in up and running in IBM Content
 
 ### Installing the plug-in
 
-1. Download the Multi Part Document Merge to PDF plug-in for IBM Content Manager from [GitHub](https://github.com/ibm-ecm/ibm-content-navigator-samples/edit/master/SampleMultipartDocMergerPlugin).
+1. Download the Multi Part Document Merge to PDF plug-in for IBM Content Manager from [GitHub](https://github.com/ibm-ecm/ibm-content-navigator-samples/tree/master/SampleMultipartDocMergerPlugin).
 2. Create a **lib** directory under the SampleMultipartDocMergerPlugin folder.
 3. Copy the following libraries to the **lib** directory (alternatively, you can update the **classpath** in the build.xml file included with the plug-in).  
 	* **navigatorAPI.jar** provided with IBM Content Navigator
