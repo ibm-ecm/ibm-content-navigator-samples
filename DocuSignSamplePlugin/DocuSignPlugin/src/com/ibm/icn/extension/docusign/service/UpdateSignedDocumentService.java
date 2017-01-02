@@ -80,7 +80,7 @@ public class UpdateSignedDocumentService extends PluginService {
 			}
 			
 			is = conn.getInputStream();
-			conn.disconnect();
+			//conn.disconnect();
 		}
 		else
 		{
