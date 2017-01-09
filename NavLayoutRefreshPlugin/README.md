@@ -29,11 +29,10 @@ Use these instructions to help you get the plug-in up and running in IBM Content
 	* **commons-configuration-1.7.jar**
 4. Build the plug-in JAR file by running Apache Ant.
 
-```
-C:\> cd C:\NavLayoutRefreshPlugin
-C:\NavLayoutRefreshPlugin> ant
-```
-
+    ```
+    C:\> cd C:\NavLayoutRefreshPlugin
+    C:\NavLayoutRefreshPlugin> ant
+    ```
 5. [Register and configure the plug-in in IBM Content Navigator.](http://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.0/com.ibm.installingeuc.doc/eucco012.htm)
 6. Create a desktop in IBM Content Navigator that uses the layout and features provided by the plug-in by doing the following procedure:
 	1. In the **Layout** tab, select the **Navigation Layout** feature.
@@ -42,9 +41,9 @@ C:\NavLayoutRefreshPlugin> ant
 	4. Select the **Home** feature as the **Default feature**.
 7. Open IBM Content Navigator using the desktop you just created.
 
-```
-http://localhost/navigator/?desktop=<desktop_id>
-```
+    ```
+    http://localhost/navigator/?desktop=<desktop_id>
+    ```
 
 ## Additional references
 
