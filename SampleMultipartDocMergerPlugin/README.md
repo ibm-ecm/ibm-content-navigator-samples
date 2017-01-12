@@ -2,7 +2,7 @@
 
 This sample plug-in demonstrates how to merge IBM Content Manager Multi Part Document (only for images) into one pdf file during download.
 
-When it is configured, during download original action performing, multi part document containing imaages will be converted into 1 pdf file and download.
+When it is configured, during download original action performing, multi part document containing images will be converted into 1 pdf file and download.
 
 It is just a sample, so please try it and adjust code to make it suit your system.
 
