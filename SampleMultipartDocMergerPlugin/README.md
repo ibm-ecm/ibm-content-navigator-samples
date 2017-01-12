@@ -2,6 +2,10 @@
 
 This sample plug-in demonstrates how to merge IBM Content Manager Multi Part Document (only for images) into one pdf file during download.
 
+When it is configured, during download original action performing, multi part document containing imaages will be converted into 1 pdf file and download.
+
+It is just a sample, so please try it and adjust code to make it suit your system.
+
 ## Getting started
 
 Use these instructions to help you get the plug-in up and running in IBM Content Navigator.
@@ -11,7 +15,7 @@ Use these instructions to help you get the plug-in up and running in IBM Content
 * IBM Content Navigator 2.0.3.6 or later
 * J2EE library
 * IBM Content Manager SDK (in IBM Content Navigator lib path, cmbicmsdk81.jar)
-* itext ((in IBM Content Navigator lib path, itext-13.2.jar))
+* itext (in IBM Content Navigator lib path, itext-13.2.jar, if it is not, download and put it into IBM Content Navigator lib path in Web Application server)
 
 ### Installing the plug-in
 
