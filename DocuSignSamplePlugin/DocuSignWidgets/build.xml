@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="ICM Client Build" default="all" basedir=".">
+	<import file="./custom_build.xml"/>
+	<target name="clean">
+		<delete failonerror="false">
+			<fileset dir=".">
+				<include name="*.war" />
+				<include name="*.ear" />
+			</fileset>
+		</delete>
+		<delete dir="./WebContent/WEB-INF/classes"/>
+		<delete dir="./bin/com"/>
+	</target>
+	
+	<target name="createWAR">
+		
+		<mkdir dir="./WebContent/WEB-INF/classes" />
+		
+		<javac destdir="./WebContent/WEB-INF/classes" srcdir="./src" debug="on">
+			<classpath>
+				<pathelement location="./lib/j2ee.jar" />
+			</classpath>
+		</javac>
+		<copy todir="./WebContent/WEB-INF/classes" overwrite="yes">
+			<fileset dir="./src">
+				<include name="com/ibm/icm/extension/docusign/WebContent/**/*.*" />
+			</fileset>
+		</copy>
+		
+		<antcall target="do_dojo_compression"/>
+		
+	    <war destfile="./DocuSignWidgets.war" webxml="./WebContent/WEB-INF/web.xml">
+	        <fileset dir="./WebContent">
+	        	<include name="**/*.*" />
+	        </fileset>
+	    </war>
+	</target>
+	
+	<target name="createEAR">
+		<ear destfile="./DocuSignWidgets.ear" appxml="./WebContent/META-INF/application.xml">
+		      <fileset dir="." includes="*.war"/>
+		</ear>
+	</target>
+	
+	<target name="all" depends="clean,createWAR,createEAR"></target>
+</project>

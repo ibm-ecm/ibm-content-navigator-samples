@@ -1,0 +1,101 @@
+<project name="custom_build" default="do_dojo_compression" >
+
+	<target name="clean_custom_build_dir" >
+
+		<echo level="info" message="Cleaning up directories... " />
+		
+		<delete dir="./custom-release/cometd"/>
+		<delete dir="./custom-release/dojo"/>
+		<delete dir="./custom-release/dijit"/>
+		<delete dir="./custom-release/dojox"/>
+		<delete dir="./custom-release/gridx"/>
+		<delete dir="./custom-release/docuSign"/>
+		<delete dir="./custom-release/custombuild"/>
+		<delete dir="./custom-release/util"/>
+		<delete dir="./custom-release/source_1.9.3-20140416-ICM_dojo_modified"/>
+		<delete file="./custom-release/custombuildAll.log"/>
+		<delete file="./custom-release/build-report.txt"/>
+		<delete dir="./WebContent/docuSign/custom"/>
+	</target>
+
+	<target name="prepare_custom_dir">
+		<mkdir dir="./custom-release/docuSign" />
+		<mkdir dir="./custom-release/custombuild"/>
+		<mkdir dir="./WebContent/docuSign/custom"/>
+		<!-- Extract modified dojo and util -->
+		<echo level="info" message="Unzipping the modified dojo ..." />
+		<unzip src ="./custom-release/source_1.9.3-20140416-ICM_dojo_modified.zip" dest="./custom-release"/>
+		<echo level="info" message="Unzipping the util ..." />
+		<unzip src ="./custom-release/util.zip" dest="./custom-release"/>
+	</target>
+	
+	
+	<target name="copy_widgets">
+		<echo level="info" message="Copying project files to custom-release folder ..." />
+		<!-- We need to copy the  current version of content curation into custom-release dir -->
+	
+		<copy todir="./custom-release">
+			<fileset dir="./custom-release/source_1.9.3-20140416-ICM_dojo_modified"/>
+		</copy> 
+	
+		<copy todir="./custom-release/docuSign">
+			<fileset dir="./WebContent/docuSign">
+				<exclude name="**/tests/**"/>
+				<exclude name="**/.jazzignore"/>
+			</fileset>
+		</copy>
+
+	</target>
+
+
+	<target name="do_dojo_compression">
+		<!--antcall target="do_custom_dojo_build_all" inheritAll="yes" /-->
+	</target>
+ 
+	<target name="do_custom_dojo_build_all" depends="clean_custom_build_dir,prepare_custom_dir,copy_widgets">
+
+				
+		<echo level="info" message="Creating dojo custom build ..." />
+
+		<java  classname="org.mozilla.javascript.tools.shell.Main"  
+					fork="true"
+					newenvironment="true"
+					output="./custom-release/custombuildAll.log"
+					dir="custom-release/util/buildscripts"
+					failonerror="true">
+					<classpath path="custom-release/util/shrinksafe/js.jar;custom-release/util/shrinksafe/shrinksafe.jar" />
+								<jvmarg value="-Xmx1024m" />
+								<jvmarg value="-Xms512m" />
+								<arg line="../../dojo/dojo.js --release" />
+								<arg value="action=release" />
+								<arg value="baseUrl=../../dojo" />
+								<arg value="profile=../../docuSignAll.profile.js" />
+								<arg value="load=build" />
+								<arg value="copyTests=false" />
+								<arg value="internStrings=true" />
+								<arg value="optimize=comments" />
+								<arg value="layerOptimize=comments" />
+								<arg value="cssOptimize=comments.keepLines" />
+				
+		</java>
+			
+		<gzip  src="./custom-release/custombuild/docuSign/custom/docuSignBase.js" destfile="./WebContent/docuSign/custom/docuSignBase.js.jgz"/>
+		<!-- <copy file="./custom-release/custombuild/docuSign/custom/docuSignBase.js" todir="./WebContent/docuSign/custom"/> -->
+		
+		<copy file="./custom-release/custombuild/build-report.txt" todir="./custom-release"/>
+		<echo level="info" message=" dojo custom build complete ..." />
+		
+		<echo level="info" message="Cleaning up custom directories..." />
+		<delete dir="./custom-release/custombuild"/>
+		<delete dir="./custom-release/source_1.9.3-20140416-ICM_dojo_modified"/>
+		<delete dir="./custom-release/util"/>
+		<delete dir="./custom-release/cometd"/>
+		<delete dir="./custom-release/dijit"/>
+		<delete dir="./custom-release/dojo"/>
+		<delete dir="./custom-release/dojox"/>
+		<delete dir="./custom-release/gridx"/>
+		<delete dir="./custom-release/docuSign"/>
+
+	</target>
+
+</project>

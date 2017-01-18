@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<project name="ACMCBANALYZE" default="findbugs">
+	<property file="./build.properties" />
+
+	<taskdef classpath="${3pt.findbugs.dir}/lib/findbugs-ant.jar" name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask"/>
+	<taskdef classpath="${3pt.JSlint.dir}/jslint4java-2.0.2.jar" name="jslint" classname="com.googlecode.jslint4java.ant.JSLintTask"  />
+	
+	<target name="findbugs" >
+		<echo> Analyzing java source : ${src.jar}/ICMContentCurationPlugin.jar </echo>
+		<delete dir="${staticanalysis.out}"/>
+		<mkdir dir="${staticanalysis.out}"/>
+		<findbugs home="${3pt.findbugs.dir}" output="html" outputFile="${staticanalysis.out}/curation_java.html" quietErrors = "true">
+			<sourcePath path="${src}"/>
+			<class location="${src.jar}/ICMContentCurationPlugin.jar"/>
+			<auxclasspath refid="findbug.classpath"/> 
+		</findbugs>
+		<echo> Analyzing javascript source </echo>
+		<jslint options="anon,bitwise,cap,continue,css,debug,devel,eqeq,es5,evil,forin,fragment,newcap,nomen,on,plusplus,regexp,sloppy,sub,undef,unparam,vars,white,maxerr=10000" haltOnFailure="false">
+			<formatter type="xml" destfile="${staticanalysis.out}/curation_js.xml" />
+			<fileset dir="${web.app.source}" includes="**/*.js" />
+		</jslint>
+		
+	</target>
+	
+	<path id="findbug.classpath">
+		<pathelement location="${src.lib}/pe.jar" />
+		<pathelement location="${src.lib}/Jace.jar" />	
+	</path>
+
+</project>
