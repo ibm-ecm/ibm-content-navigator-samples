@@ -1,3 +1,67 @@
 .messagesDialog .dijitDialogPaneContent {
 	background-color: #efe;
 }
+.ecmDocuSignStatusPanel .propertyTable  {
+    border-style: none;
+    border-width: 0px;
+	border-top-style: solid;
+    border-top-color: #ccc;
+    border-top-width: 1px;    
+}
+
+.ecmDocuSignStatusPanel .propertyTable td.propertyRowLabel, .ecmDocuSignStatusPanel .propertyTable td.propertyRowValue {
+    vertical-align: top;
+    border-color: #B2C5D2;
+}
+
+.ecmDocuSignStatusPanel .propertyTable td.propertyRowValueFirst {
+    border-top: 1px solid #B2C5D2;
+}
+
+.ecmDocuSignStatusPanel .propertyTable td.propertyRowLabel {
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    background-color: #f4f5f6;
+    border-style: none;
+    border-width: 0px;
+    border-bottom-style: solid;
+    border-bottom-color: #ccc;
+    border-bottom-width: 1px;
+    white-space: nowrap;
+    color: #444;
+}
+
+.ecmDocuSignStatusPanel .propertyTable td.propertyRowValue {
+    width: 100%;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-style: none;
+    border-width: 0px;
+    border-bottom-style: solid;
+    border-bottom-color: #ccc;
+    border-bottom-width: 1px;
+}
+
+.ecmSignSentIcon {
+	width: 16px;
+	height: 16px;
+	background: url('images/submitted_pending_16.png') no-repeat;
+}
+
+.ecmSignDoneIcon {
+	width: 16px;
+	height: 16px;
+	background: url('images/signed_external_16.png') no-repeat;
+}
+
+.ecmSignCheckedinIcon {
+	width: 16px;
+	height: 16px;
+	background: url('images/signed_internal_16.png') no-repeat;
+}

@@ -1,6 +1,6 @@
 /**
  * Licensed Materials - Property of IBM
- * (C) Copyright IBM Corp. 2017
+ * (C) Copyright IBM Corp. 2014,2015
  * US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
  */
 
@@ -30,6 +30,11 @@ public class DocuSignPlugin extends Plugin {
 	@Override
 	public String getId() {
 		return "DocuSignPlugin";
+	}
+	
+	@Override
+	public String getCSSFileName() {
+		return "DocuSignPlugin.css";
 	}
 	
 	@Override

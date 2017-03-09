@@ -73,7 +73,7 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 					if (response.returncode == 0)
 					{
 						item.attributeDisplayValues.DSSignatureStatus = "Completed";
-						item.attributes.DSSignatureStatus = 3;
+						item.attributes.DSSignatureStatus = 4;
 						item.update(item);
 					}
 					else if (response.returncode == -1)
@@ -118,7 +118,15 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 				requestCompleteCallback: function(response) {
 					if (response.returncode == 0)
 					{
-						self._getTemplateList(items);
+						self.documentStatusDialog = new DocumentStatus({
+							repository: items[0].repository
+						});
+					
+						var callback = lang.hitch(self, function(requestData){
+							self._checkInDocument(items[0], requestData);
+						});
+						
+						self.documentStatusDialog.show(response, callback);
 					}
 					else if (response.returncode == -1)
 					{

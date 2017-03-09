@@ -5,37 +5,38 @@
 
 define([
 	"dojo/_base/lang",
-	"dojo/_base/declare"
-], function(lang, declare) {
-
-	var Utils = declare("docuSign.util.DetailsViewDecorator", [], {
-		
-		docuSignPluginStatusDecorator: function(data, rowId, rowIndex) {
-			var item = this.grid.row(rowId).item();
-			if (data) {
-				var statusText = "";
-				var styleText = "";
-				var altText = "";
-				
-				if(data == "Sent"){
-					statusText = "&#x1F558;";
-					styleText = "font-size: medium;";
-					altText = "Waiting for others to sign";
-				}
-				else if (data == "Completed"){
-					statusText = "&#x2713;";
-					styleText = "color: #82b74e;font-size: large;";
-					altText = "Digitally signed";
-				}
-				
-				return '<span class="statusIcon" style="' + styleText + '" title="' + altText + '" >' + statusText + '</span>';
-			} else {
-				
-				return "";
-			}
-		}
-	});
+	"dojo/_base/declare",
+	"dojo/aspect",
+	"ecm/widget/listView/decorators/common",
+	"ecm/widget/listView/decorators/DetailsViewDecorator"
+], function(lang, declare, aspect, common, decorator) {
 	
-	docuSign.util.DetailsViewDecorator = new Utils();
-    return docuSign.util.DetailsViewDecorator;
+	lang.setObject("docuSign.util.DetailsViewDecorator.docuSignPluginStatusDecorator", function(data, rowId, rowIndex) {
+
+		var item = this.grid.row(rowId).item();
+		var returnTag = common.multiStateIcon(item, this._states, true);
+		
+		if (data && data.attributeDisplayValues.DSSignatureStatus == "Sent")
+		{
+			returnTag += '<img class="ecmStatusIcon ecmSignSentIcon" alt="Sent for signature" title="Sent for signature" src="' + this._blankGif + '" />';
+			returnTag += '<div class="dijitHidden">Multi Filed In Document</div>';
+			
+            return returnTag;
+		}
+		else if (data && data.attributeDisplayValues.DSSignatureStatus == "Completed")
+		{
+			returnTag += '<img class="ecmStatusIcon ecmSignDoneIcon" alt="Signature Completed" title="Signature Completed" src="' + this._blankGif + '" />';
+			returnTag += '<div class="dijitHidden">Multi Filed In Document</div>';
+			
+			return returnTag;
+		}
+		else if (data && data.attributeDisplayValues.DSSignatureStatus == "Checkedin")
+		{
+			returnTag += '<img class="ecmStatusIcon ecmSignCheckedinIcon" alt="Signature Completed and Checkedin" title="Signature Completed and Checkedin" src="' + this._blankGif + '" />';
+			returnTag += '<div class="dijitHidden">Multi Filed In Document</div>';
+			
+			return returnTag;
+		}
+		
+	});
 });

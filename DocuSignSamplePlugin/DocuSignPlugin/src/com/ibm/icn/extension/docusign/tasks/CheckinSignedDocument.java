@@ -48,6 +48,7 @@ public class CheckinSignedDocument extends BaseTask {
 	private String docusignIntegratorKey;
 	private String targetRepositoryId;
 	private String p8Folder;
+	private boolean autoCheckin;
 	
 	private ObjectStore objectStore;
 	private String creds;
@@ -76,6 +77,7 @@ public class CheckinSignedDocument extends BaseTask {
 			// get task parameters
 			getTaskParameters(taskInfo);
 			objectStore = P8ConnectionUtil.getTargetOS(targetRepositoryId);
+			
 			TaskLogger.fine(CLASS_NAME, functionName, "Object Store selected: " + objectStore.get_Name());
 			
 			/*----------------------------------
@@ -182,13 +184,21 @@ public class CheckinSignedDocument extends BaseTask {
 			System.out.println("++++ docSignStatus = " + docSignStatus);
 			
 			if (docEnvelopeId.equals(envelopeId) &&
-					docSignStatus == Constants.SIGNATURE_STATUS.SENT.getValue())
+					docSignStatus == Constants.SIGNATURE_STATUS.COMPLETED.getValue())
 			{
-				System.out.println("++++ Before downloading the content from DocuSign");
-				InputStream is = downloadContentFromDocusign(docEnvelopeId, creds);
-				
-				if (is != null)
-					checkinDocument(doc, is);
+				if (autoCheckin)
+				{
+					System.out.println("++++ Before downloading the content from DocuSign");
+					InputStream is = downloadContentFromDocusign(docEnvelopeId, creds);
+					
+					if (is != null)
+						checkinDocument(doc, is);			
+				}
+				else
+				{
+					doc.getProperties().putValue("DSSignatureStatus", Constants.SIGNATURE_STATUS.COMPLETED.getValue());
+					doc.save(RefreshMode.NO_REFRESH);
+				}
 			}	
 		}
 	}
@@ -226,7 +236,7 @@ public class CheckinSignedDocument extends BaseTask {
 				reservation.set_ContentElements(list);
 				reservation.checkin(AutoClassify.DO_NOT_AUTO_CLASSIFY, CheckinType.MAJOR_VERSION);
 				
-				reservation.getProperties().putValue("DSSignatureStatus", Constants.SIGNATURE_STATUS.COMPLETED.getValue());
+				reservation.getProperties().putValue("DSSignatureStatus", Constants.SIGNATURE_STATUS.CHECKEDIN.getValue());
 				
 				reservation.save(RefreshMode.NO_REFRESH);
 				
@@ -307,6 +317,8 @@ public class CheckinSignedDocument extends BaseTask {
 		docusignPassword =  (String) specificTaskRequestJson.get("docusignPassword");
 		docusignIntegratorKey =  (String) specificTaskRequestJson.get("docusignIntegratorKey");
 		p8Folder = (String) specificTaskRequestJson.get("docusignP8Folder");
+		String isAutoCheckin = (String) specificTaskRequestJson.get("docusignAutocheckinFlag");
+		autoCheckin = Boolean.parseBoolean(isAutoCheckin);
 		
 		TaskLogger.fine(CLASS_NAME, functionName, "Exiting method: " + functionName);
 	}

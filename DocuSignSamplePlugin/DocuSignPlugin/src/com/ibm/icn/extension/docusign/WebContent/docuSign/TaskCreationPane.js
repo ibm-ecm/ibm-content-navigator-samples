@@ -73,6 +73,10 @@ define([
 			return this.docuSignP8Folder.get('value');
 		},
 		
+		getDocuSignAutocheckinFlag: function () {
+			return this.docuSignAutocheckin.get('checked');
+		},
+		
 		_showRepositories: function () {
 			if (this._repoList != null) {
 				var reposData = {identifier: "id", items:[]};

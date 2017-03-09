@@ -11,6 +11,7 @@ import com.ibm.ecm.extension.PluginResponseFilter;
 import com.ibm.ecm.extension.PluginServiceCallbacks;
 import com.ibm.ecm.json.JSONResultSetColumn;
 import com.ibm.ecm.json.JSONResultSetResponse;
+import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
 
 public class DocuSignPluginResponseFilter extends PluginResponseFilter {
@@ -23,27 +24,29 @@ public class DocuSignPluginResponseFilter extends PluginResponseFilter {
 
 	@Override
 	public void filter(String serverType, PluginServiceCallbacks callbacks,
-			HttpServletRequest request, JSONObject jsonResponse)
-			throws Exception {
+			HttpServletRequest request, JSONObject jsonResponse) throws Exception 
+	{
+
+		JSONObject structure = (JSONObject) jsonResponse.get("columns");
+		JSONArray cells = (JSONArray) structure.get("cells");
+		if (cells.get(0) instanceof JSONArray) 
+		{
+			cells = (JSONArray) cells.get(0);
+		}
 		
 		// change it for any desktop
 		JSONResultSetResponse jsonResultSetResponse = (JSONResultSetResponse) jsonResponse;
-		for (int i = 0; i < jsonResultSetResponse.getColumnCount(); i++) {
-			JSONResultSetColumn column = jsonResultSetResponse.getColumn(i);
-
+		JSONResultSetColumn multi = jsonResultSetResponse.getColumn(0);
+		multi.put("decorator", "docuSign.util.DetailsViewDecorator.docuSignPluginStatusDecorator");
+		
+		// remove Signature Status column from the result set
+		for (int i = 0; i < cells.size(); i++)
+		{
+			JSONObject column = (JSONObject) cells.get(i);
 			String columnName = (String) column.get("field");
-
-			/*
-			 * if (columnName != null && columnName.equals("{NAME}") ) {// we
-			 * should push status before name indexOfNameColumn = i; }
-			 */
-			if (columnName != null && columnName.equals("DSSignatureStatus")) {
-				column.put("width", "16px");
-				column.put("sortable", false);
-				column.put("nosort", true);
-				column.put("name", "");
-				column.put("decorator", "docuSign.util.DetailsViewDecorator.docuSignPluginStatusDecorator");
-			}
+			
+			if (columnName != null && columnName.equals("DSSignatureStatus"))
+				cells.remove(i);
 		}
 	}
 }

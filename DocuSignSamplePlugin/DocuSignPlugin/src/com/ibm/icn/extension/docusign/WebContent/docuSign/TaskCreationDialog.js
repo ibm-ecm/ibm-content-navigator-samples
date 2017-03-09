@@ -32,6 +32,7 @@ define([
 				this.taskParameters.docusignPassword = this.taskCreationPane.getDocusignPassword();
 				this.taskParameters.docusignIntegratorKey = this.taskCreationPane.getDocusignIntegrationKey();
 				this.taskParameters.docusignP8Folder = this.taskCreationPane.getDocusignP8Folder();
+				this.taskParameters.docusignAutocheckinFlag = this.taskCreationPane.getDocuSignAutocheckinFlag();
 				
 				this.inherited(arguments);
 			}

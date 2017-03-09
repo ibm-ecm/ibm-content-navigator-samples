@@ -51,7 +51,16 @@
 						<select id="${id}_docuSignP8Folder" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="docuSignP8Folder" style="width:auto;">
 						</select>
 					</td>
-				</tr>				
+				</tr>
+				<tr>
+					<td class="propertyRowLabel">
+						<span class="ecmLabeledInputFieldRequired">*</span>
+						<label data-dojo-attach-point="docuSignAutocheckinLabel" for="${id}_docuSignAutocheckinLabel">Enable auto check-in</label>
+					</td>
+					<td class="propertyRowValue">
+						<input id="${id}_docuSignAutocheckin" data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="docuSignAutocheckin">
+					</td>
+				</tr>						
 			</tbody>
 		</table>
 	</div>

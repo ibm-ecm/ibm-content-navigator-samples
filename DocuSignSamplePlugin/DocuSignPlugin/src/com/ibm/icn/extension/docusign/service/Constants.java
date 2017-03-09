@@ -71,12 +71,20 @@ public class Constants {
 				return 3;
 			}
 		},
+		CHECKEDIN {
+			public String toString() {
+				return "Checkedin";
+			}
+			public int getValue() {
+				return 4;
+			}
+		},
 		VOIDED {
 			public String toString() {
 				return "Voided";
 			}
 			public int getValue() {
-				return 4;
+				return 5;
 			}
 		};
 		public abstract int getValue();
