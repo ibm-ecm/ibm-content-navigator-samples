@@ -11,6 +11,7 @@ import com.ibm.ecm.extension.PluginResponseFilter;
 import com.ibm.ecm.extension.PluginServiceCallbacks;
 import com.ibm.ecm.json.JSONResultSetColumn;
 import com.ibm.ecm.json.JSONResultSetResponse;
+import com.ibm.icn.extension.docusign.service.Constants;
 import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
 
@@ -26,7 +27,6 @@ public class DocuSignPluginResponseFilter extends PluginResponseFilter {
 	public void filter(String serverType, PluginServiceCallbacks callbacks,
 			HttpServletRequest request, JSONObject jsonResponse) throws Exception 
 	{
-
 		JSONObject structure = (JSONObject) jsonResponse.get("columns");
 		JSONArray cells = (JSONArray) structure.get("cells");
 		if (cells.get(0) instanceof JSONArray) 
@@ -34,7 +34,6 @@ public class DocuSignPluginResponseFilter extends PluginResponseFilter {
 			cells = (JSONArray) cells.get(0);
 		}
 		
-		// change it for any desktop
 		JSONResultSetResponse jsonResultSetResponse = (JSONResultSetResponse) jsonResponse;
 		JSONResultSetColumn multi = jsonResultSetResponse.getColumn(0);
 		multi.put("decorator", "docuSign.util.DetailsViewDecorator.docuSignPluginStatusDecorator");
@@ -45,7 +44,7 @@ public class DocuSignPluginResponseFilter extends PluginResponseFilter {
 			JSONObject column = (JSONObject) cells.get(i);
 			String columnName = (String) column.get("field");
 			
-			if (columnName != null && columnName.equals("DSSignatureStatus"))
+			if (columnName != null && columnName.equals(Constants.DOCUMENT_SIGNATURE_STATUS))
 				cells.remove(i);
 		}
 	}

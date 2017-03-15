@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.filenet.api.constants.RefreshMode;
 import com.filenet.api.core.Document;
 import com.filenet.api.core.Factory;
 import com.filenet.api.core.ObjectStore;
@@ -30,6 +31,12 @@ import com.ibm.icn.extension.docusign.util.DocuSignUtil;
  */
 public class SignStatusService extends PluginService {
 	
+	String serverType;
+	String repositoryId;
+	String docId;
+	String envelopeId;
+	Document p8DocumentObj;
+	
 	@Override
 	public String getId() {
 		return "SignStatusService";
@@ -41,11 +48,9 @@ public class SignStatusService extends PluginService {
 		callbacks.getLogger().logEntry(this, methodName, request);
 		
 		// Get parameters from UI
-		String serverType = (String) request.getParameter("serverType");
-		String repositoryId = request.getParameter("repositoryId");
-		String docId = request.getParameter("docId");
-		String envelopeId = "";
-		//request.getParameter("envelopeId");
+		serverType = (String) request.getParameter("serverType");
+		repositoryId = request.getParameter("repositoryId");
+		docId = request.getParameter("docId");
 		
 		callbacks.getLogger().logDebug(this, methodName, request, "Request Parameter: serverType = " + ((serverType != null) ? serverType : ""));
 		callbacks.getLogger().logDebug(this, methodName, request, "Request Parameter: repositoryId = " + ((repositoryId != null) ? repositoryId : ""));
@@ -62,8 +67,8 @@ public class SignStatusService extends PluginService {
 					
 					Id tempDocId = new Id(docId);
 					
-					Document p8DocumentObj = Factory.Document.fetchInstance(objectStore, tempDocId, null);
-					envelopeId = p8DocumentObj.getProperties().getStringValue("DSEnvelopeID");
+					p8DocumentObj = Factory.Document.fetchInstance(objectStore, tempDocId, null);
+					envelopeId = p8DocumentObj.getProperties().getStringValue(Constants.ENVELOPE_ID);
 					
 					/*//Document p8DocumentObj = Factory.Document.getInstance(objectStore, "Document", tempDocId);
 					Id vsId = p8DocumentObj.get_VersionSeries().get_Id();					
@@ -120,6 +125,15 @@ public class SignStatusService extends PluginService {
 			tempJson.put("returncode", "0");
 			
 			jsonResponse = tempJson.toString();
+			
+			// update sign status, if any, when retrieving the document status from DocuSign system
+			int docSignStatus = p8DocumentObj.getProperties().getInteger32Value(Constants.DOCUMENT_SIGNATURE_STATUS);
+			int currentSignStatus = getSignatureStatus(tempJson);
+			if (docSignStatus != currentSignStatus)
+			{
+				p8DocumentObj.getProperties().putValue(Constants.DOCUMENT_SIGNATURE_STATUS, currentSignStatus);
+				p8DocumentObj.save(RefreshMode.NO_REFRESH);
+			}
 		}
 		else
 		{
@@ -135,5 +149,23 @@ public class SignStatusService extends PluginService {
         responseWriter.close();
 		
 		callbacks.getLogger().logExit(this, methodName, request);
+	}
+
+	/*
+	 * Get integer value for DocuSign signature string status
+	 */
+	private int getSignatureStatus(JSONObject tempJson) 
+	{
+		int retValue;
+		String status = (String) tempJson.get(Constants.STATUS);
+		
+		if (status.equals("sent"))
+			retValue = Constants.SIGNATURE_STATUS.SENT.getValue();
+		else if (status.equals("completed"))
+			retValue =  Constants.SIGNATURE_STATUS.COMPLETED.getValue();
+		else
+			retValue = Constants.SIGNATURE_STATUS.NONE.getValue();
+		
+		return retValue;
 	}	
 }

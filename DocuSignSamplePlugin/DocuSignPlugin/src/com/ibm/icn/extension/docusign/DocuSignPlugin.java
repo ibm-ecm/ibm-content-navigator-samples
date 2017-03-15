@@ -1,6 +1,6 @@
 /**
  * Licensed Materials - Property of IBM
- * (C) Copyright IBM Corp. 2014,2015
+ * (C) Copyright IBM Corp. 2016
  * US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
  */
 
@@ -21,11 +21,6 @@ public class DocuSignPlugin extends Plugin {
 	
 	private PluginService [] serviceArray = null;
 	private PluginAction [] actionArray = null;
-	
-//	public DocuSignPlugin()
-//	{
-//		super();
-//	}
 
 	@Override
 	public String getId() {
@@ -69,7 +64,6 @@ public class DocuSignPlugin extends Plugin {
 	}
 	
 	private PluginAction[] getCachedActions() {
-
 		if(actionArray == null)
 		{
 			actionArray = new com.ibm.ecm.extension.PluginAction[] {
@@ -87,13 +81,11 @@ public class DocuSignPlugin extends Plugin {
 	
 	@Override
 	public PluginResponseFilter[] getResponseFilters() {
-		return  new PluginResponseFilter[] { new com.ibm.icn.extension.docusign.filter.DocuSignPluginResponseFilter()};
+		return  new PluginResponseFilter[] { 
+			new com.ibm.icn.extension.docusign.filter.DocuSignPluginResponseFilter(),
+			new com.ibm.icn.extension.docusign.filter.DocuSignPluginDocumentPropertiesFilter() 
+		};
 	}
-
-	// @Override
-	// public String getDojoModule() {
-	// return "customWidget";
-	// }
 
 	@Override
 	public String getDebugScript() {
@@ -169,7 +161,6 @@ public class DocuSignPlugin extends Plugin {
 		}
 
 		return serviceArray;
-
 	}
 	
 	public com.ibm.ecm.extension.PluginService[] getServices() {		

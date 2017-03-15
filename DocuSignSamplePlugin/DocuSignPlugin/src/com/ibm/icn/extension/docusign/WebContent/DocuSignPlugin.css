@@ -32,6 +32,7 @@
     border-bottom-width: 1px;
     white-space: nowrap;
     color: #444;
+    font-weight: bold;
 }
 
 .ecmDocuSignStatusPanel .propertyTable td.propertyRowValue {

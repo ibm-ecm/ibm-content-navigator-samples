@@ -120,7 +120,7 @@ public class UpdateSignedDocumentService extends PluginService {
 							reservation.set_ContentElements(list);
 							reservation.checkin(AutoClassify.DO_NOT_AUTO_CLASSIFY, CheckinType.MAJOR_VERSION);
 							
-							reservation.getProperties().putValue(Constants.DOCUMENT_SIGNATURE_STATUS, 3);
+							reservation.getProperties().putValue(Constants.DOCUMENT_SIGNATURE_STATUS, Constants.SIGNATURE_STATUS.CHECKEDIN.getValue());
 							reservation.save(RefreshMode.NO_REFRESH);
 						}
 						catch (ClassCastException e)

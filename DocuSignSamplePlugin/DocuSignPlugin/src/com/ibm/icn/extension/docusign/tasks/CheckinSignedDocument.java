@@ -209,7 +209,6 @@ public class CheckinSignedDocument extends BaseTask {
 	 */
 	private void checkinDocument(Document doc, InputStream is) throws Exception 
 	{
-		System.out.println("++++ Inside checkinDocument method!");
 		final String functionName = "checkinDocument";
 		TaskLogger.fine(CLASS_NAME, functionName, "Entering method: " + functionName);
 		
@@ -239,8 +238,6 @@ public class CheckinSignedDocument extends BaseTask {
 				reservation.getProperties().putValue("DSSignatureStatus", Constants.SIGNATURE_STATUS.CHECKEDIN.getValue());
 				
 				reservation.save(RefreshMode.NO_REFRESH);
-				
-				System.out.println("++++ Finished checkinDocument!!!");
 			}
 			catch (ClassCastException e)
 			{

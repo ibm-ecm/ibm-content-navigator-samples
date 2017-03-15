@@ -194,8 +194,8 @@ public class SignRequestService extends PluginService {
 			// and, set the sign status to 'sent'
 			String envelopeId;
 			envelopeId = (String) resultJson.get("envelopeId");
-			p8DocumentObj.getProperties().putValue("DSSignatureStatus", 2);
-			p8DocumentObj.getProperties().putValue("DSEnvelopeID", envelopeId);
+			p8DocumentObj.getProperties().putValue(Constants.DOCUMENT_SIGNATURE_STATUS, Constants.SIGNATURE_STATUS.SENT.getValue());
+			p8DocumentObj.getProperties().putValue(Constants.ENVELOPE_ID, envelopeId);
 			p8DocumentObj.save(RefreshMode.NO_REFRESH);	
 
 			// send Response back to client
@@ -204,7 +204,6 @@ public class SignRequestService extends PluginService {
 		else
 		{
 			jsonResponse = "{\"returncode\": \"-1\", \"errorMessage\": \"Session is null\"}";
-			//throw new javax.jms.IllegalStateException("Session object is null!", "599");
 		}
 		
 		PrintWriter responseWriter = response.getWriter();

@@ -72,7 +72,7 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 				requestCompleteCallback: function(response) {
 					if (response.returncode == 0)
 					{
-						item.attributeDisplayValues.DSSignatureStatus = "Completed";
+						item.attributeDisplayValues.DSSignatureStatus = "Checkedin";
 						item.attributes.DSSignatureStatus = 4;
 						item.update(item);
 					}
@@ -150,7 +150,9 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 			if(!items || items.length != 1){
 				return false;
 			};
-			if(items[0].attributes && items[0].attributes.DSSignatureStatus == 2) {
+			if(items[0].attributes && 
+					(items[0].attributes.DSSignatureStatus == 2 || 
+							items[0].attributes.DSSignatureStatus == 3)) {
 				return (enabled && true);
 			}
 			return false;
