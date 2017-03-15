@@ -128,18 +128,14 @@ public class CheckinSignedDocument extends BaseTask {
 			
 			for (int i = 0; i < envelopes.size(); i++)
 			{
-				System.out.println("++++ Inside the envelope for loop!");
 				JSONObject envelope = (JSONObject) envelopes.get(i);
 				String env_status = (String) envelope.get("status");
 				
 				if (env_status.equals("completed"))
 				{
-					System.out.println("++++ Inside the if check");
 					String envId = (String) envelope.get("envelopeId");
 					
-					System.out.println("++++ Before calling checkinSignedDocument method");
 					checkinSignedDocument(envId);
-					System.out.println("++++ After calling checkinSignedDocument method");
 				}
 			}
 			
@@ -180,15 +176,11 @@ public class CheckinSignedDocument extends BaseTask {
 			String docEnvelopeId = getDocumentEnvelopeId(doc);
 			int docSignStatus = getDocumentSignStatus(doc);
 			
-			System.out.println("++++ docEnvelopeId = " + docEnvelopeId);
-			System.out.println("++++ docSignStatus = " + docSignStatus);
-			
 			if (docEnvelopeId.equals(envelopeId) &&
 					docSignStatus == Constants.SIGNATURE_STATUS.COMPLETED.getValue())
 			{
 				if (autoCheckin)
 				{
-					System.out.println("++++ Before downloading the content from DocuSign");
 					InputStream is = downloadContentFromDocusign(docEnvelopeId, creds);
 					
 					if (is != null)

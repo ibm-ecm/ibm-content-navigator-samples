@@ -110,7 +110,6 @@ public class DocuSignLoginService extends PluginService {
 			params += "&";
 			params += "client_id=" + URLEncoder.encode(integratorKey, "UTF-8");
 			
-			System.out.println("++++ params = " + params);
 			byte[] postData = params.getBytes();
 			int    postDataLen = postData.length;
 			

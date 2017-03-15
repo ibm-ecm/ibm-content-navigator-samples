@@ -42,7 +42,6 @@ public class GetTemplatesService extends PluginService {
 				session.getAttribute(Constants.OAUTH_TOKEN) != null &&
 					session.getAttribute(Constants.DOCUSIGN_USERID) != null)
 		{
-			System.out.println("Session is not null. oAuthToken exits!");
 			String token = (String) session.getAttribute(Constants.OAUTH_TOKEN);
 			String docusignUserId = (String) session.getAttribute(Constants.DOCUSIGN_USERID);
 			

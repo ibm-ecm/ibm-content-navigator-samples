@@ -51,19 +51,25 @@ public class DocuSignConfiguration
 		}		
 	}
 	
-	// Get docusign user name
+	/*
+	 *  Get docusign user name
+	 */
 	public String getDocuSignUserName()
 	{
 		return this.docusignUserName;
 	}
 
-	// Get docusign password
+	/*
+	 *  Get docusign password
+	 */
 	public String getDocuSignPassword()
 	{
 		return this.docusignPassword;
 	}
 	
-	// Get docusign integrator key aka cilent id or application id
+	/*
+	 *  Get docusign integrator key aka cilent id or application id
+	 */
 	public String getDocuSignIntegratorKey()
 	{
 		return this.docusignIntegratorKey;
