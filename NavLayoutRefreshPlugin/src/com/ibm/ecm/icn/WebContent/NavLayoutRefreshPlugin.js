@@ -25,9 +25,9 @@ require(["dojo/_base/declare",
 ], function(declare, Desktop, BrowsePane) {
 	
 	// Override the desktop's bookmark layout with the layout provided by the plug-in
-	Desktop.bookmarkLayout = "iNOCLayoutPluginDojo/BookmarkLayout";
+	Desktop.bookmarkLayout = "navLayoutRefreshPluginDojo/BookmarkLayout";
 	
 	// Change the CSS class selector of the Browse feature pane to give it a custom look
-	BrowsePane.prototype.baseClass = "iNOCBrowsePane";
+	BrowsePane.prototype.baseClass = "navLayoutRefreshBrowsePane";
 	
 });
