@@ -25,7 +25,7 @@ public class SignSubmitAction extends PluginAction {
 
 	@Override
 	public String getName(Locale locale) {
-		return "Digitally Sign";
+		return "Send for Signature";
 	}
 
 	@Override
