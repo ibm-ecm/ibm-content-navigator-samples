@@ -20,7 +20,13 @@ define([
 			
 			var p8RepoList = this._getP8Repositories();
 			this.taskCreationPane = new TaskCreationPane({repoList: p8RepoList});
-			this.taskSchedulerPane.addTitlePaneSection("DocuSign Auto Check-in Configuration", this.taskCreationPane, 0);
+			this.taskSchedulerPane.addTitlePaneSection("DocuSign signature status udpates configuration", this.taskCreationPane, 0);
+			
+			// hide the default run once configuration section thus allowing 
+			// only running asynchronous task as per a defined schedule
+			this.taskSchedulerPane.calendarScheduler.runOnceSection.hidden=true;
+			
+			this.taskSchedulerPane.calendarScheduler.repeatRadioButton.set("checked", true);
 		},
 
 		onSchedule: function() {
