@@ -27,7 +27,7 @@ function(declare, lang, connect, domClass, domStyle, ObjectStore, Memory, Templa
 			this.inherited(arguments);
 			
 			//set title and into text
-			this.setTitle("Send Document for Signature");
+			this.setTitle("Send for Signature");
 			
 			domClass.add(this.bccLink, "dijitHidden");
 			this.fromInput.set("value", "p8admin@demo.example.com");
