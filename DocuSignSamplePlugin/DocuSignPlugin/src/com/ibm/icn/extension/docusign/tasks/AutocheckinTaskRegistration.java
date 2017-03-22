@@ -21,7 +21,7 @@ public class AutocheckinTaskRegistration extends PluginAsyncTaskType {
 
 	@Override
 	public String getName(Locale arg0) {
-		return "Auto Check-in of Signed Document";
+		return "DocuSign signature status udpates configuration";
 	}
 	
 	public String getTaskCreationDialogDijitClass() 
