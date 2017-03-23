@@ -27,6 +27,7 @@ require(["dojo/_base/declare",
 		 "docuSign/TaskCreationDialog",
 		 "docuSign/action/SignSubmitAction",
 		 "docuSign/action/SignStatusAction",
+		 "docuSign/action/CheckinAction",
 		 "docuSign/util/DetailsViewDecorator"
 ], function(declare, lang, aspect, Request, ItemPropertiesPane, EditPropertiesDialog, ConfigurationPane, TaskCreationPane, TaskCreationDialog) {
 			

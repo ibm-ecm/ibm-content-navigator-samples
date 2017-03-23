@@ -24,14 +24,17 @@ public class DocuSignPluginDocumentPropertiesFilter extends
 		// get all properties of selected document
 		JSONArray jsonProperties = (JSONArray) jsonResponse.get("criterias");
 
-		for (int i = 0; i < jsonProperties.size(); i++)
+		if (jsonProperties != null)
 		{
-			JSONObject jsonProperty = (JSONObject) jsonProperties.get(i);
-			
-			// delete signature status property from the response and thus hide it from Properties pane
-			if (jsonProperty.get("name").toString().equals(Constants.DOCUMENT_SIGNATURE_STATUS))
+			for (int i = 0; i < jsonProperties.size(); i++)
 			{
-				jsonProperties.remove(i);
+				JSONObject jsonProperty = (JSONObject) jsonProperties.get(i);
+				
+				// delete signature status property from the response and thus hide it from Properties pane
+				if (jsonProperty.get("name").toString().equals(Constants.DOCUMENT_SIGNATURE_STATUS))
+				{
+					jsonProperties.remove(i);
+				}
 			}
 		}
 	}

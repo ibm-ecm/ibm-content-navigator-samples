@@ -68,7 +68,8 @@ public class DocuSignPlugin extends Plugin {
 		{
 			actionArray = new com.ibm.ecm.extension.PluginAction[] {
 					new com.ibm.icn.extension.docusign.action.SignSubmitAction(),
-					new com.ibm.icn.extension.docusign.action.SignStatusAction()
+					new com.ibm.icn.extension.docusign.action.SignStatusAction(),
+					new com.ibm.icn.extension.docusign.action.CheckinAction()
 			};
 		}
 		return actionArray;

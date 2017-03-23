@@ -49,7 +49,7 @@ public class DocuSignItemContextMenu extends PluginMenu {
 			new PluginMenuItem("DeleteItem"), new PluginMenuItem("Separator"),
 			new PluginMenuItem("DefaultCheckOut", checkoutActionIds), new PluginMenuItem("CheckIn"), 
 			new PluginMenuItem("Unlock"), new PluginMenuItem("Separator"),
-			new PluginMenuItem("docuSign.action.SignSubmitAction"), new PluginMenuItem("docuSign.action.SignStatusAction"), new PluginMenuItem("Separator"),
+			new PluginMenuItem("docuSign.action.SignSubmitAction"), new PluginMenuItem("docuSign.action.CheckinAction"), new PluginMenuItem("Separator"),
 			new PluginMenuItem("DefaultBox", boxActionIds),
 			new PluginMenuItem("DefaultLink", linkActionIds),
 			new PluginMenuItem("DefaultSendEmail", emailActionIds),
