@@ -56,6 +56,7 @@ public class UpdateSignedDocumentService extends PluginService {
 		callbacks.getLogger().logDebug(this, methodName, request, "Request Parameter: envelopeId = " + ((envelopeId != null) ? envelopeId : ""));
 		
 		// Call DocuSign REST Api
+		String jsonResponse = null;
 		InputStream is = null;
 		HttpSession session = request.getSession();
 		
@@ -83,8 +84,8 @@ public class UpdateSignedDocumentService extends PluginService {
 		}
 		else
 		{
-			// throw new IllegalStateException("Session object is null!");
-			response.sendError(HttpServletResponse.SC_FORBIDDEN, "Session is null. Hence, OAuth2 token not available.");
+			jsonResponse = "{\"returncode\": \"-1\", \"errorMessage\": \"Session is null\"}";
+			//throw new IllegalStateException("Session object is null!");
 		}
 		
 		if (serverType.equalsIgnoreCase("p8")) {
@@ -147,7 +148,7 @@ public class UpdateSignedDocumentService extends PluginService {
 		
 		// send response to client
 		PrintWriter responseWriter = response.getWriter();
-		String jsonResponse = "{\"id\": \"" + docId + "\", \"status\": \"success\"}";
+		jsonResponse = "{\"id\": \"" + docId + "\", \"status\": \"success\"}";
 		response.setContentType("text/plain");
 
 		responseWriter.print(jsonResponse);
