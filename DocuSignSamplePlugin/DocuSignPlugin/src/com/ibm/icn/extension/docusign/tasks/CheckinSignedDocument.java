@@ -47,7 +47,6 @@ public class CheckinSignedDocument extends BaseTask {
 	private String docusignPassword;
 	private String docusignIntegratorKey;
 	private String targetRepositoryId;
-	private String p8Folder;
 	private boolean autoCheckin;
 	
 	private ObjectStore objectStore;
@@ -166,9 +165,9 @@ public class CheckinSignedDocument extends BaseTask {
 	private void checkinSignedDocument(String envelopeId) throws Exception 
 	{
 		Document doc = null;
-		
-		Folder folder = Factory.Folder.fetchInstance(objectStore, p8Folder, null);
-		DocumentSet docSet = folder.get_ContainedDocuments();
+
+		Folder stagingFolder = Factory.Folder.fetchInstance(objectStore, "/" + Constants.DOCUSIGN_STAGING_FOLDER, null);
+		DocumentSet docSet = stagingFolder.get_ContainedDocuments();
 		
 		Iterator<?> documents = docSet.iterator();
 		while (documents.hasNext())
@@ -196,7 +195,7 @@ public class CheckinSignedDocument extends BaseTask {
 					InputStream is = downloadContentFromDocusign(docEnvelopeId, creds);
 					
 					if (is != null)
-						checkinDocument(doc, is);			
+						checkinDocument(objectStore, doc, is);			
 				}
 				else
 				{
@@ -211,7 +210,8 @@ public class CheckinSignedDocument extends BaseTask {
 	/*
 	 * Check-in the document as major version in P8.
 	 */
-	private void checkinDocument(Document doc, InputStream is) throws Exception 
+	@SuppressWarnings("unchecked")
+	private void checkinDocument(ObjectStore os, Document doc, InputStream is) throws Exception 
 	{
 		final String functionName = "checkinDocument";
 		TaskLogger.fine(CLASS_NAME, functionName, "Entering method: " + functionName);
@@ -243,6 +243,10 @@ public class CheckinSignedDocument extends BaseTask {
 				reservation.getProperties().putValue("DSSignatureStatus", Constants.SIGNATURE_STATUS.CHECKEDIN.getValue());
 				
 				reservation.save(RefreshMode.NO_REFRESH);
+				
+				// unfile the document from staging folder as auto check-in is successful
+				P8ConnectionUtil.unfileDocument(os, reservation);
+
 			}
 			catch (ClassCastException e)
 			{
@@ -260,7 +264,7 @@ public class CheckinSignedDocument extends BaseTask {
 		
 		TaskLogger.fine(CLASS_NAME, functionName, "Exiting method: " + functionName);
 	}
-	
+
 
 	/*
 	 * Retrieve document content (as input stream) for an envelope Id from DocuSign system.
@@ -319,7 +323,7 @@ public class CheckinSignedDocument extends BaseTask {
 		docusignUserName =  (String) specificTaskRequestJson.get("docusignUserName");
 		docusignPassword =  (String) specificTaskRequestJson.get("docusignPassword");
 		docusignIntegratorKey =  (String) specificTaskRequestJson.get("docusignIntegratorKey");
-		p8Folder = (String) specificTaskRequestJson.get("docusignP8Folder");
+		//p8Folder = (String) specificTaskRequestJson.get("docusignP8Folder");
 		String isAutoCheckin = (String) specificTaskRequestJson.get("docusignAutocheckinFlag");
 		autoCheckin = Boolean.parseBoolean(isAutoCheckin);
 		

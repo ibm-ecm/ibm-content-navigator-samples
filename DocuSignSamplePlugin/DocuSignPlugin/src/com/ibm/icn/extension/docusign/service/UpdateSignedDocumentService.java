@@ -28,6 +28,7 @@ import com.filenet.api.util.Id;
 import com.filenet.api.util.UserContext;
 import com.ibm.ecm.extension.PluginService;
 import com.ibm.ecm.extension.PluginServiceCallbacks;
+import com.ibm.icn.extension.docusign.util.P8ConnectionUtil;
 
 /*****************************************************************************************************************
  * Navigator Plug-in service to check-in the signed copy of the document. The signed content is retrieved 
@@ -41,6 +42,7 @@ public class UpdateSignedDocumentService extends PluginService {
 		return "UpdateSignedDocumentService";
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void execute(PluginServiceCallbacks callbacks, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String methodName = "execute";
@@ -123,6 +125,9 @@ public class UpdateSignedDocumentService extends PluginService {
 							
 							reservation.getProperties().putValue(Constants.DOCUMENT_SIGNATURE_STATUS, Constants.SIGNATURE_STATUS.CHECKEDIN.getValue());
 							reservation.save(RefreshMode.NO_REFRESH);
+							
+							// unfile the document from staging folder as auto check-in is successful
+							P8ConnectionUtil.unfileDocument(objectStore, reservation);
 						}
 						catch (ClassCastException e)
 						{

@@ -38,6 +38,7 @@ public class Constants {
 	public static final String DOCUMENTS_BASE64 = "documentBase64";
 	public static final String DOCUMENT_ID = "documentId";
 
+	public static final String DOCUSIGN_STAGING_FOLDER = "DocuSignFolder";
 	public static enum SIGNATURE_STATUS {
 		NONE {
 			public String toString() {

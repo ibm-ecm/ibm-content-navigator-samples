@@ -14,9 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.DatatypeConverter;
 
+import com.filenet.api.constants.AutoUniqueName;
+import com.filenet.api.constants.DefineSecurityParentage;
 import com.filenet.api.constants.RefreshMode;
 import com.filenet.api.core.Factory;
+import com.filenet.api.core.Folder;
 import com.filenet.api.core.ObjectStore;
+import com.filenet.api.core.ReferentialContainmentRelationship;
 import com.filenet.api.util.Id;
 import com.filenet.api.util.UserContext;
 import com.ibm.ecm.extension.PluginService;
@@ -27,6 +31,7 @@ import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
 import com.ibm.icn.extension.docusign.service.Constants;
 import com.ibm.icn.extension.docusign.util.DocuSignUtil;
+import com.ibm.icn.extension.docusign.util.P8ConnectionUtil;
 import com.ibm.icn.extension.docusign.util.ResourceRequestUtil;
 
 
@@ -49,11 +54,12 @@ public class SignRequestService extends PluginService {
 	{
 		String methodName = "execute";
 		callbacks.getLogger().logEntry(this, methodName, request);
-
+		
 		// Get p8 document id and other repository details
 		String serverType = (String) request.getParameter("serverType");
 		String repositoryId = request.getParameter("repositoryId");
 		String docId = request.getParameter("docId");
+		ObjectStore objectStore = null;
 		
 		// Get values for DocuSign signature specified in sign request dialog
 		String requestBody = ResourceRequestUtil.getRequestBody(request);			
@@ -83,7 +89,7 @@ public class SignRequestService extends PluginService {
 					// get object store context
 					Subject subject = callbacks.getP8Subject(repositoryId);
 					UserContext.get().pushSubject(subject);
-					ObjectStore objectStore = callbacks.getP8ObjectStore(repositoryId);
+					objectStore = callbacks.getP8ObjectStore(repositoryId);
 					
 					// retrieve the p8 document content
 					Id tempDocId = new Id(docId);
@@ -198,6 +204,15 @@ public class SignRequestService extends PluginService {
 			p8DocumentObj.getProperties().putValue(Constants.ENVELOPE_ID, envelopeId);
 			p8DocumentObj.save(RefreshMode.NO_REFRESH);	
 
+			// create a document reference for document in staging folder to 
+			// scope searching of documents sent to DocuSign for signatures 
+			Folder stagingFolder = P8ConnectionUtil.getP8StagingFolder(objectStore);
+		    
+			ReferentialContainmentRelationship rcr = stagingFolder.file(p8DocumentObj,
+			        AutoUniqueName.NOT_AUTO_UNIQUE, p8DocumentObj.getProperties().getStringValue("DocumentTitle"),
+			        DefineSecurityParentage.DO_NOT_DEFINE_SECURITY_PARENTAGE);
+			rcr.save(RefreshMode.NO_REFRESH);
+			
 			// send Response back to client
 			jsonResponse = "{\"returncode\": \"0\", \"envelopeId\": \"" + envelopeId + "\", \"status\": 2}";	// sent has integer value 2
 		}
@@ -214,4 +229,5 @@ public class SignRequestService extends PluginService {
         
 		callbacks.getLogger().logExit(this, methodName, request);
 	}
+
 }
