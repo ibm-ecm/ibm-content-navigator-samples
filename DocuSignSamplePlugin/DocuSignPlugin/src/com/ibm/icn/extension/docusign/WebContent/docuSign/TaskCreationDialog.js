@@ -25,7 +25,6 @@ define([
 			// hide the default run once configuration section thus allowing 
 			// only running asynchronous task as per a defined schedule
 			this.taskSchedulerPane.calendarScheduler.runOnceSection.hidden=true;
-			
 			this.taskSchedulerPane.calendarScheduler.repeatRadioButton.set("checked", true);
 		},
 
@@ -37,7 +36,6 @@ define([
 				this.taskParameters.docusignUserName = this.taskCreationPane.getDocusignUser();
 				this.taskParameters.docusignPassword = this.taskCreationPane.getDocusignPassword();
 				this.taskParameters.docusignIntegratorKey = this.taskCreationPane.getDocusignIntegrationKey();
-				this.taskParameters.docusignP8Folder = this.taskCreationPane.getDocusignP8Folder();
 				this.taskParameters.docusignAutocheckinFlag = this.taskCreationPane.getDocuSignAutocheckinFlag();
 				
 				this.inherited(arguments);

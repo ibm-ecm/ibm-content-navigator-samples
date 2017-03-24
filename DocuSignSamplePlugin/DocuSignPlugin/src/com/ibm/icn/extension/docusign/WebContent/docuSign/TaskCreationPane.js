@@ -69,10 +69,6 @@ define([
 			return this.docuSignIntegrationKey.get('value');
 		},
 		
-		getDocusignP8Folder: function () {
-			return this.docuSignP8Folder.get('value');
-		},
-		
 		getDocuSignAutocheckinFlag: function () {
 			return this.docuSignAutocheckin.get('checked');
 		},
