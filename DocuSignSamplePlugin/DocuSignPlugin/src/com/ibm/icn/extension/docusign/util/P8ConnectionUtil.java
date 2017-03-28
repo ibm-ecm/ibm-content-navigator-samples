@@ -81,7 +81,6 @@ public class P8ConnectionUtil {
 	 */
 	static public Folder getP8StagingFolder(ObjectStore os)
 	{
-		System.out.println(">>> Entering getP8StagingFolder");
 		Folder folder = null;
 	    try
 	    {
@@ -101,7 +100,6 @@ public class P8ConnectionUtil {
 	    	folder = Factory.Folder.getInstance(os, null, "/" + Constants.DOCUSIGN_STAGING_FOLDER);
 	    }
 	    
-		System.out.println(">>> Exiting getP8StagingFolder");
 		return folder;
 	}
 	
@@ -111,7 +109,6 @@ public class P8ConnectionUtil {
 	@SuppressWarnings("rawtypes")
 	static public void unfileDocument(ObjectStore os, Document doc) 
 	{
-		System.out.println(">>> Entering unfileDocument");
 		
 		PropertyFilter pf = new PropertyFilter();	  
 	    pf.addIncludeProperty(new FilterElement(null, null, null,PropertyNames.PATH_NAME , null));
@@ -123,21 +120,16 @@ public class P8ConnectionUtil {
 
 		while (iter.hasNext() )
 		{
-			System.out.println("---------Inside while loop");
 		   ReferentialContainmentRelationship rcr1 = (ReferentialContainmentRelationship) iter.next();
 		   Folder folder = (Folder) rcr1.get_Tail();
-		   System.out.println("folder.get_Id() = " + folder.get_Id());
-		   System.out.println("parent.get_Id() = " + stagingFolder.get_Id());
+
 		   if (folder.get_Id().equals(stagingFolder.get_Id()))
 		   {
-			   System.out.println("Folder ID matched");
 		      rcr1.delete();
 		      rcr1.save(RefreshMode.REFRESH);
 		      break;
 		   }
 		}
 		
-		System.out.println("<<< Exiting unfileDocument");
-	}	
-	
+	}
 }

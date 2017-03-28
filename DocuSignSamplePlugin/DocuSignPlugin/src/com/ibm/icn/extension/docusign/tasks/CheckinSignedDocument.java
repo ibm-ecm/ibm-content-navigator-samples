@@ -135,7 +135,6 @@ public class CheckinSignedDocument extends BaseTask {
 				if (env_status.equals("completed"))
 				{
 					String envId = (String) envelope.get("envelopeId");
-					System.out.println("------------ For envelopeId = " + envId);
 					
 					checkinSignedDocument(envId);
 				}
@@ -180,20 +179,11 @@ public class CheckinSignedDocument extends BaseTask {
 				continue;
 			int docSignStatus = getDocumentSignStatus(doc);
 			
-			System.out.println("---------- doc name = " + doc.get_Name());
-			System.out.println("--- docEnvelopeId = " + docEnvelopeId);
-			System.out.println("--- autocheckin value = " + autoCheckin);
-			System.out.println("--- envelopeId = " + envelopeId);
-			
-			if (docEnvelopeId.equals(envelopeId))
-				System.out.println("--- Envelope IDs match!");
-			
 			if (docEnvelopeId.equals(envelopeId) &&
 					docSignStatus != Constants.SIGNATURE_STATUS.CHECKEDIN.getValue())
 			{
 				if (autoCheckin)
 				{
-					System.out.println("--- inside autocheckin");
 					InputStream is = downloadContentFromDocusign(docEnvelopeId, creds);
 					
 					if (is != null)
@@ -217,7 +207,6 @@ public class CheckinSignedDocument extends BaseTask {
 	{
 		final String functionName = "checkinDocument";
 		TaskLogger.fine(CLASS_NAME, functionName, "Entering method: " + functionName);
-		System.out.println("--- Inside checkinDocument");
 		
 		if (is != null)
 		{
@@ -275,7 +264,6 @@ public class CheckinSignedDocument extends BaseTask {
 	{
 		final String functionName = "downloadContentFromDocusign";
 		TaskLogger.fine(CLASS_NAME, functionName, "Entering method: " + functionName);
-		System.out.println("--- downloadContentFromDocusign");
 		
 		InputStream signedDocument = null;
 		
@@ -337,18 +325,7 @@ public class CheckinSignedDocument extends BaseTask {
 	 * Get the document signature status property value.
 	 */
 	private int getDocumentSignStatus(Document doc) 
-	{
-		System.out.println("----- inside getDocumentSignStatus");
-		if (doc == null)
-		{
-			System.out.println("---- Document is null!");
-		}
-		
-		String envId = doc.getProperties().getStringValue(Constants.ENVELOPE_ID);
-		System.out.println("---- doc.getProperties().getStringValue(Constants.ENVELOPE_ID) = " + envId);
-		System.out.println("---- doc.getProperties().getStringValue(Constants.DOCUMENT_SIGNATURE_STATUS) = " + 
-						doc.getProperties().getInteger32Value(Constants.DOCUMENT_SIGNATURE_STATUS));
-		
+	{		
 		return doc.getProperties().getInteger32Value(Constants.DOCUMENT_SIGNATURE_STATUS);
 	}
 	
@@ -358,8 +335,6 @@ public class CheckinSignedDocument extends BaseTask {
 	 */
 	private String getDocumentEnvelopeId(Document doc) 
 	{
-		System.out.println("---- inside getDocumentEnvelopeId");
-		
 		return doc.getProperties().getStringValue(Constants.ENVELOPE_ID);
 	}
 	

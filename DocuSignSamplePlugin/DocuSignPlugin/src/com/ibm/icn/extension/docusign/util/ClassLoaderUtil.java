@@ -33,14 +33,12 @@ public class ClassLoaderUtil {
 			// i.e if the plugin is loaded from jar or zip file
 
 			// getting name of file.
-			//System.out.println(fileLocation);
 			String fileName = fileLocation.substring(
 					fileLocation.lastIndexOf("/")+1,
 					fileLocation.lastIndexOf("."));
 			fileLocation = fileLocation.substring(0,
 					fileLocation.lastIndexOf("/") + 1)
 					+ fileName + "_libs" + "/";
-		//	System.out.println(fileLocation);
 		}
 
 		File sourceLocation = new File(fileLocation);

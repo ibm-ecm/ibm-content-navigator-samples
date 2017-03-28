@@ -81,7 +81,6 @@ public class DocuSignUtil {
 			JSONObject userAccount = (JSONObject) loginAccounts.get(0);
 			
 			accountId = (String) userAccount.get("accountId");
-			//System.out.println("Account ID = " + accountId);
 		}
 		catch (Exception ex)
 		{
