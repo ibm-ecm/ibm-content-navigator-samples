@@ -95,6 +95,8 @@ public class CheckinSignedDocument extends BaseTask {
 			
 			URL url = new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignUserId + "/envelopes?from_date=" + from_date + "&status=completed");
 			
+			System.out.println("========= url = " + url.toString());
+			
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			conn.setDoOutput(true);

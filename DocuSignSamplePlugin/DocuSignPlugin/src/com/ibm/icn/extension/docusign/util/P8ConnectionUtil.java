@@ -88,6 +88,7 @@ public class P8ConnectionUtil {
 	        folder = Factory.Folder.createInstance(os, null);
 	        folder.set_Parent(os.get_RootFolder());
 	        folder.set_FolderName(Constants.DOCUSIGN_STAGING_FOLDER);
+	        folder.getProperties().putValue("IsHiddenContainer", true);
 	        folder.save(RefreshMode.NO_REFRESH);
 	    }
 	    catch(EngineRuntimeException ex)
