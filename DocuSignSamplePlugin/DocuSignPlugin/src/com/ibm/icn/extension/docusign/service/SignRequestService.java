@@ -5,6 +5,7 @@
 
 package com.ibm.icn.extension.docusign.service;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
 
@@ -144,29 +145,33 @@ public class SignRequestService extends PluginService {
 		
 		recipients.put(Constants.SIGNERS, signers);
 		recipients.put(Constants.CARBON_COPIES, carbonCopies);
-		inlineTemplateForRecipients.put(Constants.SEQUENCE, "1");
+		inlineTemplateForRecipients.put(Constants.SEQUENCE, "3");
 		inlineTemplateForRecipients.put(Constants.RECIPIENTS, recipients);
 		
-		// create in-line template for document
-		JSONObject inlineTemplateForDocument = new JSONObject();
-		JSONArray documents = new JSONArray();
-		String base64Doc = DatatypeConverter.printBase64Binary(fileBytes);
-		
-		JSONObject document = new JSONObject();
-		document.put(Constants.DOCUMENTS_BASE64, base64Doc);
-		document.put(Constants.DOCUMENT_ID, "1");
-		document.put(Constants.NAME, p8DocumentObj.getProperties().getStringValue("DocumentTitle"));
-		documents.add(document);
-		
-		inlineTemplateForDocument.put(Constants.SEQUENCE, "3");
-		inlineTemplateForDocument.put(Constants.DOCUMENTS, documents);
-		inlineTemplates.add(inlineTemplateForRecipients);
-		inlineTemplates.add(inlineTemplateForDocument);
+        // create in-line template for document
+        JSONObject inlineTemplateForDocument = new JSONObject();
+        JSONArray documents = new JSONArray();
+        String base64Doc = DatatypeConverter.printBase64Binary(fileBytes);
+
+        JSONObject document = new JSONObject();
+        document.put(Constants.DOCUMENTS_BASE64, base64Doc);
+
+        // add the document id of the document from the template
+        String documentId = getDocumentIdFromTemplate(request, templateId);
+
+        document.put(Constants.DOCUMENT_ID, documentId);
+        document.put(Constants.NAME, p8DocumentObj.getProperties().getStringValue("DocumentTitle"));
+        documents.add(document);
+
+        inlineTemplateForDocument.put(Constants.SEQUENCE, "1");
+        inlineTemplateForDocument.put(Constants.DOCUMENTS, documents);
+        inlineTemplates.add(inlineTemplateForRecipients);
+        inlineTemplates.add(inlineTemplateForDocument);
 		
 		// create server template
 		JSONArray serverTemplates = new JSONArray();
 		JSONObject serverTemplate = new JSONObject();
-		serverTemplate.put(Constants.SEQUENCE, "1");
+		serverTemplate.put(Constants.SEQUENCE, "2");
 		serverTemplate.put(Constants.TEMPLATE_ID, templateId);
 		serverTemplates.add(serverTemplate);
 
@@ -229,5 +234,33 @@ public class SignRequestService extends PluginService {
         
 		callbacks.getLogger().logExit(this, methodName, request);
 	}
+	
+    private String getDocumentIdFromTemplate(HttpServletRequest request, String templateId) throws IOException
+    {
+            String documentId = null;
+            JSONObject documentsJson = null;
+
+            HttpSession session = request.getSession();
+            if (session != null &&
+                            session.getAttribute("oAuthToken") != null &&
+                                    session.getAttribute("docusignUserId") != null)
+            {
+                    String token = (String) session.getAttribute("oAuthToken");
+                    String docusignUserId = (String) session.getAttribute("docusignUserId");
+
+                    URL templateDocumentUrl =  new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignUserId + "/templates/" + templateId + "/documents");
+                    documentsJson = DocuSignUtil.executeGetUrl(templateDocumentUrl, token);
+
+                    JSONArray documents = (JSONArray) documentsJson.get("templateDocuments");
+                    JSONObject docJson = (JSONObject) documents.get(0);
+                    documentId = (String) docJson.get("documentId");
+            }
+            else
+            {
+                    return null;
+            }
+
+            return documentId;
+    }
 
 }
