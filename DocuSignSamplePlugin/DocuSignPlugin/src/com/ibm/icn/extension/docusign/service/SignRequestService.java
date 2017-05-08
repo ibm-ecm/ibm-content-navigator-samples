@@ -214,7 +214,7 @@ public class SignRequestService extends PluginService {
 			Folder stagingFolder = P8ConnectionUtil.getP8StagingFolder(objectStore);
 		    
 			ReferentialContainmentRelationship rcr = stagingFolder.file(p8DocumentObj,
-			        AutoUniqueName.NOT_AUTO_UNIQUE, p8DocumentObj.getProperties().getStringValue("DocumentTitle"),
+			        AutoUniqueName.AUTO_UNIQUE, p8DocumentObj.getProperties().getStringValue("DocumentTitle"),
 			        DefineSecurityParentage.DO_NOT_DEFINE_SECURITY_PARENTAGE);
 			rcr.save(RefreshMode.NO_REFRESH);
 			
