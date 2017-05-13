@@ -78,6 +78,8 @@ public class SignRequestService extends PluginService {
 		jsonResults.setPageSize(50);
 		
 		com.filenet.api.core.Document p8DocumentObj = null;
+		String mimeType = null;
+		
 		Id vsId = null;
 		byte[] fileBytes = null;
 		
@@ -96,7 +98,8 @@ public class SignRequestService extends PluginService {
 					Id tempDocId = new Id(docId);
 					p8DocumentObj = Factory.Document.fetchInstance(objectStore, tempDocId, null);
 					vsId = p8DocumentObj.get_VersionSeries().get_Id();					
-					
+					mimeType = p8DocumentObj.get_MimeType();
+
 					fileBytes = GetDocumentContent.getContentBytes(callbacks, repositoryId, docId, vsId);
 				} 
 				catch (Exception e) 
@@ -161,6 +164,13 @@ public class SignRequestService extends PluginService {
 
         document.put(Constants.DOCUMENT_ID, documentId);
         document.put(Constants.NAME, p8DocumentObj.getProperties().getStringValue("DocumentTitle"));
+		
+        // Check if the incoming doc extension is .docx
+        // default extension supports pdf documents
+        if (mimeType.equals(Constants.DOCX_EXTENSION))
+        {
+        	document.put(Constants.FILE_EXTENSION, "docx");
+        }
         documents.add(document);
 
         inlineTemplateForDocument.put(Constants.SEQUENCE, "1");
@@ -186,7 +196,10 @@ public class SignRequestService extends PluginService {
 		payloadJson.put(Constants.COMPOSITE_TEMPLATES, compositeTemplates);
 		
 		callbacks.getLogger().logDebug(this, methodName, request, "json payload sent = " + payloadJson.toString());
-
+		System.out.println("==========");
+		System.out.println("~~~~~~~ mimeType = " + mimeType);
+		System.out.println(payloadJson.toString());
+		System.out.println("==========");
 		String jsonResponse = null;
 		HttpSession session = request.getSession();
 		JSONObject resultJson = null;
@@ -199,6 +212,7 @@ public class SignRequestService extends PluginService {
 			String docusignUserId = (String) session.getAttribute("docusignUserId");
 			
 			URL url = new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignUserId + "/envelopes");
+			System.out.println("---- url executed : " + url.toString());
 			resultJson = DocuSignUtil.executePostUrl(url, token, payloadJson);
 			
 			// update document document meta-data with envelope Id

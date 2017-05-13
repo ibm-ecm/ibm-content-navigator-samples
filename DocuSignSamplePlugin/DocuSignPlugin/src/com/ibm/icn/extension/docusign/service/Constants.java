@@ -37,7 +37,12 @@ public class Constants {
 	public static final String DOCUMENTS = "documents";
 	public static final String DOCUMENTS_BASE64 = "documentBase64";
 	public static final String DOCUMENT_ID = "documentId";
-
+	public static final String FILE_EXTENSION = "fileExtension";
+	
+	// add other mimeTypes to be supported for DocuSign signature requests
+	// and set the FILE_EXTENSION for a document in the SignRequestService
+	public static final String DOCX_EXTENSION = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+	
 	public static final String DOCUSIGN_STAGING_FOLDER = "DocuSignFolder";
 	public static enum SIGNATURE_STATUS {
 		NONE {
