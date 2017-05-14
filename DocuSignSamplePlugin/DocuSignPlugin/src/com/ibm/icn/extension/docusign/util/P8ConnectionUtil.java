@@ -7,7 +7,10 @@ package com.ibm.icn.extension.docusign.util;
 
 import java.util.Iterator;
 
+import com.filenet.api.collection.AccessPermissionList;
 import com.filenet.api.collection.ReferentialContainmentRelationshipSet;
+import com.filenet.api.constants.AccessRight;
+import com.filenet.api.constants.AccessType;
 import com.filenet.api.constants.PropertyNames;
 import com.filenet.api.constants.RefreshMode;
 import com.filenet.api.core.Document;
@@ -20,6 +23,7 @@ import com.filenet.api.exception.EngineRuntimeException;
 import com.filenet.api.exception.ExceptionCode;
 import com.filenet.api.property.FilterElement;
 import com.filenet.api.property.PropertyFilter;
+import com.filenet.api.security.AccessPermission;
 import com.ibm.ecm.configuration.Config;
 import com.ibm.ecm.configuration.RepositoryConfig;
 import com.ibm.ecm.icntasks.p8.P8TaskUtils;
@@ -83,11 +87,29 @@ public class P8ConnectionUtil {
 	{
 		Folder folder = null;
 	    try
-	    {
+	    {   
 	        folder = Factory.Folder.createInstance(os, null);
 	        folder.set_Parent(os.get_RootFolder());
 	        folder.set_FolderName(Constants.DOCUSIGN_STAGING_FOLDER);
 	        folder.getProperties().putValue("IsHiddenContainer", true);
+	        
+	        // access permissions for authenticated users
+            AccessPermissionList apl = Factory.AccessPermission.createList();
+            AccessPermission ap = Factory.AccessPermission.createInstance();
+			ap.set_AccessType(AccessType.ALLOW);
+			int docusignFolderPermission = AccessRight.READ_ACL_AS_INT | AccessRight.CHANGE_STATE_AS_INT 
+			           | AccessRight.CREATE_INSTANCE_AS_INT | AccessRight.VIEW_CONTENT_AS_INT 
+			           | AccessRight.MINOR_VERSION_AS_INT | AccessRight.UNLINK_AS_INT 
+			           | AccessRight.LINK_AS_INT | AccessRight.MAJOR_VERSION_AS_INT 
+			           | AccessRight.WRITE_AS_INT | AccessRight.READ_AS_INT;
+			
+			ap.set_AccessMask(docusignFolderPermission);				
+			ap.set_GranteeName("#AUTHENTICATED-USERS");
+			ap.set_InheritableDepth(1);
+			
+			apl.add(ap);
+            folder.set_Permissions(apl);
+            
 	        folder.save(RefreshMode.NO_REFRESH);
 	    }
 	    catch(EngineRuntimeException ex)
