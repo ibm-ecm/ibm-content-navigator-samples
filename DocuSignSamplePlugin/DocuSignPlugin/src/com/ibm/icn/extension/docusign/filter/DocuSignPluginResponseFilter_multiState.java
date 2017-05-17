@@ -15,7 +15,7 @@ import com.ibm.icn.extension.docusign.service.Constants;
 import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
 
-public class DocuSignPluginResponseFilter extends PluginResponseFilter {
+public class DocuSignPluginResponseFilter_multiState extends PluginResponseFilter {
 
 	@Override
 	public String[] getFilteredServices() {
