@@ -27,26 +27,25 @@ public class DocuSignPluginResponseFilter extends PluginResponseFilter {
 	public void filter(String serverType, PluginServiceCallbacks callbacks,
 			HttpServletRequest request, JSONObject jsonResponse) throws Exception 
 	{
-		JSONObject structure = (JSONObject) jsonResponse.get("columns");
-		JSONArray cells = (JSONArray) structure.get("cells");
-		if (cells.get(0) instanceof JSONArray) 
-		{
-			cells = (JSONArray) cells.get(0);
-		}
 		
+		// change it for any desktop
 		JSONResultSetResponse jsonResultSetResponse = (JSONResultSetResponse) jsonResponse;
-		JSONResultSetColumn multi = jsonResultSetResponse.getColumn(0);
-		multi.put("decorator", "docuSign.util.DetailsViewDecorator.docuSignPluginStatusDecorator");
-		multi.put("width", "20px");
-		
-		// remove Signature Status column from the result set
-		for (int i = 0; i < cells.size(); i++)
-		{
-			JSONObject column = (JSONObject) cells.get(i);
+		for (int i = 0; i < jsonResultSetResponse.getColumnCount(); i++) {
+			JSONResultSetColumn column = jsonResultSetResponse.getColumn(i);
+
 			String columnName = (String) column.get("field");
-			
-			if (columnName != null && columnName.equals(Constants.DOCUMENT_SIGNATURE_STATUS))
-				cells.remove(i);
+
+			/*
+			 * if (columnName != null && columnName.equals("{NAME}") ) {// we
+			 * should push status before name indexOfNameColumn = i; }
+			 */
+			if (columnName != null && columnName.equals("DSSignatureStatus")) {
+				column.put("width", "16px");
+				column.put("sortable", false);
+				column.put("nosort", true);
+				column.put("name", "");
+				column.put("decorator", "docuSign.util.DetailsViewDecorator.docuSignPluginStatusDecorator");
+			}
 		}
 	}
 }
