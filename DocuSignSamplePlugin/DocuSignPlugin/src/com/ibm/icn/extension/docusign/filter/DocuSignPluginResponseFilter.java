@@ -36,9 +36,17 @@ public class DocuSignPluginResponseFilter extends PluginResponseFilter {
 		
 		JSONResultSetResponse jsonResultSetResponse = (JSONResultSetResponse) jsonResponse;
 		JSONResultSetColumn multi = jsonResultSetResponse.getColumn(0);
-		multi.put("decorator", "docuSign.util.DetailsViewDecorator.docuSignPluginStatusDecorator");
-		multi.put("decorator", "docuSign.util.DetailsViewDecorator.syncServiceDetailsDecorator");
-		multi.put("setCellValue", "docuSign.util.DetailsViewDecorator.syncServiceDetailsCellValue");
+		
+		if (multi.get("decorator").equals("DetailsViewDecorator.multiStateDecorator"))
+		{
+			multi.put("decorator", "docuSign.util.DetailsViewDecorator.docuSignPluginStatusDecorator");			
+		}
+		else if (multi.get("decorator").equals("DetailsViewDecorator.syncServiceDetailsDecorator"))
+		{
+			multi.put("decorator", "docuSign.util.DetailsViewDecorator.syncServiceDetailsDecorator");
+			multi.put("setCellValue", "docuSign.util.DetailsViewDecorator.syncServiceDetailsCellValue");			
+		}
+
 		multi.put("width", "25px");
 		
 		// remove Signature Status column from the result set
