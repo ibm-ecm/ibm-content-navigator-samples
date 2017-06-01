@@ -47,7 +47,7 @@ public class DocuSignPluginResponseFilter extends PluginResponseFilter {
 			multi.put("setCellValue", "docuSign.util.DetailsViewDecorator.syncServiceDetailsCellValue");			
 		}
 
-		multi.put("width", "25px");
+		multi.put("width", "80px");
 		
 		// remove Signature Status column from the result set
 		for (int i = 0; i < cells.size(); i++)
