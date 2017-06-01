@@ -223,12 +223,14 @@ public class CheckinSignedDocument extends BaseTask {
 
 				ContentElementList list = Factory.ContentElement.createList();
 				ContentTransfer element = Factory.ContentTransfer.createInstance();
-				element.set_ContentType(prevElement.get_ContentType());
+				element.set_ContentType("application/pdf");
 				element.set_RetrievalName(prevElement.get_RetrievalName());
 				element.setCaptureSource(is);
 				list.add(element);
 				
 				reservation.set_ContentElements(list);
+				// set mime type to PDF as DocuSign always returns signed document in PDF format
+				reservation.set_MimeType("application/pdf");
 				reservation.checkin(AutoClassify.DO_NOT_AUTO_CLASSIFY, CheckinType.MAJOR_VERSION);
 				
 				reservation.getProperties().putValue("DSSignatureStatus", Constants.SIGNATURE_STATUS.CHECKEDIN.getValue());
