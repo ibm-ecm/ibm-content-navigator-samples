@@ -28,7 +28,7 @@ For example, update bundle-version number for Eclipse Neon in MANIFEST.MF
     org.eclipse.core.expressions;bundle-version="3.5.100",
     org.eclipse.ui.forms;bundle-version="3.7.0"
     ```
-    
+
 4. Update buildTools.xml, change destination="/Users/username/git/"  to valid folder path
 
 5. Run buildTools.xml as Ant Build
