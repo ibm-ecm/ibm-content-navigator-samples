@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="com.ibm.ecm.icn.plugin.category"
+            name="IBM Content Navigator">
+      </category>
+      <wizard
+            category="com.ibm.ecm.icn.plugin.category"
+            class="com.ibm.ecm.icn.plugin.wizards.ICNProjectNewWizard"
+            descriptionImage="icons/icnIcon.png"
+            icon="icons/icnIcon.png"
+            id="com.ibm.ecm.icn.plugin.wizards.ICNProjectNewWizard"
+            name="Content Navigator Plug-in"
+            project="true">
+      </wizard>
+   </extension>
+   <extension
+         id="com.ibm.ecm.icn.plugin.nature.ICNProjectNature"
+         name="ICN project nature"
+         point="org.eclipse.core.resources.natures">
+      <runtime>
+         <run
+               class="com.ibm.ecm.icn.plugin.natures.ICNProjectNature">
+         </run>
+      </runtime>
+      <requires-nature
+            id="org.eclipse.jdt.core.javanature">
+      </requires-nature>
+   </extension>
+   <extension point="org.eclipse.ui.popupMenus"> 
+	<objectContribution
+       adaptable="true"
+       id="com.ibm.ecm.icn.plugin.objectContribution1"
+       objectClass="org.eclipse.core.resources.IFolder">
+   <filter
+         name="projectNature"
+         value="com.ibm.ecm.icn.plugin.nature.ICNProjectNature">
+      </filter>
+   <menu
+         icon="icons/icnIcon.png"
+         id="com.ibm.ecm.icn.plugin.popup.submenus"
+         label="IBM Content Navigator"
+         path="additions">
+      <separator
+            name="group1">
+      </separator>
+      <separator
+            name="group2">
+      </separator>
+      
+   </menu>
+     <menu
+     icon="icons/server23.png"
+         id="com.ibm.ecm.icn.plugin.popup.submenus2"
+         label="Server Extensions"
+         path="com.ibm.ecm.icn.plugin.popup.submenus/group1">
+      <separator
+            name="group1">
+      </separator>
+   </menu>
+   <action
+         class="com.ibm.ecm.icn.plugin.actions.CreatePluginRepositoryTypeAction"
+         id="com.ibm.ecm.icn.plugin.popup.actions.pluginrepository"
+         label="New Repository Type..."
+         menubarPath="com.ibm.ecm.icn.plugin.popup.submenus/group2">
+   </action>
+   <action
+         class="com.ibm.ecm.icn.plugin.actions.CreatePluginLayoutAction"
+         id="com.ibm.ecm.icn.plugin.popup.actions.pluginlayout"
+         label="New Layout..."
+         menubarPath="com.ibm.ecm.icn.plugin.popup.submenus/group2">
+   </action>
+   <action
+         class="com.ibm.ecm.icn.plugin.actions.CreatePluginFeatureAction"
+         id="com.ibm.ecm.icn.plugin.popup.actions.pluginfeature"
+         label="New Feature..."
+         menubarPath="com.ibm.ecm.icn.plugin.popup.submenus/group2">
+   </action>
+   <action
+         class="com.ibm.ecm.icn.plugin.actions.CreatePluginAction"
+         id="com.ibm.ecm.icn.plugin.popup.actions.pluginaction"
+         label="New Action..."
+         menubarPath="com.ibm.ecm.icn.plugin.popup.submenus/group2">
+   </action>
+   <action
+         class="com.ibm.ecm.icn.plugin.actions.CreatePluginOpenAction"
+         id="com.ibm.ecm.icn.plugin.popup.actions.pluginopenaction"
+         label="New Open Action..."
+         menubarPath="com.ibm.ecm.icn.plugin.popup.submenus/group2">
+   </action>
+    <action
+         class="com.ibm.ecm.icn.plugin.actions.CreatePluginMenuTypeAction"
+         id="com.ibm.ecm.icn.plugin.popup.actions.pluginmenutype"
+         label="New Menu Type..."
+         menubarPath="com.ibm.ecm.icn.plugin.popup.submenus/group2">
+   </action>
+     <action
+         class="com.ibm.ecm.icn.plugin.actions.CreatePluginMenuAction"
+         id="com.ibm.ecm.icn.plugin.popup.actions.pluginmenu"
+         label="New Menu..."
+         menubarPath="com.ibm.ecm.icn.plugin.popup.submenus/group2">
+   </action>
+   <action
+         class="com.ibm.ecm.icn.plugin.actions.CreatePluginViewerAction"
+         id="com.ibm.ecm.icn.plugin.popup.actions.pluginviewer"
+         label="New Viewer..."
+         menubarPath="com.ibm.ecm.icn.plugin.popup.submenus/group2">
+   </action>
+   <action
+         class="com.ibm.ecm.icn.plugin.actions.CreatePluginAPIAction"
+         id="com.ibm.ecm.icn.plugin.popup.actions.pluginapi"
+         label="New API..."
+         menubarPath="com.ibm.ecm.icn.plugin.popup.submenus/com.ibm.ecm.icn.plugin.popup.submenus2/group1">
+   </action>
+   <action
+         class="com.ibm.ecm.icn.plugin.actions.CreatePluginServiceAction"
+         id="com.ibm.ecm.icn.plugin.popup.actions.pluginservice"
+         label="New Service..."
+         menubarPath="com.ibm.ecm.icn.plugin.popup.submenus/com.ibm.ecm.icn.plugin.popup.submenus2/group1">
+   </action>
+    <action
+         class="com.ibm.ecm.icn.plugin.actions.CreatePluginRespFilterAction"
+         id="com.ibm.ecm.icn.plugin.popup.actions.pluginrespfilter"
+         label="New Response Filter..."
+         menubarPath="com.ibm.ecm.icn.plugin.popup.submenus/com.ibm.ecm.icn.plugin.popup.submenus2/group1">
+   </action>
+     <action
+         class="com.ibm.ecm.icn.plugin.actions.CreatePluginReqFilterAction"
+         id="com.ibm.ecm.icn.plugin.popup.actions.pluginreqfilter"
+         label="New Request Filter..."
+         menubarPath="com.ibm.ecm.icn.plugin.popup.submenus/com.ibm.ecm.icn.plugin.popup.submenus2/group1">
+   </action>
+   
+   </objectContribution>
+    
+ <objectContribution
+       adaptable="true"
+       id="com.ibm.ecm.icn.plugin.objectContribution2"
+       objectClass="org.eclipse.core.resources.IProject">
+    <action
+          class="com.ibm.ecm.icn.plugin.projconverter.ConvertProjectToICNProjectAction"
+          id="com.ibm.ecm.icn.plugin.actions.convert"
+          label="Convert to IBM Content Navigator Plug-in Project..."
+          menubarPath="org.eclipse.ui.projectConfigure/additions"
+          style="push">
+    </action>
+ </objectContribution> 
+
+  <objectContribution
+       adaptable="true"
+       id="com.ibm.ecm.icn.plugin.objectContribution3"
+       objectClass="org.eclipse.core.resources.IResource">
+    <action
+          class="com.ibm.ecm.icn.plugin.actions.ShowExtendedAtributesAction"
+          id="com.ibm.ecm.icn.plugin.actions.showattrs"
+          label="Show Extended Attributes..."
+          menubarPath="org.eclipse.ui.projectConfigure/additions"
+          style="push">
+    </action>
+ </objectContribution> 
+
+ 
+</extension>
+ <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <newWizardShortcut
+               id="com.ibm.ecm.icn.plugin.wizards.ICNProjectNewWizard">
+         </newWizardShortcut>
+      </perspectiveExtension>
+   </extension>
+  
+ <extension
+       point="org.eclipse.ui.menus">
+    <menuContribution
+          allPopups="false"
+          locationURI="popup:org.eclipse.ui.projectConfigure?after=additions">
+    </menuContribution>
+ </extension>
+
+ <extension
+       point="org.eclipse.ui.decorators">
+    <decorator
+          adaptable="true"
+          class="com.ibm.ecm.icn.plugin.decorator.ICNProjectDecorator"
+          icon="icons/icnIcon.png"
+          id="com.ibm.ecm.icn.plugin.decorator1"
+          label="IBM Content Navigator Decorator"
+          lightweight="true"
+          location="TOP_RIGHT"
+          objectClass="org.eclipse.core.resources.IProject"
+          state="true">
+    </decorator>
+ </extension>
+
+</plugin>

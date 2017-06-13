@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project default="plugin_export" name="build">
+	<target name="plugin_export">
+		<pde.exportPlugins destination="/Users/hlguo/git/" exportSource="true" exportType="zip" filename="icnplugins.zip" plugins="com.ibm.ecm.icn.facet.EDSPlugin,com.ibm.ecm.icn.plugin" useJARFormat="true"/>
+	</target>
+</project>

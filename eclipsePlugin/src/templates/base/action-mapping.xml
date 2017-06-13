@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<action-mappings>
+
+	<!-- common actions -->
+	<action path="/listSelectedItems" type="com.ibm.ecm.struts.actions.ListSelectedItemsAction" />
+	<action path="/listDesktops" type="com.ibm.ecm.struts.actions.ListDesktopsAction" />
+	<action path="/getDesktop" type="com.ibm.ecm.struts.actions.GetDesktopAction" />
+	<action path="/getActions" type="com.ibm.ecm.struts.actions.GetActionsAction" />
+	<action path="/getMenuTypes" type="com.ibm.ecm.struts.actions.GetMenuTypesAction" />
+	<action path="/getViewers" type="com.ibm.ecm.struts.actions.GetViewersAction" />
+	<action path="/getServers" type="com.ibm.ecm.struts.actions.GetServersAction" />
+	<action path="/getDesktopAccess" type="com.ibm.ecm.struts.actions.GetDesktopAccessAction" />
+	<action path="/getUILabels" type="com.ibm.ecm.struts.actions.GetUILabelsAction" />
+	<action path="/getUIApplicationLabels" type="com.ibm.ecm.struts.actions.GetUIApplicationLabelsAction" />
+	<action path="/getIconMapping" type="com.ibm.ecm.struts.actions.GetIconMappingAction" />
+	<action path="/logClientError" type="com.ibm.ecm.struts.actions.WriteClientErrorActionsAction" />
+	<action path="/pluginsInfo" type="com.ibm.ecm.struts.actions.GetPluginsInfoAction" />
+	<action path="/plugin" type="com.ibm.ecm.struts.actions.PluginAction" name="fileUploadForm" />
+	<action path="/pluginRepository" type="com.ibm.ecm.struts.actions.PluginRepositoryAction" name="fileUploadForm" />
+	<action path="/listFavorites" type="com.ibm.ecm.struts.actions.ListFavoritesAction" />
+	<action path="/listLayoutConfig" type="com.ibm.ecm.struts.actions.ListLayoutConfigAction" />
+	<action path="/export" type="com.ibm.ecm.struts.actions.ExportSearchResultsAction" />
+	<action path="/Ping" type="com.ibm.ecm.struts.actions.NexusPingAction" />
+	<action path="/user" type="com.ibm.ecm.struts.actions.configuration.UserAction" />
+	<action path="/getRegionDesktop" type="com.ibm.ecm.struts.actions.configuration.GetRegionDesktopAction" />
+	<action path="/logon" type="com.ibm.ecm.struts.actions.authentication.DesktopLogonAction" />
+	<action path="/logoff" type="com.ibm.ecm.struts.actions.authentication.DesktopLogoffAction" />
+	<action path="/unifiedSearch" type="com.ibm.ecm.struts.actions.UnifiedSearchAction" />
+	<action path="/getAsyncTasks" type="com.ibm.ecm.struts.actions.taskManager.GetAsyncTasksListAction" />
+	<action path="/rescheduleAsyncTask" type="com.ibm.ecm.struts.actions.taskManager.RescheduleAsyncTaskAction" />
+	<action path="/pauseAsyncTask" type="com.ibm.ecm.struts.actions.taskManager.PauseAsyncTaskAction" />
+	<action path="/deleteAsyncTask" type="com.ibm.ecm.struts.actions.taskManager.DeleteAsyncTaskAction" />
+	<action path="/getAsyncTaskInstances" type="com.ibm.ecm.struts.actions.taskManager.GetAsyncTaskInstanceAction" />
+	<action path="/getAsyncTaskDetails" type="com.ibm.ecm.struts.actions.taskManager.GetAsyncTaskDetailsAction" />
+	<action path="/scheduleAsyncTask" type="com.ibm.ecm.struts.actions.taskManager.ScheduleAsyncTaskAction" />
+	<action path="/getAsyncTaskAudits" type="com.ibm.ecm.struts.actions.taskManager.GetAsyncTaskAuditsAction" />
+	<action path="/deleteTaskErrors" type="com.ibm.ecm.struts.actions.taskManager.DeleteTaskErrorsAction" />
+	<action path="/applets/getJNISignature" type="com.ibm.ecm.struts.actions.GetJNISignatureAction" />
+	<action path="/getPreparedContent" type="com.ibm.ecm.struts.actions.GetPreparedContentAction" />
+
+	<!-- admin actions -->
+	<action path="/admin/configuration" type="com.ibm.ecm.struts.actions.configuration.ConfigurationAction" />
+	<action path="/admin/importExport" type="com.ibm.ecm.struts.actions.configuration.ImportExportConfigurationAction" name="fileUploadForm" />
+	<action path="/admin/cm/addAddOn" type="com.ibm.ecm.struts.actions.admin.cm.CMAddOnAction" />
+	<action path="/admin/p8/addAddOn" type="com.ibm.ecm.struts.actions.admin.p8.P8AddOnAction" />
+	<action path="/admin/loadPlugin" type="com.ibm.ecm.struts.actions.configuration.LoadPluginAction" />
+	<action path="/admin/unloadPlugin" type="com.ibm.ecm.struts.actions.configuration.UnloadPluginAction" />
+	<action path="/admin/getPluginDetails" type="com.ibm.ecm.struts.actions.admin.GetPluginDetailsAction" />
+	<action path="/admin/clearCache" type="com.ibm.ecm.struts.actions.admin.ClearCacheAction" />
+	<action path="/admin/getAdminDesktopData" type="com.ibm.ecm.struts.actions.configuration.GetAdminDesktopDataAction" />
+	<action path="/admin/updateAdminDesktopData" type="com.ibm.ecm.struts.actions.configuration.UpdateAdminDesktopDataAction" />
+	<action path="/admin/getAdminSyncData" type="com.ibm.ecm.struts.actions.configuration.GetAdminSyncDataAction" />
+	<action path="/admin/updateAdminSyncData" type="com.ibm.ecm.struts.actions.configuration.UpdateAdminSyncDataAction" />
+	<action path="/admin/getAdminTreeData" type="com.ibm.ecm.struts.actions.configuration.GetAdminTreeDataAction" />
+	<action path="/admin/getAdminSettingsData" type="com.ibm.ecm.struts.actions.configuration.GetAdminSettingsDataAction" />
+	<action path="/admin/updateAdminSettingsData" type="com.ibm.ecm.struts.actions.configuration.UpdateAdminSettingsDataAction" />
+	<action path="/admin/getAdminMenuData" type="com.ibm.ecm.struts.actions.configuration.GetAdminMenuDataAction" />
+	<action path="/admin/cm/getAdminRepositoryData" type="com.ibm.ecm.struts.actions.admin.cm.CMGetAdminRepositoryDataAction" />
+	<action path="/admin/p8/getAdminRepositoryData" type="com.ibm.ecm.struts.actions.admin.p8.P8GetAdminRepositoryDataAction" />
+	<action path="/admin/cmis/getAdminRepositoryData" type="com.ibm.ecm.struts.actions.admin.cmis.CMISGetAdminRepositoryDataAction" />
+	<action path="/admin/p8/updateAdminRepositoryData" type="com.ibm.ecm.struts.actions.configuration.P8UpdateAdminRepositoryDataAction" />
+
+	<!-- Container logon actions -->
+	<action path="/container/logon" type="com.ibm.ecm.struts.actions.authentication.ContainerLogonAction" />
+	<action path="/container/logoff" type="com.ibm.ecm.struts.actions.authentication.ContainerLogoffAction" />
+
+	<!-- OD Actions -->
+	<action path="/od/logon" type="com.ibm.ecm.struts.actions.od.ODLogonAction" />
+	<action path="/od/logoff" type="com.ibm.ecm.struts.actions.authentication.ContainerLogoffAction" />
+	<action path="/od/getSearchTemplates" type="com.ibm.ecm.struts.actions.od.ODFindFoldersAction" />
+	<action path="/od/getContentClasses" type="com.ibm.ecm.struts.actions.od.ODFindFoldersAction" />
+	<action path="/od/openSearchTemplate" type="com.ibm.ecm.struts.actions.od.ODOpenFolderAction" />
+	<action path="/od/openContentClass" type="com.ibm.ecm.struts.actions.od.ODOpenFolderAction" />
+	<action path="/od/getDocument" type="com.ibm.ecm.struts.actions.od.ODRetrieveDocumentAction" />
+	<action path="/od/changePassword" type="com.ibm.ecm.struts.actions.od.ODChangePasswordAction" />
+	<action path="/od/search" type="com.ibm.ecm.struts.actions.od.ODSearchAction" />
+	<action path="/od/getNotes" type="com.ibm.ecm.struts.actions.od.ODRetrieveAnnotationsAction" />
+	<action path="/od/addNote" type="com.ibm.ecm.struts.actions.od.ODAddAnnotationAction" />
+	<action path="/od/getServerPrinters" type="com.ibm.ecm.struts.actions.od.ODRetrieveServerPrintersAction" />
+	<action path="/od/serverPrint" type="com.ibm.ecm.struts.actions.od.ODServerPrintAction" />
+	<action path="/od/getUserDetails" type="com.ibm.ecm.struts.actions.od.ODUserDetailsAction" />
+	<action path="/od/editAttributes" type="com.ibm.ecm.struts.actions.od.ODEditAttributesAction" />
+	<action path="/od/openItem" type="com.ibm.ecm.struts.actions.od.ODRetrieveDocumentAction" />
+	<action path="/od/getContentItems" type="com.ibm.ecm.struts.actions.od.ODRetrieveItemsAction" />
+	<action path="/od/listSavedSearches" type="com.ibm.ecm.struts.actions.od.ODListNamedQueriesAction" />
+	<action path="/od/retrieveSavedSearch" type="com.ibm.ecm.struts.actions.od.ODRetrieveNamedQueryAction" />
+	<action path="/od/saveSavedSearch" type="com.ibm.ecm.struts.actions.od.ODSaveNamedQueryAction" />
+	<action path="/od/deleteSavedSearch" type="com.ibm.ecm.struts.actions.od.ODDeleteNamedQueryAction" />
+	<action path="/od/export" type="com.ibm.ecm.struts.actions.od.ODRetrieveItemsAction" />
+	<action path="/od/getProfile" type="com.ibm.ecm.struts.actions.od.ODGetProfileAction" />
+	<action path="/od/getCabinets" type="com.ibm.ecm.struts.actions.od.ODRetrieveCabinetsAction" />
+	<action path="/od/openCabinet" type="com.ibm.ecm.struts.actions.od.ODOpenCabinetAction" />
+	<action path="/od/getHolds" type="com.ibm.ecm.struts.actions.od.ODRetrieveHoldsAction" />
+	<action path="/od/createHold" type="com.ibm.ecm.struts.actions.od.ODCreateNewHoldAction" />
+	<action path="/od/removeHold" type="com.ibm.ecm.struts.actions.od.ODRemoveHoldAction" />
+	<action path="/od/applyHold" type="com.ibm.ecm.struts.actions.od.ODApplyHoldAction" />
+	<action path="/od/findUsers" type="com.ibm.ecm.struts.actions.od.ODFindUsersGroupsAction" />
+	<action path="/od/findGroups" type="com.ibm.ecm.struts.actions.od.ODFindUsersGroupsAction" />
+	<action path="/od/getViewoneBootstrap" type="com.ibm.ecm.struts.actions.GetViewoneBootstrapAction" />
+
+	<!-- OD Workflow actions -->
+	<action path="/od/getStepAttachmentItems" type="com.ibm.ecm.struts.actions.od.workflow.ODGetStepAttachmentItemsAction" />
+
+	<!-- CM actions -->
+	<action path="/cm/deleteWorkspace" type="com.ibm.ecm.struts.actions.cm.CMDeleteTeamspaceAction" />
+	<action path="/cm/getWorkspaces" type="com.ibm.ecm.struts.actions.cm.CMListTeamspaces" />
+	<action path="/cm/getNextTeamspacePage" type="com.ibm.ecm.struts.actions.cm.CMRetrieveNextTeamspacePageAction" />
+	<action path="/cm/exportTeamspaces" type="com.ibm.ecm.struts.actions.cm.CMExportTeamspaces" />
+	<action path="/cm/addWorkspace" type="com.ibm.ecm.struts.actions.cm.CMAddTeamspaceAction" />
+	<action path="/cm/importTeamspaceTemplate" type="com.ibm.ecm.struts.actions.cm.CMAddTeamspaceAction" name="fileUploadForm" />
+	<action path="/cm/getRoles" type="com.ibm.ecm.struts.actions.cm.CMListRolesAction" />
+	<action path="/cm/addRole" type="com.ibm.ecm.struts.actions.cm.CMAddRoleAction" />
+	<action path="/cm/deleteRole" type="com.ibm.ecm.struts.actions.cm.CMDeleteRoleAction" />
+	<action path="/cm/listServers" type="com.ibm.ecm.struts.actions.cm.CMServerListAction" />
+	<action path="/cm/logon" type="com.ibm.ecm.struts.actions.cm.CMLogonAction" />
+	<action path="/cm/logoff" type="com.ibm.ecm.struts.actions.authentication.ContainerLogoffAction" />
+	<action path="/cm/changePassword" type="com.ibm.ecm.struts.actions.cm.CMChangePasswordAction" />
+	<action path="/cm/getSearchTemplates" type="com.ibm.ecm.struts.actions.cm.CMGetSearchTemplatesAction" />
+	<action path="/cm/getContentClasses" type="com.ibm.ecm.struts.actions.cm.CMGetItemTypesAction" />
+	<action path="/cm/openSearchTemplate" type="com.ibm.ecm.struts.actions.cm.CMOpenSearchTemplateAction" />
+	<action path="/cm/addSearchTemplate" type="com.ibm.ecm.struts.actions.cm.CMAddSearchTemplateAction" />
+	<action path="/cm/addEntryTemplate" type="com.ibm.ecm.struts.actions.cm.CMAddEntryTemplateAction" />
+	<action path="/cm/openEntryTemplate" type="com.ibm.ecm.struts.actions.cm.CMOpenEntryTemplateAction" />
+	<action path="/cm/updateSearchTemplate" type="com.ibm.ecm.struts.actions.cm.CMUpdateSearchTemplateAction" />
+	<action path="/cm/openContentClass" type="com.ibm.ecm.struts.actions.cm.CMOpenItemTypeAction" />
+	<action path="/cm/deleteSearchTemplate" type="com.ibm.ecm.struts.actions.cm.CMDeleteItemAction" />
+	<action path="/cm/openUnifiedSearch" type="com.ibm.ecm.struts.actions.cm.CMOpenUnifiedSearchAction" />
+	<action path="/cm/search" type="com.ibm.ecm.struts.actions.cm.CMSearchAction" />
+	<action path="/cm/openItem" type="com.ibm.ecm.struts.actions.cm.CMGetItemAction" />
+	<action path="/cm/getUserPermissions" type="com.ibm.ecm.struts.actions.cm.CMGetUserItemPermissionAction" />
+	<action path="/cm/getPermissions" type="com.ibm.ecm.struts.actions.cm.CMGetItemPermissionAction" />
+	<action path="/cm/getDefaultInstancePermissions" type="com.ibm.ecm.struts.actions.cm.CMGetDefaultInstancePermissionAction" />
+	<action path="/cm/editAttributes" type="com.ibm.ecm.struts.actions.cm.CMEditAttributesAction" />
+	<action path="/cm/getContentItems" type="com.ibm.ecm.struts.actions.cm.CMRetrieveItemsAction" />
+	<action path="/cm/getNotes" type="com.ibm.ecm.struts.actions.cm.CMGetNotelogsAction" />
+	<action path="/cm/addNote" type="com.ibm.ecm.struts.actions.cm.CMAddNotelogAction" />
+	<action path="/cm/updateNotelogs" type="com.ibm.ecm.struts.actions.cm.CMModifyNotelogAction" />
+	<action path="/cm/getDocument" type="com.ibm.ecm.struts.actions.cm.CMGetDocumentAction" />
+	<action path="/cm/getAnnotations" type="com.ibm.ecm.struts.actions.cm.CMGetAnnotationsAction" />
+	<action path="/cm/getBookmarks" type="com.ibm.ecm.struts.actions.cm.CMGetBookmarksAction" />
+	<action path="/cm/getXMLMetaData" type="com.ibm.ecm.struts.actions.cm.CMGetXMLMetaDataAction" />
+	<action path="/cm/unlock" type="com.ibm.ecm.struts.actions.cm.CMUnlockItemAction" />
+	<action path="/cm/lock" type="com.ibm.ecm.struts.actions.cm.CMLockItemAction" />
+	<action path="/cm/checkIn" type="com.ibm.ecm.struts.actions.cm.CMCheckInAction" name="fileUploadForm" />
+	<action path="/cm/updateAnnotations" type="com.ibm.ecm.struts.actions.cm.CMUpdateAnnotationsAction" />
+	<action path="/cm/updateBookmarks" type="com.ibm.ecm.struts.actions.cm.CMUpdateBookmarksAction" />
+	<action path="/cm/getProfile" type="com.ibm.ecm.struts.actions.cm.CMGetProfileAction" />
+	<action path="/cm/openFolder" type="com.ibm.ecm.struts.actions.cm.CMOpenFolderAction" />
+	<action path="/cm/continueQuery" type="com.ibm.ecm.struts.actions.cm.CMRetrieveNextPageAction" />
+	<action path="/cm/getPrivileges" type="com.ibm.ecm.struts.actions.cm.CMGetPrivilegesAction" />
+	<action path="/cm/addItem" type="com.ibm.ecm.struts.actions.cm.CMAddItemAction" name="fileUploadForm" />
+	<action path="/cm/deleteItem" type="com.ibm.ecm.struts.actions.cm.CMDeleteItemAction" />
+	<action path="/cm/getMIMETypes" type="com.ibm.ecm.struts.actions.cm.CMGetMIMETypesAction" />
+	<action path="/cm/addToFolder" type="com.ibm.ecm.struts.actions.cm.CMAddToFolderAction" />
+	<action path="/cm/moveToFolder" type="com.ibm.ecm.struts.actions.cm.CMMoveToFolderAction" />
+	<action path="/cm/removeFromFolder" type="com.ibm.ecm.struts.actions.cm.CMRemoveFromFolderAction" />
+	<action path="/cm/getChildComp" type="com.ibm.ecm.struts.actions.cm.CMGetChildComponentsAction" />
+	<action path="/cm/findUsers" type="com.ibm.ecm.struts.actions.cm.CMFindUsersGroupsAction" />
+	<action path="/cm/findGroups" type="com.ibm.ecm.struts.actions.cm.CMFindUsersGroupsAction" />
+	<action path="/cm/getDependentAttributeInfo" type="com.ibm.ecm.struts.actions.cm.CMGetDependentAttributeInfoAction" />
+	<action path="/cm/getFoldersFiledIn" type="com.ibm.ecm.struts.actions.cm.CMRetrieveFoldersFiledInAction" />
+	<action path="/cm/getDocumentVersions" type="com.ibm.ecm.struts.actions.cm.CMRetrieveVersionsAction" />
+	<action path="/cm/getFavorites" type="com.ibm.ecm.struts.actions.cm.CMListFavoritesAction" />
+	<action path="/cm/listLanguages" type="com.ibm.ecm.struts.actions.cm.CMListLanguagesAction" />
+	<action path="/cm/listMIMETypes" type="com.ibm.ecm.struts.actions.cm.CMListMIMETypesAction" />
+	<action path="/cm/retrieveSystemProperties" type="com.ibm.ecm.struts.actions.cm.CMRetrieveSystemPropertiesAction" />
+	<action path="/cm/retrieveItemTeamspace" type="com.ibm.ecm.struts.actions.cm.CMRetrieveItemTeamspaceAction" />
+	<action path="/cm/getEntryTemplates" type="com.ibm.ecm.struts.actions.cm.CMGetEntryTemplatesAction" />
+	<action path="/cm/saveEntryTemplateFolderAssociations" type="com.ibm.ecm.struts.actions.cm.CMSaveEntryTemplateFolderAssociations" />
+	<action path="/cm/getCheckedOutItems" type="com.ibm.ecm.struts.actions.cm.CMGetCheckedOutItemsAction" />
+	<action path="/cm/getExportProperties" type="com.ibm.ecm.struts.actions.cm.CMGetExportPropertiesAction" />
+	<action path="/cm/getViewoneBootstrap" type="com.ibm.ecm.struts.actions.GetViewoneBootstrapAction" />
+
+	<!-- CM Workflow actions -->
+	<action path="/cm/getWorklists" type="com.ibm.ecm.struts.actions.cm.workflow.CMGetWorkListsAction" />
+	<action path="/cm/getWorkItems" type="com.ibm.ecm.struts.actions.cm.workflow.CMGetWorkItemsAction" />
+	<action path="/cm/getProcesses" type="com.ibm.ecm.struts.actions.cm.workflow.CMListProcessesAction" />
+	<action path="/cm/startWorkflow" type="com.ibm.ecm.struts.actions.cm.workflow.CMStartOnProcessAction" />
+	<action path="/cm/continueWorkflow" type="com.ibm.ecm.struts.actions.cm.workflow.CMContinueWorkflowAction" />
+	<action path="/cm/removeFromWorkflow" type="com.ibm.ecm.struts.actions.cm.workflow.CMRemoveFromWorkflowAction" />
+	<action path="/cm/editWorkflow" type="com.ibm.ecm.struts.actions.cm.workflow.CMEditProcessAction" />
+	<action path="/cm/suspendWorkflow" type="com.ibm.ecm.struts.actions.cm.workflow.CMSuspendProcessAction" />
+	<action path="/cm/resumeWorkflow" type="com.ibm.ecm.struts.actions.cm.workflow.CMResumeWorkflowAction" />
+	<action path="/cm/getWorkflows" type="com.ibm.ecm.struts.actions.cm.workflow.CMViewWorkflowsAction" />
+	<action path="/cm/getStepParameters" type="com.ibm.ecm.struts.actions.cm.workflow.CMGetStepParametersAction" />
+	<action path="/cm/completeStep" type="com.ibm.ecm.struts.actions.cm.workflow.CMEditStepParametersAction" />
+	<action path="/cm/getDependentParameters" type="com.ibm.ecm.struts.actions.cm.workflow.CMGetDependentParametersAction" />
+	<action path="/cm/getStepAttachments" type="com.ibm.ecm.struts.actions.cm.workflow.CMGetStepAttachmentsAction" />
+	<action path="/cm/getStepAttachmentItems" type="com.ibm.ecm.struts.actions.cm.workflow.CMGetStepAttachmentItemsAction" />
+	<action path="/cm/getProcessorInformation" type="com.ibm.ecm.struts.actions.cm.workflow.CMGetStepProcessorInformationAction" />
+	<action path="/cm/getItemProcessInformation" type="com.ibm.ecm.struts.actions.cm.workflow.CMGetItemProcessInformationAction" />
+
+	<!-- P8 actions -->
+	<action path="/p8/deleteWorkspace" type="com.ibm.ecm.struts.actions.p8.P8DeleteTeamspaceAction" />
+	<action path="/p8/getWorkspaces" type="com.ibm.ecm.struts.actions.p8.P8ListTeamspaces" />
+	<action path="/p8/getNextTeamspacePage" type="com.ibm.ecm.struts.actions.p8.P8RetrieveNextTeamspacePageAction" />
+	<action path="/p8/exportTeamspaces" type="com.ibm.ecm.struts.actions.p8.P8ExportTeamspaces" />
+	<action path="/p8/addWorkspace" type="com.ibm.ecm.struts.actions.p8.P8AddTeamspaceAction" />
+	<action path="/p8/importTeamspaceTemplate" type="com.ibm.ecm.struts.actions.p8.P8AddTeamspaceAction" name="fileUploadForm" />
+	<action path="/p8/getRoles" type="com.ibm.ecm.struts.actions.p8.P8ListRolesAction" />
+	<action path="/p8/addRole" type="com.ibm.ecm.struts.actions.p8.P8AddRoleAction" />
+	<action path="/p8/deleteRole" type="com.ibm.ecm.struts.actions.p8.P8DeleteRoleAction" />
+	<action path="/p8/logon" type="com.ibm.ecm.struts.actions.p8.P8LogonAction" />
+	<action path="/p8/logoff" type="com.ibm.ecm.struts.actions.authentication.ContainerLogoffAction" />
+	<action path="/p8/getContentClasses" type="com.ibm.ecm.struts.actions.p8.P8FindClassesAction" />
+	<action path="/p8/listConnectionPoints" type="com.ibm.ecm.struts.actions.p8.P8ListConnectionPointsAction" />
+	<action path="/p8/openContentClass" type="com.ibm.ecm.struts.actions.p8.P8OpenClassAction" />
+	<action path="/p8/getSearchTemplates" type="com.ibm.ecm.struts.actions.p8.P8GetSearchTemplatesAction" />
+	<action path="/p8/openSearchTemplate" type="com.ibm.ecm.struts.actions.p8.P8OpenSearchTemplateAction" />
+	<action path="/p8/addSearchTemplate" type="com.ibm.ecm.struts.actions.p8.P8AddSearchTemplateAction" />
+	<action path="/p8/updateSearchTemplate" type="com.ibm.ecm.struts.actions.p8.P8UpdateSearchTemplateAction" />
+	<action path="/p8/deleteSearchTemplate" type="com.ibm.ecm.struts.actions.p8.P8DeleteItemAction" />
+	<action path="/p8/openUnifiedSearch" type="com.ibm.ecm.struts.actions.p8.P8OpenUnifiedSearchAction" />
+	<action path="/p8/addEntryTemplate" type="com.ibm.ecm.struts.actions.p8.P8AddEntryTemplateAction" />
+	<action path="/p8/getEntryTemplates" type="com.ibm.ecm.struts.actions.p8.P8GetEntryTemplatesAction" />
+	<action path="/p8/getSecurityPolicies" type="com.ibm.ecm.struts.actions.p8.P8GetSecurityPoliciesAction" />
+	<action path="/p8/openEntryTemplate" type="com.ibm.ecm.struts.actions.p8.P8OpenEntryTemplateAction" />
+	<action path="/p8/getDocument" type="com.ibm.ecm.struts.actions.p8.P8RetrieveDocumentAction" />
+	<action path="/p8/packageForDownload" type="com.ibm.ecm.struts.actions.p8.P8PackageForDownloadAction" />	
+	<action path="/p8/updateAnnotations" type="com.ibm.ecm.struts.actions.p8.P8UpdateAnnotationsAction" />
+	<action path="/p8/search" type="com.ibm.ecm.struts.actions.p8.P8SearchAction" />
+	<action path="/p8/editAttributes" type="com.ibm.ecm.struts.actions.p8.P8EditAttributesAction" />
+	<action path="/p8/openItem" type="com.ibm.ecm.struts.actions.p8.P8GetItemAction" />
+	<action path="/p8/getContentItems" type="com.ibm.ecm.struts.actions.p8.P8RetrieveItemsAction" />
+	<action path="/p8/unlock" type="com.ibm.ecm.struts.actions.p8.P8UnlockItemAction" />
+	<action path="/p8/lock" type="com.ibm.ecm.struts.actions.p8.P8LockItemAction" />
+	<action path="/p8/export" type="com.ibm.ecm.struts.actions.p8.P8RetrieveItemsAction" />
+	<action path="/p8/getProfile" type="com.ibm.ecm.struts.actions.p8.P8GetProfileAction" />
+	<action path="/p8/openFolder" type="com.ibm.ecm.struts.actions.p8.P8OpenFolderAction" />
+	<action path="/p8/continueQuery" type="com.ibm.ecm.struts.actions.p8.P8RetrieveNextPageAction" />
+	<action path="/p8/addItem" type="com.ibm.ecm.struts.actions.p8.P8AddItemAction" name="fileUploadForm" />
+	<action path="/p8/deleteItem" type="com.ibm.ecm.struts.actions.p8.P8DeleteItemAction" />
+	<action path="/p8/addToFolder" type="com.ibm.ecm.struts.actions.p8.P8AddToFolderAction" />
+	<action path="/p8/checkIn" type="com.ibm.ecm.struts.actions.p8.P8CheckInAction" name="fileUploadForm" />
+	<action path="/p8/removeFromFolder" type="com.ibm.ecm.struts.actions.p8.P8RemoveFromFolderAction" />
+	<action path="/p8/moveToFolder" type="com.ibm.ecm.struts.actions.p8.P8MoveToFolderAction" />
+	<action path="/p8/getDirectories" type="com.ibm.ecm.struts.actions.p8.P8GetDirectoriesAction" />
+	<action path="/p8/findUsers" type="com.ibm.ecm.struts.actions.p8.P8FindUsersGroupsAction" />
+	<action path="/p8/findGroups" type="com.ibm.ecm.struts.actions.p8.P8FindUsersGroupsAction" />
+	<action path="/p8/getDependentAttributeInfo" type="com.ibm.ecm.struts.actions.p8.P8GetDependentAttributeInfoAction" />
+	<action path="/p8/getPermissions" type="com.ibm.ecm.struts.actions.p8.P8GetItemPermissionAction" />
+	<action path="/p8/getUserPermissions" type="com.ibm.ecm.struts.actions.p8.P8GetUserItemPermissionAction" />
+	<action path="/p8/getDefaultInstancePermissions" type="com.ibm.ecm.struts.actions.p8.P8GetDefaultInstancePermissionAction" />
+	<action path="/p8/getDocumentVersions" type="com.ibm.ecm.struts.actions.p8.P8RetrieveVersionsAction" />
+	<action path="/p8/getFoldersFiledIn" type="com.ibm.ecm.struts.actions.p8.P8RetrieveFoldersFiledInAction" />
+	<action path="/p8/getFavorites" type="com.ibm.ecm.struts.actions.p8.P8ListFavoritesAction" />
+	<action path="/p8/getPropertyDescs" type="com.ibm.ecm.struts.actions.p8.P8GetPropertyDescsAction" />
+	<action path="/p8/promoteVersion" type="com.ibm.ecm.struts.actions.p8.P8PromoteVersionAction" />
+	<action path="/p8/demoteVersion" type="com.ibm.ecm.struts.actions.p8.P8DemoteVersionAction" />
+	<action path="/p8/getDomainObjectStoreNames" type="com.ibm.ecm.struts.actions.p8.P8GetDomainObjectStoreNames" />
+	<action path="/p8/getPrivileges" type="com.ibm.ecm.struts.actions.p8.P8GetPrivilegesAction" />
+	<action path="/p8/retrieveComments" type="com.ibm.ecm.struts.actions.p8.P8RetrieveSocialDataAction" />
+	<action path="/p8/saveComment" type="com.ibm.ecm.struts.actions.p8.P8SaveSocialDatumAction" />
+	<action path="/p8/deleteComment" type="com.ibm.ecm.struts.actions.p8.P8DeleteSocialDatumAction" />
+	<action path="/p8/retrieveDownloadRecords" type="com.ibm.ecm.struts.actions.p8.P8RetrieveSocialDataAction" />
+	<action path="/p8/retrieveRecommendations" type="com.ibm.ecm.struts.actions.p8.P8RetrieveSocialDataAction" />
+	<action path="/p8/saveRecommendation" type="com.ibm.ecm.struts.actions.p8.P8SaveSocialDatumAction" />
+	<action path="/p8/deleteRecommendation" type="com.ibm.ecm.struts.actions.p8.P8DeleteSocialDatumAction" />
+	<action path="/p8/retrieveTags" type="com.ibm.ecm.struts.actions.p8.P8RetrieveSocialDataAction" />
+	<action path="/p8/saveTag" type="com.ibm.ecm.struts.actions.p8.P8SaveSocialDatumAction" />
+	<action path="/p8/deleteTag" type="com.ibm.ecm.struts.actions.p8.P8DeleteSocialDatumAction" />
+	<action path="/p8/retrieveRelated" type="com.ibm.ecm.struts.actions.p8.P8RetrieveRelatedAction" />
+	<action path="/p8/addRelated" type="com.ibm.ecm.struts.actions.p8.P8AddRelatedAction" />
+	<action path="/p8/saveEntryTemplateFolderAssociations" type="com.ibm.ecm.struts.actions.p8.P8SaveEntryTemplateFolderAssociations" />
+	<action path="/p8/getCheckedOutItems" type="com.ibm.ecm.struts.actions.p8.P8GetCheckedOutItemsAction" />
+	<action path="/p8/getExportProperties" type="com.ibm.ecm.struts.actions.p8.P8GetExportPropertiesAction" />
+	<action path="/p8/getViewoneBootstrap" type="com.ibm.ecm.struts.actions.p8.P8GetViewoneBootstrapAction" />
+
+	<!-- P8 BPM Workflow actions -->
+	<action path="/p8/getProcessApplicationSpaces" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetProcessApplicationSpacesAction" />
+	<action path="/p8/getProcessRoles" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetProcessRolesAction" />
+	<action path="/p8/saveProcessRoles" type="com.ibm.ecm.struts.actions.p8.workflow.P8SetProcessRoleMembersAction" />
+	<action path="/p8/getProcessInbaskets" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetProcessInbasketsAction" />
+	<action path="/p8/getWorkItems" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetWorkItemsAction" />
+	<action path="/p8/getInboxWorkItems" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetInboxWorkItemsAction" />
+	<action path="/p8/getNextWorkItems" type="com.ibm.ecm.struts.actions.p8.workflow.P8RetrieveNextWorkItemsAction" />
+	<action path="/p8/getFilterCriteria" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetFilterCriteriaAction" />
+	<action path="/p8/getProcessorInformation" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetStepProcessorInformationAction" />
+	<action path="/p8/getStepParameters" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetStepParametersAction" />
+	<action path="/p8/getLaunchParameters" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetLaunchParametersAction" />
+	<action path="/p8/getDependentParameters" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetDependentParametersAction" />
+	<action path="/p8/getStepAttachments" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetStepAttachmentsAction" />
+	<action path="/p8/getStepAttachmentItems" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetStepAttachmentItemsAction" />
+	<action path="/p8/getTrackerParameters" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetTrackerParametersAction" />
+	<action path="/p8/getTrackerHistory" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetTrackerHistoryAction" />
+	<action path="/p8/getTrackerMilestones" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetTrackerMilestonesAction" />
+	<action path="/p8/getMilestones" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetTrackerMilestonesAction" />
+	<action path="/p8/deleteTracker" type="com.ibm.ecm.struts.actions.p8.workflow.P8DeleteTrackerAction" />
+	<action path="/p8/completeStep" type="com.ibm.ecm.struts.actions.p8.workflow.P8CompleteStepAction" />
+	<action path="/p8/unlockStep" type="com.ibm.ecm.struts.actions.p8.workflow.P8UnlockStepAction" />
+	<action path="/p8/moveToInbox" type="com.ibm.ecm.struts.actions.p8.workflow.P8MoveToInboxAction" />
+	<action path="/p8/returnToSender" type="com.ibm.ecm.struts.actions.p8.workflow.P8ReturnToSenderAction" />
+	<action path="/p8/reassign" type="com.ibm.ecm.struts.actions.p8.workflow.P8ReassignAction" />
+	<action path="/p8/getSubscriptions" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetWorkflowSubscriptionsAction" />
+	<action path="/p8/launchWorkflow" type="com.ibm.ecm.struts.actions.p8.workflow.P8LaunchWorkflowAction" />
+	<action path="/p8/isWorkflowRunning" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetIsWorkflowRunningAction" />
+	<action path="/p8/getUserInformation" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetUserPreferencesAction" />
+	<action path="/p8/getTransferedWorkflows" type="com.ibm.ecm.struts.actions.p8.workflow.P8GetTransferedWorkflowsAction" />
+	<action path="/p8/transferWorkflow" type="com.ibm.ecm.struts.actions.p8.workflow.P8TransferWorkflowAction" />
+
+	<!-- CMIS actions -->
+	<action path="/cmis/logon" type="com.ibm.ecm.struts.actions.cmis.CMISLogonAction" />
+	<action path="/cmis/logoff" type="com.ibm.ecm.struts.actions.authentication.ContainerLogoffAction" />
+	<action path="/cmis/getContentClasses" type="com.ibm.ecm.struts.actions.cmis.CMISGetContentClassesAction" />
+	<action path="/cmis/openContentClass" type="com.ibm.ecm.struts.actions.cmis.CMISOpenContentClassAction" />
+	<action path="/cmis/addSearchTemplate" type="com.ibm.ecm.struts.actions.cmis.CMISAddSearchTemplateAction" />
+	<action path="/cmis/getSearchTemplates" type="com.ibm.ecm.struts.actions.cmis.CMISGetSearchTemplatesAction" />
+	<action path="/cmis/openSearchTemplate" type="com.ibm.ecm.struts.actions.cmis.CMISOpenSearchTemplateAction" />
+	<action path="/cmis/search" type="com.ibm.ecm.struts.actions.cmis.CMISSearchAction" />
+	<action path="/cmis/getContentItems" type="com.ibm.ecm.struts.actions.cmis.CMISRetrieveItemsAction" />
+	<action path="/cmis/openFolder" type="com.ibm.ecm.struts.actions.cmis.CMISOpenFolderAction" />
+	<action path="/cmis/continueQuery" type="com.ibm.ecm.struts.actions.cmis.CMISContinueQueryAction" />
+	<action path="/cmis/openItem" type="com.ibm.ecm.struts.actions.cmis.CMISOpenItemAction" />
+	<action path="/cmis/editAttributes" type="com.ibm.ecm.struts.actions.cmis.CMISEditAttributesAction" />
+	<action path="/cmis/getDocument" type="com.ibm.ecm.struts.actions.cmis.CMISGetDocumentAction" />
+	<action path="/cmis/addItem" type="com.ibm.ecm.struts.actions.cmis.CMISAddItemAction" name="fileUploadForm" />
+	<action path="/cmis/deleteItem" type="com.ibm.ecm.struts.actions.cmis.CMISDeleteItemAction" />
+	<action path="/cmis/addToFolder" type="com.ibm.ecm.struts.actions.cmis.CMISAddToFolderAction" />
+	<action path="/cmis/moveToFolder" type="com.ibm.ecm.struts.actions.cmis.CMISMoveToFolderAction" />
+	<action path="/cmis/removeFromFolder" type="com.ibm.ecm.struts.actions.cmis.CMISRemoveFromFolderAction" />
+	<action path="/cmis/lock" type="com.ibm.ecm.struts.actions.cmis.CMISLockAction" />
+	<action path="/cmis/unlock" type="com.ibm.ecm.struts.actions.cmis.CMISUnlockAction" />
+	<action path="/cmis/checkIn" type="com.ibm.ecm.struts.actions.cmis.CMISCheckInAction" name="fileUploadForm" />
+	<action path="/cmis/getDocumentVersions" type="com.ibm.ecm.struts.actions.cmis.CMISGetDocumentVersionsAction" />
+	<action path="/cmis/getPermissions" type="com.ibm.ecm.struts.actions.cmis.CMISGetPermissionsAction" />
+	<action path="/cmis/getDependentAttributeInfo" type="com.ibm.ecm.struts.actions.cmis.CMISGetDependentAttributeInfoAction" />
+	<action path="/cmis/getFoldersFiledIn" type="com.ibm.ecm.struts.actions.cmis.CMISGetObjectParentsAction" />
+	<action path="/cmis/getPropertyDescs" type="com.ibm.ecm.struts.actions.cmis.CMISGetPropertyDescsAction" />
+	<action path="/cmis/getPrivileges" type="com.ibm.ecm.struts.actions.cmis.CMISGetPrivilegesAction" />
+	<action path="/cmis/getCheckedOutItems" type="com.ibm.ecm.struts.actions.cmis.CMISGetCheckedOutItemsAction" />
+	<action path="/cmis/getExportProperties" type="com.ibm.ecm.struts.actions.cmis.CMISGetExportPropertiesAction" />
+	<action path="/cmis/getViewoneBootstrap" type="com.ibm.ecm.struts.actions.GetViewoneBootstrapAction" />
+
+	<!-- CMIS Workflow Actions -->
+	<action path="/cmis/getStepAttachmentItems" type="com.ibm.ecm.struts.actions.cmis.workflow.CMISGetStepAttachmentItemsAction" />
+
+	<!-- Viewing actions -->
+	<action path="/getPageCount" type="com.ibm.ecm.struts.actions.viewer.GetPageCountAction" />
+	<action path="/getPageImage" type="com.ibm.ecm.struts.actions.viewer.GetPageImageAction" />
+	<action path="/convertDocument" type="com.ibm.ecm.struts.actions.viewer.ConvertDocumentAction" />
+	<action path="/getConvertedDocumentResource" type="com.ibm.ecm.struts.actions.viewer.GetConvertedDocumentResourceAction" />
+	<action path="/getViewServicesInfo" type="com.ibm.ecm.struts.actions.viewer.GetViewServicesInfoAction" />
+	
+	<!-- Sync actions -->
+	<action path="/sync/enableSync" type="com.ibm.ecm.actions.sync.EnableSyncAction" />
+	<action path="/sync/disableSync" type="com.ibm.ecm.actions.sync.DisableSyncAction" />
+	<action path="/sync/registerSyncItemsForDevice" type="com.ibm.ecm.actions.sync.RegisterSyncItemsForDeviceAction" />
+	<action path="/sync/unregisterSyncItemsForDevice" type="com.ibm.ecm.actions.sync.UnRegisterSyncItemsForDeviceAction" />
+	<action path="/sync/registerObject" type="com.ibm.ecm.actions.sync.RegisterObjectAction" />
+	<action path="/sync/unregisterObject" type="com.ibm.ecm.actions.sync.UnregisterObjectAction" />
+	<action path="/sync/getChangesList" type="com.ibm.ecm.actions.sync.GetChangesListAction" />
+	<action path="/sync/startSyncConsistencyChecker" type="com.ibm.ecm.actions.sync.StartSyncConsistencyCheckerAction" />
+    <action path="/sync/getSyncConsistencyCheckerProgress" type="com.ibm.ecm.actions.sync.GetSyncConsistencyCheckerProgressAction" />
+    <action path="/sync/getSyncConfigurationParameters" type="com.ibm.ecm.struts.actions.configuration.GetSyncConfigurationParametersAction" />
+    <action path="/sync/setSyncConfigurationParameters" type="com.ibm.ecm.struts.actions.configuration.SetSyncConfigurationParametersAction" />
+    <action path="/sync/startSyncDBCleaner" type="com.ibm.ecm.actions.sync.StartSyncDBCleanerAction" />
+    <action path="/sync/getSyncDBCleanerProgress" type="com.ibm.ecm.actions.sync.GetSyncDBCleanerProgressAction" />
+    <action path="/sync/getSyncServerNotifyURL" type="com.ibm.ecm.actions.sync.GetSyncServerNotifyURLAction" />
+    <action path="/sync/updateSyncServerNotifyURL" type="com.ibm.ecm.actions.sync.UpdateSyncServerNotifyURLAction" />
+    <action path="/sync/checkClientCompatibility" type="com.ibm.ecm.actions.sync.CheckClientCompatibilityAction" />
+    
+    <!--  
+    <action path="/sync/getChecksums" type="com.ibm.ecm.actions.sync.GetChecksumsAction" />
+	<action path="/sync/mergeInstructions" type="com.ibm.ecm.actions.sync.MergeInstructionsAction" />
+	<action path="/sync/getDiffStream" type="com.ibm.ecm.actions.sync.GetDiffStreamAction" />
+	-->
+	
+	<!-- Viewone Actions -->
+	<action path="/viewoneAction" type="com.ibm.ecm.struts.actions.viewone.ViewoneAction" />
+	
+</action-mappings>

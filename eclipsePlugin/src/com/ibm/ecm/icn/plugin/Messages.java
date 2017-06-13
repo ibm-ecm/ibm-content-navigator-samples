@@ -1,0 +1,196 @@
+package com.ibm.ecm.icn.plugin;
+
+import org.eclipse.osgi.util.NLS;
+
+public class Messages extends NLS {
+	private static final String BUNDLE_NAME = "com.ibm.ecm.icn.plugin.messages"; //$NON-NLS-1$
+
+	public static String Utils_EXP_Type_Not_Found;
+
+	public static String ConvertProjectToICNProjectAction_DLG_Text_Err_Msg_Can_Not_Convert;
+	public static String ConvertProjectToICNProjectAction_DLG_Ttile_Information;
+	public static String ConvertProjectToICNProjectWizard_Error_Title;
+	public static String ConvertProjectToICNProjectWizard_Title;
+	public static String ConvertProjectToICNProjectWizardPage_Description;
+	public static String ConvertProjectToICNProjectWizardPage_Group_title_Existing_Info;
+	public static String ConvertProjectToICNProjectWizardPage_Text_Title_Action;
+	public static String ConvertProjectToICNProjectWizardPage_Text_Title_Features;
+	public static String ConvertProjectToICNProjectWizardPage_Text_Title_Layouts;
+	public static String ConvertProjectToICNProjectWizardPage_Text_Title_Menu;
+	public static String ConvertProjectToICNProjectWizardPage_Text_Title_MenuType;
+	public static String ConvertProjectToICNProjectWizardPage_Text_Title_OpenAction;
+	public static String ConvertProjectToICNProjectWizardPage_Text_Title_Plugin_Class;
+	public static String ConvertProjectToICNProjectWizardPage_Text_Title_ReqFilter;
+	public static String ConvertProjectToICNProjectWizardPage_Text_Title_Resp_Filters;
+	public static String ConvertProjectToICNProjectWizardPage_Text_Title_Services;
+	public static String ConvertProjectToICNProjectWizardPage_Text_Title_View_Def;
+	public static String ConvertProjectToICNProjectWizardPage_Text_Title_Repository_Type;
+	public static String ConvertProjectToICNProjectWizardPage_Text_Title_API;
+	public static String ConvertProjectToICNProjectWizardPage_Title;
+	public static String ConvertProjectToICNProjectWizardPage2_Check_Button_Text_GenerateBuildFile;
+	public static String ConvertProjectToICNProjectWizardPage2_Check_Button_Text_GenerateConfig;
+	public static String ConvertProjectToICNProjectWizardPage2_Check_Button_Text_GenerateManifest;
+	public static String ConvertProjectToICNProjectWizardPage2_Check_Button_Text_GenerateWebContent;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Descr_Action;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Descr_Features;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Descr_Layouts;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Descr_Menus;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Descr_MenuTypes;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Descr_OpenAction;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Descr_ReqFilters;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Descr_RespFilters;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Descr_Services;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Descr_ViewDef;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Prompt_Action;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Prompt_Features;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Prompt_Layouts;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Prompt_Menus;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Prompt_MenuTypes;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Prompt_OpenAction;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Prompt_ReqFilters;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Prompt_RespFilters;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Prompt_Services;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Prompt_ViewDef;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Prompt_RepositoryType;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Prompt_API;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Title_Action;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Title_Features;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Title_Layouts;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Title_Menus;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Title_MenuTypes;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Title_OpenAction;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Title_ReqFilters;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Title_RespFilters;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Title_Services;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Title_ViewDef;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Title_RepositoryType;
+	public static String ConvertProjectToICNProjectWizardPage2_CTF_Title_API;
+	public static String ConvertProjectToICNProjectWizardPage2_Description;
+
+	public static String ConvertProjectToICNProjectWizardPage2_Form_Text_1;
+	public static String ConvertProjectToICNProjectWizardPage2_Form_Text_2;
+
+	public static String ConvertProjectToICNProjectWizardPage2_Label_DojoPackage;
+	public static String ConvertProjectToICNProjectWizardPage2_Label_PackagesNames;
+	public static String ConvertProjectToICNProjectWizardPage2_Label_WebContentPackage;
+	public static String ConvertProjectToICNProjectWizardPage2_Section_Descr_Space;
+	public static String ConvertProjectToICNProjectWizardPage2_Section_Descr_Subclasses;
+	public static String ConvertProjectToICNProjectWizardPage2_Section_Descr_We_Found;
+	public static String ConvertProjectToICNProjectWizardPage2_SectionTitle_GenerationOptions;
+	public static String ConvertProjectToICNProjectWizardPage2_Title_Information;
+	public static String ConvertProjectToICNProjectWizardPage2_Title_Part_Convert;
+	public static String ConvertProjectToICNProjectWizardPage2_Title_Part2_Convert;
+	public static String ConvertProjectToICNProjectWizardPage2_Title_Project;
+
+	public static String ConvertProjectToICNProjectWizardPage3_Group_Title_Extensions;
+
+	public static String ConvertProjectToICNProjectWizardPage3_Group_Title_Plugin;
+
+	public static String ConvertProjectToICNProjectWizardPage3_Group_Title_WebContentDojo;
+
+	public static String ConvertProjectToICNProjectWizardPage3_Label_Text_Dojo;
+
+	public static String ConvertProjectToICNProjectWizardPage3_Label_Text_GenerationOptions;
+
+	public static String ConvertProjectToICNProjectWizardPage3_Label_Text_Notes1;
+
+	public static String ConvertProjectToICNProjectWizardPage3_Label_Text_Notes2;
+
+	public static String ConvertProjectToICNProjectWizardPage3_Label_Text_PluginClass;
+
+	public static String ConvertProjectToICNProjectWizardPage3_Label_Text_WebContent;
+
+	public static String CreatePluginAction_DLG_Comment;
+	public static String CreatePluginAction_DLG_Short_Direction;
+	public static String CreatePluginAction_DLG_Title;
+	public static String CreatePluginFeatureAction_DLG_Short_Direction;
+	public static String CreatePluginFeatureAction_DLG_Title;
+	public static String CreatePluginLayoutAction_DLG_Comment;
+	public static String CreatePluginLayoutAction_DLG_Short_Direction;
+	public static String CreatePluginLayoutAction_DLG_Title;
+	public static String CreatePluginMenuAction_DLG_Short_Direction;
+	public static String CreatePluginMenuAction_DLG_Title;
+	public static String CreatePluginMenuTypeAction_DLG_Short_Direction;
+	public static String CreatePluginMenuTypeAction_DLG_Title;
+	public static String CreatePluginOpenAction_DLG_Comment;
+	public static String CreatePluginOpenAction_DLG_Title;
+	public static String CreatePluginReqFilterAction_DLG_Comment;
+	public static String CreatePluginReqFilterAction_DLG_Short_Direction;
+	public static String CreatePluginReqFilterAction_DLG_Title;
+	public static String CreatePluginRespFilterAction_DLG_Comment;
+	public static String CreatePluginRespFilterAction_DLG_Short_Direction;
+	public static String CreatePluginRespFilterAction_DLG_Title;
+	public static String CreatePluginServiceAction_DLG_Comment;
+	public static String CreatePluginServiceAction_DLG_Short_Direction;
+	public static String CreatePluginServiceAction_DLG_Title;
+	public static String CreatePluginViewerAction_DLG_Short_Direction;
+	public static String CreatePluginViewerAction_DLG_Title;
+	public static String CreatePluginRepositoryAction_DLG_Comment;
+	public static String CreatePluginRepositoryAction_DLG_Short_Direction;
+	public static String CreatePluginRepositoryAction_DLG_Title;
+	public static String CreatePluginAPIAction_DLG_Comment;
+	public static String CreatePluginAPIAction_DLG_Short_Direction;
+	public static String CreatePluginAPIAction_DLG_Title;
+	public static String PluginBaseActionDelegate_Title_Error;
+
+	public static String PluginBasicDialog_Label_Title_ClassName;
+	public static String PluginBasicDialog_Label_Ttitle_JavaPackage;
+	public static String PluginBasicDialog_MISSING_INFO;
+	public static String PluginFeatureDialog_Button_Select_Feature_Image;
+	public static String PluginFeatureDialog_Button_Use_Feature_Image;
+	public static String PluginFeatureDialog_Button_Select_Feature_Image_Path;
+	public static String PluginFeatureDialog_DLG_Comment;
+	public static String PluginFeatureDialog_ERR_Message_Missing_Information;
+	public static String PluginFeatureDialog_FileDLG_Select_Image_File;
+	public static String PluginFeatureDialog_Label_Feature_Image;
+	public static String PluginFeatureDialog_Label_IconStyleClass;
+	public static String PluginFilterDialog_Button_Text_Select_Services;
+	public static String PluginFilterDialog_ExtDLG_Title_Service_Selection;
+	public static String PluginFilterDialog_Label_FilterService;
+	public static String PluginFilterDialog_MISSING_INFO;
+	public static String PluginMenuDialog_DLG_Short_Direction;
+	public static String PluginMenuDialog_ERR_Message_Missing_Info;
+	public static String PluginMenuDialog_Label_Menu_Type_ID;
+	public static String PluginMenuTypeDialog_Button_ToolBar;
+	public static String PluginMenuTypeDialog_DLG_Comment;
+	public static String PluginOpenActionDialog_DLG_Comment;
+	public static String PluginViewerDialog_DLG_Comment;
+	public static String SupportedServerTypesDialog_Button_Text_AppendSlected;
+	public static String SupportedServerTypesDialog_Button_Text_CM;
+	public static String SupportedServerTypesDialog_Button_Text_CMIS;
+	public static String SupportedServerTypesDialog_Button_Text_CMOD;
+	public static String SupportedServerTypesDialog_Button_Text_P8;
+	public static String SupportedServerTypesDialog_Button_Text_SupportAllContentTypes;
+	public static String SupportedServerTypesDialog_Button_Text_SupportAllREepos;
+	public static String SupportedServerTypesDialog_Group_Text_SpecificRepos;
+	public static String SupportedServerTypesDialog_Group_Text_SupportedContentTypes;
+	public static String SupportedServerTypesDialog_Group_Text_SupportedRepositoryTypes;
+	public static String SupportedServerTypesDialog_Label_Text_Contains;
+	public static String SupportedServerTypesDialog_Label_Text_EnterMIMEs;
+	public static String SupportedServerTypesDialog_MISSING_INFO;
+
+	public static String TemplateService_ERR_SomethingWrong;
+
+	public static String ICNProjectDecorator_Title;
+
+	public static String ICNProjectNewWizard_MSGDLG_Title_Error;
+	public static String ICNProjectNewWizard_WinzardPage_Title_PlufginProject;
+	public static String ICNProjectNewWizard_WizardPage_Descr;
+	public static String ICNProjectNewWizard_WizardPage_Title_PluginClassLibDependency;
+	public static String ICNProjectNewWizard_WizardPage_Title_PluginProject;
+	public static String ICNProjectNewWizardPage_Group_Title_LocateNavigatorAPIJar;
+	public static String ICNProjectNewWizardPage_Group_Ttile_ContentNavogatorPluginInfo;
+	public static String ICNProjectNewWizardPage_Label_Text_ClassName;
+	public static String ICNProjectNewWizardPage_Label_Text_DescriptiveName;
+	public static String ICNProjectNewWizardPage_Label_Text_JavaPackage;
+	public static String ICNProjectNewWizardPage_Label_Text_Version;
+	public static String ICNProjectNewWizardPage_WizardPage_Descr;
+	public static String ICNProjectNewWizardPage_WizardPage_Title;
+	static {
+		// initialize resource bundle
+		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
+	}
+
+	private Messages() {
+	}
+}
