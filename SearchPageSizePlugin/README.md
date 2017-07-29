@@ -23,7 +23,7 @@ Use these instructions to help you get the plug-in up and running in IBM Content
 
     ```
     C:\> cd C:\SearchPageSizePlugin
-    C:\NavLayoutRefreshPlugin> ant
+    C:\SearchPageSizePlugin> ant
     ```
 5. [Register and configure the plug-in in IBM Content Navigator.](http://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.0/com.ibm.installingeuc.doc/eucco012.htm)
 6. Set the desired **Search page size** and save the plug-in.
