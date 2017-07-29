@@ -1,0 +1,16 @@
+<div>
+	<table class="propertyTable" role="presentation">
+		<tr>
+			<td class="propertyRowLabel">
+				<label for="${id}_searchPageSize">${messages.search_page_size_label}</label>&nbsp;
+				<div id="${id}_search_page_size_hover_help" data-dojo-type="ecm/widget/HoverHelp">${messages.search_page_size_hover_help}</div>
+			</td>
+			<td class="propertyRowValue">
+				<div id="${id}_searchPageSize" data-dojo-attach-point="searchPageSizeTextBox"
+					data-dojo-type="ecm/widget/NumberTextBox"
+					data-dojo-props="constraints: { min: 0 }, hoverHelpId: '${id}_search_page_size_hover_help'"
+					data-dojo-attach-event="onKeyUp: _onFieldChange"></div>
+			</td>
+		</tr>
+	</table>
+</div>
