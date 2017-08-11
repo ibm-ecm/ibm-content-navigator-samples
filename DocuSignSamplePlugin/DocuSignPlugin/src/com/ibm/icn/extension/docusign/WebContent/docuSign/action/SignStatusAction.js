@@ -33,7 +33,7 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 				},
 				requestCompleteCallback: function(response) {
 					if (response.returncode == 0)
-					{
+					{					
 						self.documentStatusDialog = new DocumentStatus({
 							repository: items[0].repository
 						});
@@ -43,6 +43,13 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 						});
 						
 						self.documentStatusDialog.show(response, callback);
+						
+						if (response.status == "completed"){
+							items[0].attributeDisplayValues.DSSignatureStatus = "Completed";
+							items[0].attributes.DSSignatureStatus = 3;
+							items[0].attributes.DSEnvelopeID = response.envelopeId;
+							items[0].update(items[0]);
+						}
 					}
 					else if (response.returncode == -1)
 					{
@@ -118,15 +125,7 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 				requestCompleteCallback: function(response) {
 					if (response.returncode == 0)
 					{
-						self.documentStatusDialog = new DocumentStatus({
-							repository: items[0].repository
-						});
-					
-						var callback = lang.hitch(self, function(requestData){
-							self._checkInDocument(items[0], requestData);
-						});
-						
-						self.documentStatusDialog.show(response, callback);
+						self._getDocumentStatus(items, data);
 					}
 					else if (response.returncode == -1)
 					{

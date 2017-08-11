@@ -20,7 +20,7 @@ define([
 			
 			var p8RepoList = this._getP8Repositories();
 			this.taskCreationPane = new TaskCreationPane({repoList: p8RepoList});
-			this.taskSchedulerPane.addTitlePaneSection("DocuSign signature status udpates configuration", this.taskCreationPane, 0);
+			this.taskSchedulerPane.addTitlePaneSection("DocuSign signature status updates configuration", this.taskCreationPane, 0);
 			
 			// hide the default run once configuration section thus allowing 
 			// only running asynchronous task as per a defined schedule

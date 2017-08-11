@@ -42,6 +42,8 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 					}
 					else if (response.returncode == -1)
 					{
+						items = [];
+						items.push(item);
 						self._showLoginDialog(items);
 					}					
 				},
@@ -82,15 +84,7 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 				requestCompleteCallback: function(response) {
 					if (response.returncode == 0)
 					{
-						self.documentStatusDialog = new DocumentStatus({
-							repository: items[0].repository
-						});
-					
-						var callback = lang.hitch(self, function(requestData){
-							self._checkInDocument(items[0], requestData);
-						});
-						
-						self.documentStatusDialog.show(response, callback);
+						self._checkInDocument(items[0], data);
 					}
 					else if (response.returncode == -1)
 					{
@@ -114,7 +108,7 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 			if(!items || items.length != 1){
 				return false;
 			};
-			if(items[0].attributes && items[0].attributes.DSSignatureStatus == 3) {
+			if(items[0].attributes && items[0].attributes.DSSignatureStatus == 3 && !items[0].locked) {
 				return (enabled && true);
 			}
 			return false;
