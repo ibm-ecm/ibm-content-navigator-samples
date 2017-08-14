@@ -122,6 +122,7 @@ public class SignStatusService extends PluginService {
 			
 			tempJson.put("signerName", signersNames);
 			tempJson.put("signerEmail", signersEmails);
+			tempJson.put("envelopeId", envelopeId);
 			tempJson.put("returncode", "0");
 			
 			jsonResponse = tempJson.toString();

@@ -7,6 +7,7 @@ package com.ibm.icn.extension.docusign.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -151,9 +152,22 @@ public class DocuSignUtil {
 		if (conn.getResponseCode() == HttpURLConnection.HTTP_CREATED) {
 			result = (JSONObject) JSON.parse(conn.getInputStream());
 		}
-		else {
+		else{
+			InputStream error = conn.getErrorStream();
+			StringBuilder sb=new StringBuilder();
+			BufferedReader br = new BufferedReader(new InputStreamReader(error));
+			String read;
+
+			while((read=br.readLine()) != null) {
+			    //System.out.println(read);
+			    sb.append(read);   
+			}
+
+			br.close();
+		
+//			System.out.println(sb);
 			throw new RuntimeException("Post request Failed - HTTP error code: "
-					+ conn.getResponseCode());
+					+ conn.getResponseCode() + " " + sb);
 		}
 		
 		conn.disconnect();	

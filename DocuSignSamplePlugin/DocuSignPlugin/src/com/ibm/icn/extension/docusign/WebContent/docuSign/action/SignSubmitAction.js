@@ -143,11 +143,17 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/json", "ecm/model/Action"
 		 */
 		isEnabled: function(repository, listType, items, teamspace, resultSet) 
 		{
-			var enabled = this.inherited(arguments);	
+			var enabled = this.inherited(arguments);
 
 			if(!items || items.length != 1){
 				return false;
 			};
+			
+			if (enabled && (items[0].mimetype != "application/vnd.openxmlformats-officedocument.wordprocessingml.document" &&
+						items[0].mimetype != "application/pdf")){
+					enabled = false;
+			}
+			
 			if(items[0].attributes && 
 					items[0].attributes.DSSignatureStatus !== 2 && 
 						items[0].attributes.DSSignatureStatus !== 3) {

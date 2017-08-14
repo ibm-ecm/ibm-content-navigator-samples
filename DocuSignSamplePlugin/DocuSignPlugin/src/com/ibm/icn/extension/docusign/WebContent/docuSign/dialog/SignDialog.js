@@ -11,12 +11,13 @@ define([
 	"dojo/dom-style",
 	"dojo/data/ObjectStore",
 	"dojo/store/Memory",
+	"dojo/aspect",
 	"docuSign/widget/TemplateSelect",
 	"ecm/widget/dialog/EmailDialog",
 	"ecm/widget/dialog/ConfirmationDialog"
 ],
 
-function(declare, lang, connect, domClass, domStyle, ObjectStore, Memory, TemplateSelect, EmailDialog, ConfirmationDialog) {
+function(declare, lang, connect, domClass, domStyle, ObjectStore, Memory, aspect, TemplateSelect, EmailDialog, ConfirmationDialog) {
 
 	return declare("docuSign.dialog.SignDialog", [EmailDialog], {
 
@@ -32,7 +33,23 @@ function(declare, lang, connect, domClass, domStyle, ObjectStore, Memory, Templa
 			domClass.add(this.bccLink, "dijitHidden");
 			this.fromInput.set("value", "p8admin@demo.example.com");
 			
+			this.own(aspect.after(this.subjectInput, "onChange", lang.hitch(this, function() {
+				this.updateSendButtonState();
+			})));
+			
 			this._createTemplateDropDown();
+		},
+		
+		isValid: function(){
+			var valid = this.inherited(arguments);
+			if (valid){
+				var subject = this.subjectInput.get("value")
+				if (subject == null || subject.trim().length == 0){
+					valid = false;
+				}
+			}
+			
+			return valid;
 		},
 		
 		_createTemplateDropDown: function()
