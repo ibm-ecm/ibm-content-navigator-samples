@@ -47,3 +47,7 @@ Use these instructions to help you get the plug-in up and running in Eclipse. It
 
 
 7. Copy com.ibm.ecm.icn.plugin.jar file into Eclipse dropins folder and restart Eclipse
+
+### For Eclipse Oxygen
+
+The buildTools.xml will cause a cycle error. You can just export the project as eclipse plugin. Check on "Allow for binary cycles in target platform", and check OFF "Use class files compiled in the workspace". The execution environments may need to be changed to java 1.8. Then copy the plugin jar file to eclipse dropins folder.
