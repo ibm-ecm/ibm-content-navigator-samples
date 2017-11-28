@@ -1,4 +1,4 @@
-# Search Page Size plug-in
+# StepProcessorRedbkLayout
 
 This is for IBM Content Navigator Red Book chapter 8 sample fix.
 
@@ -6,7 +6,7 @@ This is for IBM Content Navigator Red Book chapter 8 sample fix.
 
 Use this StepProcessorRedbkLayout.js file to replace original one. 
 
-### Prerequisites
+## Prerequisites
 
 * Deploy plugin and customized step processor follow ICN Red Book chapter 8.
 
