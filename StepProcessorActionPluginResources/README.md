@@ -4,7 +4,7 @@ This is for IBM Content Navigator Red Book chapter 8 sample fix.
 
 ## Getting started
 
-Use this StepProcessorRedbkLayout.js file to replace original one. 
+Use this StepProcessorRedbkLayout.js file to replace original one in "Source for Custom Step Processor" folder. It is not in the plugin project source code.
 
 ## Prerequisites
 
