@@ -1,4 +1,4 @@
-# StepProcessorRedbkLayout
+# StepProcessorRedbkLayout.js
 
 This is for IBM Content Navigator Red Book chapter 8 sample fix.
 
