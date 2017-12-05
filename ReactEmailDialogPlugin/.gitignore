@@ -1,0 +1,6 @@
+/bin/
+.DS_Store/.gitignore
+/.DS_Store
+**node_modules**
+**react/build**
+*.jar
