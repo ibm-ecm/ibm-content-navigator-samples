@@ -1,0 +1,60 @@
+#icn-react-container .modal__container {
+    padding: 50px 10px;
+}
+
+#icn-react-container .modal__header {
+    padding: 15px 50px;
+}
+
+#icn-react-container .modal__body .icn-email-body .icn-email-field {
+    height:25px;
+}
+
+#icn-react-container .modal__body input {
+    margin: 20px 0;
+}
+
+#icn-react-container .button {
+    color: #4178be;
+}
+#icn-react-container .no-smoothstate {
+    border: 2px solid #4178be;
+}
+#icn-react-container .button svg path,
+#icn-react-container .button svg polygon{
+    fill: #4178be;
+}
+
+#icn-email-dialog-cc {
+    float: right;
+    margin-top: -20px;
+}
+
+.ecm.icn .modal .button{
+	color: #4178be;
+}
+.ecm.icn .modal .button.no-smoothstate{
+	border: 2px solid #4178be;
+}
+
+.ecm.icn .button svg polygon,
+.ecm.icn .button svg path {
+    fill: #4178be;
+}
+/*adjustment for banner*/
+.ecm.icn .ecmBanner .bannerContainer .container{
+    padding-top: 0;
+}
+/*adjustment for add document dialog*/
+.ecm.icn .ecmBaseDialog.fullscreen.dijitDialog .dijitDialogTitleBar {
+    width: 259px!important;
+    box-sizing: content-box;
+}
+
+.ecm img {
+    max-width: none
+}
+
+.ecm.icn .modal__body .alert{
+    z-index: 1;
+}
