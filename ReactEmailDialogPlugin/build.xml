@@ -5,6 +5,7 @@
 	<property name="npmPath" value="/usr/local/bin"/>
 
 	<available file="./react/node_modules" type="dir" property="npmInstalled" />
+	<available file="./react/node_modules/ibm-design-colors" type="dir" property="ibmColorsInstalled" />
     <condition property="shellCmd" value="cmd" else="sh" >  
         <os family="windows"/>  
     </condition>
@@ -48,7 +49,7 @@
 		  	<env key="PATH" value="${env.PATH}${shellSeparator}${npmPath}"/>
 		  </exec>
 	</target>
-	<target name="buildReactUI" depends="npmInstall,npmBuild">
+	<target name="buildReactUI" depends="npmInstall,installIBMColors,npmBuild">
 	</target>
 	<target name="jar">
 		<copy todir="temp">
@@ -75,5 +76,7 @@
 		</jar>
 		<delete dir="./temp" />
 	</target>
-
+	<target name="installIBMColors" unless="ibmColorsInstalled">
+		<unzip src="./lib/ibm-design-colors.zip" dest="./react/node_modules/"/>
+	</target>
 </project>
