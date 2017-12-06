@@ -1,0 +1,5 @@
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title">
+	<title>General Warning</title>
+  <path d="M32 5.9L2 58h60.1L32 5.9zM7 55l25-43.3L57 55H7z"/>
+  <path d="M30 47h4v4h-4zM30 28v7l1 8h2l1-8v-7"/>
+</svg>

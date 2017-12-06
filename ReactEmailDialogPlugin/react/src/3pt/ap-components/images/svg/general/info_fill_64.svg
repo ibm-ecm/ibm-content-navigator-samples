@@ -1,0 +1,7 @@
+<svg vwidth="64" height="64" aria-labelledby="title" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 64 64" style="enable-background:new 0 0 64 64;" xml:space="preserve">
+<title>General Info Fill</title>
+<path d="M32,4C16.5,4,4,16.5,4,32s12.5,28,28,28s28-12.5,28-28S47.5,4,32,4z M29.9,17.9c0.6-0.6,1.3-0.9,2.1-0.9s1.5,0.3,2.1,0.9
+	c0.6,0.6,0.9,1.3,0.9,2.1s-0.3,1.5-0.9,2.1C33.5,22.7,32.8,23,32,23s-1.6-0.3-2.1-0.9C29.3,21.5,29,20.8,29,20S29.2,18.5,29.9,17.9z
+	 M39,47H25v-3h4V30h-4v-3h10v17h4V47z"/>
+</svg>

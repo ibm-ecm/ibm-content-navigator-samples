@@ -1,0 +1,5 @@
+<svg width="128" height="128" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" aria-labelledby="title">
+  <title>General Error</title>
+  <path d="M60 84h8v8h-8zM60 36v16l2 24h4l2-24V36"/>
+  <path d="M64 12c28.7 0 52 23.3 52 52s-23.3 52-52 52-52-23.3-52-52 23.3-52 52-52m0-4C33.1 8 8 33.1 8 64s25.1 56 56 56 56-25.1 56-56S94.9 8 64 8z"/>
+</svg>

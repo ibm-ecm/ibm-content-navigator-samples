@@ -55,6 +55,10 @@
     max-width: none
 }
 
-.ecm.icn .modal__body .alert{
+.ecm.icn .modal__body .alert.alert--error{
     z-index: 1;
 }
+.ecm.icn .modal__body .alert.alert--error.alert__fadeOut{
+    z-index: auto;
+}
+

@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RadioButtonTests 13. Snapshot testing 1`] = `
+<div>
+  <input
+    aria-label="RadioButton1"
+    className="radio--light"
+    defaultChecked={false}
+    disabled={false}
+    id="rb1"
+    name="rb1"
+    onChange={[Function]}
+    type="radio"
+    value="RadioButton1"
+  />
+  <label
+    htmlFor="rb1"
+  >
+    <div />
+    RadioButton1
+  </label>
+</div>
+`;

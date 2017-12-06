@@ -1,6 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, TextField, Modal, Alert } from 'ap-components-react'
+import Button from '../../3pt/ap-components/components/Button'
+import TextField from '../../3pt/ap-components/components/TextField'
+import Modal from '../../3pt/ap-components/components/Modal'
+import Alert from '../../3pt/ap-components/components/Alert'
 import { sendEmailAction, closeEmailDialog } from '../../actions/email'
 import './emaildialog.css'
 

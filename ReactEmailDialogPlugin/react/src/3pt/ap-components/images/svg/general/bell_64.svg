@@ -1,0 +1,6 @@
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title">
+  <title>General Bell</title>
+  <path d="M37 53c0 2.8-2.2 5-5 5s-5-2.2-5-5"/>
+  <circle cx="32" cy="9" r="3"/>
+  <path d="M32 12c6.9 0 12.6 5.4 13 12.2V42.6l.3.6 3.1 6.8H15.7l3.1-6.8.3-.6V25v-.8c.3-6.8 6-12.2 12.9-12.2m0-3c-8.5 0-15.5 6.6-16 15v18l-5 11h42l-5-11V25v-1c-.5-8.4-7.5-15-16-15z"/>
+</svg>
