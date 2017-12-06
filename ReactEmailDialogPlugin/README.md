@@ -4,16 +4,16 @@ User can customize ICN UI using React after read this sample.
 
 
 ## Get the plugin
-* Clone the repo: git clone https://github.ibm.com/ECM-Nexus/icn-plugins.git
+* Clone the repo: git clone https://github.com/ibm-ecm/ibm-content-navigator-samples.git
 
 
 ## Build the plugin
 
 1. Make sure the NPM and ANT are installed.
-2. cd icn-plugins/ReactEmailDialogPlugin
+2. cd ibm-content-navigator-samples/ReactEmailDialogPlugin
 3. ant -f build.xml 
 
-ReactEmailDialogPlugin.jar is generated under icn-plugins/ReactEmailDialogPlugin
+ReactEmailDialogPlugin.jar is generated under ibm-content-navigator-samples/ReactEmailDialogPlugin
 
 ## Install the plugin
 1. Login IBM Content Navigator and open the Admin desktop
