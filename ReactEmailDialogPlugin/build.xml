@@ -3,13 +3,15 @@
 <project name="ReactEmailDialogPlugin" default="all" basedir=".">
 	<property environment="env"/>
 	<property name="npmPath" value="/usr/local/bin"/>
-	<property name="shellCmd" value="sh"/>
-	<property name="shellParam" value="-c"/>
+
 	<available file="./react/node_modules" type="dir" property="npmInstalled" />
-    <condition property="shellCmd" value="cmd">  
+    <condition property="shellCmd" value="cmd" else="sh" >  
         <os family="windows"/>  
     </condition>
-    <condition property="shellParam" value="/c">  
+    <condition property="shellParam" value="/c" else="-c" >  
+        <os family="windows"/>  
+    </condition>
+	<condition property="shellSeparator" value=";" else=":" >  
         <os family="windows"/>  
     </condition>
 	<target name="all" depends="clean,compile,buildReactUI,jar" />
@@ -36,14 +38,14 @@
 		  <exec executable="${shellCmd}" searchpath="true" dir="./react">
 		  	<arg value="${shellParam}"/>
 		  	<arg value="npm install"/>
-		  	<env key="PATH" value="${env.PATH}:${npmPath}"/>
+		  	<env key="PATH" value="${env.PATH}${shellSeparator}${npmPath}"/>
 		  </exec>
 	</target>
 	<target name="npmBuild">
-		  <exec executable="sh" searchpath="true" dir="./react">
-		  	<arg value="-c"/>
+		  <exec executable="${shellCmd}" searchpath="true" dir="./react">
+		  	<arg value="${shellParam}"/>
 		  	<arg value="npm run build"/>
-		  	<env key="PATH" value="${env.PATH}:/usr/local/bin"/>
+		  	<env key="PATH" value="${env.PATH}${shellSeparator}${npmPath}"/>
 		  </exec>
 	</target>
 	<target name="buildReactUI" depends="npmInstall,npmBuild">
