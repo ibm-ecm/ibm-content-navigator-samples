@@ -1,0 +1,21 @@
+<div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props="gutters:false" id="${id}_borderContainer"  style="min-width: 650px; min-height: 500px;">
+	<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'top'" id="${id}_filterTextBoxContentPane" style="position:relative;">
+		<span id="columnSettingsDialogDescription" style="font-size: 1.2em;">${description}</span>
+		<div style="padding-top: 20px; margin-top:5px; border-top: 1px solid #CDCED2;">
+			<div id="dropDownContainer">
+				<span id="dropDownLabel" style="margin-right: 5px;">${dropDownLabel}</span>
+				<select data-dojo-type="dijit.form.Select" data-dojo-attach-point="_repoSelect"></select>
+			</div>
+			<div id="defaultCheckBoxContainer" style="margin-top: 10px;">
+				<input data-dojo-type="dijit.form.CheckBox" data-dojo-attach-point="_defaultSettingsCheckBox"></input><label style="vertical-align: middle;">${defaultSettingsCheckBoxLabel}</label>
+			</div>
+			<div data-dojo-type="ecm.widget.FilterTextBox" data-dojo-attach-point="_filterBox" class="columnSettingsFilterBox" id="${id}_columnSettingsFilterTextBox" style="float: left; margin-top: 20px;"></div>
+		</div>
+	</div>
+	<div data-dojo-type="dijit.layout.ContentPane" data-dojo-props="region:'center'" id="${id}_sloshTextBoxContentPane" style="position: relative; margin-top: 10px;">
+			<div data-dojo-type="idx.widget.SloshBucket" data-dojo-attach-point="_sloshBucket" id="${id}_columnSettingsSloshBucket" class="columnSettingsSloshBucket" style="height: 100%;">
+				<div id="columnSettingsDialogOverlay" style="background-color: #F3F3F3; position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.5; z-index: 100;">
+			</div>
+		</div>
+	</div>
+</div>

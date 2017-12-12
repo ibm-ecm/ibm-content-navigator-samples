@@ -1,0 +1,18 @@
+// ICN Defaults
+$icn-color: #4178be;        
+$icn-base-radius: 0 !default;
+$icn-border-color: $icn-color !default; 
+$icn-border-focus: $icn-color !default;
+
+// Buttons
+$btn-border-radius-base:    $icn-base-radius;
+$btn-border-radius-large:   $icn-base-radius;
+$btn-border-radius-small:   $icn-base-radius;
+
+// Input
+$input-border:              $icn-border-color;
+$input-border-radius:       $icn-base-radius;
+$input-border-focus:        $icn-border-focus;
+
+// List group
+$list-group-active-bg:      $icn-border-color;

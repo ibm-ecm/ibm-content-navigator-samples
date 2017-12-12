@@ -1,0 +1,33 @@
+.ucs-navmenu {
+    margin-top: 80px;
+}
+
+#ucs-leftright, #ucs-updown {
+    button:first-child {
+        margin-bottom: 5px;
+    }
+}
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}  
+
+.ucs-avail-list {
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.ucs-avail-column-height {
+    height: 305px;
+}
+
+.ucs-user-column-height {
+    height: 280px;
+}
