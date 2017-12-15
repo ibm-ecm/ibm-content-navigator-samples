@@ -19,7 +19,6 @@ export default class ItemSelector extends React.Component{
         return(
             <DropdownButton bsStyle = "default" 
                             title = {selectedTitle}
-                            disabled = {true}
                             id = {id}>
                 {
                     titles.map((title, index) =>{

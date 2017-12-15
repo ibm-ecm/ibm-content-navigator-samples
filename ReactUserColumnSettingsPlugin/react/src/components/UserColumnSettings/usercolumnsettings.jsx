@@ -1,5 +1,5 @@
 import React from 'react'
-import { Checkbox, FormControl, Modal, Button, Glyphicon } from 'react-bootstrap'
+import { Checkbox, FormControl, Modal, Button, Glyphicon, InputGroup } from 'react-bootstrap'
 import './usercolumnsettings.css'
 import { retrieveColumnSettingsAction } from '../../actions/usercolumnsettings'
 import createStore from '../../store'
@@ -119,7 +119,6 @@ export default class UserColumnSettings extends React.Component{
         }, true);
     }
 
-    // The columns here have labels = ids. I need to come back and map them.
     initializeRepositoryDefaultProperties = (selectedRepository) => {
         const defaultList = {};
         const repositoryConfiguration = selectedRepository.getRepositoryConfig();
@@ -128,27 +127,51 @@ export default class UserColumnSettings extends React.Component{
         const folderDefaultColumns = repositoryConfiguration.getFolderDefaultColumns();
         const magazineDefaultColumns = repositoryConfiguration.getFolderMagazineDefaultColumns();
 
-        // Get default columns for Details View
-        if(folderDefaultColumns){
-            folderDefaultColumns.forEach((column)=>{
-                var item = {id: column, label: column, detailsView: true, magazineView: false};
-                repositoryColumns[column] = item;
-            });
+        let columnsAll = [];
+
+        folderDefaultColumns.forEach((column)=>{
+            if(columnsAll.indexOf(column)==-1 && column.indexOf("{")==-1){
+                columnsAll.push(column);
+            }
+        });
+
+        //follow the same order logic as the old UserColumnSettings
+        let prevColumnId = null;
+        for (let i = 0; i < magazineDefaultColumns.length; i++) {
+            let columnId = magazineDefaultColumns[i];
+
+            if (columnId.indexOf("{")==-1 && folderDefaultColumns.indexOf(columnId)==-1) {
+                let addedIt = false;
+                if (prevColumnId) {
+                    let newColumns = [];
+                    for (let j = 0; j < columnsAll.length; j++) {
+                        let colData = columnsAll[j];
+                        newColumns.push(colData);
+                        if (!addedIt && prevColumnId == colData) {
+                            newColumns.push(columnId);
+                            addedIt = true;
+                        }
+                    }
+                    columnsAll = newColumns;
+                }
+                if (!addedIt) {
+                    columnsAll.splice(0, 0, columnId);
+                }
+            }
+            prevColumnId = columnId;
         }
 
-        // Get default columns for Magazine View
-        if(magazineDefaultColumns) {
-            magazineDefaultColumns.forEach((column)=>{
-                if(repositoryColumns.hasOwnProperty(column)){
-                    repositoryColumns[column].magazineView = true;
-                    var item = repositoryColumns[column];
-                    repositoryColumnsArray.push(item);
-                } else {
-                    var item = {id: column, label: column, detailsView: false, magazineView: true};
-                    repositoryColumnsArray.push(item);
-                }
-            });
-        }
+        columnsAll.forEach((column)=>{
+            let item = {id: column, label: column, detailsView: false, magazineView: false}
+            if(folderDefaultColumns.indexOf(column)>-1){
+                item.detailsView=true;
+            }
+            if(magazineDefaultColumns.indexOf(column)>-1){
+                item.magazineView=true;
+            }
+            repositoryColumnsArray.push(item);
+        });
+
         this.store.dispatch({type : 'DEFAULT_COLUMN_SETTINGS_INITIALIZED', payload : repositoryColumnsArray});
     }
 
@@ -189,7 +212,15 @@ export default class UserColumnSettings extends React.Component{
 
     reloadUserSettings = (selectedRepository)=>{
         const keyPrefix = "UserColumnSettings";
-        var key = keyPrefix + selectedRepository.id;
+        let key = keyPrefix + selectedRepository.id;
+        const desktopRepos = ecm.model.desktop.repositories;
+        let selectedRepo;
+        desktopRepos.forEach((repo) => {
+            if(repo.id === selectedRepository.id){
+                selectedRepo = repo;
+            }
+        })
+        this.initializeRepositoryDefaultProperties(selectedRepo);
         ecm.model.Request.invokePluginService("UserColumnSettingsPluginReact", "UserSettingsServiceReact", {
             requestParams: {
                 userSettingsAction: "load",
@@ -399,18 +430,20 @@ export default class UserColumnSettings extends React.Component{
                     </Checkbox>
                     <div className="row">
                             <div className="col-md-4">
-                                <FormControl
-                                    type = "input"
-                                    // style = {{width: '25%'}}
-                                    placeholder = "Filter available list"
-                                    onChange = {(event)=>{this.filterAvailableList(event)}}
-                                    value = {this.state.userColumnSettings.filtrationText}>
-                                </FormControl> 
-                            </div>
-                            <div className="col-md-1">
-                                <Button onClick = {(event) => {this.clearFilter(event)}}>
-                                <Glyphicon glyph="remove" />
-                                </Button>
+                                <InputGroup>
+                                    <FormControl
+                                        type = "input"
+                                        // style = {{width: '25%'}}
+                                        placeholder = "Filter available list"
+                                        onChange = {(event)=>{this.filterAvailableList(event)}}
+                                        value = {this.state.userColumnSettings.filtrationText}>
+                                    </FormControl>
+                                    <InputGroup.Addon
+                                            style = {{border : "none", backgroundColor : "white"}}
+                                            onClick = {(event) => {this.clearFilter(event)}}>
+                                            <Glyphicon glyph={this.state.userColumnSettings.filtrationText == ""?"":"remove"} />
+                                    </InputGroup.Addon> 
+                                </InputGroup>
                             </div>
                         </div>
                     <br/>
