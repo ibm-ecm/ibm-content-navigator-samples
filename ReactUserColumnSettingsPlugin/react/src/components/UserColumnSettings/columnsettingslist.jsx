@@ -3,78 +3,91 @@ import createStore from '../../store'
 import { ListGroup } from 'react-bootstrap'
 import ColumnSetting from './columnsetting'
 
-export default class ColumnSettingsList extends React.Component{
-
-    constructor(props){
+export default class ColumnSettingsList extends React.Component {
+    constructor(props) {
         super(props);
         this.store = createStore;
         this.state = this.store.getState();
+        this.setState({
+            fixedValues: [],
+            savedUserItems: [],
+            repositoryDefaults: []
+        });
     }
 
-    componentDidMount(){
-        this.unsubscribe = this.store.subscribe(() =>{
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.savedUserItems)
+            this.setState({ savedUserItems: nextProps.savedUserItems });
+        
+        if (nextProps.fixedValues) 
+            this.setState({ fixedValues: nextProps.fixedValues });
+
+        if (nextProps.repositoryDefaults) 
+            this.setState({ repositoryDefaults: nextProps.repositoryDefaults });
+
+        if (nextProps.default)
+            this.setState({ savedUserItems: nextProps.repositoryDefaults});
+        
+    }
+
+    componentDidMount() {
+        this.unsubscribe = this.store.subscribe(() => {
             this.setState(this.store.getState());
         })
     }
 
-    componentWilUnmount(){
+    componentWilUnmount() {
         this.unsubscribe();
-    }
-
-    onMagazineViewChange = (settingId) => {
-        const savedUserItems = this.state.userColumnSettings.savedUserItems;
-        savedUserItems.forEach((setting)=>{
-            if(setting.id === settingId)
-                setting.magazineView = !setting.magazineView;
-        })
-        this.store.dispatch({type: 'MAGAZINE_VIEW_SELECTED', payload: savedUserItems});
-    }
-
-    onDetailsViewChange = (settingId) => {
-        const savedUserItems = this.state.userColumnSettings.savedUserItems;
-        savedUserItems.forEach((setting)=>{
-            if(setting.id === settingId)
-                setting.detailsView = !setting.detailsView;
-        })
-        this.store.dispatch({type: 'DETAIL_VIEW_SELECTED', payload: savedUserItems});
     }
 
     onItemSelected = (settingId) => {
         const selected = this.state.userColumnSettings.userItemSelectedId
-        if(selected != settingId)
-            this.store.dispatch({type: 'ITEM_SELECTED', payload: settingId});
-    }
-
-    getActiveStatus = (setting) =>{
-        const selectedSettingId = this.state.userColumnSettings.userItemSelectedId;
-        if(selectedSettingId === setting.id)   
-            return 'active'
-        else
-            return ''
+        if (selected != settingId)
+            this.store.dispatch({ type: 'ITEM_SELECTED', payload: settingId });
     }
 
     getLabelFromId = (id) => {
         const available = this.props.properties;
         let label = id;
         available.forEach((option) => {
-            if(option.id == id)
+            if (option.id == id)
                 label = option.label;
         });
         return label;
     }
 
-    render(){
+    resetSelection = () => {
+        const { savedUserItems } = this.state.userColumnSettings;
+        savedUserItems.forEach((setting) => {
+            setting.selected = false;
+        });
 
-        const fixedValues = this.props.fixedValues;
-        const userDefaultUserSettings = this.props.default;
-        let displayedSettings = this.props.savedUserItems;
-        if(userDefaultUserSettings){
-            displayedSettings = this.props.repositoryDefaults;
+        this.setState({ 
+            savedUserItems: savedUserItems
+        });
+    }
+
+    settingClick = (index) => {
+        let { savedUserItems } = this.state.userColumnSettings;
+
+        // if user don't hold cmd or ctrl; need to reset multiselect
+        if (!event.metaKey && !event.ctrlKey) {
+            savedUserItems.forEach((setting) => {
+                setting.selected = false;
+            })
         }
+        savedUserItems[index].selected = true;
+        this.setState({
+            savedUserItems: savedUserItems
+        });  
+    }
+
+    render() {
+        const { fixedValues, savedUserItems } = this.state.userColumnSettings;
 
         return (
             <ListGroup componentClass='ul'>
-                <li className = 'list-group-item'>
+                <li className='list-group-item'>
                     <table >
                         <tbody>
                             <tr><th width='70%'>Selected Properties</th><th width='15%'>Details View</th><th width='15%'>Magazine View</th></tr>
@@ -82,34 +95,34 @@ export default class ColumnSettingsList extends React.Component{
                     </table>
                 </li>
                 <div className="ucs-avail-list ucs-user-column-height">
-                {
-                        fixedValues.map((fixedValue, index)=>{
-                            return (<ColumnSetting 
-                                        key = {-index}
-                                        id = {fixedValue.id}
-                                        detailsView ={fixedValue.detailsView}
-                                        magazineView = {fixedValue.magazineView}
-                                        disabled = 'disabled'
-                                        >
-                                        {fixedValue.label}
-                                    </ColumnSetting>)
+                    {
+                        fixedValues.map((setting, index) => {
+                            return (<ColumnSetting
+                                key={index}
+                                detailsView={setting.detailsView}
+                                magazineView={setting.magazineView}
+                                disabled="disabled"
+                                settingItem={setting}
+                            >
+                                {this.props.default ? this.getLabelFromId(setting.label) : setting.label}
+                            </ColumnSetting>)
                         })
                     }
                     {
-                        displayedSettings.map((setting, index)=>{
-                            return (<ColumnSetting 
-                                        key = {index}
-                                        id = {setting.id}
-                                        detailsView ={setting.detailsView}
-                                        magazineView = {setting.magazineView}
-                                        onMagazineViewChange = {this.onMagazineViewChange}
-                                        onDetailsViewChange = {this.onDetailsViewChange}
-                                        onItemSelected = {this.onItemSelected}
-                                        active = {this.getActiveStatus(setting)}
-                                        disabled = {userDefaultUserSettings?'disabled':''}
-                                        >
-                                        {userDefaultUserSettings ? this.getLabelFromId(setting.label) : setting.label}
-                                    </ColumnSetting>)
+                        savedUserItems.map((setting, index) => {
+                            return (<ColumnSetting
+                                key={index}
+                                index={index}
+                                id={setting.id}
+                                detailsView={setting.detailsView}
+                                magazineView={setting.magazineView}
+                                disabled={this.props.default ? 'disabled' : ''}
+                                active={setting.selected ? 'active':''}
+                                settingClick={this.settingClick}
+                                settingItem={setting}
+                            >
+                                {this.props.default ? this.getLabelFromId(setting.label) : setting.label}
+                            </ColumnSetting>)
                         })
                     }
                 </div>

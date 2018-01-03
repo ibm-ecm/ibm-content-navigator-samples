@@ -19,6 +19,11 @@
     -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
 }  
 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(124, 121, 121, 0.3); 
+    border-radius: 10px;
+}
+
 .ucs-avail-list {
     overflow-y: scroll;
     overflow-x: hidden;
@@ -33,6 +38,11 @@
 }
 
 .ucs-form-control-addon {
-        border: none;
-        background-color: white;
+    border: none;
+    background-color: white;
+}
+
+#ucs-loading-props {
+    text-align: center;
+    margin-top: 100px;
 }

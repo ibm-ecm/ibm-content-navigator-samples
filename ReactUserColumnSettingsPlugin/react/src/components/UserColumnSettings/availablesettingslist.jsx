@@ -1,7 +1,20 @@
 import React from 'react'
 import { ListGroup } from 'react-bootstrap'
 
-export default class AvailableColumnList extends React.Component{
+export default class AvailableColumnList extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            propList: []
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.properties) {
+            this.setState({ propList: nextProps.properties });
+        }
+    }
 
     settingSelected = (id, e) => {
         e.preventDefault();
@@ -10,19 +23,19 @@ export default class AvailableColumnList extends React.Component{
     }
 
     sortList = (list) => {
-        list.sort((a, b)=>{
-            const labelA = a.label.replace(/ /g,'').toLowerCase();
-            const labelB = b.label.replace(/ /g,'').toLowerCase();
-            if(labelA < labelB)
+        list.sort((a, b) => {
+            const labelA = a.label.replace(/ /g, '').toLowerCase();
+            const labelB = b.label.replace(/ /g, '').toLowerCase();
+            if (labelA < labelB)
                 return -1;
-            if(labelA > labelB)
+            if (labelA > labelB)
                 return 1;
             return 0;
         })
     }
 
     filterList = (list, filter) => {
-        return list.filter((item)=>{
+        return list.filter((item) => {
             const lowerCaseTitle = item.label.toLowerCase();
             const lowerCaseFilter = filter.toLowerCase();
             return lowerCaseTitle.indexOf(lowerCaseFilter) !== -1
@@ -35,29 +48,46 @@ export default class AvailableColumnList extends React.Component{
 
             // filter out if its one of the current user settings
             userSettings.forEach((setting) => {
-                if(setting.id == item.id){
+                if (setting.id == item.id) {
                     add = false;
                 }
             })
 
             // filter out if its the Document Title
-            if(item.id == "DocumentTitle"){
+            if (item.id == "DocumentTitle") {
                 add = false;
             }
-            
+
             return add;
         })
     }
 
     isActive = (property) => {
-        const selected = this.props.selectedProperty;
-        if(selected == property.id)
-            return 'active';
-        else
-            return ''
+        return property.selected ? 'active': ''
     }
 
-    render(){
+    onRowClick = (e, index) => {
+        let items = this.state.propList;
+        if (this.props.disabled === 'disabled') {
+            return false;
+        }
+
+        if (!event.metaKey && !event.ctrlKey) {
+            // reset selection
+            items = items.map((item) => {
+                item.selected = false;
+                return item; 
+            })
+        } 
+
+        items[index].selected = true;
+        // update selected items
+        this.setState({ propList: items });
+        // updated parent component with new selected properties
+        this.props.properties = items;
+    }
+
+    render() {
         const filter = this.props.filterText;
         const userSettings = this.props.userSettings;
         let propertyList = this.props.properties;
@@ -65,20 +95,23 @@ export default class AvailableColumnList extends React.Component{
         propertyList = this.filterUserSettings(propertyList, userSettings);
         this.sortList(propertyList);
 
-        return(
+        const properties = this.state.propList.map((property, index) => {
+            return <li
+                key={property.id}
+                className={this.props.disabled + ' ' + (this.isActive(property)) + ' list-group-item'}
+                onClick={(e) => { this.onRowClick(e, index) }}>
+                { property.label }
+            </li>
+        })
+
+        return (
             <ListGroup componentClass='ul'>
-                <th className = 'list-group-item'>
+                <th className='list-group-item'>
                     Available Properties
                 </th>
                 <div className="ucs-avail-list ucs-avail-column-height">
-                    {propertyList.map((property, index)=>{
-                        return <li
-                                key = {property.id}
-                                className= {this.props.disabled + ' ' + (this.isActive(property)) + ' list-group-item'} 
-                                onClick={(e) => {this.settingSelected(property.id, e)}}>
-                                    {property.label}
-                                </li>
-                    })}
+                    { properties }
+                    { properties.length === 0 && <div id="ucs-loading-props">Loading Property...</div>}
                 </div>
             </ListGroup>
         )
