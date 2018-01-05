@@ -51,7 +51,7 @@
     "html-webpack-plugin": "2.24.0",
     "http-proxy": "^1.16.2",
     "http-proxy-middleware": "0.17.3",
-    "jest": "18.1.0",
+    "jest": "22.0.4",
     "json-loader": "0.5.4",
     "node-sass": "^4.5.3",
     "npm-run-all": "^4.0.2",
