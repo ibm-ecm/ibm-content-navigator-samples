@@ -49,7 +49,7 @@ export default class ColumnSetting extends React.Component {
             className === 'usc-detailview-toggle' && this.toggleDetailsViewChange(event);
             className === 'usc-magazineview-toggle'&& this.toggleMagazineViewChange(event);
         } else {
-            this.props.settingClick(index)
+            this.props.settingClick(event, index)
         }
     }
 

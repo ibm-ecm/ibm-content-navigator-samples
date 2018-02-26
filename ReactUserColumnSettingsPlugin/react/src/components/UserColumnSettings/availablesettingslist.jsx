@@ -66,7 +66,7 @@ export default class AvailableColumnList extends React.Component {
         return property.selected ? 'active': ''
     }
 
-    onRowClick = (e, index) => {
+    onRowClick = (event, index) => {
         let items = this.state.propList;
         if (this.props.disabled === 'disabled') {
             return false;
