@@ -23,7 +23,7 @@ ViewerToolbarPlugin.jar is generated under ibm-content-navigator-samples/ViewerT
 1. A custom button on the top toolbar of viewer.
 -  The parameters for the button are set in filter() function of [ViewOneActionResponseFilter.java](/ViewerToolbarPlugin/src/com/ibm/ecm/extension/viewerToolbar/services/ViewOneActionResponseFilter.java)
 -  The button execution and state evaluation functions are in [ViewerToolbarPlugin.js](/ViewerToolbarPlugin/src/com/ibm/ecm/extension/viewerToolbar/WebContent/ViewerToolbarPlugin.js)
-2. A custom button to add an image stamp on the left toolbar of viewer.
+2. A custom button on the left toolbar of viewer, to add an image stamp.
 -  The parameters for the button are set in filter() function of [ViewOneBootstrapResponseFilter.java](/ViewerToolbarPlugin/src/com/ibm/ecm/extension/viewerToolbar/services/ViewOneBootstrapResponseFilter.java)
 
 ![image for examples](/ViewerToolbarPlugin/examples.png)
