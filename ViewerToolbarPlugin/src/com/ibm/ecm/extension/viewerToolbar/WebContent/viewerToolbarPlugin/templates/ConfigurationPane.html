@@ -1,0 +1,66 @@
+<div class="viewerToolBarConfig">
+${messages.configuration_title}
+	<table class="propertyTable" role="presentation">
+		<tr>
+			<td class="propertyRowLabel">
+				<label>${messages.configuration_title_top_button}</label>&nbsp;
+			</td>
+		</tr>	
+		<tr>
+			<td class="propertyRowLabel">
+				<span class="required">*</span>
+				<label for="${id}_topButtonTooltip">${messages.configuration_top_button_tooltip}</label>&nbsp;
+				<div data-dojo-type="ecm/widget/HoverHelp" data-dojo-attach-point="rtopButtonTooltipHoverHelp">${messages.configuration_top_button_tooltip_hover}</div>
+			</td>
+			<td class="propertyRowValue">
+			   <div id="${id}_topButtonTooltip" data-dojo-attach-point="topButtonTooltipField" data-dojo-attach-event="onKeyUp: _onParamChange" maxLength="64" data-dojo-type="ecm.widget.ValidationTextBox" required="true" trim="true" propercase="false"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="propertyRowLabel">
+				<span class="required">*</span>
+				<label for="${id}_topButtonImageEnabled">${messages.configuration_top_button_image_enabled}</label>&nbsp;
+				<div data-dojo-type="ecm/widget/HoverHelp" data-dojo-attach-point="topButtonImageEnabledHoverHelp">${messages.configuration_top_button_image_enabled_hover}</div>
+			</td>
+			<td class="propertyRowValue">
+			   <div id="${id}_topButtonImageEnabled" data-dojo-attach-point="topButtonImageEnabledField" data-dojo-attach-event="onKeyUp: _onParamChange" maxLength="255" data-dojo-type="ecm.widget.ValidationTextBox" required="true" trim="true" propercase="false"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="propertyRowLabel">
+				<span class="required">*</span>
+				<label for="${id}_topButtonImageDisabled">${messages.configuration_top_button_image_disabled}</label>&nbsp;
+				<div data-dojo-type="ecm/widget/HoverHelp" data-dojo-attach-point="topButtonImageDisabledHoverHelp">${messages.configuration_top_button_image_disabled_hover}</div>
+			</td>
+			<td class="propertyRowValue">
+			   <div id="${id}_topButtonImageDisabled" data-dojo-attach-point="topButtonImageDisabledField" data-dojo-attach-event="onKeyUp: _onParamChange" maxLength="255" data-dojo-type="ecm.widget.ValidationTextBox" required="true" trim="true" propercase="false"></div>
+			</td>
+		</tr>
+
+		<tr>
+			<td class="propertyRowLabel">
+				<label>${messages.configuration_title_stamp_button}</label>&nbsp;
+			</td>
+		</tr>	
+		<tr>
+			<td class="propertyRowLabel">
+				<span class="required">*</span>
+				<label for="${id}_stampButtonLabel">${messages.configuration_stamp_button_name}</label>&nbsp;
+				<div data-dojo-type="ecm/widget/HoverHelp" data-dojo-attach-point="rstampButtonLabelHoverHelp">${messages.configuration_stamp_button_label_hover}</div>
+			</td>
+			<td class="propertyRowValue">
+			   <div id="${id}_stampButtonLabel" data-dojo-attach-point="stampButtonLabelField" data-dojo-attach-event="onKeyUp: _onParamChange" maxLength="64" data-dojo-type="ecm.widget.ValidationTextBox" required="true" trim="true" propercase="false"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="propertyRowLabel">
+				<span class="required">*</span>
+				<label for="${id}_stampImage">${messages.configuration_stamp_image}</label>&nbsp;
+				<div data-dojo-type="ecm/widget/HoverHelp" data-dojo-attach-point="topButtonImageEnabledHoverHelp">${messages.configuration_stamp_image_hover}</div>
+			</td>
+			<td class="propertyRowValue">
+			   <div id="${id}_stampImage" data-dojo-attach-point="stampImageField" data-dojo-attach-event="onKeyUp: _onParamChange" maxLength="255" data-dojo-type="ecm.widget.ValidationTextBox" required="true" trim="true" propercase="false"></div>
+			</td>
+		</tr>
+	</table>
+</div>

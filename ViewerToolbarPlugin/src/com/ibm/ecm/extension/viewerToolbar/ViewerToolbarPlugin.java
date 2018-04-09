@@ -63,7 +63,34 @@ public class ViewerToolbarPlugin extends Plugin {
 	public String getDojoModule() {
 		return "viewerToolbarPlugin";
 	}
-
+	
+	/**
+	 * Returns the name of a CSS file that contains styles for this plug-in. IBM
+	 * Content Navigator generates the necessary style tag to pull in this file
+	 * when IBM Content Navigator loads the plug-in.
+	 */
+	public String getCSSFileName() {
+		return "ViewerToolbarPlugin.css";
+	}
+	
+	/**
+	 * Returns the name of a Dojo <code>dijit</code> class that provides a
+	 * configuration interface widget for this plug-in. The widget must extend
+	 * the <code>ecm.widget.admin.PluginConfigurationPane</code> widget. An
+	 * instance of the widget is created and displayed in the IBM Content
+	 * Navigator administration tool for configuration that is specific to the
+	 * plug-in.
+	 * <p>
+	 * Refer to the documentation on
+	 * {@link ecm.widget.admin.PluginConfigurationPane PluginConfigurationPane}
+	 * for more information on what is required for a plug-in configuration user
+	 * interface.
+	 * </p>
+	 */
+	public String getConfigurationDijitClass() {
+		return "viewerToolbarPlugin.ConfigurationPane";
+	}
+	
 	@Override
 	public PluginResponseFilter[] getResponseFilters() {
 		return new PluginResponseFilter[] { new ViewOneActionResponseFilter(), new ViewOneBootstrapResponseFilter() };

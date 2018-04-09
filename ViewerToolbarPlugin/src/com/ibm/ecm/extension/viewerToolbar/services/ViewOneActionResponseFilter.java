@@ -22,9 +22,10 @@
 package com.ibm.ecm.extension.viewerToolbar.services;
 
 import javax.servlet.http.HttpServletRequest;
-
+import com.ibm.ecm.extension.PluginLogger;
 import com.ibm.ecm.extension.PluginResponseFilter;
 import com.ibm.ecm.extension.PluginServiceCallbacks;
+import com.ibm.json.java.JSON;
 import com.ibm.json.java.JSONObject;
 
 public class ViewOneActionResponseFilter extends PluginResponseFilter {
@@ -36,16 +37,39 @@ public class ViewOneActionResponseFilter extends PluginResponseFilter {
 
 	@Override
 	public void filter(String serverType, PluginServiceCallbacks callbacks, HttpServletRequest request, JSONObject jsonResponse) throws Exception {
-		String html = (String) jsonResponse.get("responseHTML");
-		// currently the last button at the top bar
-		int index = html.indexOf("<param name=\"bar1afterButton4\"");
-		if (index != -1) {
-			// append a custom button. Refer to https://www.ibm.com/support/knowledgecenter/SSTPHR_5.0.3/com.ibm.viewone.configuring/dvopr113.htm
-			String value = "viewerToolbarPluginAction(), Viewer Toolbar Plugin Action, ../../../../plugin/ViewerToolbarPlugin/getResource/images/button.png, ../../../../plugin/ViewerToolbarPlugin/getResource/images/button-disabled.png, true, viewerToolbarPluginActionEval()";
-			String param = "<param name=\"bar1afterButton5\" value=\"" + value + "\"/>";
-			html = html.substring(0, index) + param + "\r\n" + html.substring(index);		
-			jsonResponse.put("responseHTML", html);			
+		PluginLogger logger = callbacks.getLogger();
+		
+		// load plugin configuration
+		String configString = callbacks.loadConfiguration();
+		
+		if ( configString != null ) {
+			try {
+			    JSONObject jsonConfig = (JSONObject)JSON.parse(configString);	
+				String topButtonTooltip = (String)jsonConfig.get("topButtonTooltip");
+				String topButtonImageEnabled = "../../../../" + (String)jsonConfig.get("topButtonImageEnabled");
+				String topButtonImageDisabled = "../../../../" + (String)jsonConfig.get("topButtonImageDisabled");
+				
+				String html = (String) jsonResponse.get("responseHTML");
+				
+				// currently the last button on the top toolbar is bar1afterButton4
+				int lastIndex = 4;
+				int index = html.indexOf("<param name=\"bar1afterButton" + lastIndex + "\"");
+				
+				if (index != -1) {
+					// append a custom button. Refer to https://www.ibm.com/support/knowledgecenter/SSTPHR_5.0.3/com.ibm.viewone.configuring/dvopr113.htm
+					String executionScript = "viewerToolbarPluginAction()";
+					String evalScript = "viewerToolbarPluginActionEval()";
+					String value = executionScript + ", " + topButtonTooltip + ", " + topButtonImageEnabled + ", " + topButtonImageDisabled + ", true, " + evalScript;
+					String param = "<param name=\"bar1afterButton" + (lastIndex+1) + "\" value=\"" + value + "\"/>";
+					html = html.substring(0, index) + param + "\r\n" + html.substring(index);		
+					jsonResponse.put("responseHTML", html);			
+				}
+			    
+			} catch (Exception exc) {
+				logger.logError(this, "filter", exc);
+			}
 		}
+		
 	}
 
 }

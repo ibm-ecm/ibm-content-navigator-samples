@@ -24,7 +24,6 @@ package com.ibm.ecm.extension.viewerToolbar.services;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,17 +49,30 @@ public class ViewOneBootstrapResponseFilter extends PluginResponseFilter {
 
 			logParameters(request, callbacks, logger);
 			
-			// The javadoc for JSONViewoneBootstrapResponse can be found here:
-			// https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.3/com.ibm.javaeuc.doc/com/ibm/ecm/json/JSONViewoneBootstrapResponse.html
-			// See http://www-01.ibm.com/support/docview.wss?uid=swg27043272 for more information
-			JSONViewoneBootstrapResponse jvbr = (JSONViewoneBootstrapResponse)jsonResponse;
+			// load plugin configuration
+			String configString = callbacks.loadConfiguration();
 			
-			// add a custom button for stamp feature
-		    	String label = "Sample Stamp";
-		    	String path  = "plugin/ViewerToolbarPlugin/getResource/images/SampleStamp.png";
-	    		jvbr.setViewOneParameter("annotationStamp1", "image:" + label + "?path=" + path);
-	    		jvbr.setViewOneParameter("annotationStampProperties1", "<Menu=" + label + ">");
-	    		jvbr.setViewOneParameter("imageStampResourceContext", "/navigator/${originalStampURL.query.path}");
+			if ( configString != null ) {
+				try {
+				    JSONObject jsonConfig = (JSONObject)JSON.parse(configString);	
+					String stampButtonLabel = (String)jsonConfig.get("stampButtonLabel");
+					String stampImage = (String)jsonConfig.get("stampImage");
+					
+					// The javadoc for JSONViewoneBootstrapResponse can be found here:
+					// https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.3/com.ibm.javaeuc.doc/com/ibm/ecm/json/JSONViewoneBootstrapResponse.html
+					// See http://www-01.ibm.com/support/docview.wss?uid=swg27043272 for more information
+					JSONViewoneBootstrapResponse jvbr = (JSONViewoneBootstrapResponse)jsonResponse;
+					
+					// add a custom button for stamp feature
+			    		jvbr.setViewOneParameter("annotationStamp1", "image:" + stampButtonLabel + "?path=" + stampImage);
+			    		jvbr.setViewOneParameter("annotationStampProperties1", "<Menu=" + stampButtonLabel + ">");
+			    		jvbr.setViewOneParameter("imageStampResourceContext", "/navigator/${originalStampURL.query.path}");
+				    
+				} catch (Exception exc) {
+					logger.logError(this, "filter", exc);
+				}
+			}
+			
 		}		
 	}
 
