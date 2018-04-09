@@ -26,3 +26,4 @@ ViewerToolbarPlugin.jar is generated under ibm-content-navigator-samples/ViewerT
 2. A custom button to add an image stamp on the left toolbar of viewer.
 -  The parameters for the button are set in filter() function of [ViewOneBootstrapResponseFilter.java](/ViewerToolbarPlugin/src/com/ibm/ecm/extension/viewerToolbar/services/ViewOneBootstrapResponseFilter.java)
 
+![image for examples](/ViewerToolbarPlugin/examples.png)
