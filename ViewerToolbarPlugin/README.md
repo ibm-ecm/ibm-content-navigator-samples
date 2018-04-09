@@ -16,7 +16,11 @@ ViewerToolbarPlugin.jar is generated under ibm-content-navigator-samples/ViewerT
 1. Login IBM Content Navigator and open the Admin desktop
 2. Go to Plug-Ins in Admin desktop
 3. New Plug-in. Input the full path of ViewerToolbarPlugin.jar in the "JAR file path" and click "Load" button.
-4. Click Save.
+4. Configure the buttons and click Save.
+   For example, path for image within the plugin: plugin/ViewerToolbarPlugin/getResource/images/SampleStamp.png, 
+   path for image within the navigator web application folder: ecm/widget/resources/images/ibmLogoDark.png"
+
+![configuration](/ViewerToolbarPlugin/configuration.png)
 
 
 ## This plugin contains two examples for adding custom buttons
