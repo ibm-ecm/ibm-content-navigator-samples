@@ -32,9 +32,8 @@ ViewerToolbarPlugin.jar is generated under ibm-content-navigator-samples/ViewerT
 ![image for examples](/ViewerToolbarPlugin/examples.png)
 
 ## Additional reference
-1. barbutton parameter of viewer
-https://www.ibm.com/support/know!ledgecenter/SSTPHR_5.0.3/com.ibm.viewone.configuring/dvopr113.htm
-2. Image stamp settings of viewer
+1. barbutton parameter of viewer  
+https://www.ibm.com/support/knowledgecenter/SSTPHR_5.0.3/com.ibm.viewone.configuring/dvopr113.htm
+2. Image stamp settings of viewer  
 http://www-01.ibm.com/support/docview.wss?uid=swg27043272
-3. Javadoc for [JSONViewoneBootstrapResponse]
-(https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.3/com.ibm.javaeuc.doc/com/ibm/ecm/json/JSONViewoneBootstrapResponse.html)
+3. Javadoc for [JSONViewoneBootstrapResponse](https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.3/com.ibm.javaeuc.doc/com/ibm/ecm/json/JSONViewoneBootstrapResponse.html)
