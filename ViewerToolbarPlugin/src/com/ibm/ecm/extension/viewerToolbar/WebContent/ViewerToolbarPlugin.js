@@ -1,6 +1,6 @@
 require(["dojo/_base/declare",
          "dojo/_base/lang",
-         "samplePluginDojo/MessagesDialog",
+         "viewerToolbarPlugin/MessagesDialog",
 ], 
 	function(declare, lang, MessagesDialog) {
 			
