@@ -39,7 +39,7 @@ public class ViewOneBootstrapResponseFilter extends PluginResponseFilter {
 
 	@Override
 	public String[] getFilteredServices() {
-		return new String[] { "/p8/getViewoneBootstrap" };
+		return new String[] { "/p8/getViewoneBootstrap", "/cm/getViewoneBootstrap" };
 	}
 
 	@Override
