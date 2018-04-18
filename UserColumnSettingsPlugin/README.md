@@ -36,9 +36,10 @@ UserColumnSettingsPlugin.jar is generated under ibm-content-navigator-samples/Us
 ## Configure the columns display
 The following example shows how to display an additional column for the Class name.
 1. Login the desktop and go to Browse view.
-2. Click "Displayed Column Preferences" button on toolbar.
 
 ![action on toolbar](/UserColumnSettingsPlugin/toolbar.png)
+
+2. Click "Displayed Column Preferences" button on toolbar.
 
 ![preferences](/UserColumnSettingsPlugin/preferences.png)
 
