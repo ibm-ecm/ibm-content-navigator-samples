@@ -1,8 +1,8 @@
-This plugin demostrates how to add custom buttons to the viewer's toobars.
+This plugin demonstrates how to add custom buttons to the viewer's toobars.
 
 
 ## Get the plugin
-* Clone the repo: git clone https://github.com/ibm-ecm/ibm-content-navigator-samples.git
+* Clone the repository: git clone https://github.com/ibm-ecm/ibm-content-navigator-samples.git
 
 
 ## Build the plugin
