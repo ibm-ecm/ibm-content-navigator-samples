@@ -25,13 +25,13 @@ UserColumnSettingsPlugin.jar is generated under ibm-content-navigator-samples/Us
 4. Input Name and ID for your new menu, and move "Displayed Column Preferences" action from left to right.
 5. Click Save.  
 
-![new menu](/UserColumnSettingsPlugin/new menu.png)
+![new menu](/UserColumnSettingsPlugin/menu.png)
 
 6. Go to Desktops in Admin desktop
 7. Select the desktop where you want to configure the columns in the Browse view, and click Edit.
 8. Go to Menus tab of the desktop, select the newly created menu for "Content List toolbar" and click Save.
 
-![configure desktop](/UserColumnSettingsPlugin/configure desktop.png)
+![configure desktop](/UserColumnSettingsPlugin/desktop.png)
 
 ## Configure the columns display
 The following example shows how to display an additional column for the Class name.
@@ -42,4 +42,4 @@ The following example shows how to display an additional column for the Class na
 5. Move "Class Name" from left to right, and click OK.
 6. Go to a sub-folder in the repository. You will see the newly added Class column.
 
-![configured columns](/UserColumnSettingsPlugin/configured columns.png)
+![configured columns](/UserColumnSettingsPlugin/columns.png)
