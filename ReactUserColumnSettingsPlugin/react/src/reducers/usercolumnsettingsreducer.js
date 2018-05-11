@@ -9,6 +9,7 @@ export default function reducer(state = {
         repositoryDefaultProperties: [],
         repositoryDefaultPropertiesMap: {},
         userDefaultSettings: false,
+        origDefaultSettings: false,
         fixedValues: [],
         fixedValuesIDs: ["DocumentTitle"],
         fixedValuesIdMap:{DocumentTitle : "Name"},
@@ -79,7 +80,17 @@ export default function reducer(state = {
         case 'DEFAULT_USER_SETTINGS':
             return {
                 ...state,
-                userDefaultSettings : !state.userDefaultSettings
+                userDefaultSettings: !state.userDefaultSettings
+            }
+        case 'SETTING_SAVE_SUCCESS':
+            return {
+                ...state,
+                origDefaultSettings: state.userDefaultSettings
+            }
+        case 'CANCEL_DIALOG': 
+            return {
+                ...state,
+                userDefaultSettings: state.origDefaultSettings
             }
         case 'FILTER_TEXT_CHANGED':
             return {

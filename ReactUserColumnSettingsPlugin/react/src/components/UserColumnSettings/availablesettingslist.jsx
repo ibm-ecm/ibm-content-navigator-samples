@@ -1,19 +1,38 @@
-import React from 'react'
-import { ListGroup } from 'react-bootstrap'
+import React from 'react';
+import { ListGroup } from 'react-bootstrap';
+import _ from 'lodash';
 
+/**
+ * Component to show all available columns in list view 
+ */
 export default class AvailableColumnList extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            propList: []
+            propList: [],
+            lastSelectionIndex: 0
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.properties) {
-            this.setState({ propList: nextProps.properties });
+        const { properties, filterText } = nextProps;
+        if (properties && properties.length > 0  && _.isEmpty(filterText)) {
+            this.filterProperty(properties, filterText);
         }
+
+        if (!_.isEmpty(filterText)) {
+            let list = properties;
+            list = this.filterList(list, nextProps.filterText);
+            this.setState({ propList: list });
+        }
+    }
+
+    filterProperty = (list, filterText) => {
+        // filter user input text
+        list =  this.filterList(list, filterText);
+        list = this.sortList(list);
+        this.setState({ propList: list });
     }
 
     settingSelected = (id, e) => {
@@ -23,9 +42,9 @@ export default class AvailableColumnList extends React.Component {
     }
 
     sortList = (list) => {
-        list.sort((a, b) => {
-            const labelA = a.label.replace(/ /g, '').toLowerCase();
-            const labelB = b.label.replace(/ /g, '').toLowerCase();
+        return list.sort((a, b) => {
+            const labelA = a.label.replace(/\s/g, '').toLowerCase();
+            const labelB = b.label.replace(/\s/g, '').toLowerCase();
             if (labelA < labelB)
                 return -1;
             if (labelA > labelB)
@@ -34,6 +53,9 @@ export default class AvailableColumnList extends React.Component {
         })
     }
 
+    /**
+     * Filter available list from user input
+     */
     filterList = (list, filter) => {
         return list.filter((item) => {
             const lowerCaseTitle = item.label.toLowerCase();
@@ -42,28 +64,14 @@ export default class AvailableColumnList extends React.Component {
         })
     }
 
-    filterUserSettings = (list, userSettings) => {
-        return list.filter((item) => {
-            let add = true;
-
-            // filter out if its one of the current user settings
-            userSettings.forEach((setting) => {
-                if (setting.id == item.id) {
-                    add = false;
-                }
-            })
-
-            // filter out if its the Document Title
-            if (item.id == "DocumentTitle") {
-                add = false;
-            }
-
-            return add;
-        })
-    }
-
     isActive = (property) => {
         return property.selected ? 'active': ''
+    }
+
+    _selectRange = (items, start, end) => {
+        for(let i = start; i < end; i++) {
+            items[i].selected = true;
+        }
     }
 
     onRowClick = (event, index) => {
@@ -72,15 +80,30 @@ export default class AvailableColumnList extends React.Component {
             return false;
         }
 
-        if (!event.metaKey && !event.ctrlKey) {
-            // reset selection
+        if (event.shiftKey) {
+            // range selection with shiftkey
+            let selIndex = _.findIndex(items, {selected: true});
+            if (selIndex === -1) {
+                items[index].selected = true;
+            } else if (index < selIndex) {
+                this._selectRange(items, index, selIndex);
+            } else {
+                selIndex = _.findLastIndex(items, {selected: true});
+                this._selectRange(items, selIndex, index+1);
+            }
+        } else if (event.metaKey || event.ctrlKey) {
+            // individual selection with ctrl or command key
+            items[index].selected = true;
+        } else {
+            // one selection without metakey
+            // reset selection first; then select item
             items = items.map((item) => {
                 item.selected = false;
                 return item; 
             })
-        } 
-
-        items[index].selected = true;
+            items[index].selected = true;
+        }
+        
         // update selected items
         this.setState({ propList: items });
         // updated parent component with new selected properties
@@ -88,14 +111,9 @@ export default class AvailableColumnList extends React.Component {
     }
 
     render() {
-        const filter = this.props.filterText;
-        const userSettings = this.props.userSettings;
-        let propertyList = this.props.properties;
-        propertyList = this.filterList(propertyList, filter);
-        propertyList = this.filterUserSettings(propertyList, userSettings);
-        this.sortList(propertyList);
+        let propertyList = this.state.propList;
 
-        const properties = this.state.propList.map((property, index) => {
+        const properties = propertyList && propertyList.map((property, index) => {
             return <li
                 key={property.id}
                 className={this.props.disabled + ' ' + (this.isActive(property)) + ' list-group-item'}
@@ -111,7 +129,7 @@ export default class AvailableColumnList extends React.Component {
                 </th>
                 <div className="ucs-avail-list ucs-avail-column-height">
                     { properties }
-                    { properties.length === 0 && <div id="ucs-loading-props">Loading Property...</div>}
+                    { (properties && properties.length === 0) && <div id="ucs-loading-props">Loading Property...</div>}
                 </div>
             </ListGroup>
         )

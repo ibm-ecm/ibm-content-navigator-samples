@@ -1,41 +1,38 @@
 import React from 'react'
 
+/**
+ * Showing an individual column setting
+ */
 export default class ColumnSetting extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             detailsView: false,
             magazineView: false,
-            settingItem: null
+            settingItem: this.props.settingItem
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.detailsView) {
-            this.setState({ detailsView: nextProps.detailsView });
-        }
-
-        if (nextProps.magazineView) {
-            this.setState({ magazineView: nextProps.magazineView });
-        }
-
         if (nextProps.settingItem) {
             this.setState({ settingItem: nextProps.settingItem });
         }
     }
 
     toggleMagazineViewChange = (event) => {
-        const { magazineView } = this.state;
-        this.setState({ magazineView: !magazineView });
+        const { settingItem } = this.state;
+        settingItem.magazineView = !settingItem.magazineView;
+        this.setState({ settingItem: settingItem });
         // setting this way faster to passback the parent & do forloop
-        this.props.settingItem.magazineView = !magazineView;
+        this.props.settingItem.magazineView = settingItem.magazineView;
     }
 
     toggleDetailsViewChange = (event) => {
-        const { detailsView } = this.state;
-        this.setState({ detailsView: !detailsView });
+        const { settingItem } = this.state;
+        settingItem.detailsView = !settingItem.detailsView;
+        this.setState({ settingItem: settingItem });
         // setting this way faster to passback the parent & do forloop
-        this.props.settingItem.detailsView = !detailsView;
+        this.props.settingItem.detailsView = settingItem.detailsView;
     }
 
     settingSelected = (event, index) => {
@@ -54,6 +51,7 @@ export default class ColumnSetting extends React.Component {
     }
 
     render() {
+        const { settingItem } = this.state;
         return (
             <li
                 className={this.props.disabled + ' ' + this.props.active + ' list-group-item'}
@@ -65,14 +63,14 @@ export default class ColumnSetting extends React.Component {
                             <td width='15%'>
                                 <input
                                     type='checkbox'
-                                    checked={this.state.detailsView}
+                                    checked={settingItem.detailsView}
                                     className="usc-detailview-toggle"
                                 />
                             </td>
                             <td width='15%'>
                                 <input
                                     type='checkbox'
-                                    checked={this.state.magazineView}
+                                    checked={settingItem.magazineView}
                                     className="usc-magazineview-toggle"
                                 />
                             </td>

@@ -7,6 +7,9 @@ import ColumnSettingsList from './columnsettingslist';
 import AvailableSettingsList from './availablesettingslist';
 import _ from 'lodash';
 
+/**
+ * Container component for UserColumnSettings plugin
+ */
 export default class UserColumnSettings extends React.Component {
 
     constructor(props) {
@@ -28,10 +31,9 @@ export default class UserColumnSettings extends React.Component {
         this.setState({ showModal: true });
     }
 
-    componentWilUnmount() {
-        this.unsubscribe();
-    }
-
+    /**
+     * Getting all available repositories from Desktop Model
+     */
     initializeDesktopRepositories = () => {
         let selectedRepository;
         const desktopRepos = ecm.model.desktop.repositories;
@@ -56,6 +58,9 @@ export default class UserColumnSettings extends React.Component {
         this.initializeRepositoryAvailableOptions(selectedRepository);
     }
 
+    /**
+     * Loading all column setting saved by user
+     */
     initializeUserSettings = () => {
         const keyPrefix = "UserColumnSettings";
         var key = keyPrefix + window.ecm.model.desktop.defaultRepositoryId;
@@ -76,6 +81,11 @@ export default class UserColumnSettings extends React.Component {
         });
     }
 
+    /**
+     * Get all available column available for a given repository
+     * 
+     * @param selectedRepository
+     */
     initializeRepositoryAvailableOptions = (selectedRepository) => {
 
         const fixedValuesIdMap = this.state.userColumnSettings.fixedValuesIdMap;
@@ -101,7 +111,7 @@ export default class UserColumnSettings extends React.Component {
                 }
 
                 // Find the fixed values to be placed at the top of the userSettings list
-                if (item.id == "DocumentTitle") {
+                if (item.id === 'DocumentTitle') {
                     const fixedItem = {
                         id: item.id,
                         label: fixedValuesIdMap[item.id],
@@ -121,10 +131,13 @@ export default class UserColumnSettings extends React.Component {
         }, true);
     }
 
+    /**
+     * Initialize all default properties for a given repository
+     * 
+     * @param selectedRepository
+     */
     initializeRepositoryDefaultProperties = (selectedRepository) => {
-        const defaultList = {};
         const repositoryConfiguration = selectedRepository.getRepositoryConfig();
-        const repositoryColumns = {};
         const repositoryColumnsArray = [];
         const folderDefaultColumns = repositoryConfiguration.getFolderDefaultColumns();
         const magazineDefaultColumns = repositoryConfiguration.getFolderMagazineDefaultColumns();
@@ -132,13 +145,13 @@ export default class UserColumnSettings extends React.Component {
         let columnsAll = [];
 
         magazineDefaultColumns.forEach((column) => {
-            if (columnsAll.indexOf(column) == -1 && column.indexOf("{") == -1) {
+            if (columnsAll.indexOf(column) === -1 && column.indexOf("{") === -1) {
                 columnsAll.push(column);
             }
         });
 
         folderDefaultColumns.forEach((column) => {
-            if (columnsAll.indexOf(column) == -1 && column.indexOf("{") == -1) {
+            if (columnsAll.indexOf(column) === -1 && column.indexOf("{") === -1) {
                 columnsAll.push(column);
             }
         });
@@ -158,10 +171,20 @@ export default class UserColumnSettings extends React.Component {
         this.store.dispatch({ type: 'DEFAULT_COLUMN_SETTINGS_INITIALIZED', payload: repositoryColumnsArray });
     }
 
-    closeModal = () => {
+    /**
+     * Close UserColumnSetting Modal dialog
+     * 
+     * @param isCancel - indicate it's a cancel action
+     */
+    closeModal = (isCancel) => {
+        if (isCancel)
+            this.store.dispatch({type: 'CANCEL_DIALOG'});
         this.setState({ showModal: false });
     }
 
+    /**
+     * Get titles for all repository stored in UserColumnSettings state
+     */
     getRepositoryTitles = () => {
         const repos = this.state.userColumnSettings.desktopRepos;
         const titles = [];
@@ -181,11 +204,6 @@ export default class UserColumnSettings extends React.Component {
         return selected;
     }
 
-    // TODO
-    // Every dispatch will call for a rerender
-    // So all functions should return state change and then 
-    // we should dispatch one action from here with one payload
-    // rename the function to make it more meaningfull
     onSelectionChange = (selectedRepository) => {
         this.reinitializeRepositories(selectedRepository);
         this.updateSelectedRepository(selectedRepository);
@@ -232,7 +250,6 @@ export default class UserColumnSettings extends React.Component {
         this.store.dispatch({ type: 'REPOSITORY_OPTIONS_REINITIALIZED', payload: repos });
     }
 
-    // TODO handle removing user settings and populating new default user settings for a start
     updateSelectedRepository = (selectedRepository) => {
         const desktopRepos = ecm.model.desktop.repositories;
         let selected;
@@ -247,6 +264,11 @@ export default class UserColumnSettings extends React.Component {
         this.store.dispatch({ type: 'DEFAULT_USER_SETTINGS' });
     }
 
+    /**
+     * Handle move up & down a property action
+     * 
+     * @param direction up/down
+     */
     move = (direction) => {
         let ucs  = this.state.userColumnSettings;
         const _move = (item) => {
@@ -265,10 +287,21 @@ export default class UserColumnSettings extends React.Component {
         this.setState({ userColumnSettings: ucs });
     }
 
+    /**
+     * Adding a property to user setting
+     */
     addPropertyToSettings = () => {
         let ucs = this.state.userColumnSettings;
-        const removedSettings = _.remove(ucs.propertyList, (setting) => {
+        let removedSettings = _.remove(ucs.propertyList, (setting) => {
             return setting.selected;
+        });
+        // remove selected highlight
+        let order = ucs.savedUserItems.length;
+        removedSettings.forEach((s) => {
+            s.selected = false;
+            s.order = order++;
+            s.magazineView = false;
+            s.detailsView = false;
         });
         ucs.savedUserItems = _.concat(ucs.savedUserItems, removedSettings);
         this.setState({
@@ -276,10 +309,16 @@ export default class UserColumnSettings extends React.Component {
         });
     }
 
+    /**
+     * Remove a property from user setting
+     */
     removePropertyFromSettings = () => {
         let ucs = this.state.userColumnSettings;
         const removedSettings = _.remove(ucs.savedUserItems, (setting) => {
             return setting.selected;
+        });
+        removedSettings.forEach((s) => {
+            s = _.omit(s, ['selected', 'order']);
         });
         ucs.propertyList = _.concat(ucs.propertyList, removedSettings);
         this.setState({
@@ -287,6 +326,9 @@ export default class UserColumnSettings extends React.Component {
         });
     }
 
+    /**
+     * Save all user settings
+     */
     saveSettings = () => {
         const keyPrefix = "UserColumnSettings";
         const key = keyPrefix + this.state.userColumnSettings.selectedRepositoryId;
@@ -297,7 +339,7 @@ export default class UserColumnSettings extends React.Component {
 
         if (!defaultSelected) {
             userSettings.forEach((setting) => {
-                setting.selected = false;
+                setting = _.omit(setting, ['selected']);
                 savedSettings[setting.id] = setting;
             });
             savedSettingsString = JSON.stringify(savedSettings);
@@ -310,7 +352,8 @@ export default class UserColumnSettings extends React.Component {
                 userSettingsKey: key
             },
             requestCompleteCallback: () => {
-                this.closeModal();
+                this.store.dispatch({type: 'SETTING_SAVE_SUCCESS'});
+                this.closeModal(false);
             }
         });
     }
@@ -325,11 +368,17 @@ export default class UserColumnSettings extends React.Component {
         this.store.dispatch({ type: 'FILTER_TEXT_CHANGED', payload: "" });
     }
 
-    testingFunction = () => {
-        this.initializeRepositoryAvailableOptions();
+    filterSetting = (list, settings) => {
+        let elements = list;
+        settings.forEach(setting => {
+            _.remove(elements, {label: setting.label})
+        });
+        return elements;
     }
 
     render() {
+        const { propertyList, savedUserItems } = this.state.userColumnSettings;
+        let properties = this.filterSetting(propertyList, savedUserItems);
         return (
             <Modal id="icn-user-setting-dialog" show={this.state.showModal} onHide={this.close} bsSize="large">
                 <Modal.Header>
@@ -356,9 +405,9 @@ export default class UserColumnSettings extends React.Component {
                             <InputGroup>
                                 <FormControl
                                     type="input"
-                                    // style = {{width: '25%'}}
                                     placeholder="Filter available list"
                                     onChange={this.filterAvailableList}
+                                    disabled={this.state.userColumnSettings.userDefaultSettings}
                                     value={this.state.userColumnSettings.filtrationText}>
                                 </FormControl>
                                 <InputGroup.Addon
@@ -375,15 +424,15 @@ export default class UserColumnSettings extends React.Component {
                             <AvailableSettingsList
                                 selectedProperty={this.state.userColumnSettings.propertySelected}
                                 disabled={this.state.userColumnSettings.userDefaultSettings ? 'disabled' : ''}
-                                properties={this.state.userColumnSettings.propertyList}
+                                properties={properties}
                                 filterText={this.state.userColumnSettings.filtrationText}
                                 userSettings={this.state.userColumnSettings.savedUserItems} />
                         </div>
                         <div className="col-md-1 ucs-navmenu" id="ucs-leftright">
-                            <Button onClick={() => { this.addPropertyToSettings() }}>
+                            <Button disabled={this.state.userColumnSettings.userDefaultSettings} onClick={() => { this.addPropertyToSettings() }}>
                                 <Glyphicon glyph="menu-right" />
                             </Button>
-                            <Button onClick={() => { this.removePropertyFromSettings() }}>
+                            <Button disabled={this.state.userColumnSettings.userDefaultSettings} onClick={() => { this.removePropertyFromSettings() }}>
                                 <Glyphicon glyph="menu-left" />
                             </Button>
                         </div>
@@ -391,15 +440,15 @@ export default class UserColumnSettings extends React.Component {
                             <ColumnSettingsList
                                 default={this.state.userColumnSettings.userDefaultSettings}
                                 savedUserItems={this.state.userColumnSettings.savedUserItems}
-                                properties={this.state.userColumnSettings.propertyList}
+                                properties={properties}
                                 repositoryDefaults={this.state.userColumnSettings.repositoryDefaultProperties}
                                 fixedValues={this.state.userColumnSettings.fixedValues} />
                         </div>
                         <div className="col-md-1 ucs-navmenu" id="ucs-updown">
-                            <Button onClick={() => { this.move(-1) }}>
+                            <Button disabled={this.state.userColumnSettings.userDefaultSettings} onClick={() => { this.move(-1) }}>
                                 <Glyphicon glyph="menu-up" />
                             </Button>
-                            <Button onClick={() => { this.move(1) }}>
+                            <Button disabled={this.state.userColumnSettings.userDefaultSettings} onClick={() => { this.move(1) }}>
                                 <Glyphicon glyph="menu-down" />
                             </Button>
                         </div>
@@ -408,7 +457,7 @@ export default class UserColumnSettings extends React.Component {
 
                 <Modal.Footer>
                     <Button onClick={() => { this.saveSettings() }}>OK</Button>
-                    <Button onClick={this.closeModal}>Cancel</Button>
+                    <Button onClick={() => this.closeModal(true)}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
         )

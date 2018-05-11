@@ -46,3 +46,8 @@
     text-align: center;
     margin-top: 100px;
 }
+
+/* reset to comply with dojo's tyle */
+.ecmSecurityPane .rightPane, .ecmSecurityPane .leftPane {
+    overflow: inherit;
+}

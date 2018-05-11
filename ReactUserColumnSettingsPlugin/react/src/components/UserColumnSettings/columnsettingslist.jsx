@@ -1,18 +1,19 @@
-import React from 'react'
-import createStore from '../../store'
-import { ListGroup } from 'react-bootstrap'
-import ColumnSetting from './columnsetting'
+import React from 'react';
+import { ListGroup } from 'react-bootstrap';
+import ColumnSetting from './columnsetting';
+import _ from 'lodash';
 
+/**
+ * Showing user's column setting list
+ */
 export default class ColumnSettingsList extends React.Component {
     constructor(props) {
         super(props);
-        this.store = createStore;
-        this.state = this.store.getState();
-        this.setState({
+        this.state = {
             fixedValues: [],
             savedUserItems: [],
             repositoryDefaults: []
-        });
+        };
     }
 
     componentWillReceiveProps(nextProps) {
@@ -22,69 +23,60 @@ export default class ColumnSettingsList extends React.Component {
         if (nextProps.fixedValues) 
             this.setState({ fixedValues: nextProps.fixedValues });
 
-        if (nextProps.repositoryDefaults) 
-            this.setState({ repositoryDefaults: nextProps.repositoryDefaults });
-
-        if (nextProps.default)
+        if (nextProps.default) 
             this.setState({ savedUserItems: nextProps.repositoryDefaults});
         
-    }
-
-    componentDidMount() {
-        this.unsubscribe = this.store.subscribe(() => {
-            this.setState(this.store.getState());
-        })
-    }
-
-    componentWilUnmount() {
-        this.unsubscribe();
-    }
-
-    onItemSelected = (settingId) => {
-        const selected = this.state.userColumnSettings.userItemSelectedId
-        if (selected != settingId)
-            this.store.dispatch({ type: 'ITEM_SELECTED', payload: settingId });
     }
 
     getLabelFromId = (id) => {
         const available = this.props.properties;
         let label = id;
         available.forEach((option) => {
-            if (option.id == id)
+            if (option.id === id)
                 label = option.label;
         });
         return label;
     }
 
-    resetSelection = () => {
-        const { savedUserItems } = this.state.userColumnSettings;
-        savedUserItems.forEach((setting) => {
-            setting.selected = false;
-        });
-
-        this.setState({ 
-            savedUserItems: savedUserItems
-        });
+    _selectRange = (items, start, end) => {
+        for(let i = start; i < end; i++) {
+            items[i].selected = true;
+        }
     }
 
-    settingClick = (index) => {
-        let { savedUserItems } = this.state.userColumnSettings;
+    settingClick = (event, index) => {
+        let { savedUserItems } = this.state; 
 
-        // if user don't hold cmd or ctrl; need to reset multiselect
-        if (!event.metaKey && !event.ctrlKey) {
+        if(event.shiftKey) {
+            // range selection with shiftkey
+            let selIndex = _.findIndex(savedUserItems, {selected: true});
+            if (selIndex === -1) {
+                savedUserItems[index].selected = true;
+            } else if (index < selIndex) {
+                this._selectRange(savedUserItems, index, selIndex);
+            } else {
+                selIndex = _.findLastIndex(savedUserItems, {selected: true});
+                this._selectRange(savedUserItems, selIndex, index+1);
+            }
+
+        } else if (event.metaKey || event.ctrlKey) {
+            // individual selection with ctrl or command key
+            savedUserItems[index].selected = true;
+        } else {
             savedUserItems.forEach((setting) => {
                 setting.selected = false;
-            })
+            });
+            savedUserItems[index].selected = true;
         }
-        savedUserItems[index].selected = true;
+
         this.setState({
             savedUserItems: savedUserItems
         });  
     }
 
     render() {
-        const { fixedValues, savedUserItems } = this.state.userColumnSettings;
-
+        const { fixedValues, savedUserItems } = this.state;
+    
         return (
             <ListGroup componentClass='ul'>
                 <li className='list-group-item'>
@@ -99,27 +91,24 @@ export default class ColumnSettingsList extends React.Component {
                         fixedValues.map((setting, index) => {
                             return (<ColumnSetting
                                 key={index}
-                                detailsView={setting.detailsView}
-                                magazineView={setting.magazineView}
                                 disabled="disabled"
                                 settingItem={setting}
                             >
-                                {this.props.default ? this.getLabelFromId(setting.label) : setting.label}
+                                {setting.label}
                             </ColumnSetting>)
                         })
                     }
                     {
                         savedUserItems.map((setting, index) => {
+                            let item = setting;
                             return (<ColumnSetting
                                 key={index}
                                 index={index}
                                 id={setting.id}
-                                detailsView={setting.detailsView}
-                                magazineView={setting.magazineView}
                                 disabled={this.props.default ? 'disabled' : ''}
                                 active={setting.selected ? 'active':''}
                                 settingClick={this.settingClick}
-                                settingItem={setting}
+                                settingItem={item}
                             >
                                 {this.props.default ? this.getLabelFromId(setting.label) : setting.label}
                             </ColumnSetting>)
