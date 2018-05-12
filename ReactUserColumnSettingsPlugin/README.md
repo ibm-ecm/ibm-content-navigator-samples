@@ -4,17 +4,17 @@ User can customize ICN UI using React after read this sample.
 
 
 ## Get the plugin
-* Clone the repo: git clone https://github.ibm.com/ECM-Nexus/icn-plugins.git
+* Clone the repo: git clone https://github.com/ibm-ecm/ibm-content-navigator-samples.git
 
 
 ## Build the plugin
 
 1. Make sure the NPM and ANT are installed.
-2. cd icn-plugins/ReactUserColumnSettingsPlugin
+2. cd ibm-content-navigator-samples/ReactUserColumnSettingsPlugin
 3. Open build.xml. Search for "npmPath" at line 5. Update your NPM path in the value if the path is not default NPM path on your environment.
 4. ant -f build.xml 
 
-ReactUserColumnSettingsPlugin.jar is generated under icn-plugins/ReactUserColumnSettingsPlugin
+ReactUserColumnSettingsPlugin.jar is generated under ibm-content-navigator-samples/ReactUserColumnSettingsPlugin
 
 ## Install the plugin
 1. Login IBM Content Navigator and open the Admin desktop
