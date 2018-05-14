@@ -21,18 +21,18 @@ export default class ColumnSetting extends React.Component {
 
     toggleMagazineViewChange = (event) => {
         const { settingItem } = this.state;
+        const { toggleMagazineView, index } = this.props;
         settingItem.magazineView = !settingItem.magazineView;
         this.setState({ settingItem: settingItem });
-        // setting this way faster to passback the parent & do forloop
-        this.props.settingItem.magazineView = settingItem.magazineView;
+        toggleMagazineView(index, settingItem.magazineView);
     }
 
     toggleDetailsViewChange = (event) => {
         const { settingItem } = this.state;
+        const { toggleDetailView, index } = this.props;
         settingItem.detailsView = !settingItem.detailsView;
         this.setState({ settingItem: settingItem });
-        // setting this way faster to passback the parent & do forloop
-        this.props.settingItem.detailsView = settingItem.detailsView;
+        toggleDetailView(index, settingItem.detailsView);
     }
 
     settingSelected = (event, index) => {

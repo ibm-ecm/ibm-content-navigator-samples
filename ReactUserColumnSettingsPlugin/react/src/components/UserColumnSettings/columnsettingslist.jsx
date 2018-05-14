@@ -74,6 +74,18 @@ export default class ColumnSettingsList extends React.Component {
         });  
     }
 
+    toggleDetailView = (index, viewState) => {
+        let { savedUserItems } = this.state;
+        savedUserItems[index].detailView = viewState;
+        this.setState({ savedUserItems : savedUserItems });
+    }
+
+    toggleMagazinView = (index, viewState) => {
+        let { savedUserItems } = this.state;
+        savedUserItems[index].magazineView = viewState;
+        this.setState({ savedUserItems : savedUserItems });
+    }
+
     render() {
         const { fixedValues, savedUserItems } = this.state;
     
@@ -108,6 +120,8 @@ export default class ColumnSettingsList extends React.Component {
                                 disabled={this.props.default ? 'disabled' : ''}
                                 active={setting.selected ? 'active':''}
                                 settingClick={this.settingClick}
+                                toggleDetailView={this.toggleDetailView}
+                                toggleMagazineView={this.toggleMagazineView}
                                 settingItem={item}
                             >
                                 {this.props.default ? this.getLabelFromId(setting.label) : setting.label}
