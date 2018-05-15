@@ -7,10 +7,10 @@ eClient plug-in
 
 ## Build the plugin
 
-Run Ant Build using ibm-content-navigator-samples/eClientPlugin/build.xml
+* Run Ant Build using ibm-content-navigator-samples/eClientPlugin/build.xml
 
 
-eClientPlugin.jar is generated under ibm-content-navigator-samples/eClientPlugin
+* eClientPlugin.jar is generated under ibm-content-navigator-samples/eClientPlugin
 
 ## Install the plugin
 1. Login IBM Content Navigator and open the Admin desktop
