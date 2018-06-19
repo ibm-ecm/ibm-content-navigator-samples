@@ -2,6 +2,7 @@ import { Subject } from 'rxjs/Subject';
  
 export class ReactMessageService {
     constructor() {
+        this.createBy = "ReactUserColumnSettingsPlugin"
         this.reactObservable = new Subject();
     }
  

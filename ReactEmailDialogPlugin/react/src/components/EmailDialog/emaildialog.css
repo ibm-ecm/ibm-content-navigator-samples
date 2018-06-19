@@ -47,18 +47,18 @@
 }
 /*adjustment for add document dialog*/
 .ecm.icn .ecmBaseDialog.fullscreen.dijitDialog .dijitDialogTitleBar {
-    width: 259px!important;
+    /* width: 259px!important; */
     box-sizing: content-box;
 }
 
 .ecm img {
     max-width: none
 }
-
+/*
 .ecm.icn .modal__body .alert.alert--error{
     z-index: 1;
 }
 .ecm.icn .modal__body .alert.alert--error.alert__fadeOut{
     z-index: auto;
 }
-
+*/

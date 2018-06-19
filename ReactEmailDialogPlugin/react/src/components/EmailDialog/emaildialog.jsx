@@ -59,6 +59,10 @@ export default class EmailDialog extends React.Component {
 
     closeModals = () => {
         this.setState({ visibleModal: false });
+        //workaround: AP component add "vanilla-modal" class on body event dialog is closed.
+        //It will impact other UI render
+        var classStr =document.body.getAttribute("class").replace("vanilla-modal","")
+        document.body.setAttribute("class",classStr)
     }
 
     handleInputChange = (event) => {
