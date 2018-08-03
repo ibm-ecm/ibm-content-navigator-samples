@@ -52,6 +52,9 @@ var profile = {
 		"userColumnSettingsDojo/UserColumnSettings": {
 			include: [
 				"userColumnSettingsDojo/UserColumnSettings"
+				/* add your JS modules here, ie.
+				, "userColumnSettingsDojo/CustomDialog"
+				 */
 			],
 			exclude: [
 				"dojo/dojo",

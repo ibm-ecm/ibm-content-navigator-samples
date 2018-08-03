@@ -2,7 +2,7 @@
 
 <project name="UserColumnSettingsPlugin" default="all" basedir=".">
 
-	<target name="all" depends="clean,compile,jar" />
+	<target name="all" depends="clean,compile,compress_js,jar" />
 
 	<path id="classpath">
 		<fileset id="httpComponents.jars" dir="lib">
@@ -44,47 +44,38 @@
 	<!--Unzips and extracts all the necessary files to perform a dojo build and compress the sample plugin files for production use -->
 	<target name="unzip_dojo_files">
 		<!--You must provide a value for the dojo source zip file here.  
-					Go download a dojo source zip file from http://download.dojotoolkit.org/ (ie..dojo-release-1.9.3-src.zip) and provide the path here. -->
-					
+					Go download a dojo source zip file from http://download.dojotoolkit.org/ (ie. http://download.dojotoolkit.org/release-1.10.4/dojo-release-1.10.4-src.zip) and provide the path here. -->		
+		<property name="dojo_src_zip" value="/Users/qiwang/Documents/NavigatorSource/dojo-release-1.10.4-src.zip" />
 		
-		<property name="dojo_src_zip" value="/Users/jonleeibm/Documents/NavigatorSource/DojoResourceFiles/source_1.9.6-20141215-IBM_dojo_modified.zip" />
 		<!--Provide a path to the WebContent folder of where IBM Content Navigator is installed.  
 					By default, a windows install path can be: C:\Program Files (x86)\IBM\ECMClient\configure\explodedformat\navigator. -->
-		<property name="icn_path" value="/Users/jonleeibm/Documents/NavigatorSource/WebContent"/>
-		
+		<property name="icn_path" value="/Users/qiwang/Documents/NavigatorSource/navigator"/>	
 
 		<delete dir="temp/dojo" />
-		<unzip dest="temp/dojo" src="${dojo_src_zip}" />
+		
+		<!-- Unzip the dojo source. As there is a root folder in the zip, strip it from the source. -->
+		<unzip dest="temp/dojo" src="${dojo_src_zip}">
+	    		<patternset>
+				<exclude name="**/tests/**" />
+				<exclude name="**/tests/" />
+		    </patternset>
+			<cutdirsmapper dirs="1"/>
+		</unzip>
 
-		<copy todir="temp/dojo/ecm" preservelastmodified="yes" verbose="no">
-			<fileset dir="${icn_path}/ecm">
-				<include name="**/*" />
+		<copy todir="temp/dojo" preservelastmodified="yes" verbose="no">
+			<fileset dir="${icn_path}">
+				<include name="ecm/" />
+				<include name="pvr/" />
+				<include name="pvd/" />
+				<include name="gridx/" />
+				<include name="idx/" />
+				<exclude name="**/tests/**" />
+				<exclude name="**/tests/" />		
 				<exclude name="nls/ecm_*.jgz" />
 				<exclude name="**/FormSigningContainer.js"/>
 				<exclude name="**/DocumentFormContainer.js"/>
 				<exclude name="**/TeamspaceTabPane.js"/>
 				<exclude name="**/PropertiesControllerRuntime.js"/>
-			</fileset>
-		</copy>
-		<copy todir="temp/dojo/pvr" preservelastmodified="yes" verbose="no">
-			<fileset dir="${icn_path}/pvr">
-				<include name="**/*" />
-				<exclude name="tests/**"/>
-			</fileset>
-		</copy>
-		<copy todir="temp/dojo/pvd" preservelastmodified="yes" verbose="no">
-			<fileset dir="${icn_path}/pvd">
-				<include name="**/*" />
-			</fileset>
-		</copy>
-		<copy todir="temp/dojo/gridx" preservelastmodified="yes" verbose="no">
-			<fileset dir="${icn_path}/gridx">
-				<include name="**/*" />
-			</fileset>
-		</copy>
-		<copy todir="temp/dojo/idx" preservelastmodified="yes" verbose="no">
-			<fileset dir="${icn_path}/idx">
-				<include name="**/*" />
 			</fileset>
 		</copy>
 	</target>
