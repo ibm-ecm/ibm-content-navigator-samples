@@ -7,23 +7,26 @@ This plugin demonstrates how to configure columns in Browse view.
 
 ## Build the plugin
 1. Download the dojo source zip from http://download.dojotoolkit.org/ .
-   For example, download http://download.dojotoolkit.org/release-1.10.4/dojo-release-1.10.4-src.zip for IBM Content Navigator 3.0.4.
-2. Revise the build script ibm-content-navigator-samples/UserColumnSettingsPlugin/build.xml .
-   Set the value of property "dojo_src_zip" to the path of the dojo source zip.
-   Set the value of property "icn_path" to the path of the folder where IBM Content Navigator is installed. For example, C:\Program Files\IBM\ECMClient\configure\explodedformat\navigator .
-3. (Optional) Revise the profile ibm-content-navigator-samples/UserColumnSettingsPlugin/UserColumnSettings.profile.js, if there are custom JS modules.
-   Add your classes under UserColumnSettings like below.
+- For example, download http://download.dojotoolkit.org/release-1.10.4/dojo-release-1.10.4-src.zip for IBM Content Navigator 3.0.4.
+2. Revise the build script [build.xml](/UserColumnSettingsPlugin/build.xml).
+- Set the value of property "dojo_src_zip" to the path of the dojo source zip.
+- Set the value of property "icn_path" to the path of the folder where IBM Content Navigator is installed. For example, "C:\Program Files\IBM\ECMClient\configure\explodedformat\navigator".
+3. (Optional) Revise the profile [UserColumnSettings.profile.js](/UserColumnSettingsPlugin/UserColumnSettings.profile.js), if there are custom JS modules.
+- Add your classes under UserColumnSettings like below.
+```
 	layers: {
 		"userColumnSettingsDojo/UserColumnSettings": {
 			include: [
 				"userColumnSettingsDojo/UserColumnSettings",
-				"userColumnSettingsDojo/CustomDialog",
-                ...
+				"userColumnSettingsDojo/CustomDialog"
 			]
-4. (Optional) Revise the ibm-content-navigator-samples/UserColumnSettingsPlugin/src/com/ibm/ecm/extension/WebContent/UserColumnSettings.css to include your CSS files.
+```
+4. (Optional) Revise the [UserColumnSettings.css](/UserColumnSettingsPlugin/src/com/ibm/ecm/extension/WebContent/UserColumnSettings.css) file to include your CSS files.
+```
     @import url("./CustomDialog.css");
     @import url("./CustomWidget.css");         
-5. Run Ant Build using ibm-content-navigator-samples/UserColumnSettingsPlugin/build.xml
+```
+5. Run Ant Build using [build.xml](/UserColumnSettingsPlugin/build.xml)
    UserColumnSettingsPlugin.jar is generated under ibm-content-navigator-samples/UserColumnSettingsPlugin
 
 ## Install the plugin
