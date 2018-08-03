@@ -1,58 +1,60 @@
 // reset box-sizing
 // boxmodel reset
-*, :after, :before {
-    -webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-        box-sizing: content-box;
-}
+#icn-user-setting-dialog{
+    // *, :after, :before {
+    //     -webkit-box-sizing: content-box;
+    //     -moz-box-sizing: content-box;
+    //         box-sizing: content-box;
+    // }
 
-// reset label back to icn
-.label {
-    color: rgb(29, 54, 73);
-    margin: 0 5px;
-    vertical-align: top;
-    float: left;
-}
-
-#icn-user-setting-dialog {
-    *, :after, :before {
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-            box-sizing: border-box;
+    // reset label back to icn
+    .label {
+        color: rgb(29, 54, 73);
+        margin: 0 5px;
+        vertical-align: top;
+        float: left;
     }
-}
 
-// Form control
-.form-control {
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: 1 solid $icn-border-color;
-    box-shadow: none;
-    &:focus {
+    #icn-user-setting-dialog {
+        *, :after, :before {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+                box-sizing: border-box;
+        }
+    }
+
+    // Form control
+    .form-control {
+        border-top: none;
+        border-left: none;
+        border-right: none;
+        border-bottom: 1 solid $icn-border-color;
         box-shadow: none;
+        &:focus {
+            box-shadow: none;
+        }
     }
-}
 
-// Button
-.btn {
-    border: 1px solid $icn-color;
-    color: $icn-color;
-    &:hover,
-    &:focus,
-    &.focus {
-        background-color: $icn-color;
-        color: #fff;
+    // Button
+    .btn {
+        border: 1px solid $icn-color;
+        color: $icn-color;
+        &:hover,
+        &:focus,
+        &.focus {
+            background-color: $icn-color;
+            color: #fff;
+        }
     }
-}
 
-// Modal
-.modal-content {
-    border-radius: 0;
-    border-top: solid 5px $icn-border-color;
-}
+    // Modal
+    .modal-content {
+        border-radius: 0;
+        border-top: solid 5px $icn-border-color;
+    }
 
-// misc
-.height100pc {
-    height: 100%;
+    // misc
+    .height100pc {
+        height: 100%;
+    }
 }

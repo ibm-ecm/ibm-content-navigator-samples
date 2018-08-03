@@ -33,14 +33,16 @@ function(declare, lang) {
 			/*
 			 * Opens a dialog that provides user settings for the columns they want displayed in Browse view.
 			 */
-			if (reactServiceForUserColumnSettings) {
+			if (window.icnReactService) {
 				// remove it first
-				reactServiceForUserColumnSettings.sendMessage({
-					message: 'remove_user_column_settings_dialog'
+				window.icnReactService.sendMessage({
+					message: 'remove_user_column_settings_dialog',
+					containerId: 'icn-user-columns-container'
 				});
 				// render email dialog
-				reactServiceForUserColumnSettings.sendMessage({
-					message: 'render_user_column_settings_dialog'
+				window.icnReactService.sendMessage({
+					message: 'render_user_column_settings_dialog',
+					containerId: 'icn-user-columns-container'
 				});
 			}
 			

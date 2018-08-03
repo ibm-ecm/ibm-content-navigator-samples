@@ -32,13 +32,14 @@ function(declare, lang,aspect,CommonActionsHandler) {
 	loadJS("plugin/ReactEmailDialogPlugin/getResource/reactEmailDialogPlugin/build/icn-react.min.js", function(){
 
 		var _showEmailDialog = function(items, attachmentType,version) {
-			if (reactServiceForEmailDialog) {
+			if (window.icnReactService) {
 				// remove it first
-				reactServiceForEmailDialog.sendMessage({
-					message: 'remove_email_dialog'
-				});
+                window.icnReactService.sendMessage({
+					message: 'remove_email_dialog',
+					containerId: 'icn-emaildialog-container'
+                });
 				// render email dialog
-				reactServiceForEmailDialog.sendMessage({
+				window.icnReactService.sendMessage({
 					message: 'render_email_dialog', 
 					attachments: items,
 					attachmentType: attachmentType,

@@ -380,7 +380,7 @@ export default class UserColumnSettings extends React.Component {
         const { propertyList, savedUserItems } = this.state.userColumnSettings;
         let properties = this.filterSetting(propertyList, savedUserItems);
         return (
-            <Modal id="icn-user-setting-dialog" show={this.state.showModal} onHide={this.close} bsSize="large">
+            <Modal className="reactUserColumnSettings" id="icn-user-setting-dialog" show={this.state.showModal} onHide={this.close} bsSize="large">
                 <Modal.Header>
                     <Modal.Title> Set Display Preferences for column </Modal.Title>
                 </Modal.Header>
