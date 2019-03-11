@@ -158,10 +158,9 @@ public class UpdateSignedDocumentService extends PluginService {
 					} catch (Exception e) {
 						// provide error information
 						callbacks.getLogger().logError(this, methodName, request, e);
+					} finally {
+						UserContext.get().popSubject();
 					}
-                    finally {
-                        UserContext.get().popSubject();
-                    }
 				}
 			} else {
 				callbacks.getLogger().logError(this, methodName, request, "Only P8 datastore types are supported at this time.");
