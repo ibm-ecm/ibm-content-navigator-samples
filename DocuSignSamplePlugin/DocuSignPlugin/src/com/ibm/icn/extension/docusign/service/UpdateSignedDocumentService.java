@@ -110,9 +110,11 @@ public class UpdateSignedDocumentService extends PluginService {
 		if (!loginNeeded){
 			if (serverType.equalsIgnoreCase("p8")) {
 				synchronized (callbacks.getSynchObject(repositoryId, serverType)) {
+
+					Subject subject = callbacks.getP8Subject(repositoryId);
+					UserContext.get().pushSubject(subject);
+
 					try {
-						Subject subject = callbacks.getP8Subject(repositoryId);
-						UserContext.get().pushSubject(subject);
 						
 						ObjectStore objectStore = callbacks.getP8ObjectStore(repositoryId);
 						Id tempDocId = new Id(docId);
@@ -157,6 +159,9 @@ public class UpdateSignedDocumentService extends PluginService {
 						// provide error information
 						callbacks.getLogger().logError(this, methodName, request, e);
 					}
+                    finally {
+                        UserContext.get().popSubject();
+                    }
 				}
 			} else {
 				callbacks.getLogger().logError(this, methodName, request, "Only P8 datastore types are supported at this time.");
@@ -174,3 +179,4 @@ public class UpdateSignedDocumentService extends PluginService {
 		callbacks.getLogger().logExit(this, methodName, request);
 	}
 }
+
