@@ -1,0 +1,67 @@
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.util.zip.GZIPOutputStream
+
+ext {
+	dojoBuildDir = "$buildDir/dojoBuild"
+}
+
+task clean {
+	doLast {
+		delete buildDir
+	}
+}
+
+task init {
+	doLast {
+		File dir = file(dojoBuildDir)
+		dir.mkdirs()
+	}
+}
+
+task unzipDojo(dependsOn: 'init', type: Copy) {
+	from zipTree(file("$projectDir/$dojoSrcArchive"))
+	into dojoBuildDir
+}
+
+task copyFiles(dependsOn: 'unzipDojo') {
+	doLast {
+		copy {
+			from "$projectDir/ecm"
+			into "$dojoBuildDir/ecm"
+			include '**/*'
+			exclude 'test/**'
+			exclude '**/*.jgz'
+			exclude 'nls/ecm_*.js'
+		}
+
+		copy {
+			from projectDir
+			into "$dojoBuildDir/ecm"
+			include "$projectDir/nls.profile.js"
+		}
+	}
+}
+
+task shrinkFiles(dependsOn: 'copyFiles', type: JavaExec) {
+	main = 'org.mozilla.javascript.tools.shell.Main'
+	classpath = files("$dojoBuildDir/util/shrinksafe/js.jar", "$dojoBuildDir/util/shrinksafe/shrinksafe.jar")
+	args "$dojoBuildDir/dojo/dojo.js", '--release', "baseUrl=$dojoBuildDir/dojo", "profile=$projectDir/nls.profile.js", 'load=build'
+}
+
+task buildBundles(dependsOn: 'shrinkFiles') {
+	doLast {
+		file("$dojoBuildDir/release/ecm/nls").eachFile {
+			if (it.name.startsWith("ecm_") && !it.name.endsWith("uncompressed.js")) {
+				gzipFile("$dojoBuildDir/release/ecm/nls", it.name)
+			}
+		}
+	}
+}
+
+def gzipFile(sourcePath, sourceFile) {
+	GZIPOutputStream gos = new GZIPOutputStream(new FileOutputStream("$buildDir/$sourceFile" + ".jgz"))
+	Files.copy(Paths.get("$sourcePath/$sourceFile"), gos)
+	gos.close()
+}
+
