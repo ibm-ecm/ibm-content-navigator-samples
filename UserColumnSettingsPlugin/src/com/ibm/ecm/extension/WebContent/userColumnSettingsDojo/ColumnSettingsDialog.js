@@ -63,6 +63,9 @@ define([
 			this.inherited(arguments);
 			this.setMaximized(true);
 			
+			this._desktopRepos = ecm.model.desktop.repositories,
+			this._selectedRepositoryId = ecm.model.desktop.defaultRepositoryId,
+			
 			this._filterBox.set("placeholder", "Filter available list");
 			this.initRepoSelectDropDown();
 			this._refreshSelectedRepository();
