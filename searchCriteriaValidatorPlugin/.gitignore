@@ -1,0 +1,6 @@
+/bin/
+/searchCriteriaValidatorPlugin.jar
+.project
+.classpath
+.settings/
+.vscode/

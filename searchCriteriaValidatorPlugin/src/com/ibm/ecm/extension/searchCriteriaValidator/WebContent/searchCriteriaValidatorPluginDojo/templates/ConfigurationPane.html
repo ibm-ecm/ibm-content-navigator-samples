@@ -1,0 +1,17 @@
+<div>
+	<table data-dojo-attach-point="_configSettingsTable" class="propertyTable" role="presentation">
+		<tr>
+			<td class="propertyRowLabel">
+				<label for="${id}_searchCriteriaValidator">${_messages.search_criteria_validator_label} </label>&nbsp;
+				<div id="${id}_search_Criteria_Validator_hover_help" data-dojo-type="ecm/widget/HoverHelp">${_messages.search_criteria_validator_hover_help} </div>
+			</td>
+			<td class="propertyRowValue">
+				<div id="${id}_searchCriteriaValidator" 
+					data-dojo-attach-point="searchCriteriaValidatorMaxCountTextBox"
+					data-dojo-type="ecm/widget/NumberTextBox"
+					data-dojo-props="constraints: { min: 31 }, hoverHelpId: '${id}_search_Criteria_Validator_hover_help'"
+					data-dojo-attach-event="onKeyUp: _onFieldChange"></div>
+			</td>
+		</tr>
+	</table>
+</div>
