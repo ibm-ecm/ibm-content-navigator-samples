@@ -100,8 +100,7 @@ require([
     return function() {
       this.searchTemplate = this.searchForm.getSearchTemplate(); 
       this.searchCriteria = this.searchTemplate.searchCriteria;
-      // met is the return value from _meetsMinimumCriteria
-      var flag = false; // variable used to limit access to _showMessage below
+      var flag = false; 
       array.some(this.searchCriteria, function(searchCriteria) { 
         if(searchCriteria.hasOwnProperty('dataType') && (searchCriteria.dataType == 'xs:timestamp' || searchCriteria.dataType  == "xs:date" || searchCriteria.dataType == "xs:time" ) ) {	
           if (searchCriteria.selectedOperator == "BETWEEN") {

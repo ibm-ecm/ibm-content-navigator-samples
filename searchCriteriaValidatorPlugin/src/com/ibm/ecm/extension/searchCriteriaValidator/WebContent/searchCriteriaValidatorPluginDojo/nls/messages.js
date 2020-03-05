@@ -27,8 +27,8 @@ define({
 		// NLS_CHARSET=UTF-8
 		search_criteria_validator_label: "Maximum  days:",
 		search_criteria_validator_hover_help: "Specify the maximum number of days to search. The value you specify must be greater than 30. If you don't specify a value, the default value of 31 is used. ",
-		search_criteria_validator_invalid_string: "Invalid Input (*)",
-		search_criteria_validator_invalid_date_range:"Invalid Date Range",
+		search_criteria_validator_invalid_string: "Wildcard characters (*) are not allowed for the selected operator",
+		search_criteria_validator_invalid_date_range:"Invalid date range",
 
 		"nop": null
 	})
