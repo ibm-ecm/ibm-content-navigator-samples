@@ -1,0 +1,8 @@
+<form data-dojo-attach-point="_fileInputForm" name="fileUploadForm"
+	enctype="multipart/form-data" accept-charset="UTF-8" method="post" target="${id}_fileInputIFrame">
+	<!--IBM Content Navigator expects the input field name to be uploadFile. Use only uploadFile for the file input field name, and do not create variations such as ${id}_uploadFile.-->
+	<input type="file" required="true" id="${id}_fileInput" name="uploadFile" class="fileInput"
+		data-dojo-attach-point="_fileInput" data-dojo-attach-event="onchange: onFileInputChange"/>
+	<iframe name="${id}_fileInputIFrame" id="${id}_fileInputIFrame" style="display: none">
+	</iframe>
+</form>

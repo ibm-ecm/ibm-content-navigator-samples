@@ -1,0 +1,108 @@
+/*
+ * Licensed Materials - Property of IBM
+ * (C) Copyright IBM Corp. 2010, 2019
+ * US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+ */
+.messagesDialog .dijitDialogPaneContent {
+	background-color: #efe;
+}
+
+.samplePropertyEditor,
+.sampleQueryInputArea {
+	display: table;
+}
+
+.samplePropertyEditor .dijitTextBox,
+.sampleQueryInputArea .dijitTextBox {
+	display: table-cell;
+}
+
+.samplePropertyEditor .dijitButton,
+.sampleQueryInputArea .dijitButton {
+	display: table-cell;
+	width: 1px;
+	white-space: nowrap;
+	padding-left: 10px;
+}
+
+.dijitRtl .samplePropertyEditor .dijitButton,
+.dijitRtl .sampleQueryInputArea .dijitButton {
+	padding-left: 0px;
+	padding-right: 10px;
+}
+
+.samplePropertyEditor .dijitTextBox .dijitInputField,
+.sampleQueryInputArea .dijitTextBox .dijitInputField {
+	width: 100%;
+}
+
+/* Adjust the width of the sample property editor to fit two side-by-side in the search form when using the Between or Not Between operator */
+.ecmUnifiedSearchBuilder .attributeDefintionWidget .valueFieldContainer.multiValue .samplePropertyEditor,
+.ecmBasicSearchBuilder .attributeDefintionWidget .valueFieldContainer.multiValue .samplePropertyEditor,
+.ecmSearchFormFieldArea td.fieldValueCell.multiValue .samplePropertyEditor {
+	display: inline-table;
+	width: 45%;
+}
+
+.ecmUnifiedSearchBuilder .attributeDefintionWidget .valueFieldContainer.multiValue .samplePropertyEditor .dijitTextBox,
+.ecmBasicSearchBuilder .attributeDefintionWidget .valueFieldContainer.multiValue .samplePropertyEditor .dijitTextBox,
+.ecmSearchFormFieldArea td.fieldValueCell.multiValue .samplePropertyEditor .dijitTextBox {
+	width: 100%;
+}
+
+.ecmUnifiedSearchBuilder .attributeDefintionWidget .valueFieldContainer.multiValue .samplePropertyEditor .dijitTextBox .dijitInputField,
+.ecmBasicSearchBuilder .attributeDefintionWidget .valueFieldContainer.multiValue .samplePropertyEditor .dijitTextBox .dijitInputField,
+.ecmSearchFormFieldArea td.fieldValueCell.multiValue .samplePropertyEditor .dijitTextBox .dijitInputField {
+	width: auto;
+}
+
+.ecmCenterPane .sampleSearchArea {
+	background-color: #ddd;
+	padding: 20px !important;
+}
+
+.ecmCenterPane .sampleQueryInputArea {
+	width: 100%;
+}
+
+.ecmCenterPane .sampleRepositorySelectorArea {
+	padding-bottom: 10px;
+}
+
+/* Feature bar icon */
+.sampleFeatureLaunchIcon {
+	width: 32px;
+	height: 32px;
+	background-image: url('images/samplePlugin.svg');
+	background-repeat: no-repeat;
+	background-position: -16px -16px; 
+}
+
+/* Checked State */
+.ecmLaunchBarContainer .launchBarButton.dijitToggleButtonHover .sampleFeatureLaunchIcon,
+.ecmLaunchBarContainer .dijitDropDownButton .sampleFeatureLaunchIcon,
+.launchBarButton.dijitChecked .sampleFeatureLaunchIcon, 
+.launchBarButton.dijitFocused .sampleFeatureLaunchIcon {
+	background-position: -16px -80px;
+}
+
+/* For sample text box editor control */
+.ecmSampleTextBoxEditor {
+    box-shadow: 5px 5px 5px #C0C0C0;
+    font-style: italic;
+}
+
+/* icn styles */
+.ecm.icn .sampleFeatureLaunchIcon {
+	background-image: url("images/sample-feature.svg");	
+}
+
+.ecm.icn .ecmCenterPane .sampleSearchArea {
+	background-color: transparent;
+	height: 100px;
+	border-bottom: 1px dotted #cdced2;
+}
+
+.ecm.icn .sampleImageViewer .loadingPreviewImg {
+	display: block;
+}
