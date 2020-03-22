@@ -4,7 +4,7 @@
     "dependencies": {
         "dojo": "~1.9.2",
         "dijit": "~1.9.2",
-        "dojox": "~1.9.2"
+        "dojox": "~1.16.2"
     },
     "dojoBuild": "samplePlugin.profile.js"
 }
