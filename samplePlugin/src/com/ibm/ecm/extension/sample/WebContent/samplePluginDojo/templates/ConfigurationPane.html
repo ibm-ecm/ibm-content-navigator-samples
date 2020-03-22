@@ -1,0 +1,44 @@
+<div>
+
+The following configuration parameters are provided by the configuration component of the sample plug-in.
+
+You can use the text in this area to introduce the configuration parameters. 
+
+	<table class="propertyTable" role="presentation">
+		<tr>
+			<td class="propertyRowLabel">
+				<span class="required">*</span>
+				<label id="${id}_param1label" for="${id}_param1">Parameter 1:</label>&nbsp;
+				<div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'${id}_param1label'" data-dojo-attach-point="param1FieldHelp" >The asterisk indicates that this parameter is required. You can specify hover help for configuration parameters if you think users will need additional help when configuring your plug-in.</div>
+			</td>
+			<td class="propertyRowValue">
+			   <div id="${id}_param1" data-dojo-attach-point="param1Field" data-dojo-attach-event="onKeyUp: _onParamChange" maxLength="64" data-dojo-type="ecm.widget.ValidationTextBox" required="true" trim="true" propercase="false"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="propertyRowLabel">
+				<label for="${id}_param2">Parameter 2:</label>&nbsp;
+			</td>
+			<td class="propertyRowValue">
+			   <div id="${id}_param2" data-dojo-attach-point="param2Field" data-dojo-attach-event="onKeyUp: _onParamChange" maxLength="64" data-dojo-type="ecm.widget.ValidationTextBox" required="false" trim="true" propercase="false"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="propertyRowLabel">
+				<span class="required">*</span>
+				<label for="${id}_param3">Parameter 3:</label>&nbsp;
+			</td>
+			<td class="propertyRowValue">
+			   <div id="${id}_param3" data-dojo-attach-point="param3Field" data-dojo-attach-event="onKeyUp: _onParamChange" maxLength="64" data-dojo-type="ecm.widget.ValidationTextBox" required="true" trim="true" propercase="false"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="propertyRowLabel">
+				<label for="${id}_secret">Secret Parameter:</label>&nbsp;
+			</td>
+			<td class="propertyRowValue">
+				<div id="${id}_secret" data-dojo-attach-point="secretField" data-dojo-attach-event="onKeyUp: _onParamChange" maxLength="128" data-dojo-type="ecm.widget.ValidationTextBox" required="false" trim="true" propercase="false" type="password"></div>
+			</td>
+		</tr>
+	</table>
+</div>

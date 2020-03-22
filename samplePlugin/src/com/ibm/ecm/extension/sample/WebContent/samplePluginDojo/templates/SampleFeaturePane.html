@@ -1,0 +1,22 @@
+<div class="ecmCenterPane">
+	<div data-dojo-type="idx/layout/BorderContainer" data-dojo-props="gutters:true">
+		<div data-dojo-attach-point="searchArea" data-dojo-type="dijit/layout/ContentPane" 
+				data-dojo-props="splitter:true,region:'top'" class="sampleSearchArea">
+			<div data-dojo-attach-point="repositorySelectorArea" class="sampleRepositorySelectorArea"></div>
+			<label for="${id}_queryString" data-dojo-attach-point="cm8HelpText" style="display:none">Enter an XPath query to run below (for example, &quot;/NOINDEX&quot;)</label>
+			<label for="${id}_queryString" data-dojo-attach-point="p8HelpText" style="display:none">Enter an SQL query to run below (for example, &quot;SELECT * FROM Document&quot;)</label>
+			<div class="sampleQueryInputArea">
+				<input id="${id}_queryString" data-dojo-attach-point="queryString" data-dojo-type="dijit/form/TextBox"></input>
+				<button data-dojo-attach-point="searchButton" data-dojo-type="dijit/form/Button" 
+						data-dojo-attach-event="onClick: runSearch" class="searchButton">
+					${messages.search}
+				</button>
+			</div>
+		</div>
+		<div data-dojo-attach-point="resultsArea" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+			<div data-dojo-attach-point="searchResults" data-dojo-type="ecm/widget/listView/ContentList" 
+					data-dojo-props="emptyMessage:'${messages.folder_is_empty}'">
+			</div>
+		</div>
+	</div>
+</div>

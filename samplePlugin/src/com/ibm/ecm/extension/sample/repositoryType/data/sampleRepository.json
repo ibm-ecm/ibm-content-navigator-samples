@@ -1,0 +1,88 @@
+{
+	"users": [{
+		"id": "user1",
+		"name": "User One"
+	}],
+	"groups": [{
+		"id":"group1",
+		"name":"Group One"
+	}],
+	"attributeDefinitions": [{
+		"id": "name",
+		"name": "Name",
+		"maxLength": 20
+	},	{
+		"id": "id",
+		"name": "ID",
+		"system": true
+	}],
+	"contentClasses" : [ {
+		"id" : "SampleDocument",
+		"name" : "Document",
+		"semanticType" :  "document",
+		"attributeDefinitionIds": ["name","id"]
+	}, {
+		"id" : "SampleFolder",
+		"name" : "Folder",
+		"semanticType" : "folder",
+		"attributeDefinitionIds": ["name","id"]
+	} ],
+	"contentItems" : [{
+		"id": "/",
+	    "contentClassId": "SampleFolder",
+	    "attributes": { "name": "Repository Root"},
+	    "contentItemIds": ["f1", "f2"]
+     } , {
+    	"id": "f1",
+    	"contentClassId": "SampleFolder",
+    	"attributes": {"name": "Folder A"},
+	    "contentItemIds": ["f3"]
+     } , {
+     	"id": "f2",
+     	"contentClassId": "SampleFolder",
+     	"attributes": {"name": "Folder B"},
+	    "contentItemIds": [ ]
+     } , {
+      	"id": "f3",
+      	"contentClassId": "SampleFolder",
+      	"attributes": {"name": "Folder C"},
+	    "contentItemIds": ["f4","d1","d2"]
+     } , {
+      	"id": "f4",
+      	"contentClassId": "SampleFolder",
+      	"attributes": {"name": "Folder D"},
+	    "contentItemIds": ["d3","d4"]
+     } , {
+     	"id": "d1",
+     	"contentClassId": "SampleDocument",
+     	"attributes": {
+         	"name": "Document One"
+     	},
+     	"contentType": "application/msword",
+     	"contentFile": "d1.doc"
+     } , {
+     	"id": "d2",
+     	"contentClassId": "SampleDocument",
+     	"attributes": {
+         	"name": "Document Two"
+     	},
+     	"contentType": "application/pdf",
+     	"contentFile": "d2.pdf"
+     } , {
+      	"id": "d3",
+      	"contentClassId": "SampleDocument",
+      	"attributes": {
+          	"name": "Document Three"
+      	},
+      	"contentType": "image/jpeg",
+      	"contentFile": "d3.jpg"
+     } , {
+      	"id": "d4",
+      	"contentClassId": "SampleDocument",
+      	"attributes": {
+          	"name": "Document Four"
+      	},
+      	"contentType": "image/tiff",
+      	"contentFile": "d4.tiff"
+     }]
+}

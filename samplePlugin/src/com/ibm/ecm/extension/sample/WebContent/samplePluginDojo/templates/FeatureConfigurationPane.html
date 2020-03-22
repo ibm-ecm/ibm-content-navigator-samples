@@ -1,0 +1,26 @@
+<div>
+	This is the sample feature plug-in configuration. 
+
+	<table class="propertyTable" role="presentation">
+		<tr>
+			<td class="propertyRowLabel">
+				<span class="required">*</span>
+				<label for="${id}_param1">Config Param 1:</label>&nbsp;
+			</td>
+			<td class="propertyRowValue">
+			   <div id="${id}_param1" data-dojo-attach-point="param1Field" data-dojo-attach-event="onChange: _onParamChange" maxLength="64" data-dojo-type="ecm.widget.ValidationTextBox" 
+			   		required="true" trim="true" propercase="false" intermediateChanges="true"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="propertyRowLabel">
+				<span class="required">*</span>
+				<label for="${id}_param2">Config Param 2:</label>&nbsp;
+			</td>
+			<td class="propertyRowValue">
+			   <div id="${id}_param2" data-dojo-attach-point="param2Field" data-dojo-attach-event="onChange: _onParamChange" data-dojo-type="dijit.form.Textarea" 
+			   		required="true" trim="true" propercase="false" intermediateChanges="true"></div>
+			</td>
+		</tr>
+	</table>
+</div>
