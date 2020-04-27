@@ -1,0 +1,30 @@
+[{
+	"symbolicName": "Author/Name",
+	"choiceList": {
+		"displayName": "Authors",
+		"choices": [{
+			"displayName": "Dan Brown",
+			"value": "Dan Brown"
+		},
+		{
+			"displayName": "George R.R. Martin",
+			"value": "George Martin"
+		},
+		{
+			"displayName": "Stephen King",
+			"value": "Stephen King"
+		},
+		{
+			"displayName": "Tom Clancy",
+			"value": "Tom Clancy"
+		},
+		{
+			"displayName": "William Shakespeare",
+			"value": "Shakespeare"
+		}]
+	}
+},
+{
+	"symbolicName": "Author/Affiliation",
+	"validateAs": "NoThrees"
+}]

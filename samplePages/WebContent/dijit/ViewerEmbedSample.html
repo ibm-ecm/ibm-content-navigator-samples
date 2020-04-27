@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<!--
+  Licensed Materials - Property of IBM (c) Copyright IBM Corp. 2012, 2013  All Rights Reserved.
+  
+  US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with
+  IBM Corp.
+  
+  DISCLAIMER OF WARRANTIES :
+  
+  Permission is granted to copy and modify this Sample code, and to distribute modified versions provided that both the
+  copyright notice, and this permission notice and warranty disclaimer appear in all copies and modified versions.
+  
+  THIS SAMPLE CODE IS LICENSED TO YOU AS-IS. IBM AND ITS SUPPLIERS AND LICENSORS DISCLAIM ALL WARRANTIES, EITHER
+  EXPRESS OR IMPLIED, IN SUCH SAMPLE CODE, INCLUDING THE WARRANTY OF NON-INFRINGEMENT AND THE IMPLIED WARRANTIES OF
+  MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT WILL IBM OR ITS LICENSORS OR SUPPLIERS BE LIABLE FOR
+  ANY DAMAGES ARISING OUT OF THE USE OF OR INABILITY TO USE THE SAMPLE CODE, DISTRIBUTION OF THE SAMPLE CODE, OR
+  COMBINATION OF THE SAMPLE CODE WITH ANY OTHER CODE. IN NO EVENT SHALL IBM OR ITS LICENSORS AND SUPPLIERS BE LIABLE
+  FOR ANY LOST REVENUE, LOST PROFITS OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, INCIDENTAL OR PUNITIVE
+  DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE THEORY OF LIABILITY, EVEN IF IBM OR ITS LICENSORS OR SUPPLIERS HAVE
+  BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+ -->
+
+<html>
+<head>
+	<title>Sample - Viewer Embed</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style type="text/css">
+	    @import "/navigator/ecm/themes/oneui/oneui.css";
+		@import "/navigator/ecm/themes/oneui/dojo.css";
+		@import "/navigator/ecm/widget/resources/dojo.css";
+		@import "/navigator/ecm/widget/resources/ecm.css";
+	</style>
+	<script src="/navigator/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true, packages: [{name: 'idx', location: '../idx'},{name: 'ecm', location: '../ecm'}]"></script>
+	<script type="text/javascript">
+	require(["dojo/_base/lang",
+	         "dojo/dom",
+	         "dojo/dom-construct",
+	         "dojo/_base/connect",
+	         "dijit/registry",
+			 "ecm/model/Desktop",
+			 "ecm/model/Message",
+			 "ecm/Logger",
+			 "ecm/widget/viewer/AjaxViewer",
+			 "ecm/widget/viewer/AppletViewer",
+			 "ecm/widget/viewer/BoxViewer",
+			 "ecm/widget/viewer/BrowserViewer",
+			 "ecm/widget/viewer/DocViewer",
+			 "ecm/widget/viewer/FilenetViewer",
+			 "ecm/widget/viewer/HTMLDocViewer",
+			 "ecm/widget/viewer/IframeDocViewer",
+			 "ecm/widget/viewer/PDFDocViewer",
+			 "ecm/widget/viewer/model/ViewerItem",
+			 "ecm/widget/viewer/ContentViewerPane"
+			 ], 
+		function(lang, dom, domConstruct, connect, registry, Desktop, Message, Logger, AjaxViewer, AppletViewer, BoxViewer, BrowserViewer, DocViewer, FilenetViewer, HTMLDocViewer, IframeDocViewer, PDFDocViewer, ViewerItem, ContentViewerPane) {
+			Logger.initLogger(4, true); // see debug logging
+		
+			// A simple error handler
+			connect.connect(Desktop, "onMessageAdded", function(message) {
+				if (message && message.level > 0) {
+					alert(message.text);
+				}
+			});
+			
+			var repository = null;
+			
+			lang.setObject("viewItem", function () {
+				setupTestEnvironemnt(function() {
+					if (repository.type != "od") {
+						_retrieveItem();
+					} else {
+						_retrieveOdItems();
+					}
+				});
+			});
+			
+			function setupTestEnvironemnt(callback) {
+				if (Desktop.desktopLoaded) {
+					_getRepository(callback);
+				} else {
+					Desktop.loadDesktop(null, function() {
+						_getRepository(callback);
+					});
+				}
+			}
+			
+			function _getRepository(callback) {
+				var repositoryId = dom.byId("repositoryId").value;
+				var userId = dom.byId("userId").value;
+				var password = dom.byId("password").value;
+				
+				if (repository && repositoryId == repository.id
+						&& userId == repository.userId) {
+					if (repository.connected) {
+						callback();
+					} else {
+						repository.logon(password, function(msg) {
+							callback();
+						});
+					}
+				} else {
+					if(repository && repository.connected) {
+						repository.logoff();
+						var con = connect.connect(Desktop, "logOffRepositories", function(){
+							connect.disconnect(con);
+							repository = Desktop.getRepository(repositoryId);
+							repository.userId = userId;
+							repository.logon(password, function(msg){
+								callback();
+							});
+						});
+					} else {
+						repository = Desktop.getRepository(repositoryId);
+						if(!repository) {
+							Desktop.addMessage(Message.createErrorMessage("Invalid repository name."));
+							return;
+						}
+						if(!userId) {
+							Desktop.addMessage(Message.createErrorMessage("User ID is mondary."));
+							return;
+						}
+						repository.userId = userId;
+						repository.logon(password, function(msg){
+							callback();
+						});
+					}
+				}
+			}
+			
+			function _retrieveItem() {
+				var itemId = dom.byId("itemId").value;
+				repository.retrieveItem(itemId, function(item) {
+					if(!item) {
+						Desktop.addMessage(Message.createErrorMessage("Invalid Item ID."));
+					} else {
+						_openItemViewer(item);
+					}
+				});
+			}
+			
+			function _retrieveOdItems() {
+				var templateName = dom.byId("templateName").value;
+				repository.retrieveSearchTemplates(function(response){
+					var st = null;
+					for(var i=0; i < response.length; i++) {
+						var _st = response[i];
+						if(_st.getName() == templateName) {
+							st = _st;
+							break;
+						}
+					}
+					if(st != null) {
+						st.retrieveSearchCriteria(function(res) {
+							st.search(function(resultSet) {
+								var item = resultSet.getItems()[0];
+								if(!item) {
+									Desktop.addMessage(Message.createErrorMessage("Item is not found with the search template."));
+									return;
+								}
+								_openItemViewer(item);
+							}, null, false);
+						});
+					}
+				});
+			}
+			
+			function _openItemViewer(item) {
+				var viewerItem = new ViewerItem(item);
+				
+				 viewerItem.getViewers(false, true, lang.hitch(this, function(viewers) {
+					var contentViewer = registry.byId("ViewerEmbedSamplePane");
+					contentViewer.openItem(viewerItem);
+					contentViewer.activateViewer();
+				})); 
+			}
+		});
+	</script>
+</head>
+<body class="ecm oneui">
+	<h1>Sample - Viewer Embed</h1>
+	<table>
+		<tr>
+			<td><label for="repositoryId">Repository:</label></td>
+			<td><input id="repositoryId"/></td>
+		</tr>
+		<tr>
+			<td><label for="userId">User ID:</label></td>
+			<td><input id="userId"/></td>
+		</tr>
+		<tr>
+			<td><label for="password">Password:</label></td>
+			<td><input type="password" id="password"/></td>
+		</tr>
+		<tr>
+			<td><label for="itemId">Document ID:</label></td>
+			<td><input id="itemId" size="50"/></td>
+		</tr>
+		<tr>
+			<td><label for="templateName">Search Template:</label></td>
+			<td><input id="templateName" size="50"/></td>
+		</tr>
+		<tr>
+			<td colspan="2" style="text-align:left"><input type="button" value="View" onclick="viewItem();"/></td>
+		</tr>
+	</table>
+	<div id="ViewerEmbedSamplePane" data-dojo-type="ecm/widget/viewer/ContentViewerPane" data-dojo-props="preview:false" style="width: 100%; height: 100%"></div>
+</body>
+</html>

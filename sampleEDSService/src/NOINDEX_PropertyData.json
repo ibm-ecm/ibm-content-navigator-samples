@@ -1,0 +1,11 @@
+[{
+	"symbolicName": "SOURCE",
+	"validateAs": "NoThrees",
+	"required": true
+},{
+	"symbolicName": "USER_ID",
+	"maxLength": 8
+},{
+	"symbolicName": "TIMESTAMP",
+	"timestamp": true 
+}]

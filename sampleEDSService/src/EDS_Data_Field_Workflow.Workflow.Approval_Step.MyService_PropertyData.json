@@ -1,0 +1,32 @@
+[
+{
+    "symbolicName": "string1",
+    "required": true,
+    "maxLength": 12
+},
+{
+    "symbolicName": "integer1",
+    "displayMode": "readonly",
+    "value": 44
+},
+{
+    "symbolicName": "float1",
+    "minValue": "10.0",
+    "maxValue": "100.0"
+},
+{
+    "symbolicName": "boolean1",
+    "hidden": true
+},
+{
+    "symbolicName": "date1",
+    "label": "My Birthday",
+    "value": "1977-09-10T09:28:27Z"
+},
+{
+    "symbolicName": "stringarray1",
+    "format": "\\b[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,4}\\b",
+    "formatDescription": "fred@isp.com",
+    "value": ["red@ibm.com", "yellow@cnn.com", "blue@msn.com"]
+}
+]

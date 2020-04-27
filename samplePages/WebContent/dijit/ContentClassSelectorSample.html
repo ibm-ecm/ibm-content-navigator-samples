@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+
+<!--
+  Licensed Materials - Property of IBM (c) Copyright IBM Corp. 2012, 2013  All Rights Reserved.
+  
+  US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with
+  IBM Corp.
+  
+  DISCLAIMER OF WARRANTIES :
+  
+  Permission is granted to copy and modify this Sample code, and to distribute modified versions provided that both the
+  copyright notice, and this permission notice and warranty disclaimer appear in all copies and modified versions.
+  
+  THIS SAMPLE CODE IS LICENSED TO YOU AS-IS. IBM AND ITS SUPPLIERS AND LICENSORS DISCLAIM ALL WARRANTIES, EITHER
+  EXPRESS OR IMPLIED, IN SUCH SAMPLE CODE, INCLUDING THE WARRANTY OF NON-INFRINGEMENT AND THE IMPLIED WARRANTIES OF
+  MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT WILL IBM OR ITS LICENSORS OR SUPPLIERS BE LIABLE FOR
+  ANY DAMAGES ARISING OUT OF THE USE OF OR INABILITY TO USE THE SAMPLE CODE, DISTRIBUTION OF THE SAMPLE CODE, OR
+  COMBINATION OF THE SAMPLE CODE WITH ANY OTHER CODE. IN NO EVENT SHALL IBM OR ITS LICENSORS AND SUPPLIERS BE LIABLE
+  FOR ANY LOST REVENUE, LOST PROFITS OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, INCIDENTAL OR PUNITIVE
+  DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE THEORY OF LIABILITY, EVEN IF IBM OR ITS LICENSORS OR SUPPLIERS HAVE
+  BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+ -->
+
+<html>
+<head>
+	<title>ContentClassSelectorSample</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style>
+	    @import "/navigator/ecm/themes/oneui/oneui.css";
+		@import "/navigator/ecm/themes/oneui/dojo.css";
+		@import "/navigator/ecm/widget/resources/dojo.css";
+		@import "/navigator/ecm/widget/resources/ecm.css";
+	</style>
+	<script src="/navigator/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true, packages: [{name: 'idx', location: '../idx'},{name: 'ecm', location: '../ecm'}]"></script>
+	<script>
+	require(["dojo/_base/lang",
+	         "dojo/_base/connect",
+	         "dijit/registry",
+	         "dijit/layout/BorderContainer",
+	         "dijit/layout/ContentPane",
+			 "ecm/model/Desktop",
+			 "ecm/Logger",
+			 "ecm/widget/ContentClassSelector"
+			 ], 
+		function(lang, connect, registry, BorderContainer, ContentPane, Desktop, Logger, ContentClassSelector) {
+			Logger.initLogger(4, true); // see debug logging
+		
+			// A simple error handler
+			connect.connect(Desktop, "onMessageAdded", function(message) {
+				if (message && message.level > 0) {
+					alert(message.text);
+				}
+			});
+
+			lang.setObject("populateClassSelector", function (repository, items) {
+				Logger.logEntry(this, "populateClassSelector");
+				var repositoryId = document.getElementById("repositoryId").value;
+				var userId = document.getElementById("userId").value;
+				var password = document.getElementById("password").value;
+				
+				// Load the desktop
+				Desktop.loadDesktop(null, function() {
+					var repository = Desktop.getRepository(repositoryId);
+					repository.userId=userId;
+					repository.onChange(repository);
+					repository.logon(password, function() {
+						console.debug("connected to repository");
+						var contentClassSelector = registry.byId("classSelector");
+						if (contentClassSelector.type == "p8") {
+							contentClassSelector.setExcludedItems(this.contentClassSelector.p8FormsExcludeList);
+							contentClassSelector.setObjectStore(repository.objectStore);
+						}
+                        contentClassSelector.setRootClassId("Document");
+						contentClassSelector.setRepository(repository);
+						connect.connect(contentClassSelector, "onContentClassSelected", function(selectedClass) {
+							console.debug("selected class=" + selectedClass.name);
+						});
+					});
+				});
+				
+				Logger.logExit(this, "populateClassSelector");
+			});
+		});
+	</script>
+</head>
+<body class="ecm oneui">
+	<div id="borderContainer" data-dojo-type="dijit/layout/BorderContainer" data-dojo-attach-point="borderContainer" gutters="false" style="width: 100%; height: 100%">
+		<div data-dojo-type="dijit/layout/ContentPane" region="top">
+			<h1>Sample - Content Class Selector Sample</h1>
+			<table>
+				<tr>
+					<td><label for="repositoryId">Repository:</label></td>
+					<td><input id="repositoryId"/></td>
+				</tr>
+				<tr>
+					<td><label for="userId">User ID:</label></td>
+					<td><input id="userId"/></td>
+				</tr>
+				<tr>
+					<td><label for="password">Password:</label></td>
+					<td><input type="password" id="password"/></td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align:left"><input type="button" value="Populate class selector" onclick="populateClassSelector();"/></td>
+				</tr>
+			</table>
+		</div>
+		<div data-dojo-type="dijit/layout/ContentPane" region="center">
+			<span id="classSelector"
+				data-dojo-type="ecm/widget/ContentClassSelector"
+				data-dojo-props="dropdownid:'contentClassSelector',selectorStyle:'dropdown',rootClassId:'Document',hasAll:false,onlySelectable:true"
+				>
+			</span>
+		</div>
+	</div>
+</body>
+</html>

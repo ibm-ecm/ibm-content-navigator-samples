@@ -1,0 +1,206 @@
+[{
+	"symbolicName": "AccountNumber",
+	"format": "\\d\\d-\\d\\d\\d\\d\\d",
+	"formatDescription": "nn-nnnnn"
+},{
+	"symbolicName": "Region",
+	"choiceList": {
+		"displayName": "US Regions",
+		"choices": [{
+			"displayName": "Western",
+			"value": "Western"
+		},
+		{
+			"displayName": "Southwest",
+			"value": "Southwest"
+		},
+		{
+			"displayName": "Midwest",
+			"value": "Midwest"
+		},
+		{
+			"displayName": "Northeast",
+			"value": "Northeast"
+		}
+		]
+	},
+	"hasDependentProperties": true
+},{
+	"symbolicName": "BranchOffice",
+	"dependentOn": "Region",
+	"dependentValue": "Western",
+	"choiceList": {
+		"displayName": "Western Branch Offices",
+		"choices": [{
+			"displayName": "Los Angeles",
+			"value": "Los Angeles"
+		},
+		{
+			"displayName": "San Francisco",
+			"value": "San Francisco"
+		},
+		{
+			"displayName": "Salt Lake City",
+			"value": "Salt Lake City"
+		},
+		{
+			"displayName": "Seattle",
+			"value": "Seattle"
+		},
+		{
+			"displayName": "Anchorage",
+			"value": "Anchorage",
+			"valid": false
+		}]
+	}
+},{
+	"symbolicName": "BranchOffice",
+	"dependentOn": "Region",
+	"dependentValue": "Southwest",
+	"choiceList": {
+		"displayName": "Southwest Branch Offices",
+		"choices": [{
+			"displayName": "Phoenix",
+			"value": "Phoenix"
+		},
+		{
+			"displayName": "Las Vegas",
+			"value": "Las Vegas"
+		},
+		{
+			"displayName": "Houston",
+			"value": "Houston"
+		},
+		{
+			"displayName": "Dallas",
+			"value": "Dallas"
+		}]
+	}
+},{
+	"symbolicName": "BranchOffice",
+	"dependentOn": "Region",
+	"dependentValue": "Midwest",
+	"choiceList": {
+		"displayName": "Midwest Branch Offices",
+		"choices": [{
+			"displayName": "Denver",
+			"value": "Denver"
+		},
+		{
+			"displayName": "Kansas City",
+			"value": "Kansas City"
+		},
+		{
+			"displayName": "Detroit",
+			"value": "Detroit"
+		},
+		{
+			"displayName": "St Louis",
+			"value": "St Louis"
+		},
+		{
+			"displayName": "Cincinnati",
+			"value": "Cincinnati"
+		}]
+	}
+},{
+	"symbolicName": "BranchOffice",
+	"dependentOn": "Region",
+	"dependentValue": "Northeast",
+	"choiceList": {
+		"displayName": "Northeast Branch Offices",
+		"choices": [{
+			"displayName": "New York City",
+			"value": "New York City"
+		},
+		{
+			"displayName": "Boston",
+			"value": "Boston"
+		},
+		{
+			"displayName": "Baltimore",
+			"value": "Baltimore"
+		},
+		{
+			"displayName": "Philadelphia",
+			"value": "Philadelphia"
+		},
+		{
+			"displayName": "Williamsburg",
+			"value": "Williamsburg"
+		},
+		{
+			"displayName": "Washington D.C.",
+			"value": "Washington D.C."
+		}]
+	}
+},{
+	"symbolicName": "AuthoringDivision",
+	"choiceList": {
+		"displayName": "Authoring Division",
+		"choices": [{
+			"displayName": "Sales",
+			"value": "Sales"
+		},{
+			"displayName": "Legal",
+			"value": "Legal"
+		},{
+			"displayName": "Finance",
+			"value": "Finance"
+		},{
+			"displayName": "Marketing",
+			"value": "Marketing"
+		}]
+	},
+	"hasDependentProperties": false
+},{
+	"symbolicName": "ReviewStatus",
+	"choiceList": {
+		"displayName": "Review Status",
+		"choices": [{
+			"displayName": "Ready for review",
+			"value": "Ready for review"
+		},{
+			"displayName": "Under review",
+			"value": "Under review"
+		},{
+			"displayName": "On hold",
+			"value": "On hold"
+		},{
+			"displayName": "Approved",
+			"value": "Approved"
+		},{
+			"displayName": "Not approved",
+			"value": "Not approved"
+		},{
+			"displayName": "In Work",
+			"value": "In Work"
+		}]
+	},
+	"hasDependentProperties": false
+},{
+	"symbolicName": "TypeOfDocument",
+	"choiceList": {
+		"displayName": "Document Type",
+		"choices": [{
+			"displayName": "Business Plan",
+			"value": "Business Plan"
+		},{
+			"displayName": "Proposal",
+			"value": "Proposal"
+		},{
+			"displayName": "Presentation",
+			"value": "Presentation"
+		},{
+			"displayName": "General Business",
+			"value": "General Business"
+		},{
+			"displayName": "General Guidelines",
+			"value": "General Guidelines"
+		},{
+			"displayName": "Desktop Procedures",
+			"value": "Desktop Procedures"
+		}]
+	},
+	"hasDependentProperties": false
+}]

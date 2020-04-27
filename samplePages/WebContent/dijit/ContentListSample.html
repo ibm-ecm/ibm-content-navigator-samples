@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<!--
+  Licensed Materials - Property of IBM (c) Copyright IBM Corp. 2012, 2013  All Rights Reserved.
+  
+  US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with
+  IBM Corp.
+  
+  DISCLAIMER OF WARRANTIES :
+  
+  Permission is granted to copy and modify this Sample code, and to distribute modified versions provided that both the
+  copyright notice, and this permission notice and warranty disclaimer appear in all copies and modified versions.
+  
+  THIS SAMPLE CODE IS LICENSED TO YOU AS-IS. IBM AND ITS SUPPLIERS AND LICENSORS DISCLAIM ALL WARRANTIES, EITHER
+  EXPRESS OR IMPLIED, IN SUCH SAMPLE CODE, INCLUDING THE WARRANTY OF NON-INFRINGEMENT AND THE IMPLIED WARRANTIES OF
+  MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT WILL IBM OR ITS LICENSORS OR SUPPLIERS BE LIABLE FOR
+  ANY DAMAGES ARISING OUT OF THE USE OF OR INABILITY TO USE THE SAMPLE CODE, DISTRIBUTION OF THE SAMPLE CODE, OR
+  COMBINATION OF THE SAMPLE CODE WITH ANY OTHER CODE. IN NO EVENT SHALL IBM OR ITS LICENSORS AND SUPPLIERS BE LIABLE
+  FOR ANY LOST REVENUE, LOST PROFITS OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, INCIDENTAL OR PUNITIVE
+  DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE THEORY OF LIABILITY, EVEN IF IBM OR ITS LICENSORS OR SUPPLIERS HAVE
+  BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+ -->
+
+<html>
+<head>
+	<title>Sample - ContentList</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style type="text/css">
+		@import "/navigator/ecm/widget/resources/dojo.css";
+		@import "/navigator/ecm/themes/oneui/dojo.css";
+		@import "/navigator/ecm/widget/resources/ecm.css";
+	    @import "/navigator/ecm/themes/oneui/oneui.css";
+	</style>
+	<script src="/navigator/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true, packages: [{name: 'idx', location: '../idx'},{name: 'ecm', location: '../ecm'}]"></script>
+	<script type="text/javascript">
+	// Require the module we just created
+	require(["dojo/ready", 
+	         "dojo/_base/lang",
+	         "dojo/dom",
+			 "dojo/_base/connect",
+			 "dojo/_base/window",
+			 "dijit/registry",
+			 "dijit/form/Button",
+			 "dijit/form/ValidationTextBox",
+			 "dijit/form/TextBox",
+			 "dijit/layout/BorderContainer",
+			 "ecm/Logger", 
+			 "ecm/model/Desktop",
+			 "ecm/model/Message",
+			 "ecm/widget/listView/gridModules/RowContextMenu",
+			 "ecm/widget/listView/modules/Breadcrumb",
+			 "ecm/widget/listView/modules/Toolbar",
+			 "ecm/widget/listView/modules/DocInfo",
+			 "ecm/widget/listView/gridModules/DndRowMoveCopy",
+			 "ecm/widget/listView/gridModules/DndFromDesktopAddDoc",
+			 "ecm/widget/listView/modules/Bar",
+			 "ecm/widget/listView/modules/FilterData",
+			 "ecm/widget/listView/modules/ViewDetail",
+			 "ecm/widget/listView/modules/ViewMagazine",
+			 "ecm/widget/listView/modules/ViewFilmStrip",
+			 "ecm/widget/listView/ContentList"], 
+		function(ready, lang, dom, connect, window, registry, Button, ValidationTextBox, TextBox,BorderContainer, Logger, Desktop, Message, RowContextMenu,
+				Breadcrumb, Toolbar, DocInfo, DndRowMoveCopy, DndFromDesktopAddDoc, Bar, FilterData, ViewDetail, ViewMagazine, 
+				ViewFilmStrip, ContentList) {
+			var contentList = null;	
+			var repository = null;
+			
+			ready(function() {
+				Logger.initLogger(4, true);
+				
+				var button = registry.byId("updateListButton");
+				button.set("disabled", true);
+				
+				contentList = registry.byId("contentList");
+				contentList.setGridExtensionModules([DndRowMoveCopy, DndFromDesktopAddDoc, RowContextMenu]);
+				
+				var viewModules = [];
+				viewModules.push(ViewDetail);
+				viewModules.push(ViewMagazine);
+				if (ecm.model.desktop.showViewFilmstrip) {
+					viewModules.push(ViewFilmStrip);
+				}
+				
+				var array = [];
+				array.push(DocInfo);
+				array.push({ moduleClass: Bar, 
+					 top: [ 
+					        [ 
+					          [ 
+					            {
+					            	moduleClass: Toolbar
+					            },
+					            {
+					            	moduleClasses: viewModules,
+					            	"className": "BarViewModules"
+					            }
+					          ]
+					        ], 
+					        [ 
+					          [ 
+					            { 
+					            	moduleClass: Breadcrumb
+					 	        } 
+					          ] 
+					 	    ]
+		                 ]
+				   });
+				contentList.setContentListModules(array);
+				
+				//window.body().appendChild(contentList.domNode);
+				contentList.startup();
+				
+				Desktop.loadDesktop("default", null);
+				
+				// A simple error handler
+				connect.connect(Desktop, "onMessageAdded", function(message) {
+					if (message && message.level > 0) {
+						alert(message.text);
+					}
+				});
+			});
+
+			lang.setObject("updateContentList", function () {
+				setupTestEnvironemnt(function() {
+					if (repository.type != "od") {
+						_retrieveItem();
+					} else {
+						_retrieveOdItems();
+					}
+				});
+			});
+			
+			function setupTestEnvironemnt(callback) {
+				if (Desktop.desktopLoaded) {
+					_getRepository(callback);
+				} else {
+					Desktop.loadDesktop(null, function() {
+						_getRepository(callback);
+					});
+				}
+			}
+			
+			function _getRepository(callback) {
+				var repositoryId = dom.byId("repositoryId").value;
+				var userId = dom.byId("userId").value;
+				var password = dom.byId("password").value;
+				
+				if(repository && repositoryId == repository.id
+						&& userId == repository.userId) {
+					if (repository.connected) {
+						callback();
+					} else {
+						repository.logon(password, function(msg){
+							callback();
+						});
+					}
+				} else {
+					if(repository && repository.connected) {
+						repository.logoff();
+						var con = connect.connect(Desktop, "logOffRepositories", function(){
+							connect.disconnect(con);
+							repository = Desktop.getRepository(repositoryId);
+							repository.userId = userId;
+							repository.onChange(repository);
+							repository.logon(password, function(msg){
+								callback();
+							});
+						});
+					} else {
+						repository = Desktop.getRepository(repositoryId);
+						if(!repository) {
+							Desktop.addMessage(Message.createErrorMessage("Invalid repository name."));
+							return;
+						}
+						if(!userId) {
+							Desktop.addMessage(Message.createErrorMessage("User ID is mondary."));
+							return;
+						}
+						repository.userId=userId;
+						repository.onChange(repository);
+						repository.logon(password, function(msg){
+							callback();
+						});
+					}
+				}
+			}
+			
+			function _retrieveItem() {
+				var itemId = dom.byId("itemId").value;
+				repository.retrieveItem(itemId, function(item) {
+					if(!item) {
+						Desktop.addMessage(Message.createErrorMessage("Invalid Item ID."));
+					} else {
+						_populateList(item);
+					}
+				});
+			}
+			
+			function _retrieveOdItems() {
+				var templateName = dom.byId("templateName").value;
+				repository.retrieveSearchTemplates(function(response){
+					var st = null;
+					for(var i=0; i < response.length; i++) {
+						var _st = response[i];
+						if(_st.name == templateName) {
+							st = _st;
+							break;
+						}
+					}
+					if(st != null) {
+						st.retrieveSearchCriteria(function(res) {
+							st.search(function(resultSet) {
+								var item = resultSet.getItems()[0];
+								if(!item) {
+									Desktop.addMessage(Message.createErrorMessage("Item is not found with the search template."));
+									return;
+								}
+								_populateList(item);
+							}, null, false);
+						});
+					}
+				});
+			}
+			
+			function _populateList(rootFolder) {
+				if (rootFolder && contentList) {
+					rootFolder.retrieveFolderContents(false, function(results) {
+						contentList.setResultSet(results);
+					});
+				}
+			}
+			
+			lang.setObject("enableUpdateListButton", function() {
+				var reposId = registry.byId("repositoryId");
+				var userId = registry.byId("userId");
+				var password = registry.byId("password");
+				var itemId = registry.byId("itemId");
+				var button = registry.byId("updateListButton");
+				
+				if (reposId.get("value") != null && reposId.get("value").length > 0 
+						&& userId.get("value") != null && userId.get("value").length > 0
+						&& password.get("value") != null && password.get("value").length > 0
+						&& itemId.get("value") != null && itemId.get("value").length > 0)
+					button.set("disabled", false);
+				else
+					button.set("disabled", true);
+			});
+		}
+	);
+	</script>
+</head>
+<body class="ecm oneui">
+	<div data-dojo-type="dijit/layout/BorderContainer" style="height:100%;width:100%">
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
+			<h1>Sample - ContentList</h1>
+			<table>
+				<tr>
+					<td><label for="repositoryId">Repository:</label></td>
+					<td>
+						<input data-dojo-type="dijit.form.ValidationTextBox" name="repositoryId" id="repositoryId"
+							type="text" value="" trim="true" required="true" missingMessage="Repository ID is required"
+							onKeyUp="enableUpdateListButton" style="width: 350px" />
+					</td>
+				</tr>
+				<tr>
+					<td><label for="userId">User ID:</label></td>
+					<td>
+						<input data-dojo-type="dijit.form.ValidationTextBox" name="userId" id="userId"
+							type="text" value="" trim="true" required="true" missingMessage="User ID is required"
+							onKeyUp="enableUpdateListButton" style="width: 350px" />
+					</td>
+				</tr>
+				<tr>
+					<td><label for="password">Password:</label></td>
+					<td>
+						<input data-dojo-type="dijit.form.ValidationTextBox" name="password" id="password"
+							type="password" value="" trim="true" required="true" missingMessage="Password is required"
+							onKeyUp="enableUpdateListButton" style="width: 350px" />
+					</td>
+				</tr>
+				<tr>
+					<td><label for="itemId">Root Folder ID:</label></td>
+					<td>
+						<input data-dojo-type="dijit.form.ValidationTextBox" name="itemId" id="itemId"
+							type="text" value="" trim="true" required="true" missingMessage="Root Folder ID is required"
+							onKeyUp="enableUpdateListButton" style="width: 350px"/>
+					</td>
+				</tr>
+				<tr>
+					<td><label for="templateName">Search Template:</label></td>
+					<td>
+						<input data-dojo-type="dijit.form.TextBox" name="templateName" id="templateName"
+							type="text" value="" trim="true" required="false" style="width: 350px"/>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align:left">
+						<div data-dojo-type="dijit.form.Button" label="Update ContentList" id="updateListButton" onClick="updateContentList"/>
+					</td>
+				</tr>
+			</table>
+				
+		</div>
+		<div data-dojo-type="ecm/widget/listView/ContentList" id="contentList" data-dojo-props="region:'center'"> 
+		</div>
+	</div>
+	
+	<br>
+</body>
+</html>

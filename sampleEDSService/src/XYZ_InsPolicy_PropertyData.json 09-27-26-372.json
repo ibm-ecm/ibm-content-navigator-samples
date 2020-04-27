@@ -1,0 +1,124 @@
+[{
+	"symbolicName": "XYZ_State",
+	"initialValue": "CA",
+	"choiceList": {
+		"displayName": "State",
+		"choices": [{
+			"displayName": "California",
+			"value": "CA"
+		},
+		{
+			"displayName": "New York",
+			"value": "NY"
+		},
+		{
+			"displayName": "Virginia",
+			"value": "VA"
+		}]
+	},
+	"hasDependentProperties": true
+},{
+	"symbolicName": "XYZ_City",
+	"dependentOn": "XYZ_State",
+	"dependentValue": "CA",
+	"choiceList": {
+		"displayName": "California Cities",
+		"choices": [{
+			"displayName": "San Jose",
+			"value": "San Jose"
+		},
+		{
+			"displayName": "San Francisco",
+			"value": "San Francisco"
+		},
+		{
+			"displayName": "Los Angeles",
+			"value": "Los Angeles"
+		},
+		{
+			"displayName": "Marina",
+			"value": "Marina"
+		},
+		{
+			"displayName": "Santa Sofia",
+			"value": "Santa Sofia"
+		},
+		{
+			"displayName": "Ocean",
+			"value": "Ocean"
+		}]
+	}
+},{
+	"symbolicName": "XYZ_City",
+	"dependentOn": "XYZ_State",
+	"dependentValue": "NY",
+	"choiceList": {
+		"displayName": "New York Cities",
+		"choices": [{
+			"displayName": "New York",
+			"value": "New York"
+		},
+		{
+			"displayName": "Albany",
+			"value": "Albany"
+		},
+		{
+			"displayName": "Buffalo",
+			"value": "Buffalo"
+		}]
+	}
+},{
+	"symbolicName": "XYZ_City",
+	"dependentOn": "XYZ_State",
+	"dependentValue": "VA",
+	"choiceList": {
+		"displayName": "Virginia Cities",
+		"choices": [{
+			"displayName": "Richmond",
+			"value": "Richmond"
+		},
+		{
+			"displayName": "Arlington",
+			"value": "Arlington"
+		},
+		{
+			"displayName": "Alexandria",
+			"value": "Alexandria"
+		},
+		{
+			"displayName": "Norfolk",
+			"value": "Norfolk"
+		},
+		{
+			"displayName": "Blacksburg",
+			"value": "Blacksburg"
+		}]
+	}
+},
+{
+	"symbolicName": "XYZ_VIN/XYZ_VIN",
+	"choiceList": {
+		"displayName": "Valid VINs",
+		"choices": [{
+			"displayName": "A3892C",
+			"value": "A3892C"
+		},
+		{
+			"displayName": "B6732G",
+			"value": "B6732G"
+		},
+		{
+			"displayName": "R9822X",
+			"value": "R9822X"
+		},
+		{
+			"displayName": "Y5936A",
+			"value": "Y5936A"
+		},
+		{
+			"displayName": "W8829S",
+			"value": "W8829S"
+		}]
+	}
+},
+]

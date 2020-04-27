@@ -1,0 +1,43 @@
+<div class="ecmLayout">
+	<div data-dojo-type="dijit/layout/BorderContainer" class="contentPane" gutters="false" data-dojo-attach-point="mainContainer" style="height:100%;width:100%">
+		<div data-dojo-type="ecm/widget/Banner" data-dojo-attach-point="banner" region="top"  showApplicationMenu="false"></div>
+		
+		<div data-dojo-attach-point="mainStackContainer" data-dojo-type="dijit/layout/StackContainer" region="center" 
+			 class="stackContainer">	 
+			<div data-dojo-attach-point="loginPane" data-dojo-type="ecm/widget/LoginPane" id="${id}_LoginPane"></div>
+
+			<div data-dojo-attach-point="mainPane" data-dojo-type="dijit.layout.BorderContainer" gutters="false">
+				<div data-dojo-type="dijit/layout/ContentPane" region="top" class="globalToolbarArea">
+					<div data-dojo-type="ecm/widget/GlobalToolbar" data-dojo-attach-point="globalToolbar"></div>
+				</div>
+				<div data-dojo-attach-point="modeTabContainer" data-dojo-type="dijit/layout/TabContainer" region="center">
+					<div data-dojo-attach-point="browseModeContainer" data-dojo-type="idx/layout/BorderContainer" 
+							gutters="false" style="padding-top: 4px" title="${messages.browse}">
+						<div data-dojo-type="dijit/layout/ContentPane" region="leading" splitter="true" class="leadingPane">
+							<div data-dojo-attach-point="folderTree" data-dojo-type="ecm/widget/FolderTree" showFoldersOnly=true></div>
+						</div>
+						<div data-dojo-attach-point="folderContents" data-dojo-type="ecm/widget/listView/ContentList" region="center"></div>
+					</div>
+					<div data-dojo-attach-point="searchModeContainer" data-dojo-type="idx/layout/BorderContainer" 
+							gutters="false" style="padding-top: 4px;" title="${messages.search}">
+						<div data-dojo-type="dijit/layout/ContentPane" region="leading" splitter="true" class="leadingPane">
+							<div data-dojo-attach-point="searchSelector" data-dojo-type="ecm/widget/search/SearchSelector"></div>
+						</div>
+						<div data-dojo-attach-point="searchTabContainer" data-dojo-type="ecm/widget/search/SearchTabContainer" region="center" class="contentPane"></div>
+					</div>
+					<div data-dojo-attach-point="workModeContainer" data-dojo-type="idx/layout/BorderContainer" 
+						gutters="false" style="padding-top: 4px;" title="${messages.work}">
+							<div data-dojo-attach-point="worklistSelector" data-dojo-type="ecm/widget/WorklistSelector" 
+								 region="leading" splitter="true" class="leadingPane">
+							</div>
+							<div data-dojo-type="dijit/layout/ContentPane" region="center">
+								<div data-dojo-type="ecm/widget/process/InbasketContainer" data-dojo-attach-point="inbasketArea" style="width:100%;height:100%;"></div>
+							</div>
+						</div>
+				</div>
+				<div data-dojo-type="ecm/widget/MessageBar" region="bottom"></div>
+			</div>
+		</div>
+	</div>
+</div>
+	
