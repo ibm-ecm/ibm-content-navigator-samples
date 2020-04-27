@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<project name="dependentPlugin" default="all" basedir=".">
+
+    <property file="build.properties" />
+    <property name="dir.web" value="src/main/resources/com/ibm/ecm/extension/dependent/WebContent" />
+    <property name="dir.target" value="target" />
+    <property name="dir.target.build" value="target/dojoBuild" />
+    <property name="dir.target.web" value="target/classes/com/ibm/ecm/extension/dependent/WebContent" />
+    <property name="LIB" value="lib" />
+    <property name="user.name" value="emmanuel.shedu@ibm.com" />
+
+    <target name="all" depends="clean,compile,jar" />
+
+    <path id="classpath">
+        <fileset dir="${LIB}" >
+            <include name="**/*.jar" />
+        </fileset>
+        <pathelement location="temp" />
+    </path>
+
+     <target name="init">
+        <mkdir dir="${dir.target}" />
+        <mkdir dir="${dir.target.build}" />
+    </target>
+
+    <target name="clean">
+        <delete dir="temp" />
+    </target>
+
+    <target name="compile">
+        <mkdir dir="temp" />
+        <javac srcdir="src" destdir="temp" source="1.8" target="1.8" debug="true">
+            <classpath refid="classpath" />
+            <include name="**/*.java" />
+        </javac>
+    </target>
+
+    <target name="jar">
+        <copy todir="temp">
+            <fileset dir="src">
+                <include name="com/ibm/ecm/extension/dependent/**" />
+            </fileset>
+        </copy>
+        <jar jarfile="dependentPlugin.jar">
+            <fileset dir="./temp" includes="**/*" />
+            <manifest>
+                <attribute name="Plugin-Class" value="com.ibm.ecm.extension.dependent.DependentPlugin" />
+                <section name="build">
+                    <attribute name="Built-By" value="${user.name}" />
+                    <attribute name="Build" value="${TODAY}" />
+                </section>
+            </manifest>
+        </jar>
+        <delete dir="./temp" />
+    </target>
+
+    <target name="dojo-build" depends="prepare-dojo-build">
+        <copy todir="${dir.target.build}/dependent" preservelastmodified="yes" verbose="no">
+            <fileset dir="${dir.web}/dependent">
+                <include name="**/*" />
+                <exclude name="test/**" />
+                <exclude name="**/*.jgz" />
+            </fileset>
+            <fileset dir="${dir.web}">
+                <include name="DependentPlugin.js" />
+            </fileset>
+            <fileset dir="${basedir}">
+                <include name="dojo-build/dependentPlugin.profile.js" />
+            </fileset>
+        </copy>
+
+        <java dir="${dir.target.build}/util/buildscripts" fork="true" classname="org.mozilla.javascript.tools.shell.Main" failonerror="true">
+            <classpath path="${dir.target.build}/util/shrinksafe/js.jar;${dir.target.build}/util/shrinksafe/shrinksafe.jar" />
+            <arg line="${basedir}/${dir.target.build}/dojo/dojo.js --release" />
+            <arg value="baseUrl=${basedir}/${dir.target.build}/dojo" />
+            <arg value="profile=${basedir}/dojo-build/dependentPlugin.profile.js" />
+            <arg value="load=build" />
+        </java>
+
+        <gzip src="${dir.target.build}/release/dependent/DependentPlugin.js" destfile="${dir.target.web}/DependentPlugin.js.jgz" />
+    </target>
+
+    <target name="prepare-dojo-build" depends="init">
+        <unzip dest="${dir.target.build}" src="${file.dojo.src.archive}" />
+        <copy todir="${dir.target.build}/ecm" preservelastmodified="yes" verbose="no">
+            <fileset dir="${dir.icn.web}/ecm">
+                <include name="**/*" />
+                <exclude name="**/tests/" />
+                <exclude name="nls/ecm_*.jgz" />
+                <exclude name="**/FormSigningContainer.js" />
+                <exclude name="**/DocumentFormContainer.js" />
+                <exclude name="**/TeamspaceTabPane.js" />
+                <exclude name="**/PropertiesControllerRuntime.js" />
+            </fileset>
+        </copy>
+        <copy todir="${dir.target.build}/pvr" preservelastmodified="yes" verbose="no">
+            <fileset dir="${dir.icn.web}/pvr">
+                <include name="**/*" />
+                <exclude name="tests/**" />
+            </fileset>
+        </copy>
+        <copy todir="${dir.target.build}/pvd" preservelastmodified="yes" verbose="no">
+            <fileset dir="${dir.icn.web}/pvd">
+                <include name="**/*" />
+                <exclude name="tests/**" />
+            </fileset>
+        </copy>
+        <copy todir="${dir.target.build}/gridx" preservelastmodified="yes" verbose="no">
+            <fileset dir="${dir.icn.web}/gridx">
+                <include name="**/*" />
+            </fileset>
+        </copy>
+        <copy todir="${dir.target.build}/idx" preservelastmodified="yes" verbose="no">
+            <fileset dir="${dir.icn.web}/idx">
+                <include name="**/*" />
+            </fileset>
+        </copy>
+    </target>
+</project>
