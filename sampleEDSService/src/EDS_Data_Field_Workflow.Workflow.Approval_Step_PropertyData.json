@@ -1,0 +1,76 @@
+[{
+    "symbolicName": "string1",
+    "choiceList": {
+        "displayName": "Authors",
+        "choices": [{
+            "displayName": "Dan Brown",
+            "value": "Dan Brown"
+        },
+        {
+            "displayName": "Stephen King",
+            "value": "Stephen King"
+        },
+        {
+            "displayName": "Robert Charles Wilson",
+            "value": "Robert Charles Wilson"
+        },
+        {
+            "displayName": "Vernor Vinge",
+            "value": "Vernor Vinge"
+        }]
+    },
+    "hasDependentProperties": false
+},{
+    "symbolicName": "integer1",
+    "choiceList": {
+        "displayName": "Small Integers",
+        "choices": [{
+            "displayName": "one",
+            "value": "1"
+        },
+        {
+            "displayName": "two",
+            "value": "2"
+        },
+        {
+            "displayName": "three",
+            "value": "3"
+        }]
+    }
+},{
+    "symbolicName": "float1",
+    "choiceList": {
+        "displayName": "Medium Floats",
+        "choices": [{
+            "displayName": "ten.ten",
+            "value": "10.10"
+        },
+        {
+            "displayName": "twenty.twenty",
+            "value": "20.20"
+        },
+        {
+            "displayName": "thirty.thirty",
+            "value": "30.30"
+        }]
+    }
+},{
+    "symbolicName": "date1",
+    "choiceList": {
+        "displayName": "My Dates",
+        "choices": [{
+            "displayName": "Twenty eleven",
+            "value": "2011-12-01T20:28:27Z"
+        },
+        {
+            "displayName": "Twenty twelve",
+            "value": "2012-12-02T21:28:27Z"
+        },
+        {
+            "displayName": "Twenty thirteen",
+            "value": "2013-12-03T22:28:27Z"
+        }]
+    }
+}
+
+]

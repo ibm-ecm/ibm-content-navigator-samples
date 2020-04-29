@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<!--
+
+	 Licensed Materials - Property of IBM
+	 (C) Copyright IBM Corp. 2020
+	 US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+
+ -->
+
+<html>
+<head>
+	<title>Add Folder</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="/navigator/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true, packages: [{name: 'idx', location: '../idx'},{name: 'ecm', location: '../ecm'},{name: 'samplePages', location: '/samplePages'}]"></script>
+	<script>
+	require(["dojo/_base/lang",
+	         "dojo/dom",
+	         "dojo/_base/kernel",
+	         "dojo/keys",
+	         "samplePages/model/common"
+			 ], 
+		function(lang, dom, kernel, keys, common) {
+			var repos = null;
+			
+			function _toggleBtns(enableLogin) {
+				dom.byId("loginBtn").disabled = !enableLogin;
+				dom.byId("logoffBtn").disabled = enableLogin;
+			}
+			
+			function _toggleAddFolderBtn(enable) {
+				dom.byId("addFolderBtn").disabled = !enable;
+			}
+			
+			lang.setObject("login", function() {
+				dom.byId("result").innerHTML = "Trying to login...";
+				
+				common.setupTestEnvironemnt(function(repository) {
+					_toggleBtns(false);
+					repos = repository;
+				});
+			});
+			
+			lang.setObject("logout", function() {
+				if (repos && repos.connected) {
+					repos.logoff();
+					dom.byId("result").innerHTML = "Logged off " + repos.name;
+				}
+				_toggleBtns(true);
+			});
+			
+			lang.setObject("executeOnEnter", function(event) {
+				var repositoryId = dom.byId("repositoryId").value;
+				var userId = dom.byId("userId").value;
+				var password = dom.byId("password").value;
+				
+				if (repositoryId && repositoryId.length > 0 && userId && userId.length > 0 && password && password.length > 0)
+					_toggleBtns(true);
+				else
+					_toggleBtns(false);
+				
+				if (!dom.byId("loginBtn").disabled) {
+					if (event.keyCode == keys.ENTER) {
+						login();
+					}
+				}
+			});
+			
+			lang.setObject("folderInput", function(event) {
+				var parentFolder = dom.byId("parentFolder").value;
+				var folderClass = dom.byId("folderClass").value;
+				var criteria = dom.byId("criteria").value;
+				
+				if (parentFolder && parentFolder.length > 0 && folderClass && folderClass.length > 0 && criteria && criteria.length > 0)
+					_toggleAddFolderBtn(true);
+				else
+					_toggleAddFolderBtn(false);
+			});
+			
+			lang.setObject("addFolder", function() {
+				dom.byId("result").innerHTML = "Adding folder...";
+				var parentFolderName = dom.byId("parentFolder").value;
+				var retrieveItemCallback = function(item) {
+					dom.byId("result").innerHTML = "Retrieved parent folder " + item.id;
+					var parentFolder = item;
+					var objectStore = parentFolder.getObjectStore();
+					var templateName = dom.byId("folderClass").value;
+					var propertyStr = dom.byId("criteria").value;
+					var properties = kernel.eval(propertyStr);
+					var childCompVals = null;
+					var permissions = null;
+					var spId = null;
+					var tsId = null;
+					var criterias = {};
+					criterias.docid = parentFolder.id;
+					criterias.criterias = properties;
+					criterias.documentType = "Folder";
+					repos.addFolderItem(parentFolder, objectStore, templateName, criterias, childCompVals, permissions, spId, tsId, function(createdFolder) {
+						dom.byId("result").innerHTML = "Added " + createdFolder.id;
+					});
+				}
+				repos.retrieveItem(parentFolderName, retrieveItemCallback);
+			});
+		});
+	</script>
+</head>
+<body>
+	<h1>Add Folder</h1>
+	<table>
+		<tr>
+			<td><label for="repositoryId">Repository:</label></td>
+			<td><input id="repositoryId" value="" onkeyup="executeOnEnter(event);"/></td>
+		</tr>
+		<tr>
+			<td><label for="userId">User ID:</label></td>
+			<td><input id="userId" value="" onkeyup="executeOnEnter(event);"></input></td>
+		</tr>
+		<tr>
+			<td><label for="password">Password:</label></td>
+			<td><input type="password" id="password" value="" onkeyup="executeOnEnter(event);" onchange="passwordChange(event)"/></td>
+		</tr>
+	</table>
+	<div>
+		<input id="loginBtn" type="button" value="Log in" onclick="login();" disabled/>
+		<input id="logoffBtn" type="button" value="Log out" onclick="logout();" disabled/>
+	</div>
+	<hr>
+	<table>
+		<tr>
+			<td><label for="parentFolder">Parent Folder:</label></td>
+			<td><input id="parentFolder" value="" onkeyup="folderInput(event)"/></td>
+		</tr>
+		<tr>
+			<td><label for="folderClass">Class:</label></td>
+			<td><input id="folderClass" value="Folder" onkeyup="folderInput(event)"/></td>
+		</tr>
+		<tr>
+			<td><label for="criteria">Criteria:</label></td>
+			<td>
+				<textarea rows="3" id="criteria" style="width: 500px;" onkeyup="folderInput(event)">[{"name": "FolderName", "value": "Test"},{"name":"IsHiddenContainer","value":"false"}]</textarea>
+			</td>
+		</tr>
+	</table>
+	<div>
+		<input id="addFolderBtn" type="button" value="Add Folder" onclick="addFolder();" disabled/>
+	</div>
+	
+	<div id="result"></div>
+</body>
+</html>

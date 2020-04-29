@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<!--
+
+	 Licensed Materials - Property of IBM
+	 (C) Copyright IBM Corp. 2020
+	 US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+
+ -->
+
+<html>
+<head>
+	<title>ItemSecurityPaneSample</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style>
+	    @import "/navigator/ecm/themes/oneui/oneui.css";
+		@import "/navigator/ecm/themes/oneui/dojo.css";
+		@import "/navigator/ecm/widget/resources/dojo.css";
+		@import "/navigator/ecm/widget/resources/ecm.css";
+	</style>
+	<script src="/navigator/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true, packages: [{name: 'idx', location: '../idx'},{name: 'ecm', location: '../ecm'}]"></script>
+	<script>
+	require(["dojo/_base/lang",
+	         "dojo/ready",
+	         "dojo/_base/connect",
+	         "dojo/dom",
+	         "dojo/dom-construct",
+	         "dijit/registry",
+	         "dijit/layout/BorderContainer",
+	         "dijit/layout/ContentPane",
+			 "ecm/model/Desktop",
+			 "ecm/model/Message",
+			 "ecm/Logger",
+			 "ecm/widget/ItemSecurityPane"
+			 ], 
+		function(lang, ready, connect, dom, domConstruct, registry, BorderContainer, ContentPane, Desktop, Message, Logger, ItemSecurityPane) {
+			ready(function() {
+				ecm.logger.initLogger(4, true);
+		
+				// A simple error handler
+				connect.connect(Desktop, "onMessageAdded", function(message) {
+					if (message.level > 0) {
+						alert(message.text);
+					}
+				});
+			});
+	
+			lang.setObject("showItemSecurity", function() {
+				ecm.logger.logEntry(this, "showItemSecurity");
+				
+				var repositoryId = dom.byId("repositoryId").value;
+				var userId = dom.byId("userId").value;
+				var password = dom.byId("password").value;
+				var docId = dom.byId("docId").value;
+				
+				var securityArea = registry.byId("securityArea").domNode;
+				securityArea.innerHTML = "Loading default desktop...";
+				
+				// Load the desktop
+				Desktop.loadDesktop(null, function() {
+					var repository = Desktop.getRepository(repositoryId);
+					repository.userId=userId;
+					repository.onChange(repository);
+					securityArea.innerHTML = "Logging into repository \"" + repository.name + "\"";
+					
+					repository.logon(password, function() {
+						
+						securityArea.innerHTML = "Retrieving item \"" + docId + "\"";
+						// logon completed successfully
+						repository.retrieveItem(docId, function(item) {
+							var pane = new ItemSecurityPane();
+							pane.setItem(item, false);
+							domConstruct.place(pane.domNode, securityArea, "only");
+							pane.render();
+						});
+					});
+				});
+				
+				ecm.logger.logExit(this, "showItemSecurity");
+			});
+		});
+	</script>
+	
+</head>
+<body class="ecm oneui">
+	<div id="borderContainer" data-dojo-type="dijit/layout/BorderContainer" data-dojo-attach-point="borderContainer" gutters="false" style="width: 100%; height: 100%">
+		<div data-dojo-type="dijit/layout/ContentPane" region="top">
+			<h1>Sample - Item Security Pane Sample</h1>
+			<table>
+				<tr>
+					<td><label for="repositoryId">Repository:</label></td>
+					<td><input id="repositoryId"/></td>
+				</tr>
+				<tr>
+					<td><label for="userId">User ID:</label></td>
+					<td><input id="userId"/></td>
+				</tr>
+				<tr>
+					<td><label for="password">Password:</label></td>
+					<td><input type="password" id="password"/></td>
+				</tr>
+				<tr>
+					<td><label for="docId">Document ID:</label></td>
+					<td><input id="docId"/></td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align:left"><input type="button" value="Update ItemSecurityPane" onclick="showItemSecurity();"/></td>
+				</tr>
+			</table>
+		</div>
+		<div id="securityArea" data-dojo-type="dijit/layout/ContentPane" region="center" style="padding-top: 10px; overflow: auto">
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<!--
+
+	 Licensed Materials - Property of IBM
+	 (C) Copyright IBM Corp. 2020
+	 US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+
+ -->
+
+<html>
+<head>
+	<title>Sample - Add Document</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<script src="/navigator/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true, packages: [{name: 'idx', location: '../idx'},{name: 'ecm', location: '../ecm'},{name: 'samplePages', location: '/samplePages'}]"></script>
+	<script>
+	require(["dojo/_base/lang",
+	         "dojo/dom",
+	         "dojo/keys",
+	         "dojo/_base/kernel",
+	         "dojo/_base/array",
+			 "samplePages/model/common",
+			 "ecm/model/Desktop",
+			 "ecm/model/Message"
+			 ], 
+		function(lang, dom, keys, kernel, dojo_array, common, Desktop, Message) {
+			function _retrieveParentItem(repository) {
+				var parentItemId = dom.byId("parentItemId").value;
+				repository.retrieveItem(parentItemId, function(item) {
+					if (!item) {
+						Desktop.addMessage(Message.createErrorMessage("Invalid Parent Item ID"));
+					}else{
+						_importDocument(item, repository);
+					}
+				});
+			}
+			
+			lang.setObject("importItem", function() {
+				dom.byId("result").innerHTML = "Setting up desktop...";
+				common.setupTestEnvironemnt(function(repository) {
+					dom.byId("result").innerHTML = "Waiting for server response...";
+					_retrieveParentItem(repository);
+				});
+			});
+			
+			function _importDocument(parentItem, repository) {
+				// On P8, if you are adding to an object store that is not the active repository object store
+				// then the information identifying the other object store must be passed in the objectStore parameter.
+				// The objectStore parameter is an object that contains the object store id, symbolic name, 
+				// and display name strings:
+				//
+				//		{ id: <GUID ID string>, 
+				//		  symbolicName: <symbolic name string>, 
+				// 		  displayName: <display name string> }
+				//
+				// If null is passed for objectStore then the document is added to the active repository object store.
+				//
+				var objectStore = null;
+				var templateName = dom.byId("className").value;
+				var criteriasStr = dom.byId("criterias").value;
+				var properties = kernel.eval(criteriasStr);
+				var childComponentValues = [];
+				var securityPolicyId = null;
+				var addAsMinorVersion = false;
+				var autoClassify = true;
+				var allowDuplicateFileNames = true;
+				var setSecurityParent = null;
+				var teamspaceId = null; // Required if adding a document under a Teamspace. 
+				var contentSourceType = "Document"; // "Document" means there is content. Use "Item" if you're not adding a content file.
+				var files = dom.byId("fileInput").files;
+
+				if (files) {
+					if (repository.type == "p8") {
+						parentItem.getContentClass().retrieveDefaultInstancePermissions(function(res) {
+							permissions = [];
+							dojo_array.forEach(res, function(permission) {
+								var acc = {
+									accessMask: permission.accessMask,
+									accessType: permission.accessType,
+									granteeType: permission.granteeType,
+									inheritableDepth: permission.inheritableDepth,
+									granteeName: permission.name
+								}
+								permissions.push(acc);
+							});
+							
+							for ( var i = 0; i < files.length; i++) {
+								repository.addDocumentItem(parentItem, objectStore, templateName, properties, contentSourceType, files[i].type,
+										(files[i].fileName != null) ? files[i].fileName : files[i].name, files[i], childComponentValues, permissions, securityPolicyId, addAsMinorVersion, 
+										autoClassify, allowDuplicateFileNames, setSecurityParent, teamspaceId,
+										function(response) {
+											dom.byId("result").innerHTML = "Test " + i + " document is added.";
+								});
+							}
+						});
+					} else {
+						for ( var i = 0; i < files.length; i++) {
+							repository.addDocumentItem(parentItem, objectStore, templateName, properties, contentSourceType, files[i].type,
+									(files[i].fileName != null) ? files[i].fileName : files[i].name, files[i], childComponentValues, permissions, securityPolicyId, addAsMinorVersion, 
+									autoClassify, allowDuplicateFileNames, setSecurityParent, teamspaceId,
+									function(response) {
+										dom.byId("result").innerHTML = "Test " + i + " document is added.";
+							});
+						}
+					}
+				}
+			}
+			
+			lang.setObject("executeOnEnter", function(event) {
+				if (event.keyCode == keys.ENTER) {
+					importItem();
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<h1>Sample - Add Document</h1>
+	<table>
+		<tr>
+			<td><label for="repositoryId">Repository:</label></td>
+			<td><input id="repositoryId" value="" onkeyup="executeOnEnter(event);"/></td>
+		</tr>
+		<tr>
+			<td><label for="userId">User ID:</label></td>
+			<td><input id="userId" value="" onkeyup="executeOnEnter(event);"/></td>
+		</tr>
+		<tr>
+			<td><label for="password">Password:</label></td>
+			<td><input type="password" id="password" value="" onkeyup="executeOnEnter(event);" onchange="passwordChange(event)"/></td>
+		</tr>
+		<tr>
+			<td><label for="parentItemId">Parent Item ID:</label></td>
+			<td><input id="parentItemId" value="" onkeyup="executeOnEnter(event);"/></td>
+		</tr>
+		<tr>
+			<td><label for="className">Class:</label></td>
+			<td><input id="className" value="" onkeyup="executeOnEnter(event);"/></td>
+		</tr>
+		<tr>
+			<td><label for="fileInput">File:</label>
+			<td><input type="file" size=50 require=true id="fileInput" name="sample_fileInput" onkeyup="executeOnEnter(event);">
+			</td>
+		</tr>
+		<tr>
+			<td><label for="criterias">Criteria:</label></td>
+			<td>
+				<textarea rows="3" id="criterias" style="width: 500px;">[{name: "DocumentTitle", values: ["My Document"]}]
+				</textarea>
+			</td>
+		</tr>
+	</table>
+	<div>
+		<input type="button" value="Add Document" onclick="importItem();"/>
+	</div>
+	
+	<div id="result" style="font-size: small;">
+	</div>
+</body>
+</html>

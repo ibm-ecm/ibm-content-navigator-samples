@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+
+<!--
+
+	 Licensed Materials - Property of IBM
+	 (C) Copyright IBM Corp. 2020
+	 US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+
+ -->
+
+<html>
+<head>
+	<title>Sample - Search</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="/navigator/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true, packages: [{name: 'idx', location: '../idx'},{name: 'ecm', location: '../ecm'},{name: 'samplePages', location: '/samplePages'}]"></script>
+	<script>
+	require(["dojo/_base/lang",
+	         "dojo/dom",
+	         "dojo/keys",
+	         "dojo/dom-construct",
+			 "samplePages/model/common",
+			 "ecm/model/Desktop",
+			 "ecm/model/Message"
+			 ], 
+		function(lang, dom, keys, domConstruct, common, Desktop, Message) {
+			lang.setObject("doSearch", function() {
+				common.setupTestEnvironemnt(function(repository) {
+					dom.byId("result").innerHTML = "Waiting for server response...";
+					repository.retrieveSearchTemplates(function(response) {
+						var st = null;
+						for (var i=0; i < response.length; i++) {
+							var _st = response[i];
+							if (_st.name == dom.byId("stName").value) {
+								st = _st;
+								break;
+							}
+						}
+						
+						if (st != null) {
+							dom.byId("result").innerHTML = "Got a SearchTemplate";
+							st.retrieveSearchCriteria(function(res) {
+								var value = st.toJson(false).toString();
+								alert(value);
+								st.search(_displaySearchResult, null, false);
+							});
+						} else {
+							Desktop.addMessage(Message.createErrorMessage("Invalid SearchTemplate name."));
+							return;
+						}
+					}, null);
+				});
+			});
+			
+			function _displaySearchResult(resultSet) {
+				var result = dom.byId("result");
+				result.innerHTML = "";
+				var items = resultSet.getItems();
+				result.innerHTML = "<div>" + items.length + " document(s) </div>";
+				
+				for (var i=0; i < items.length; i++) {
+					domConstruct.create("HR", {}, result, "last");
+					var div = domConstruct.create("DIV", {}, result, "last");
+					var attrs = items[i].attributes;
+					for (attr in attrs) {
+						if (attrs[attr]) {
+							domConstruct.create("DIV", {
+								innerHTML: attr + ":" + attrs[attr]
+							}, div, "last");
+						}
+					}
+				}
+			}
+			
+			lang.setObject("executeOnEnter", function(event) {
+				if (event.keyCode == keys.ENTER) {
+					doSearch();
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<h1>Sample - Search</h1>
+	<table>
+		<tr>
+			<td><label for="repositoryId">Repository:</label></td>
+			<td><input id="repositoryId" value="" onkeyup="executeOnEnter(event);"/></td>
+		</tr>
+		<tr>
+			<td><label for="userId">User ID:</label></td>
+			<td><input id="userId" value="" onkeyup="executeOnEnter(event);"/></td>
+		</tr>
+		<tr>
+			<td><label for="password">Password:</label></td>
+			<td><input type="password" id="password" value="" onkeyup="executeOnEnter(event);" onchange="passwordChange(event)"/></td>
+		</tr>
+		<tr>
+			<td><label for="stName">SearchTemplate:</label></td>
+			<td><input id="stName" value="" onkeyup="executeOnEnter(event);"/>
+		</tr>
+	</table>
+	<div>
+		<input type="button" value="Search" onclick="doSearch();"/>
+	</div>
+	
+	<div id="result" style="font-size: small;">
+	</div>
+</body>
+</html>

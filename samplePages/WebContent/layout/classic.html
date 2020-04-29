@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Classic IBM Enterprise Content Management Layout</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style>
+		@import "/navigator/ecm/widget/resources/dojo.css.jgz";
+		@import "/navigator/ecm/themes/oneui/dojo.css.jgz";
+		@import "/navigator/ecm/widget/resources/ecm.css.jgz";
+		@import "/navigator/ecm/themes/oneui/oneui.css.jgz";
+		
+		.ecmLayout .globalToolbarArea {
+			clear: left;
+		    display: block;
+		    background-image: -moz-linear-gradient(#1a96c6, #0075a3);
+		    background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#1a96c6), to(#0075a3));
+		    background-image: -webkit-linear-gradient(#1a96c6, #0075a3);
+		    background-image: -o-linear-gradient(#1a96c6, #0075a3);
+		    filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#1a96c6', EndColorStr='#0075a3');
+			padding-bottom: 8px !important;
+			z-index: 4;
+		}
+		
+		.ecmLayout .ecmGlobalToolbar {
+			height:32px;
+			padding: 4px 15px 7px !important;
+		}
+		
+		.ecmLayout .leadingPane,
+		.ecmLayout .trailingPane {
+			width: 225px;
+			margin: 0;
+		}
+	</style>
+	<script src="/navigator/dojo/dojo.js" 
+		data-dojo-config="async: true, 
+				  packages: [{name: 'idx', location: '../idx'},
+				  			{name: 'ecm', location: '../ecm'},
+				  			{name:'samplePages',location:'../../samplePages'}]"></script>
+	<script >
+		require(["dojo/_base/window",
+		         "ecm/model/Desktop",
+		         "./ClassicLayout.js"],
+		function(dojo_win, Desktop, Layout) {
+			var desktopId = ecm.model.desktop.getRequestParam("desktop");
+			
+			ecm.model.desktop.loadDesktop(this.desktopId, function() {
+				var layout = new Layout({style: "width: 100%; height: 100%", desktopId: desktopId});
+				dojo_win.body().appendChild(layout.domNode);
+				layout.startup();
+			});
+		});
+	</script>
+</head>
+<body class="ecm oneui">
+</body>
+</html>

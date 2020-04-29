@@ -1,0 +1,207 @@
+[{
+	"symbolicName": "EDSSVCPStrEmail",
+	"format": "\\b[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,4}\\b",
+	"formatDescription": "nicolas@sample.net"
+},{
+	"symbolicName": "EDSMVCPStrIPs",
+	"format": "\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b",
+	"formatDescription": "0.0.0.0 to 255.255.255.255"
+},{
+	"symbolicName": "EDSSVCPStrAuthor",
+	"choiceList": {
+		"displayName": "Authors",
+		"choices": [{
+			"displayName": "Jean Paul Sartre",
+			"value": "Jean Paul Sartre"
+		},
+		{
+			"displayName": "HonorÃ© de Balzac",
+			"value": "HonorÃ© de Balzac"
+		}]
+	},
+	"hasDependentProperties": true
+},{
+	"symbolicName": "EDSSVCPStrBook",
+	"dependentOn": "EDSSVCPStrAuthor",
+	"dependentValue": "Jean Paul Sartre",
+	"choiceList": {
+		"displayName": "Romans de Jean Paul Sartre",
+		"choices": [{
+			"displayName": "La nausÃ©e",
+			"value": "La nausÃ©e"
+		},
+		{
+			"displayName": "L'Ã¢ge de raison",
+			"value": "L'Ã¢ge de raison"
+		}]
+	}
+},{
+	"symbolicName": "EDSSVCPStrBio",
+	"dependentOn": "EDSSVCPStrAuthor",
+	"dependentValue": "Jean Paul Sartre",
+	"choiceList": {
+		"displayName": "Jean Paul Sartre Bio",
+		"choices": [{
+			"displayName": "21 Juin 1905",
+			"value": "21 Juin 1905"
+		},
+		{
+			"displayName": "Paris, France",
+			"value": "Paris, France"
+		}]
+	}
+},{
+	"symbolicName": "EDSSVCPStrBook",
+	"dependentOn": "EDSSVCPStrAuthor",
+	"dependentValue": "HonorÃ© de Balzac",
+	"choiceList": {
+		"displayName": "Romans d'HonorÃ© de Balzac",
+		"choices": [{
+			"displayName": "La Fille aux yeux d'or",
+			"value": "La Fille aux yeux d'or"
+		},
+		{
+			"displayName": "Le PÃ¨re Goriot",
+			"value": "Le PÃ¨re Goriot"
+		}]
+	}
+},{
+	"symbolicName": "EDSSVCPStrBio",
+	"dependentOn": "EDSSVCPStrAuthor",
+	"dependentValue": "HonorÃ© de Balzac",
+	"choiceList": {
+		"displayName": "HonorÃ© de Balzac Bio",
+		"choices": [{
+			"displayName": "20 Mai 1799",
+			"value": "20 Mai 1799"
+		},
+		{
+			"displayName": "Tours, France",
+			"value": "Tours, France"
+		}]
+	}
+},{
+	"symbolicName": "EDSSVCPIntZodiac",
+	"choiceList": {
+		"displayName": "Zodiaque Chinois",
+		"choices": [{
+			"displayName" : "Rat",
+			"value" : "1"
+		},
+		{
+			"displayName" : "BÅ“uf",
+			"value" : "2"
+		},
+		{
+			"displayName" : "Tigre",
+			"value" : "3"
+		},
+		{
+			"displayName" : "Lapin",
+			"value" : "4"
+		},
+		{
+			"displayName" : "Dragon",
+			"value" : "5"
+		},
+		{
+			"displayName" : "Serpent",
+			"value" : "6"
+		},
+		{
+			"displayName": "Cheval",
+			"value" : "7"
+		},
+		{
+			"displayName": "Mouton",
+			"value" : "8"
+		},
+		{
+			"displayName": "Singe",
+			"value" : "9"
+		},
+		{
+			"displayName": "Coq",
+			"value" : "10"
+		},
+		{
+			"displayName": "Chien",
+			"value" : "11"
+		},
+		{
+			"displayName": "Cochon",
+			"value" : "12"
+		}
+		]
+	}
+},{
+	"symbolicName": "EDSSVCPStrQuote",
+	"choiceList": {
+		"displayName": "Citations",
+		"choices": [{
+			"displayName" : "Il n'y a qu'un bonheur dans la vie, c'est d'aimer et d'Ãªtre aimÃ©. George Sand",
+			"value" : "Il n'y a qu'un bonheur dans la vie, c'est d'aimer et d'Ãªtre aimÃ©. George Sand"
+		},
+		{
+			"displayName" : "Il n'est rien de rÃ©el que le rÃªve et l'amour. Anna de Noailles",
+			"value" : "Il n'est rien de rÃ©el que le rÃªve et l'amour. Anna de Noailles"
+		}]
+	}
+},{
+	"symbolicName": "EDSMVCPIntLevels",
+	"choiceList": {
+		"displayName": "Stage",
+		"choices": [{
+			"displayName" : "Stage Un",
+			"value" : "1"
+		},
+		{
+			"displayName" : "Stage Deux",
+			"value" : "2"
+		},
+		{
+			"displayName" : "Stage Trois",
+			"value" : "3"
+		},
+		{
+			"displayName" : "Stage Quatre",
+			"value" : "4"
+		},
+		{
+			"displayName" : "Stage Cinq",
+			"value" : "5"
+		},
+		{
+			"displayName" : "Stage Six",
+			"value" : "6"
+		},
+		{	"displayName": "Stage Sept",
+			"value" : "7"
+		}]
+	}
+},{
+	"symbolicName": "EDSMVCPStrCharacters",
+	"choiceList": {
+		"displayName": "CaractÃ¨res",
+		"choices": [{
+			"displayName" : "~!@#$%^&*()_+-=`{}[]|\\;':\"<>?,./",
+			"value" : "~!@#$%^&*()_+-=`{}[]|\\;':\"<>?,./"
+		},
+		{
+			"displayName" : "èéçñóö",
+			"value" : "èéçñóö"
+		},
+		{
+			"displayName" : "虎 龍 蛇",
+			"value" : "虎 龍 蛇"
+		},
+		{
+			"displayName" : "“”•™šœ�©áß©¥±✓",
+			"value" : "“”•™šœ�©áß©¥±✓"
+		},
+		{
+			"displayName" : "€uro ¥en ƒlorin",
+			"value" : "€uro ¥en ƒlorin"
+		}]
+	}
+}]

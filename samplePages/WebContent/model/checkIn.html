@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+<!--
+
+	 Licensed Materials - Property of IBM
+	 (C) Copyright IBM Corp. 2020
+	 US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+
+ -->
+
+<html>
+<head>
+	<title>Sample - Check In</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="/navigator/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true, packages: [{name: 'idx', location: '../idx'},{name: 'ecm', location: '../ecm'},{name: 'samplePages', location: '/samplePages'}]"></script>
+	<script>
+	require(["dojo/_base/lang",
+	         "dojo/dom",
+	         "dojo/keys",
+			 "samplePages/model/common",
+			 "ecm/model/Desktop",
+			 "ecm/model/Message"
+			 ], 
+		function(lang, dom, keys, common, Desktop, Message) {
+			lang.setObject("checkInItem", function() {
+				dom.byId("result").innerHTML = "Setting up desktop...";
+				
+				common.setupTestEnvironemnt(function(repository) {
+					dom.byId("result").innerHTML = "Waiting for server response...";
+					var itemId = dom.byId("itemId").value;
+					repository.retrieveItem(itemId, function(item) {
+						if(!item) {
+							Desktop.addMessage(Message.createErrorMessage("Invalid Item ID."));
+							return;
+						}
+						_checkIn(item);
+					});
+				});
+			});
+			
+			function _checkIn(item) {
+				var props = item;
+				var templateName = props.template;
+				var criteriasStr = dom.byId("criterias").value;
+				var myCriterias = dojo.eval(criteriasStr);
+				
+				var contentSourceType = dom.byId("contentSourceType").value;
+				var mimeType = dom.byId("mimeType").value;
+				var filename = dom.byId("content").value;
+				var asMinor = dom.byId("checkinAsMinorVersion").checked;
+				
+				var newVersion = false;
+				var autoClassify = false;	
+				var childCompVals = [];
+				var permissions = null;
+				var spId = null;
+				
+				// If mimeType wasn't set, use 'Item' source type (metadata only)
+				if (mimeType == "") mimeType = null;
+				if (content == "") content = null;
+				if (filename == ""){
+					filename = null;
+				 	content = null;
+				 	contentSourceType = "Item";
+				} else {
+				 	var content = dom.byId("content").files[0];
+				}
+
+				item.checkIn(templateName, myCriterias, contentSourceType, mimeType, filename, content, childCompVals, permissions, spId, newVersion, asMinor, autoClassify, function(){
+					dom.byId("result").innerHTML = "Checked in";
+				});
+			}
+			
+			lang.setObject("executeOnEnter", function(event) {
+				if (event.keyCode == keys.ENTER) {
+					checkInItem();
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<h1>Sample - Check in</h1>
+	<table>
+		<tr>
+			<td><label for="repositoryId">Repository:</label></td>
+			<td><input id="repositoryId" value="" onkeyup="executeOnEnter(event);"/></td>
+		</tr>
+		<tr>
+			<td><label for="userId">User ID:</label></td>
+			<td><input id="userId" value="" onkeyup="executeOnEnter(event);"/></td>
+		</tr>
+		<tr>
+			<td><label for="password">Password:</label></td>
+			<td><input type="password" id="password" value="" onkeyup="executeOnEnter(event);" onchange="passwordChange(event)"/></td>
+		</tr>
+		<tr>
+			<td><label for="itemId">Item ID:</label></td>
+			<td><input id="itemId" value="" onkeyup="executeOnEnter(event);"/></td>
+			<td><span><i>id of the checked out document</i></span></td>
+		</tr>
+		<tr>
+			<td><label for="criterias">Criteria:</label></td>
+			<td>
+				<textarea rows="3" id="criterias" style="width: 500px;">[{name: "DocumentTitle", value: "My Document"}]
+				</textarea>
+			</td>
+		</tr>
+		<tr>
+			<td><label for="contentSourceType">Content Source Type:</label></td>
+			<td><input id="contentSourceType" value="Item"/></td>
+			<td><span><i>Enter "Document" for check in with content</i></span></td>
+		</tr>
+		<tr>
+			<td><label for="mimeType">Mime Type:</label></td>
+			<td><input id="mimeType" value=""/></td>
+			<td><span><i>e.g. "text/plain" - must be set for content</i></span></td>
+		</tr>
+		<tr>
+			<td><label for="content">File:</label></td>
+			<td><input id="content" type="file" size="80" value=""/></td>
+		</tr>
+		<tr>
+			<td><label for="checkinAsMinorVersion">Check in as minor version:</label></td>
+			<td><input id="checkinAsMinorVersion" type = "checkbox"/></td>
+		</tr>
+	</table>
+	<div>
+		<input type="button" value="Check In" onclick="checkInItem();"/>
+	</div>
+	
+	<div id="result" style="font-size: small;">
+	</div>
+</body>
+</html>

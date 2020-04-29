@@ -1,0 +1,311 @@
+[{
+	"symbolicName": "edsSvcpStrEmail",
+	"label": "EDS SVCP Str Email Label",
+	"format": "\\b[\\w\\.-]+@[\\w\\.-]+\\.\\w{2,4}\\b",
+	"formatDescription": "nicolas@sample.net",
+	"customValidationError" : "This field should have the mail format",
+	"required": true
+},{
+	"symbolicName": "edsSvcpStrNoThree",
+	"validateAs": "NoThrees"
+},{
+	"symbolicName": "edsSvcpStrAuthor",
+	"initialValue": "Dan Brown",
+	"choiceList": {
+		"displayName": "Authors",
+		"choices": [{
+			"displayName": "Dan Brown",
+			"value": "Dan Brown"
+		},
+		{
+			"displayName": "George R.R. Martin",
+			"value": "George Martin"
+		},
+		{
+			"displayName": "Stephen King",
+			"value": "Stephen King"
+		},
+		{
+			"displayName": "Tom Clancy",
+			"value": "Tom Clancy"
+		},
+		{
+			"displayName": "William Shakespeare",
+			"value": "Shakespeare"
+		},
+		{
+			"displayName": "Change Properties",
+			"value": "Change Properties"
+		}]
+	},
+	"hasDependentProperties": true
+},{
+	"symbolicName": "edsSvcpStrBook",
+	"dependentOn": "edsSvcpStrAuthor",
+	"dependentValue": "Dan Brown",
+	"label": "EDS SVCP Str Dan's Book",
+	"choiceList": {
+		"displayName": "Dan Brown Titles",
+		"choices": [{
+			"displayName": "Angels & Demons",
+			"value": "Angels & Demons"
+		},
+		{
+			"displayName": "The Da Vinci Code",
+			"value": "The Da Vinci Code"
+		},
+		{
+			"displayName": "The Lost Symbol",
+			"value": "The Lost Symbol"
+		}]
+	}
+},{
+	"symbolicName": "edsSvcpStrBio",
+	"dependentOn": "edsSvcpStrAuthor",
+	"dependentValue": "Dan Brown",
+	"choiceList": {
+		"displayName": "Dan Brown Bio",
+		"choices": [{
+			"displayName": "June 22, 1964",
+			"value": "June 22, 1964"
+		},
+		{
+			"displayName": "Exeter, New Hampshire, USA",
+			"value": "Exeter, New Hampshire, USA"
+		}]
+	}
+},{
+	"symbolicName": "edsSvcpStrBook",
+	"dependentOn": "edsSvcpStrAuthor",
+	"dependentValue": "Stephen King",
+	"label": "EDS SVCP Str Stephen's Book",
+	"choiceList": {
+		"displayName": "Stephen King Titles",
+		"choices": [{
+			"displayName": "Carrie",
+			"value": "Carrie"
+		},
+		{
+			"displayName": "The Shining",
+			"value": "The Shining"
+		},
+		{
+			"displayName": "Cujo",
+			"value": "Cujo"
+		},
+		{
+			"displayName": "Christine",
+			"value": "Christine"
+		},
+		{
+			"displayName": "Pet Sematary",
+			"value": "Pet Sematary"
+		},
+		{
+			"displayName": "It",
+			"value": "It"
+		},
+		{
+			"displayName": "The Stand",
+			"value": "The Stand"
+		}]
+	}
+},{
+	"symbolicName": "edsSvcpStrBio",
+	"dependentOn": "edsSvcpStrAuthor",
+	"dependentValue": "Stephen King",
+	"choiceList": {
+		"displayName": "Stephen King Bio",
+		"choices": [{
+			"displayName": "September 21, 1947",
+			"value": "September 21, 1947"
+		},
+		{
+			"displayName": "Portland, Maine, USA",
+			"value": "Portland, Maine, USA"
+		}]
+	}
+},{
+	"symbolicName": "edsSvcpStrBook",
+	"dependentOn": "edsSvcpStrAuthor",
+	"dependentValue": "Tom Clancy",
+	"label": "EDS SVCP Str Tom's Book",
+	"choiceList": {
+		"displayName": "Tom Clancy Titles",
+		"choices": [{
+			"displayName": "The Hunt for Red October",
+			"value": "The Hunt for Red October"
+		},
+		{
+			"displayName": "Patriot Games",
+			"value": "Patriot Games"
+		},
+		{
+			"displayName": "Clear and Present Danger",
+			"value": "Clear and Present Danger"
+		},
+		{
+			"displayName": "Debt of Honor",
+			"value": "Debt of Honor"
+		},
+		{
+			"displayName": "Executive Orders",
+			"value": "Executive Orders"
+		},
+		{
+			"displayName": "The Bear and the Dragon",
+			"value": "The Bear and the Dragon"
+		},
+		{
+			"displayName": "Red Rabbit",
+			"value": "Red Rabbit"
+		},
+		{
+			"displayName": "The Teeth of the Tiger",
+			"value": "The Teeth of the Tiger"
+		}]
+	}
+},{
+	"symbolicName": "edsSvcpStrBio",
+	"dependentOn": "edsSvcpStrAuthor",
+	"dependentValue": "Tom Clancy",
+	"choiceList": {
+		"displayName": "Tom Clancy Bio",
+		"choices": [{
+			"displayName": "April 12, 1947",
+			"value": "April 12, 1947"
+		},
+		{
+			"displayName": "Baltimore County, Maryland, USA",
+			"value": "Baltimore County, Maryland, USA"
+		}]
+	}
+},{
+	"symbolicName": "edsSvcpStrBook",
+	"dependentOn": "edsSvcpStrAuthor",
+	"dependentValue": "George Martin",
+	"label": "EDS SVCP Str George's Book",
+	"choiceList": {
+		"displayName": "George Martin Titles",
+		"choices": [{
+			"displayName": "A Game of Thrones",
+			"value": "A Game of Thrones"
+		},
+		{
+			"displayName": "A Clash of Kings",
+			"value": "A Clash of Kings"
+		},
+		{
+			"displayName": "A Storm of Swords",
+			"value": "A Storm of Swords"
+		},
+		{
+			"displayName": "A Feast for Crows",
+			"value": "A Feast for Crows"
+		},
+		{
+			"displayName": "A Dance with Dragons",
+			"value": "A Dance with Dragons"
+		},
+		{
+			"displayName": "The Winds of Winter",
+			"value": "The Winds of Winter"
+		},
+		{
+			"displayName": "A Dream of Spring",
+			"value": "A Dream of Spring"
+		}]
+	}
+},{
+	"symbolicName": "edsSvcpStrBio",
+	"dependentOn": "edsSvcpStrAuthor",
+	"dependentValue": "George Martin",
+	"choiceList": {
+		"displayName": "George Martin Bio",
+		"choices": [{
+			"displayName": "September 20, 1948",
+			"value": "September 20, 1948"
+		},
+		{
+			"displayName": "Bayonne, New Jersey, USA",
+			"value": "Bayonne, New Jersey, USA"
+		}]
+	}
+},{
+	"symbolicName": "edsSvcpStrBook",
+	"dependentOn": "edsSvcpStrAuthor",
+	"dependentValue": "Shakespeare",
+	"label": "EDS SVCP Str Shakespeare's Book",
+	"choiceList": {
+		"displayName": "Shakespeare Titles",
+		"choices": [{
+			"displayName": "All's Well That Ends Well",
+			"value": "All's Well That Ends Well"
+		},
+		{
+			"displayName": "Antony and Cleopatra",
+			"value": "Antony and Cleopatra"
+		},
+		{
+			"displayName": "As You Like It",
+			"value": "As You Like It"
+		},
+		{
+			"displayName": "Comedy of Errors",
+			"value": "Comedy of Errors"
+		},
+		{
+			"displayName": "Cymbeline",
+			"value": "Cymbeline"
+		},
+		{
+			"displayName": "Hamlet",
+			"value": "Hamlet"
+		}]
+	}
+},{
+	"symbolicName": "edsSvcpStrBio",
+	"dependentOn": "edsSvcpStrAuthor",
+	"dependentValue": "Shakespeare",
+	"choiceList": {
+		"displayName": "Shakespeare Bio",
+		"choices": [{
+			"displayName": "Baptised 26 April 1564",
+			"value": "Baptised 26 April 1564"
+		},
+		{
+			"displayName": "Stratford-upon-Avon, Warwickshire, England",
+			"value": "Stratford-upon-Avon, Warwickshire, England"
+		}]
+	}
+},
+{
+	"symbolicName": "edsSvcpStrQuote",
+	"choiceList": {
+		"displayName": "Quotes",
+		"choices": [{
+			"displayName" : "Hold on with a bulldog grip, and chew and choke as much as possible. Abraham Lincoln",
+			"value" : "Hold on with a bulldog grip, and chew and choke as much as possible. Abraham Lincoln"
+		},
+		{
+			"displayName" : "A question that sometimes drives me hazy: am I or are the others crazy? Albert Einstein",
+			"value" : "A question that sometimes drives me hazy: am I or are the others crazy? Albert Einstein"
+		},
+		{
+			"displayName" : "A wise man can learn more from a foolish question than a fool can learn from a wise answer. Bruce Lee",
+			"value" : "A wise man can learn more from a foolish question than a fool can learn from a wise answer. Bruce Lee"
+		},
+		{
+			"displayName" : "I am the greatest, I said that even before I knew I was. Muhammad Ali",
+			"value" : "I am the greatest, I said that even before I knew I was. Muhammad Ali"
+		},
+		{
+			"displayName" : "You have to believe in yourself. Sun Tzu",
+			"value" : "You have to believe in yourself. Sun Tzu"
+		},
+		{
+			"displayName" : "I can accept failure, everyone fails at something. But I can't accept not trying. Michael Jordan",
+			"value" : "I can accept failure, everyone fails at something. But I can't accept not trying. Michael Jordan"
+		}]
+	}
+}]

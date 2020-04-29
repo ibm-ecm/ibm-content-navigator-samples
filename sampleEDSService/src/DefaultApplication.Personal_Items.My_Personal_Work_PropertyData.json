@@ -1,0 +1,21 @@
+[{
+    "symbolicName": "SubjectLike",
+    "value": "",
+    "choiceList": {
+        "displayName": "Titles",
+        "choices": [{
+            "displayName": "Workflow Definition for Launch",
+            "value": "Workflow Definition for Launch"
+        },
+        {
+            "displayName": "Data Field Workflow",
+            "value": "Data Field Workflow"
+        },
+        {
+            "displayName": "p8",
+            "value": "p8"
+        }]
+    },
+    "hasDependentProperties": false
+}
+]

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<!--
+
+	 Licensed Materials - Property of IBM
+	 (C) Copyright IBM Corp. 2020
+	 US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+
+ -->
+
+<html>
+<head>
+	<title>Sample - Login</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<script src="/navigator/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true, packages: [{name: 'idx', location: '../idx'},{name: 'ecm', location: '../ecm'},{name: 'samplePages', location: '/samplePages'}]"></script>
+	<script>
+	require(["dojo/_base/lang",
+	         "dojo/dom",
+	         "dojo/keys",
+	         "samplePages/model/common"
+			 ], 
+		function(lang, dom, keys, common) {
+			var repos = null;
+			
+			function _toggleBtns(enableLogin) {
+				dom.byId("loginBtn").disabled = !enableLogin;
+				dom.byId("logoffBtn").disabled = enableLogin;
+			}
+		
+			lang.setObject("login", function() {
+				common.setupTestEnvironemnt(function(repository) {
+					repos = repository;
+					dom.byId("result").innerHTML = "Logged in " + repository.name;
+					_toggleBtns(false);
+				});
+			});
+		
+			lang.setObject("logout", function() {
+				if (repos && repos.connected) {
+					repos.logoff();
+					dom.byId("result").innerHTML = "Logged off " + repos.name;
+				}
+				_toggleBtns(true);
+			});
+		
+			lang.setObject("executeOnEnter", function(event) {
+				if (!dom.byId("loginBtn").disabled) {
+					if (event.keyCode == keys.ENTER) {
+						login();
+					}
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<h1>Sample - Login</h1>
+	<table>
+		<tr>
+			<td><label for="repositoryId">Repository:</label></td>
+			<td><input id="repositoryId" value="" onkeyup="executeOnEnter(event);"/></td>
+		</tr>
+		<tr>
+			<td><label for="userId">User ID:</label></td>
+			<td><input id="userId" value="" onkeyup="executeOnEnter(event);"></input></td>
+		</tr>
+		<tr>
+			<td><label for="password">Password:</label></td>
+			<td><input type="password" id="password" value="" onkeyup="executeOnEnter(event);" onchange="passwordChange(event)"/></td>
+		</tr>
+	</table>
+	<div>
+		<input id="loginBtn" type="button" value="Log in" onclick="login();"/>
+		<input id="logoffBtn" type="button" value="Log out" onclick="logout();" disabled/>
+	</div>
+	<div id="result">
+	</div>
+</body>
+</html>
