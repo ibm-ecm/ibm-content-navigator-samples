@@ -2,6 +2,8 @@
 
 This sample web application provides HTML pages that use IBM Content Navigator modeling classes and widget classes. The pages demonstrate different aspects of the IBM Content Navigator toolkit.
 
+The sample web pages are available in the ECMClient_installdir\samples\samplePages directory.
+
 ### Prerequisites
 
 * IBM Content Navigator
@@ -19,5 +21,6 @@ This sample web application provides HTML pages that use IBM Content Navigator m
 
 ## Additional references
 
+Please refer to the following links for additional information.
 * [Sample Web Pages](https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.7/com.ibm.developingeuc.doc/eucdv001.htm)
 * [dW Answers forum](https://developer.ibm.com/answers/topics/icn/)
