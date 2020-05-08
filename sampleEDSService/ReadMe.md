@@ -1,6 +1,10 @@
 # SampleEDSService
 
-This is a sampleEDSService web application.
+The sample external data service (EDS) implements a service that uses various data from an external source. For example, this sample includes the implementations of the following EDS capabilities:
+* Simple validation using regular expressions
+* Choice lists
+* Dependent choice lists
+* Workflow-specific choice lists
 
 ### Prerequisites
 
@@ -12,7 +16,7 @@ This is a sampleEDSService web application.
 
 1. Download the SampleEDSService from [GitHub](https://github.com/ibm-ecm/ibm-content-navigator-samples/tree/master/SampleEDSService).
 2. Create a **lib** directory under the SampleEDSService.
-3. Copy the all dependencies into the **lib** directory (alternatively, you can update the **classpath** in the build.xml file included).
+3. Add the navigatorAPI.jar and j2ee.jar file to the **lib** directory, and update the **classpath** in the build.xml to point to the **lib** directory.
 4. Build the WAR file by running Apache Ant.
 
     ```
@@ -22,5 +26,6 @@ This is a sampleEDSService web application.
 
 ## Additional references
 
-* [External Data Service](https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.7/com.ibm.developingeuc.doc/eucdv001.htm)
+Please refer to the following links for additional information:
+* [External Data Service](https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.7/com.ibm.developingeuc.doc/eucap001.htm)
 * [Sample External Data Service](https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.7/com.ibm.developingeuc.doc/eucap005.htm)
