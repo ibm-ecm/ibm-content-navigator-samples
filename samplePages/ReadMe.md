@@ -19,6 +19,6 @@ This sample web application provides HTML pages that use IBM Content Navigator m
 
 ## Additional references
 
-To get learn more on developing applications with IBM Content Navigator
+To learn more on developing applications with IBM Content Navigator, use the following links:
 * [Developing Applications With IBM Content Navigator](https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.7/com.ibm.developingeuc.doc/eucdi000.htm)
 * [dW Answers forum](https://developer.ibm.com/answers/topics/icn/)
