@@ -1,10 +1,10 @@
 # SampleEDSService
 
 The sample external data service (EDS) implements a service that uses various data from an external source. For example, this sample includes the implementations of the following EDS capabilities:
-Simple validation using regular expressions
-Choice lists
-Dependent choice lists
-Workflow-specific choice lists
+* Simple validation using regular expressions
+* Choice lists
+* Dependent choice lists
+* Workflow-specific choice lists
 
 ### Prerequisites
 
@@ -27,5 +27,5 @@ Workflow-specific choice lists
 ## Additional references
 
 Please refer to the following links for additional information.
-* [External Data Service](https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.7/com.ibm.developingeuc.doc/eucdv001.htm)
-* [Sample External Data Service](https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.7/com.ibm.developingeuc.doc/eucap005.htm)
+* [External Data Service](https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.7/com.ibm.developingeuc.doc/eucap005.htm)
+* [Sample External Data Service](https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.7/com.ibm.developingeuc.doc/eucdv001.htm)
