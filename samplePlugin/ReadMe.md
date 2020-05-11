@@ -23,6 +23,7 @@ Use these instructions to help you get the plug-in up and running in IBM Content
 * Apache - Commons lang, Commons IO, Common Codec
 
 ### Installing the plug-in
+A samplePlugin JAR file is available for use in the samplePlugin's root directory. This can be used directly or built from scratch by following these steps:
 
 1. Download the Sample plug-in from [GitHub](https://github.com/ibm-ecm/ibm-content-navigator-samples/tree/master/SamplePlugin).
 2. Create a **lib** directory under the SamplePlugin.
