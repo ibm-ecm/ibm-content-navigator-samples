@@ -8,6 +8,7 @@ This sample web application provides HTML pages that use IBM Content Navigator m
 * [Apache Ant](http://ant.apache.org/)
 
 ### Installation
+A samplePages WAR file is available for use in samplePages root directory. It can also able be built from scratch by following these steps:
 
 1. Download the SamplePages from [GitHub](https://github.com/ibm-ecm/ibm-content-navigator-samples/tree/master/SamplePages).
 2. Build the WAR file by running Apache Ant.

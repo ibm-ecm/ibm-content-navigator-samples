@@ -13,6 +13,7 @@ The sample external data service (EDS) implements a service that uses various da
 * [Apache Ant](http://ant.apache.org/)
 
 ### Installation
+A sampleEDSService WAR file is available for use in the root directory. It can also be built by following these steps:
 
 1. Download the SampleEDSService from [GitHub](https://github.com/ibm-ecm/ibm-content-navigator-samples/tree/master/SampleEDSService).
 2. Create a **lib** directory under the SampleEDSService.
