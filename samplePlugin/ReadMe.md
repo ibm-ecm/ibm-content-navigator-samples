@@ -25,15 +25,15 @@ Use these instructions to help you get the plug-in up and running in IBM Content
 ### Installing the plug-in
 A samplePlugin JAR file is available for use in the samplePlugin's root directory. This can be used directly or built from scratch by following these steps:
 
-1. Download the Sample plug-in from [GitHub](https://github.com/ibm-ecm/ibm-content-navigator-samples/tree/master/SamplePlugin).
+1. Download the Sample plug-in from [GitHub](https://github.com/ibm-ecm/ibm-content-navigator-samples/tree/master/samplePlugin).
 2. Create a **lib** directory under the SamplePlugin.
 3. Copy the all dependencies into the **lib** directory (alternatively, you can update the **classpath** in the build.xml file included with the plug-in).
 4. Edit the icn web path in build.properties, and also reference the path to the downloaded Dojo ToolKit.
 5. Build the plug-in JAR file by running Apache Ant.
 
     ```
-    C:\> cd C:\SamplePlugin
-    C:\SamplePlugin> ant
+    C:\> cd C:\samplePlugin
+    C:\samplePlugin> ant
     ```
 6. [Register and configure the plug-in in IBM Content Navigator.](http://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.7/com.ibm.installingeuc.doc/eucco012.htm)
 
