@@ -1,0 +1,11 @@
+/bin/
+/lib/
+
+*.war
+
+.classpath
+.DS_Store
+.factorypath
+.project
+.settings
+

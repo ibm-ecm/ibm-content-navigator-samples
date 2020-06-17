@@ -5,7 +5,6 @@
 	<property name="dir_web" value="./WebContent"/>
 	<property name="dir_src" value="./src"/>
 	<property name="dir_bin" value="./WebContent/WEB-INF/classes"/>
-	<property name="dir_j2ee_lib" value="./lib/j2ee"/>  
 	<property name="lib" value="./lib"/>  
 	<property name="file_war" value="sampleEDSService.war" />
 	
@@ -16,8 +15,8 @@
 		<pathelement location="${dir_src}" />
 		<fileset dir="${lib}">
 			<include name="navigatorAPI.jar" />
+			<include name="j2ee.jar" />
 		</fileset>
-    	<fileset dir="${dir_j2ee_lib}" />
 	</path>
     
 	<target name="init" description="initialize by cleaning up results of any previous build">
@@ -32,7 +31,7 @@
 	<target name="compile" depends="init" description="Compiles the Java files">
 		<delete dir="${dir_bin}" verbose="${verbosity}" includeEmptyDirs="true" />
 		<mkdir dir="${dir_bin}" />
-		<javac srcdir="${dir_src}" destdir="${dir_bin}" source="1.7" target="1.7" debug="true">
+		<javac srcdir="${dir_src}" destdir="${dir_bin}" source="1.8" target="1.8" debug="true">
 			<classpath refid="classpath" />
 			<include name="**/*.java" />
 		</javac>

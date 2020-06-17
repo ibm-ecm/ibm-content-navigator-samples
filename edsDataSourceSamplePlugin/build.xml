@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<project name="edsDataSourceSamplePlugin" default="all" basedir=".">
+
+	<!-- run the ant timestamp task -->
+	<tstamp/>
+
+	<target name="all" depends="clean,compile,jar" />
+
+	<path id="classpath">
+		<pathelement location="./lib/navigatorAPI.jar" />
+		<pathelement location="./lib/j2ee.jar" />
+		<pathelement location="./temp" />
+	</path>
+
+	<target name="clean">
+		<delete dir="temp" />
+	</target>
+
+	<target name="compile">
+		<mkdir dir="temp" />
+		<javac srcdir="src" destdir="temp" source="1.8" target="1.8" debug="true">
+			<classpath refid="classpath" />
+			<include name="**/*.java" />
+		</javac>
+	</target>
+
+	<target name="jar">
+		<copy todir="temp">
+			<fileset dir="src">
+				<include name="**/WebContent/**" />
+				<include name="**/data/**" />
+			</fileset>
+		</copy>
+		<jar jarfile="edsDataSourceSamplePlugin.jar">
+			<fileset dir="./temp" includes="**/*" />
+			<manifest>
+				<attribute name="Plugin-Class" value="com.ibm.ecm.sample.edsds.EDSDataSourceSamplePlugin" />
+				<section name="build">
+					<attribute name="Built-By" value="${user.name}" />
+					<attribute name="Built-On" value="${TODAY}" />
+				</section>
+			</manifest>
+		</jar>
+		<delete dir="./temp" />
+	</target>
+
+</project>

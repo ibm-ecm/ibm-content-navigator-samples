@@ -1,0 +1,100 @@
+[{
+    "symbolicName": "string1",
+    "choiceList": {
+        "displayName": "Authors",
+        "choices": [{
+            "displayName": "Dan Brown",
+            "value": "Dan Brown"
+        },
+        {
+            "displayName": "Stephen King",
+            "value": "Stephen King"
+        },
+        {
+            "displayName": "Robert Charles Wilson",
+            "value": "Robert Charles Wilson"
+        },
+        {
+            "displayName": "Vernor Vinge",
+            "value": "Vernor Vinge"
+        }]
+    },
+    "hasDependentProperties": true
+},{
+    "symbolicName": "integer1",
+    "dependentOn": "string1",
+    "dependentValue": "Dan Brown",
+    "choiceList": {
+        "displayName": "Small Numbers",
+        "choices": [{
+            "displayName": "one",
+            "value": "1"
+        },
+        {
+            "displayName": "two",
+            "value": "2"
+        },
+        {
+            "displayName": "three",
+            "value": "3"
+        }]
+    }
+},{
+    "symbolicName": "integer1",
+    "dependentOn": "string1",
+    "dependentValue": "Stephen King",
+    "choiceList": {
+        "displayName": "Medium Numbers",
+        "choices": [{
+            "displayName": "ten",
+            "value": "10"
+        },
+        {
+            "displayName": "twenty",
+            "value": "20"
+        },
+        {
+            "displayName": "thirty",
+            "value": "30"
+        }]
+    }
+},{
+    "symbolicName": "integer1",
+    "dependentOn": "string1",
+    "dependentValue": "Robert Charles Wilson",
+    "choiceList": {
+        "displayName": "Large Numbers",
+        "choices": [{
+            "displayName": "one hundred",
+            "value": "100"
+        },
+        {
+            "displayName": "two hundred",
+            "value": "200"
+        },
+        {
+            "displayName": "three hundred",
+            "value": "300"
+        }]
+    }
+},{
+    "symbolicName": "integer1",
+    "dependentOn": "string1",
+    "dependentValue": "Vernor Vinge",
+    "choiceList": {
+        "displayName": "Gynormous Numbers",
+        "choices": [{
+            "displayName": "one thousand",
+            "value": "1000"
+        },
+        {
+            "displayName": "two thousand",
+            "value": "2000"
+        },
+        {
+            "displayName": "three thousand",
+            "value": "3000"
+        }]
+    }
+}
+]
