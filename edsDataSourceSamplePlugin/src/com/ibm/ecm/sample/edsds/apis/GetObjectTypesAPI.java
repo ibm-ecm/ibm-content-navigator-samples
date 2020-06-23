@@ -57,11 +57,8 @@ public class GetObjectTypesAPI extends PluginAPI {
 	@Override
 	public Object execute(PluginServiceCallbacks callbacks, HttpServletRequest request, Object[] arguments) throws Exception {
 		String methodName = "execute";
-		PluginLogger logger = null;
-		if (callbacks != null) {
-			logger = callbacks.getLogger();
-			logger.logEntry(this, methodName, request);
-		}
+		PluginLogger logger = callbacks.getLogger();
+		logger.logEntry(this, methodName, request);
 
 		if (arguments == null || arguments.length == 0 || arguments[0] == null || !(arguments[0] instanceof JSONObject)) {
 			throw new IllegalArgumentException("The arguments are invalid.");
@@ -77,28 +74,22 @@ public class GetObjectTypesAPI extends PluginAPI {
 			throw new IllegalArgumentException("The repositoryId value is null or empty.");
 		}
 
-		if (logger != null) {
-			logger.logDebug(this, methodName, request, "repositoryId = " + repositoryId);
-		}
+		logger.logDebug(this, methodName, request, "repositoryId = " + repositoryId);
 		
 		// Note: This sample is not using the repositoryId parameter. It is simply returning the same list of object types regardless of repository.
 		// The objectType of a Box metadata template is its ID, which is composed of the template key and template scope (aka enterprise ID),
 		// e.g., "myTemplate,enterise_123456". If you wish to use the same property data for a template that is replicated in multiple enterprises,
 		// simply parse the ID on the comma and use the first part (i.e., myTemplate) as the symbolicName in the ObjectTypes.json file.
 		String fullResourceName = "com/ibm/ecm/sample/edsds/data/ObjectTypes.json";
-		if (logger != null) {
-			logger.logDebug(this, methodName, request, "Attempting to load resource: " + fullResourceName);
-		}
+		logger.logDebug(this, methodName, request, "Attempting to load resource: " + fullResourceName);
 		
 		InputStream objectTypesStream = this.getClass().getClassLoader().getResourceAsStream(fullResourceName);
 		if (objectTypesStream == null) {
 			throw new RuntimeException("Unable to load the data file.");
 		}
+		
 		JSONArray jsonResponse = JSONArray.parse(objectTypesStream);
-
-		if (logger != null) {
-			logger.logExit(this, methodName, request, "Returning: " + (jsonResponse != null ? jsonResponse.toString() : "null"));
-		}
+		logger.logExit(this, methodName, request, "Returning: " + (jsonResponse != null ? jsonResponse.toString() : "null"));
 		return jsonResponse;
 	}
 

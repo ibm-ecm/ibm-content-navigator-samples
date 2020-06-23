@@ -61,20 +61,15 @@ public class UpdateObjectTypeAPI extends PluginAPI {
 	@Override
 	public Object execute(PluginServiceCallbacks callbacks, HttpServletRequest request, Object[] arguments) throws Exception {
 		String methodName = "execute";
-		PluginLogger logger = null;
-		if (callbacks != null) {
-			logger = callbacks.getLogger();
-			logger.logEntry(this, methodName, request);
-		}
+		PluginLogger logger = callbacks.getLogger();
+		logger.logEntry(this, methodName, request);
 
 		if (arguments == null || arguments.length == 0 || arguments[0] == null || !(arguments[0] instanceof JSONObject)) {
 			throw new IllegalArgumentException("The arguments are invalid.");
 		}
 
 		JSONObject argumentsJson = (JSONObject) arguments[0];
-		if (logger != null) {
-			logger.logDebug(this, methodName, request, "Received JSON: " + argumentsJson);
-		}
+		logger.logDebug(this, methodName, request, "Received JSON: " + argumentsJson);
 
 		/* The JSON is structured as follows: 
 			{
@@ -183,9 +178,7 @@ public class UpdateObjectTypeAPI extends PluginAPI {
 			}
 		}
 
-		if (logger != null) {
-			logger.logExit(this, methodName, request, "Returning: " + jsonResponse.toString());
-		}
+		logger.logExit(this, methodName, request, "Returning: " + jsonResponse.toString());
 		return jsonResponse;
 	}
 
@@ -208,9 +201,7 @@ public class UpdateObjectTypeAPI extends PluginAPI {
 			throw new IllegalArgumentException("The " + propertyName + " value is null or empty.");
 		}
 
-		if (logger != null) {
-			logger.logDebug(this, methodName, request, propertyName + " = " + propertyString);
-		}
+		logger.logDebug(this, methodName, request, propertyName + " = " + propertyString);
 		return propertyString;
 	}
 
@@ -233,9 +224,7 @@ public class UpdateObjectTypeAPI extends PluginAPI {
 			throw new IllegalArgumentException("The " + propertyName + " value is null.");
 		}
 
-		if (logger != null) {
-			logger.logDebug(this, methodName, request, propertyName + " = " + arrayProperty.toString());
-		}
+		logger.logDebug(this, methodName, request, propertyName + " = " + arrayProperty.toString());
 		return arrayProperty;
 	}
 
@@ -258,9 +247,7 @@ public class UpdateObjectTypeAPI extends PluginAPI {
 			throw new IllegalArgumentException("The " + propertyName + " value is null.");
 		}
 
-		if (logger != null) {
-			logger.logDebug(this, methodName, request, propertyName + " = " + objectProperty.toString());
-		}
+		logger.logDebug(this, methodName, request, propertyName + " = " + objectProperty.toString());
 		return objectProperty;
 	}
 
@@ -274,9 +261,7 @@ public class UpdateObjectTypeAPI extends PluginAPI {
 	 */
 	private JSONArray getPropertyData(String objectTypeName, PluginLogger logger, HttpServletRequest request) throws IOException {
 		String methodName = "getPropertyData";
-		if (logger != null) {
-			logger.logEntry(this, methodName, "objectTypeName = " + objectTypeName);
-		}
+		logger.logEntry(this, methodName, "objectTypeName = " + objectTypeName);
 		
 		// Load the file resource containing the property data for the given object type; first look for a locale specific version
 		// (files with names containing special characters like 'ü' may fail to be retrieved, in such cases, replace the characters
@@ -292,18 +277,14 @@ public class UpdateObjectTypeAPI extends PluginAPI {
 		InputStream propertyDataStream = null;
 		if (locale != null) {
 			String fullResourceName = resourceName + "_" + locale.toString() + ".json";
-			if (logger != null) {
-				logger.logDebug(this, methodName, request, "Attempting to load resource: " + fullResourceName);
-			}
+			logger.logDebug(this, methodName, request, "Attempting to load resource: " + fullResourceName);
 			propertyDataStream = classLoader.getResourceAsStream(fullResourceName);
 		}
 		
 		if (propertyDataStream == null) {
 			String fullResourceName = resourceName + ".json";
 			// Look for a locale independent version of the property data
-			if (logger != null) {
-				logger.logDebug(this, methodName, request, "Attempting to load resource: " + fullResourceName);
-			}
+			logger.logDebug(this, methodName, request, "Attempting to load resource: " + fullResourceName);
 			propertyDataStream = classLoader.getResourceAsStream(fullResourceName);
 		}
 
@@ -312,9 +293,7 @@ public class UpdateObjectTypeAPI extends PluginAPI {
 		}
 
 		JSONArray jsonPropertyData = JSONArray.parse(propertyDataStream);
-		if (logger != null) {
-			logger.logExit(this, methodName, "propertyData = " + (jsonPropertyData != null ? jsonPropertyData.toString() : null));
-		}
+		logger.logExit(this, methodName, "propertyData = " + (jsonPropertyData != null ? jsonPropertyData.toString() : null));
 		return jsonPropertyData;
 	}
 
