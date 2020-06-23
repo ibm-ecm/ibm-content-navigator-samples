@@ -8,7 +8,7 @@ The external data service (EDS) data source sample plugin implements several Plu
 
 ### Prerequisites
 
-* IBM Content Navigator
+* IBM Content Navigator (ICN 3.0.8 IF001 or newer) 
 * J2EE library
 * [Apache Ant](http://ant.apache.org/)
 
@@ -24,6 +24,18 @@ The EDSDataSourceSamplePlugin.jar can be built by following these steps:
     > cd EDSDataSourceSamplePlugin
     > ant
     ```
+
+### Test file dependencies
+Additional libraries are required to run the test classes:
+
+* JUnit4
+* Mockito
+* Box API
+* CPE API jar files  (Jace.jar, pe.jar)
+* icncore.jar
+* Open CMIS client API
+* OD API
+* CM API
 
 ## Additional references
 
