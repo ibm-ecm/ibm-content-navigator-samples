@@ -64,7 +64,7 @@ public class CheckinSignedDocument extends BaseTask {
 	 * This method is invoked asynchronously based on the task schedule created in Navigator
 	 */
 	@Override
-	public void performTask() {
+	public void performTask(){
 		final String functionName = "performTask";
 		TaskLogger.fine(CLASS_NAME, functionName, "Enter Copy Box File to Case task.");
 
@@ -146,15 +146,19 @@ public class CheckinSignedDocument extends BaseTask {
 		catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			addError(e);
 		} catch (ProtocolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			addError(e);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			addError(e);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			addError(e);
 		}
 	}
 	
