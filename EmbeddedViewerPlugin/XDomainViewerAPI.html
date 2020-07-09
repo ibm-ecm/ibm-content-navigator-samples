@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<meta http-equiv="X-UA-Compatible" content="IE=10"/>
+        <title>ICN Content Viewer Launch Sample</title>
+        <script>
+            var icnWindow = null;
+			var icnWindowStarting = false;
+            
+            function openDocument(repositoryId, docId, classId, vsId, version) {
+                getContentViewer(function(icnWindow) {
+                    var postJSON = JSON.stringify({ 
+                        call: "openDocument",
+                        repositoryId: repositoryId,
+                        docId: docId,
+                        classId: classId,
+                        vsId: vsId,
+                        version: version
+                    });
+                    icnWindow.postMessage(postJSON, "*");
+                }, true);
+                
+                return false;
+            }
+            
+            function openBookmark(bookmarkUrl) {
+                getContentViewer(function(icnWindow) {
+                    var postJSON = JSON.stringify({ 
+                        call: "openBookmark",
+                        bookmarkUrl: bookmarkUrl
+                    });
+                    icnWindow.postMessage(postJSON, "*");
+                }, true);
+                
+                return false;
+            }
+            
+            function closeAllViewers() {
+                getContentViewer(function(icnWindow) {
+                    var postJSON = JSON.stringify({ call: "closeAllViewers" });
+                    icnWindow.postMessage(postJSON, "*");
+                }, false);    
+                
+                return false;
+            }
+
+            function getContentViewer(callback, create) {
+            	try {
+                    if ( icnWindow != null  && !icnWindow.closed && !icnWindowStarting ) {
+                       	_log("getContentViewer - icnWindow found, focusing, and calling callback");
+                        icnWindow.focus();
+                        callback(icnWindow);
+                    } else if ( create && (icnWindow == null || icnWindow.closed)) {
+ 		    		    if ( !icnWindowStarting ) {
+                        	_log("getContentViewer - icnWindow not found.  Calling window.open");
+      					    icnWindowStarting = true;
+                            icnWindow = window.open("http://wahu101:9080/navigator/XDomainViewerWindow.html", "_icnWindow");
+                            _checkOpenStatus(callback, 1, 30);
+   			            } else {
+   		    			    alert("Content viewer is starting up.  Please wait.");
+   	    				}
+                    }
+            	} catch (error) {
+            		_log(error.message);
+            		icnWindow = null;
+            		icnWindowStarting = false;
+            	}
+            }
+            
+            function _checkOpenStatus(callback, attempt, retryLimit) {
+            	try {
+                	if ( icnWindow != null && !icnWindow.closed && !icnWindowStarting ) {
+                    	_log("_checkOpenStatus - attempt = " + attempt + " - icnWindow found - calling back now.");
+                	    callback(icnWindow);
+                	} else if ( attempt < retryLimit && icnWindow != null && !icnWindow.closed ) {
+                    	_log("_checkOpenStatus - attempt = " + attempt + " - icnWindow was not found, looping...");
+                	    setTimeout(function() {
+                	        _checkOpenStatus(callback, ++attempt, retryLimit);
+                	    }, 1000);
+                	} else {
+                	    alert("Content viewer was not found.  IBM Content Navigator may have failed to load, or the embedded viewer plugin may not be properly deployed.");
+    					icnWindow = null;
+    					icnWindowStarting = false;
+                	}
+            	} catch (error) {
+            		_log(error.message);
+					icnWindow = null;
+					icnWindowStarting = false;
+            	}
+            }
+            
+            function _log(message) {
+            	try {
+            		if ( console ) {
+                		console.log(message);
+            		}
+            	} catch (error) {
+            	}
+            }
+            
+            function listenMessage(event) {
+                if ( event.data == "ready" ) {
+                    icnWindowStarting = false
+                }
+            }
+
+            if (window.addEventListener) {
+                window.addEventListener("message", listenMessage, false);
+            } else {
+                window.attachEvent("onmessage", listenMessage);
+            }          
+        </script>
+    </head>
+    <body>
+        <br>
+        <a href="#" onclick='openBookmark("http://localhost:9080/navigator/bookmark.jsp?desktop=embeddedViewerDesktop&repositoryId=P8cmbengalvm33&repositoryType=p8&docid=Document%2C%7B0195822A-5B8E-4D8F-8929-25FF7A25D82E%7D%2C%7BA0601173-0000-C117-A641-F2C0F27751BE%7D&mimeType=image%2Fpng&template_name=Document&version=released&vsId=%7BC0601173-0000-C911-80AE-70A94CE2D734%7D")'>URL 1</a>
+        <br -->
+        <a href="#" onclick='closeAllViewers()'>Close all viewers</a>
+    </body>
+</html>

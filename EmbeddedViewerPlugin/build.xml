@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project name="embeddedViewerPlugin" default="all" basedir=".">
+
+	<property name="NAVIGATOR_API_JAR" value="./lib/navigatorAPI.jar" />
+
+	<target name="all" depends="clean,compile,jar" />
+
+	<path id="classpath">
+		<fileset file="${NAVIGATOR_API_JAR}" />
+	</path>
+
+	<target name="clean">
+		<delete dir="temp" />
+	</target>
+
+	<target name="compile">
+		<mkdir dir="temp"/>
+		<javac srcdir="src" destdir="temp" source="1.8" target="1.8" debug="true">
+			<classpath refid="classpath" />
+			<include name="**/*.java" />
+		</javac>
+	</target>
+
+	<target name="jar">
+		<copy todir="temp" >
+			<fileset dir="src">
+				<include name="**/WebContent/**" />
+			</fileset>
+		</copy>
+		<jar jarfile="EmbeddedViewerPlugin.jar" >
+			<fileset dir="./temp" includes="**/*" />
+			<manifest>
+				<attribute name="Plugin-Class" value="com.ibm.ecm.extension.embeddedViewerPlugin.EmbeddedViewerPlugin" />
+				<section name="build">
+					<attribute name="Built-By" value="${user.name}" />
+					<attribute name="Build" value="${TODAY}" />
+				</section>
+			</manifest>
+		</jar>
+		<delete dir="./temp" />
+	</target>
+
+</project>
