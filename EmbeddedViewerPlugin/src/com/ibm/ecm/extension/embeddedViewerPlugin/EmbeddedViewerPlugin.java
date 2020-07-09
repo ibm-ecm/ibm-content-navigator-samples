@@ -18,11 +18,11 @@ public class EmbeddedViewerPlugin extends Plugin {
 	}
 
 	public String getName(Locale locale) {
-		return "IBM ICN Embedded Viewer Plugin";
+		return "Embedded Viewer Plugin";
 	}
 
 	public String getVersion() {
-		return "3.0.7";
+		return "3.0.8";
 	}
 
 	public String getDojoModule() {

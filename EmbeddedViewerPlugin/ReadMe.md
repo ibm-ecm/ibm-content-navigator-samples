@@ -12,7 +12,7 @@ A EmbeddedViewerPlugin JAR file is available for use in the root directory. It c
 
 1. Download the EmbeddedViewerPlugin from [GitHub](https://github.com/ibm-ecm/ibm-content-navigator-samples/tree/master/EmbeddedViewerPlugin).
 2. Create a **lib** directory under the EmbeddedViewerPlugin.
-3. Add the navigatorAPI.jar and j2ee.jar file to the **lib** directory, and update the **classpath** in the build.xml to point to the **lib** directory.
+3. Add the navigatorAPI.jar to the **lib** directory, and update the **classpath** in the build.xml to point to the **lib** directory.
 4. Build the JAR file by running Apache Ant.
 
     ```
