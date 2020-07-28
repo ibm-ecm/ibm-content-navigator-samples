@@ -1,0 +1,16 @@
+<div>
+
+The following configuration parameters are provided by the configuration component of the sample plug-in.
+
+	<table class="propertyTable" role="presentation">
+		<tr>
+			<td class="propertyRowLabel">
+				<label for="${id}_param1">Parameter 1:</label>&nbsp;
+				<div data-dojo-type="dijit/Tooltip" data-dojo-props="connectId:'${id}_param1label'" data-dojo-attach-point="param1FieldHelp" >A value is not required for this field.</div>
+			</td>
+			<td class="propertyRowValue">
+			   <div id="${id}_param1" data-dojo-attach-point="param1Field" data-dojo-attach-event="onKeyUp: _onParamChange" maxLength="64" data-dojo-type="ecm.widget.ValidationTextBox" required="false" trim="true" propercase="false"></div>
+			</td>
+		</tr>
+	</table>
+</div>

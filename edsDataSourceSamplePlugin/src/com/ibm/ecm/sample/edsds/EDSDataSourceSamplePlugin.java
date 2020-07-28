@@ -60,6 +60,31 @@ public class EDSDataSourceSamplePlugin extends Plugin {
 	}
 
 	/**
+	 * Returns the name of a Dojo module or widget that is contained in the resources for this plug-in. IBM Content
+	 * Navigator performs the necessary <code>dojo.registerModulePath</code> mapping to allow modules or widgets with
+	 * mapped path names to be loaded by using the <code>dojo.require</code> method. A specified module can be the
+	 * directory or package name for a set of Dojo modules or widgets.
+	 */
+	public String getDojoModule() {
+		return "edsdsDojo";
+	}
+
+	/**
+	 * Returns the name of a Dojo <code>dijit</code> class that provides a configuration interface widget for this
+	 * plug-in. The widget must extend the <code>ecm.widget.admin.PluginConfigurationPane</code> widget. An instance of
+	 * the widget is created and displayed in the IBM Content Navigator administration tool for configuration that is
+	 * specific to the plug-in.
+	 * <p>
+	 * Refer to the documentation on ecm.widget.admin.PluginConfigurationPane for more
+	 * information on what is required for a plug-in configuration user interface.
+	 * </p>
+	 */
+    @Override
+	public String getConfigurationDijitClass() {
+	    return "edsdsDojo.ConfigurationPane";
+	}
+
+	/**
 	 * Provides a list of APIs defined by the plug-in.
 	 * 
 	 * @return An array of plug-in API objects

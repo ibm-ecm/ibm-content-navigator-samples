@@ -120,6 +120,15 @@ public class UpdateObjectTypeAPI extends PluginAPI {
 		JSONArray requestProperties = getJsonArrayProperty(argumentsJson, "properties", request, logger);
 		JSONObject clientContext = getJsonObjectProperty(argumentsJson, "clientContext", request, logger);
 
+		String param1String = null;
+		String configuration = callbacks.loadConfiguration();
+		if (configuration != null && !configuration.isEmpty()) {
+			JSONObject jsonConfiguration = JSONObject.parse(configuration);
+			if (jsonConfiguration.containsKey("param1Field")) {
+				param1String = (String) jsonConfiguration.get("param1Field");
+			}
+		}
+		
 		// retrieve the current property data
 		JSONArray propertyData = getPropertyData(objectTypeName, logger, request);
 

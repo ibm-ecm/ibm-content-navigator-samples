@@ -76,6 +76,15 @@ public class GetObjectTypesAPI extends PluginAPI {
 
 		logger.logDebug(this, methodName, request, "repositoryId = " + repositoryId);
 		
+		String param1String = null;
+		String configuration = callbacks.loadConfiguration();
+		if (configuration != null && !configuration.isEmpty()) {
+			JSONObject jsonConfiguration = JSONObject.parse(configuration);
+			if (jsonConfiguration.containsKey("param1Field")) {
+				param1String = (String) jsonConfiguration.get("param1Field");
+			}
+		}
+		
 		// Note: This sample is not using the repositoryId parameter. It is simply returning the same list of object types regardless of repository.
 		// The objectType of a Box metadata template is its ID, which is composed of the template key and template scope (aka enterprise ID),
 		// e.g., "myTemplate,enterise_123456". If you wish to use the same property data for a template that is replicated in multiple enterprises,
