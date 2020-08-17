@@ -1,0 +1,166 @@
+[{
+	"symbolicName": "Author",
+	"choiceList": {
+		"displayName": "Authors",
+		"choices": [{
+			"displayName": "Adolfo Caminha",
+			"value": "Adolfo Caminha"
+		},
+		{
+			"displayName": "Bernardo Carvalho",
+			"value": "Bernardo Carvalho"
+		},
+		{
+			"displayName": "Érico Veríssimo",
+			"value": "Érico Veríssimo"
+		},
+		{
+			"displayName": "João Guimarães Rosa",
+			"value": "João Guimarães Rosa"
+		},
+		{
+			"displayName": "Manuel Antônio de Almeida",
+			"value": "Manuel Antônio de Almeida"
+		},
+		{
+			"displayName": "Tests",
+			"value": "Tests"
+		}]
+	},
+	"hasDependentProperties": true
+},{
+	"symbolicName": "DocumentTitle",
+	"dependentOn": "Author",
+	"dependentValue": "Adolfo Caminha",
+	"choiceList": {
+		"displayName": "Adolfo Caminha Titles",
+		"choices": [{
+			"displayName": "A Normalista",
+			"value": "A Normalista"
+		},
+		{
+			"displayName": "Bom-Crioulo",
+			"value": "Bom-Crioulo"
+		},
+		{
+			"displayName": "Tentação",
+			"value": "Tentação"
+		}]
+	}
+},{
+	"symbolicName": "DocumentTitle",
+	"dependentOn": "Author",
+	"dependentValue": "Bernardo Carvalho",
+	"choiceList": {
+		"displayName": "Bernardo Carvalho Titles",
+		"choices": [{
+			"displayName": "Aberração",
+			"value": "Aberração"
+		},
+		{
+			"displayName": "Os Bêbados e os Sonâmbulos",
+			"value": "Os Bêbados e os Sonâmbulos"
+		},
+		{
+			"displayName": "O Sol se Põe em São Paulo ",
+			"value": "O Sol se Põe em São Paulo "
+		},
+		{
+			"displayName": "O Filho da Mãe",
+			"value": "O Filho da Mãe"
+		}]
+	}
+},{
+	"symbolicName": "DocumentTitle",
+	"dependentOn": "Author",
+	"dependentValue": "Érico Veríssimo",
+	"choiceList": {
+		"displayName": "Érico Veríssimo Titles",
+		"choices": [{
+			"displayName": "Caminhos Cruzados",
+			"value": "Caminhos Cruzados"
+		},
+		{
+			"displayName": "Música ao Longe",
+			"value": "Música ao Longe"
+		},
+		{
+			"displayName": "Olhai os Lírios do Campo",
+			"value": "Olhai os Lírios do Campo"
+		},
+		{
+			"displayName": "O Resto É Silêncio",
+			"value": "O Resto É Silêncio"
+		}]
+	}
+},{
+	"symbolicName": "DocumentTitle",
+	"dependentOn": "Author",
+	"dependentValue": "João Guimarães Rosa",
+	"choiceList": {
+		"displayName": "João Guimarães Rosa Titles",
+		"choices": [{
+			"displayName": "Magma",
+			"value": "Magma"
+		},
+		{
+			"displayName": "Com o Vaqueiro Mariano",
+			"value": "Com o Vaqueiro Mariano"
+		},
+		{
+			"displayName": "Grande Sertão: Veredas",
+			"value": "Grande Sertão: Veredas"
+		},
+		{
+			"displayName": "Primeiras Estórias",
+			"value": "Primeiras Estórias"
+		},
+		{
+			"displayName": "Tutaméia ? Terceiras Estórias",
+			"value": "Tutaméia ? Terceiras Estórias"
+		}]
+	}
+},{
+	"symbolicName": "DocumentTitle",
+	"dependentOn": "Author",
+	"dependentValue": "Manuel Antônio de Almeida",
+	"choiceList": {
+		"displayName": "Manuel Antônio de Almeida Titles",
+		"choices": [{
+			"displayName": "Memoirs of a Police Sergeant",
+			"value": "Memoirs of a Police Sergeant"
+		},
+		{
+			"displayName": "Dois Amores",
+			"value": "Dois Amores"
+		}]
+	}
+},{
+	"symbolicName": "DocumentTitle",
+	"dependentOn": "Author",
+	"dependentValue": "Tests",
+	"choiceList": {
+		"displayName": "Characters",
+		"choices": [{
+			"displayName" : "~!@#$%^&*()_+-=`{}[]|\\;':\"<>?,./",
+			"value" : "~!@#$%^&*()_+-=`{}[]|\\;':\"<>?,./"
+		},
+		{
+			"displayName" : "Ã¨Ã©Ã§Ã±Ã³Ã¶",
+			"value" : "Ã¨Ã©Ã§Ã±Ã³Ã¶"
+		},
+		{
+			"displayName" : "è™Ž é¾� è›‡",
+			"value" : "è™Ž é¾� è›‡"
+		},
+		{
+			"displayName" : "â€œâ€�â€¢â„¢Å¡Å“ï¿½Â©Ã¡ÃŸÂ©Â¥Â±âœ“",
+			"value" : "â€œâ€�â€¢â„¢Å¡Å“ï¿½Â©Ã¡ÃŸÂ©Â¥Â±âœ“"
+		},
+		{
+			"displayName" : "â‚¬uro Â¥en Æ’lorin",
+			"value" : "â‚¬uro Â¥en Æ’lorin"
+		}]
+	}
+}
+]

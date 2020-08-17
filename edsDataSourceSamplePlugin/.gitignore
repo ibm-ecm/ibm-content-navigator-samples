@@ -1,0 +1,11 @@
+/bin/
+/lib/
+/QA*/
+
+*.jar
+
+.classpath
+.DS_Store
+.factorypath
+.project
+.settings

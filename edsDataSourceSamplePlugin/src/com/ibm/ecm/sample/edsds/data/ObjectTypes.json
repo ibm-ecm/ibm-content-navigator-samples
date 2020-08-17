@@ -1,0 +1,24 @@
+[
+    {"symbolicName": "Article"},
+    {"symbolicName": "Book"},
+    {"symbolicName": "BookChapter"},
+    {"symbolicName": "EDS_Data_Field_Workflow.Workflow.LaunchStep"},
+    {"symbolicName": "EDS_Data_Field_Workflow.Workflow.Approval_Step"},
+    {"symbolicName": "EDS_Data_Field_Workflow.Workflow.Approval_Step.MyService"},
+    {"symbolicName": "EDS_Data_Field_Workflow.Workflow.Reviewers_Step"},
+    {"symbolicName": "EDS_Data_Field_Workflow.Workflow.Reviewers_Step.MyService"},
+    {"symbolicName": "EDS_Data_Field_Workflow.Workflow.Publishers_Step"},
+    {"symbolicName": "DefaultApplication.Personal_Items.My_Personal_Work"},
+    {"symbolicName": "DefaultApplication.Public_Items.CustomInbasket"},
+    {"symbolicName": "SampleDocument"},
+    {"symbolicName": "Email"},
+    {"symbolicName": "SampleFolder"},
+    {"symbolicName": "Invoice"},
+    {"symbolicName": "NOINDEX"},
+    {"symbolicName": "XYZ_InsPolicy"},
+    {"symbolicName": "worknode_edsstep_basicvar"},
+    {"symbolicName": "worknode_edsstep_choicedepend"},
+    {"symbolicName": "worknode_edsstep_choicelist"},
+    {"symbolicName": "worknode_edsstep_nothrees"}
+    ] 
+    

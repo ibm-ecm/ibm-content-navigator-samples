@@ -1,0 +1,76 @@
+[{
+	"symbolicName": "Chapter",
+	"initialValue": 1,
+	"choiceList": {
+		"displayName": "chapters",
+		"choices": [{
+			"displayName": 1,
+			"value": 1
+		},
+		{
+			"displayName": 2,
+			"value": 2
+		}]
+	},
+	"hasDependentProperties": true
+},
+{
+	"symbolicName": "AuthorX/Name",
+	"dependentOn": "Chapter",
+	"dependentValue": 1,
+	"choiceList": {
+		"displayName": "Authors",
+		"choices": [{
+			"displayName": "Alfred Hitchcock",
+			"value": "Alfred Hitchcock"
+		},
+		{
+			"displayName": "Ernest Lehman",
+			"value": "Ernest Lehman"
+		},
+		{
+			"displayName": "Oliver Stone",
+			"value": "Oliver Stone"
+		},
+		{
+			"displayName": "Francis Ford Coppola",
+			"value": "Francis Ford Coppola"
+		},
+		{
+			"displayName": "Woody Allen",
+			"value": "Woody Allen"
+		}]
+	}
+},
+{
+	"symbolicName": "AuthorX/Name",
+	"dependentOn": "Chapter",
+	"dependentValue": 2,
+	"choiceList": {
+		"displayName": "Authors",
+		"choices": [{
+			"displayName": "Dan Brown",
+			"value": "Dan Brown"
+		},
+		{
+			"displayName": "George R.R. Martin",
+			"value": "George Martin"
+		},
+		{
+			"displayName": "Stephen King",
+			"value": "Stephen King"
+		},
+		{
+			"displayName": "Tom Clancy",
+			"value": "Tom Clancy"
+		},
+		{
+			"displayName": "William Shakespeare",
+			"value": "Shakespeare"
+		}]
+	}
+},
+{
+	"symbolicName": "AuthorX/Affiliation",
+	"validateAs": "NoThrees"
+}]

@@ -1,0 +1,5 @@
+[{
+    "symbolicName": "string1",
+    "label": "Input 3/three is not allowed",
+    "validateAs": "NoThrees"
+}]

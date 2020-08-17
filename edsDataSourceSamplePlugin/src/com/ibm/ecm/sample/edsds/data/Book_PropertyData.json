@@ -1,0 +1,219 @@
+[{
+	"symbolicName": "Author",
+	"initialValue": "Dan Brown",
+	"choiceList": {
+		"displayName": "Authors",
+		"choices": [{
+			"displayName": "Dan Brown",
+			"value": "Dan Brown"
+		},
+		{
+			"displayName": "George R.R. Martin",
+			"value": "George Martin"
+		},
+		{
+			"displayName": "Stephen King",
+			"value": "Stephen King"
+		},
+		{
+			"displayName": "Tom Clancy",
+			"value": "Tom Clancy"
+		},
+		{
+			"displayName": "William Shakespeare",
+			"value": "Shakespeare"
+		},
+		{
+			"displayName": "Tests",
+			"value": "Tests"
+		}]
+	},
+	"hasDependentProperties": true
+},{
+	"symbolicName": "DocumentTitle",
+	"dependentOn": "Author",
+	"dependentValue": "Dan Brown",
+	"choiceList": {
+		"displayName": "Dan Brown Titles",
+		"choices": [{
+			"displayName": "Angels & Demons",
+			"value": "Angels & Demons"
+		},
+		{
+			"displayName": "The Da Vinci Code",
+			"value": "The Da Vinci Code"
+		},
+		{
+			"displayName": "The Lost Symbol",
+			"value": "The Lost Symbol"
+		}]
+	}
+},{
+	"symbolicName": "DocumentTitle",
+	"dependentOn": "Author",
+	"dependentValue": "Stephen King",
+	"choiceList": {
+		"displayName": "Stephen King Titles",
+		"choices": [{
+			"displayName": "Carrie",
+			"value": "Carrie"
+		},
+		{
+			"displayName": "The Shining",
+			"value": "The Shining"
+		},
+		{
+			"displayName": "Cujo",
+			"value": "Cujo"
+		},
+		{
+			"displayName": "Christine",
+			"value": "Christine"
+		},
+		{
+			"displayName": "Pet Sematary",
+			"value": "Pet Sematary"
+		},
+		{
+			"displayName": "It",
+			"value": "It"
+		},
+		{
+			"displayName": "The Stand",
+			"value": "The Stand"
+		}]
+	}
+},{
+	"symbolicName": "DocumentTitle",
+	"dependentOn": "Author",
+	"dependentValue": "Tom Clancy",
+	"choiceList": {
+		"displayName": "Tom Clancy Titles",
+		"choices": [{
+			"displayName": "The Hunt for Red October",
+			"value": "The Hunt for Red October"
+		},
+		{
+			"displayName": "Patriot Games",
+			"value": "Patriot Games"
+		},
+		{
+			"displayName": "Clear and Present Danger",
+			"value": "Clear and Present Danger"
+		},
+		{
+			"displayName": "Debt of Honor",
+			"value": "Debt of Honor"
+		},
+		{
+			"displayName": "Executive Orders",
+			"value": "Executive Orders"
+		},
+		{
+			"displayName": "The Bear and the Dragon",
+			"value": "The Bear and the Dragon"
+		},
+		{
+			"displayName": "Red Rabbit",
+			"value": "Red Rabbit"
+		},
+		{
+			"displayName": "The Teeth of the Tiger",
+			"value": "The Teeth of the Tiger"
+		}]
+	}
+},{
+	"symbolicName": "DocumentTitle",
+	"dependentOn": "Author",
+	"dependentValue": "George Martin",
+	"choiceList": {
+		"displayName": "George Martin Titles",
+		"choices": [{
+			"displayName": "A Game of Thrones",
+			"value": "A Game of Thrones"
+		},
+		{
+			"displayName": "A Clash of Kings",
+			"value": "A Clash of Kings"
+		},
+		{
+			"displayName": "A Storm of Swords",
+			"value": "A Storm of Swords"
+		},
+		{
+			"displayName": "A Feast for Crows",
+			"value": "A Feast for Crows"
+		},
+		{
+			"displayName": "A Dance with Dragons",
+			"value": "A Dance with Dragons"
+		},
+		{
+			"displayName": "The Winds of Winter",
+			"value": "The Winds of Winter"
+		},
+		{
+			"displayName": "A Dream of Spring",
+			"value": "A Dream of Spring"
+		}]
+	}
+},{
+	"symbolicName": "DocumentTitle",
+	"dependentOn": "Author",
+	"dependentValue": "Shakespeare",
+	"choiceList": {
+		"displayName": "Shakespeare Titles",
+		"choices": [{
+			"displayName": "All's Well That Ends Well",
+			"value": "All's Well That Ends Well"
+		},
+		{
+			"displayName": "Antony and Cleopatra",
+			"value": "Antony and Cleopatra"
+		},
+		{
+			"displayName": "As You Like It",
+			"value": "As You Like It"
+		},
+		{
+			"displayName": "Comedy of Errors",
+			"value": "Comedy of Errors"
+		},
+		{
+			"displayName": "Cymbeline",
+			"value": "Cymbeline"
+		},
+		{
+			"displayName": "Hamlet",
+			"value": "Hamlet"
+		}]
+	}
+},{
+	"symbolicName": "DocumentTitle",
+	"dependentOn": "Author",
+	"dependentValue": "Tests",
+	"choiceList": {
+		"displayName": "Characters",
+		"choices": [{
+			"displayName" : "~!@#$%^&*()_+-=`{}[]|\\;':\"<>?,./",
+			"value" : "~!@#$%^&*()_+-=`{}[]|\\;':\"<>?,./"
+		},
+		{
+			"displayName" : "èéçñóö",
+			"value" : "èéçñóö"
+		},
+		{
+			"displayName" : "虎 龍 蛇",
+			"value" : "虎 龍 蛇"
+		},
+		{
+			"displayName" : "“”•™šœ�©áß©¥±✓",
+			"value" : "“”•™šœ�©áß©¥±✓"
+		},
+		{
+			"displayName" : "€uro ¥en ƒlorin",
+			"value" : "€uro ¥en ƒlorin"
+		}]
+	}
+}
+]
