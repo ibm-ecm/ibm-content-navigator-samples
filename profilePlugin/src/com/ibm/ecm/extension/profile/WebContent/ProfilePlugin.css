@@ -1,0 +1,118 @@
+/*
+ * Licensed Materials - Property of IBM
+ * (C) Copyright IBM Corp. 2010, 2019
+ * US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+ */
+.idxOneuiHoverCard .closeText {
+	display: none;
+}
+
+.idxPersonCard {
+	padding-top: 5px; !important;
+}
+
+.idxNoPersonPhoto {
+	width: 50px;
+	height: 50px;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-image: url(/navigator/ecm/widget/resources/images/NoPhotoPerson24.png);
+}
+
+.idxPersonCardRole,
+.ecmTeamList .entryRoles {
+	font-size: .9em;
+	color: #222;
+}
+
+.ecmTeamList .idxPersonCardFn,
+.ecmTeamList .entryName {
+	font-size: 14px;
+}
+
+.ecmTeamList .idxPersonCardPhoto {
+	height: 45px;
+	width: 45px;
+	position: initial !important;
+	float: none;
+	margin: 0 0 0;
+}
+
+.ecmTeamList .idxPersonCardContainer div {
+	margin-left: -6px;
+}
+
+.dijitRtl .idxPersonCardContainer div {
+	margin-left: 0;
+	margin-right: -6px;
+}
+
+.ecmTeamList .entryGroup {
+	margin-left: 5px;
+}
+
+.dijitRtl .entryGroup {
+	margin-left: 0;
+	margin-right: 5px;
+}
+
+.ecmTeamList .idxPersonCardContainer {
+	height: 50px;
+	border: 0;
+	padding-bottom: 0;
+}
+
+.ecmTeamList .entryName {
+	color: #00649d !important;
+	font-weight: normal;
+	padding: 2px 0px;
+	font-family: Georgia,Times New Roman,Serif;
+}
+
+.stIcnIcmName {
+	text-decoration: none;
+	display: inline;
+	color: "#00649D";
+	cursor: pointer;
+}
+
+div:hover[class=stIcnIcmName] {
+	text-decoration: underline;
+}
+
+.dijit_a11y .ecmAdminTab .stTestMessageIconAltText {
+	display: block;
+	margin: 0 0 0 4px;
+}
+
+.ecmAdminTab .propertyDarkerRow {
+	background-color: #e0e0e0;
+}
+
+.ecmAdminTab .propertyRowLabelSametime {
+	line-height: 30px;
+}
+
+.ecmAdminTab .stTestMessageIconAltText {
+	display: none;
+}
+
+.ecmAdminTab .stTestResultValid {
+	background-position: -54px 0;
+}
+
+.ecmAdminTab .stTestResultInvalid {
+	background-position: 0 0;
+}
+
+.ecmAdminTab .stTestTooltip {
+	background-image:url('../../../ecm/widget/resources/images/msgIcons_24bit.png');
+	height:19px; 
+	width:19px; 
+	margin-left: 1px;
+}
+
+.dijitRtl .ecmAdminTab .stTestTooltip {
+	margin-left: 0;
+	margin-right: 1px;
+}

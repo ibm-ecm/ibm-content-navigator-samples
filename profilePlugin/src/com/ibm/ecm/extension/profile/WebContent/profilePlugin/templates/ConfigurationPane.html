@@ -1,0 +1,77 @@
+<div>
+	<table class="propertyTable">
+		<tr class="propertyDarkerRow" style="border-bottom: 0px">
+			<td class="propertyRowLabelSametime">
+				<label for="${id}_sametimeURI">${messages.st_input_label}</label>&nbsp;
+				<div data-dojo-type="ecm.widget.HoverHelp" data-dojo-attach-point="sametimeURIURIHoverHelp">${messages.st_input_hover}</div>
+			</td>
+			<td class="propertyRowValue">
+				<div id="${id}_sametimeURI" style="margin-top: 5px" data-dojo-attach-point="sametimeURI" data-dojo-type="ecm.widget.TextBox" data-dojo-attach-event="onKeyUp: _onFieldChangeSametimeURI"></div>
+			</td>
+			<td valign="middle" align="center" style="padding-right: 0">
+				<button data-dojo-type="dijit.form.Button" type="button" data-dojo-attach-point="okButton">${messages.test_button_label}</button>
+			</td>
+			<td style="padding-left: 0">
+				<div data-dojo-attach-point="stTestIcon" style="display: inline; visibility: hidden;">
+				  <div id="${id}_stTestTooltip" class="stTestTooltip" data-dojo-attach-point="stTestOne" href="#" tabindex="0"
+				  	onmouseover="idx.widget.HoverHelpTooltip.defaultPosition=['after-centered', 'before-centered']">
+				    <span class="stTestMessageIconAltText">X</span>
+				  </div>
+				
+				  <span data-dojo-attach-point="stTestOneTooltip" data-dojo-type="idx.widget.HoverHelpTooltip" data-dojo-props='connectId:["${id}_stTestTooltip"], forceFocus: true, showCloseIcon:true'>
+				    ${messages.testResultInvalid}
+				  </span>
+				</div>
+			</td>
+		</tr>
+		<tr class="propertyDarkerRow" style="border: 0px">
+			<td class="propertyRowLabelSametime">
+				<label for="${id}_proxyURI" style="margin-top: 5px">${messages.proxyURI_label}</label>&nbsp;
+				<div data-dojo-type="ecm.widget.HoverHelp" data-dojo-attach-point="sametimeProxyHoverHelp">${messages.proxyURI_hover}</div>
+			</td>
+			<td class="propertyRowValue">
+				<div id="${id}_proxyURI"  style="margin-top: 5px" data-dojo-attach-point="proxyURI" data-dojo-type="ecm.widget.TextBox" data-dojo-attach-event="onKeyUp: _onFieldChangeProxyRoot"></div>
+			</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr class="propertyDarkerRow" style="border-top: 0px">
+			<td class="propertyRowLabelSametime">
+				<label for="${id}_sametimePolling" style="margin-top: 5px">${messages.sametime_polling_label}</label>&nbsp;
+				<div data-dojo-type="ecm.widget.HoverHelp" data-dojo-attach-point="sametimePollingHoverHelp">${messages.sametime_polling_hover}</div>
+			</td>
+			<td class="propertyRowValue">
+				<select id="${id}_sametimePolling"  style="margin-top: 5px" data-dojo-attach-point="sametimePolling" data-dojo-type="dijit/form/FilteringSelect" data-dojo-attach-event="onChange: _onFieldChange">
+				    <option value="-1" selected>${messages.sametime_option_disabled}</option>
+				    <option value="0">${messages.sametime_option_always}</option>
+				    <option value="1">${messages.sametime_option_clicked}</option>
+				</select>
+			</td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="propertyRowLabel">
+				<label for="${id}_showDisplayName">${messages.showDisplayName_input_label}</label>&nbsp;
+				<div data-dojo-type="ecm.widget.HoverHelp" data-dojo-attach-point="showDisplayNameHoverHelp">${messages.showDisplayName_input_hover}</div>
+			</td>
+			<td class="propertyRowValue">
+				<div id="${id}_showDisplayName" data-dojo-attach-point="showDisplayName" data-dojo-type="dijit.form.CheckBox" data-dojo-attach-event="onClick: _onFieldChange"></div>
+			</td>
+			<td>
+			</td>
+		</tr>
+		<tr class="propertyDarkerRow">
+			<td class="propertyRowLabel">
+				<label for="${id}_profileServerURI">${messages.server_input_label}</label>&nbsp;
+				<div data-dojo-type="ecm.widget.HoverHelp" data-dojo-attach-point="profileServerURIHoverHelp">${messages.server_input_hover}</div>
+			</td>
+			<td class="propertyRowValue">
+				<div id="${id}_profileServerURI" data-dojo-attach-point="profileServerURI" data-dojo-type="ecm.widget.TextBox" data-dojo-attach-event="onKeyUp: _onFieldChange"></div>
+			</td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+	<br/><br/>
+</div>
