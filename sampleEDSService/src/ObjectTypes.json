@@ -19,6 +19,7 @@
     {"symbolicName": "worknode_edsstep_basicvar"},
     {"symbolicName": "worknode_edsstep_choicedepend"},
     {"symbolicName": "worknode_edsstep_choicelist"},
-    {"symbolicName": "worknode_edsstep_nothrees"}
+    {"symbolicName": "worknode_edsstep_nothrees"},
+    {"symbolicName": "MultiOVPClass"}
     ] 
     

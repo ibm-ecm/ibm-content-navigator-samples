@@ -1,0 +1,26 @@
+[{
+	"symbolicName": "EmailSubject",
+	"initialValue": "Set By EDS",
+	"hasDependentProperties": true
+},
+{
+	"symbolicName": "SingleOVP",
+	"displayMode" : "readwrite",
+	"dependentOn": "EmailSubject",
+	"dependentValue": "0",
+	"value": null
+},
+{
+	"symbolicName": "SingleOVP",
+	"displayMode" : "readwrite",
+	"dependentOn": "EmailSubject",
+	"dependentValue": "1",
+	"value": "Document,{FC30881A-DC1A-4DD8-9D5E-081929EE98F2},{40A2F266-0000-CC43-BEE7-99FC7D0677E2}"
+},
+{
+	"symbolicName": "SingleOVP",
+	"displayMode" : "readwrite",
+	"dependentOn": "EmailSubject",
+	"dependentValue": "2",
+	"value": "Document,{FC30881A-DC1A-4DD8-9D5E-081929EE98F2},{20E1C05D-0000-CB16-BA9C-CED9EA103FC7}"
+}]
