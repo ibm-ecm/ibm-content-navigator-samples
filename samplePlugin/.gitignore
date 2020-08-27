@@ -1,0 +1,10 @@
+/bin/
+/lib/
+
+*.jar
+
+.classpath
+.DS_Store
+.factorypath
+.project
+.settings

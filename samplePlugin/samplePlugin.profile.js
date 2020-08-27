@@ -5,7 +5,7 @@
  */
 // See http://dojotoolkit.org/reference-guide/build/index.html#build-index
 var profile = {
-	basePath: "temp/dojo",
+	basePath: "target/dojoBuild",
 
 	releaseDir: "dojo/../release",
 	action: "release",
