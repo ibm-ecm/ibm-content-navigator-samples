@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<project name="customEmailPlugin" default="all" basedir=".">
+
+    <target name="all" depends="clean,compile,jar" />
+
+    <path id="classpath">
+        <fileset dir="lib" >
+            <include name="**/*.jar" />
+        </fileset>
+        <pathelement location="temp" />
+    </path>
+
+    <target name="clean">
+        <delete dir="temp" />
+    </target>
+
+    <target name="compile">
+        <mkdir dir="temp" />
+        <javac srcdir="src" destdir="temp" source="1.8" target="1.8" debug="true">
+            <classpath refid="classpath" />
+            <include name="**/*.java" />
+        </javac>
+    </target>
+
+    <target name="jar">
+        <copy todir="temp">
+            <fileset dir="src">
+                <include name="com/ibm/ecm/extension/customEmail/**" />
+            </fileset>
+        </copy>
+        <jar jarfile="customEmailPlugin.jar">
+            <fileset dir="./temp" includes="**/*" />
+            <manifest>
+                <attribute name="Plugin-Class" value="com.ibm.ecm.extension.customEmail.CustomEmailPlugin" />
+                <section name="build">
+                    <attribute name="Built-By" value="${user.name}" />
+                    <attribute name="Build" value="${TODAY}" />
+                </section>
+            </manifest>
+        </jar>
+        <delete dir="./temp" />
+    </target>
+
+</project>

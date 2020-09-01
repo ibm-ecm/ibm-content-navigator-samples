@@ -1,0 +1,32 @@
+<div class="customEmail">
+	<div id="${id}_customEmailPlugin">
+		<table class="propertyTable" role="presentation">
+			<tr>
+				<td class="propertyRowLabel">
+					<label for="${id}_custom_Email_subject"> ${messages.subject_label} </label>
+					<div id="${id}_custom_subject_TextBox_hoverHelp" data-dojo-type="ecm/widget/HoverHelp"> ${messages.subject_hover_help} </div>
+				</td>
+				<td class="propertyRowValue">
+					<div id="${id}_custom_Email_subject"
+						 data-dojo-attach-point="subjectTextBox"
+						 data-dojo-type="ecm/widget/TextBox"
+						 data-dojo-attach-event="onKeyUp: _onFieldChange"
+						 data-dojo-props="hoverHelpId: '${id}_custom_subject_TextBox_hoverHelp'"> </div>
+				</td>
+			</tr>
+			<tr>
+				<td class="propertyRowLabel">
+					<label for="${id}_custom_Email_message"> ${messages.message_label} </label>
+					<div id="${id}_custom_message_TextArea_hoverHelp" data-dojo-type="ecm/widget/HoverHelp"> ${messages.message_hover_help} </div>
+				</td>
+				<td class="propertyRowValue">
+					<div id="${id}_custom_Email_message"
+						 data-dojo-attach-point="messageTextArea"
+						 data-dojo-type="ecm/widget/SimpleTextarea"
+						 data-dojo-attach-event="onKeyUp: _onFieldChange"
+						 data-dojo-props="hoverHelpId: '${id}_custom_message_TextArea_hoverHelp'"> </div>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
