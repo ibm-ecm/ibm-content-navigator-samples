@@ -23,9 +23,11 @@ ViewerToolbarPlugin.jar is generated under ibm-content-navigator-samples/ViewerT
 
 
 ## This plugin contains two examples for adding custom buttons
-1. A custom button on the top toolbar of viewer.
--  The parameters for the button are set in filter() function of [ViewOneActionResponseFilter.java](/ViewerToolbarPlugin/src/com/ibm/ecm/extension/viewerToolbar/services/ViewOneActionResponseFilter.java)
--  The button execution and state evaluation functions are in [ViewerToolbarPlugin.js](/ViewerToolbarPlugin/src/com/ibm/ecm/extension/viewerToolbar/WebContent/ViewerToolbarPlugin.js)
+1. Two custom buttons on the top toolbar of viewer.
+-  Button 1 is to display messages.
+-  Button 2 is to delete the document and close the viewer.
+-  The parameters for the buttons are set in filter() function of [ViewOneActionResponseFilter.java](/ViewerToolbarPlugin/src/com/ibm/ecm/extension/viewerToolbar/services/ViewOneActionResponseFilter.java)
+-  The buttons execution and state evaluation functions are in [ViewerToolbarPlugin.js](/ViewerToolbarPlugin/src/com/ibm/ecm/extension/viewerToolbar/WebContent/ViewerToolbarPlugin.js)
 2. A custom button on the left toolbar of viewer, to add an image stamp.
 -  The parameters for the button are set in filter() function of [ViewOneBootstrapResponseFilter.java](/ViewerToolbarPlugin/src/com/ibm/ecm/extension/viewerToolbar/services/ViewOneBootstrapResponseFilter.java)
 
@@ -33,7 +35,7 @@ ViewerToolbarPlugin.jar is generated under ibm-content-navigator-samples/ViewerT
 
 ## Additional reference
 1. barbutton parameter of viewer  
-https://www.ibm.com/support/knowledgecenter/SSTPHR_5.0.3/com.ibm.viewone.configuring/dvopr113.htm
+https://www.ibm.com/support/knowledgecenter/SSTPHR_5.0.8/com.ibm.viewone.configuring/dvopr113.htm
 2. Image stamp settings of viewer  
 http://www-01.ibm.com/support/docview.wss?uid=swg27043272
-3. Javadoc for [JSONViewoneBootstrapResponse](https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.3/com.ibm.javaeuc.doc/com/ibm/ecm/json/JSONViewoneBootstrapResponse.html)
+3. Javadoc for [JSONViewoneBootstrapResponse](https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.8/com.ibm.javaeuc.doc/com/ibm/ecm/json/JSONViewoneBootstrapResponse.html)

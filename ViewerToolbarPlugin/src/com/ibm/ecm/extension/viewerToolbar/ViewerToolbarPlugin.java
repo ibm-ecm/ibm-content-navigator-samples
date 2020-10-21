@@ -51,7 +51,7 @@ public class ViewerToolbarPlugin extends Plugin {
 
 	@Override
 	public String getVersion() {
-		return "1.0.0";
+		return "1.1.0";
 	}
 
 	@Override

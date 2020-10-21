@@ -44,11 +44,7 @@ public class ViewOneActionResponseFilter extends PluginResponseFilter {
 		
 		if ( configString != null ) {
 			try {
-			    JSONObject jsonConfig = (JSONObject)JSON.parse(configString);	
-				String topButtonTooltip = (String)jsonConfig.get("topButtonTooltip");
-				String topButtonImageEnabled = "../../../../" + (String)jsonConfig.get("topButtonImageEnabled");
-				String topButtonImageDisabled = "../../../../" + (String)jsonConfig.get("topButtonImageDisabled");
-				
+			    JSONObject jsonConfig = (JSONObject)JSON.parse(configString);					
 				String html = (String) jsonResponse.get("responseHTML");
 				
 				// currently the last button on the top toolbar is bar1afterButton4
@@ -56,12 +52,28 @@ public class ViewOneActionResponseFilter extends PluginResponseFilter {
 				int index = html.indexOf("<param name=\"bar1afterButton" + lastIndex + "\"");
 				
 				if (index != -1) {
-					// append a custom button. Refer to https://www.ibm.com/support/knowledgecenter/SSTPHR_5.0.3/com.ibm.viewone.configuring/dvopr113.htm
-					String executionScript = "viewerToolbarPluginAction()";
-					String evalScript = "viewerToolbarPluginActionEval()";
+					// append custom buttons to the top toolbar. Refer to https://www.ibm.com/support/knowledgecenter/SSTPHR_5.0.8/com.ibm.viewone.configuring/dvopr113.htm
+					
+					// custom button 1
+					String executionScript = "viewerToolbarPluginTopButton1Handler()";
+					String evalScript = "viewerToolbarPluginTopButton1Eval()";					
+					String topButtonTooltip = (String)jsonConfig.get("topButton1Tooltip");
+					String topButtonImageEnabled = "../../../../" + (String)jsonConfig.get("topButton1ImageEnabled");
+					String topButtonImageDisabled = "../../../../" + (String)jsonConfig.get("topButton1ImageDisabled");
 					String value = executionScript + ", " + topButtonTooltip + ", " + topButtonImageEnabled + ", " + topButtonImageDisabled + ", true, " + evalScript;
-					String param = "<param name=\"bar1afterButton" + (lastIndex+1) + "\" value=\"" + value + "\"/>";
-					html = html.substring(0, index) + param + "\r\n" + html.substring(index);		
+					String param1 = "<param name=\"bar1afterButton" + (lastIndex+1) + "\" value=\"" + value + "\"/>";					
+					
+					// custom button 2
+					String viewerId = (String)request.getParameter("viewerId");
+					executionScript = viewerId + "_deleteItem()";
+					evalScript = "viewerToolbarPluginAction2Eval()";
+					topButtonTooltip = (String)jsonConfig.get("topButton2Tooltip");
+					topButtonImageEnabled = "../../../../" + (String)jsonConfig.get("topButton2ImageEnabled");
+					topButtonImageDisabled = "../../../../" + (String)jsonConfig.get("topButton2ImageDisabled");
+					value = executionScript + ", " + topButtonTooltip + ", " + topButtonImageEnabled + ", " + topButtonImageDisabled + ", true, " + evalScript;
+					String param2 = "<param name=\"bar1afterButton" + (lastIndex+2) + "\" value=\"" + value + "\"/>";
+					
+					html = html.substring(0, index) + param2 + "\r\n" + param1 + "\r\n" + html.substring(index);					
 					jsonResponse.put("responseHTML", html);			
 				}
 			    

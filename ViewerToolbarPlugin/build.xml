@@ -44,7 +44,7 @@ THE POSSIBILITY OF SUCH DAMAGES.
 	
 	<target name="compile">
 		<mkdir dir="temp"/>
-		<javac srcdir="src" destdir="temp" source="1.7" target="1.7" debug="true">
+		<javac srcdir="src" destdir="temp" source="1.8" target="1.8" debug="true">
 			<classpath refid="classpath" />
 			<include name="**/*.java" />
 		</javac>

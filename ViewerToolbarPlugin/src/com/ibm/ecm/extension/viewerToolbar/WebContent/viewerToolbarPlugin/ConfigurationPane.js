@@ -44,9 +44,14 @@ define([
 		widgetsInTemplate: true,
 		messages: mes,
 		
-		defaultTopButtonTooltip: "Viewer Toolbar Plugin Action",
-		defaultTopButtonImageEnabled: "plugin/ViewerToolbarPlugin/getResource/images/button.png",
-		defaultTopButtonImageDisabled: "plugin/ViewerToolbarPlugin/getResource/images/button-disabled.png",
+		defaultTopButton1Tooltip: "Top button 1",
+		defaultTopButton1ImageEnabled: "plugin/ViewerToolbarPlugin/getResource/images/button1.png",
+		defaultTopButton1ImageDisabled: "plugin/ViewerToolbarPlugin/getResource/images/button1-disabled.png",
+		
+		defaultTopButton2Tooltip: "Top button 2",
+		defaultTopButton2ImageEnabled: "plugin/ViewerToolbarPlugin/getResource/images/button2.png",
+		defaultTopButton2ImageDisabled: "plugin/ViewerToolbarPlugin/getResource/images/button2-disabled.png",
+
 		defaultStampButtonLabel: "Sample Stamp",
 		defaultStampButtonImage: "plugin/ViewerToolbarPlugin/getResource/images/SampleStamp.png",
 	
@@ -58,18 +63,29 @@ define([
 			if (this.configurationString) {
 				try {
 					var jsonConfig = dojoJson.parse(this.configurationString);
-					this.topButtonTooltipField.set('value', jsonConfig.topButtonTooltip);
-					this.topButtonImageEnabledField.set('value', jsonConfig.topButtonImageEnabled);
-					this.topButtonImageDisabledField.set('value', jsonConfig.topButtonImageDisabled);
+					
+					this.topButton1TooltipField.set('value', jsonConfig.topButton1Tooltip);
+					this.topButton1ImageEnabledField.set('value', jsonConfig.topButton1ImageEnabled);
+					this.topButton1ImageDisabledField.set('value', jsonConfig.topButton1ImageDisabled);
+					
+					this.topButton2TooltipField.set('value', jsonConfig.topButton2Tooltip);
+					this.topButton2ImageEnabledField.set('value', jsonConfig.topButton2ImageEnabled);
+					this.topButton2ImageDisabledField.set('value', jsonConfig.topButton2ImageDisabled);
+
 					this.stampButtonLabelField.set('value', jsonConfig.stampButtonLabel);
 					this.stampImageField.set('value', jsonConfig.stampImage);
 				} catch (e) {
 					this.logError("load", "failed to load configuration: " + e.message);
 				}
 			} else {
-				this.topButtonTooltipField.set('value', this.defaultTopButtonTooltip);
-				this.topButtonImageEnabledField.set('value', this.defaultTopButtonImageEnabled);
-				this.topButtonImageDisabledField.set('value', this.defaultTopButtonImageDisabled);
+				this.topButton1TooltipField.set('value', this.defaultTopButton1Tooltip);
+				this.topButton1ImageEnabledField.set('value', this.defaultTopButton1ImageEnabled);
+				this.topButton1ImageDisabledField.set('value', this.defaultTopButton1ImageDisabled);
+				
+				this.topButton2TooltipField.set('value', this.defaultTopButton2Tooltip);
+				this.topButton2ImageEnabledField.set('value', this.defaultTopButton2ImageEnabled);
+				this.topButton2ImageDisabledField.set('value', this.defaultTopButton2ImageDisabled);
+
 				this.stampButtonLabelField.set('value', this.defaultStampButtonLabel);
 				this.stampImageField.set('value', this.defaultStampButtonImage);
 				this._onParamChange();
@@ -78,9 +94,14 @@ define([
 		
 		_onParamChange: function() {
 			var configJson = {
-				topButtonTooltip: this.topButtonTooltipField.get('value'),
-				topButtonImageEnabled: this.topButtonImageEnabledField.get('value'),
-				topButtonImageDisabled: this.topButtonImageDisabledField.get('value'),
+				topButton1Tooltip: this.topButton1TooltipField.get('value'),
+				topButton1ImageEnabled: this.topButton1ImageEnabledField.get('value'),
+				topButton1ImageDisabled: this.topButton1ImageDisabledField.get('value'),
+				
+				topButton2Tooltip: this.topButton2TooltipField.get('value'),
+				topButton2ImageEnabled: this.topButton2ImageEnabledField.get('value'),
+				topButton2ImageDisabled: this.topButton2ImageDisabledField.get('value'),
+				
 				stampButtonLabel: this.stampButtonLabelField.get('value'),
 				stampImage: this.stampImageField.get('value')				
 			};
@@ -89,9 +110,9 @@ define([
 		},
 		
 		validate: function() {
-			if(!this.topButtonTooltipField.isValid() || !this.topButtonImageEnabledField.isValid()
-				|| !this.topButtonImageDisabledField.isValid() || !this.stampButtonLabelField.isValid()
-				|| !this.stampImageField.isValid())
+			if(!this.topButton1TooltipField.isValid() || !this.topButton1ImageEnabledField.isValid() || !this.topButton1ImageDisabledField.isValid()
+				|| !this.topButton2TooltipField.isValid() || !this.topButton2ImageEnabledField.isValid() || !this.topButton2ImageDisabledField.isValid()					
+				|| !this.stampButtonLabelField.isValid() || !this.stampImageField.isValid())
 				return false;
 			return true;
 		}
