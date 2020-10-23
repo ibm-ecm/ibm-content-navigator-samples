@@ -1,11 +1,12 @@
 require(["dojo/_base/declare",
          "dojo/_base/lang",
          "dojo/aspect",
+         "ecm/model/Action",
          "ecm/model/Desktop",
          "ecm/widget/virtualViewer/ViewoneHTMLViewer",
          "viewerToolbarPlugin/MessagesDialog",
 ], 
-	function(declare, lang, aspect, Desktop, ViewoneHTMLViewer, MessagesDialog) {
+	function(declare, lang, aspect, Action, Desktop, ViewoneHTMLViewer, MessagesDialog) {
 			
 		var messagesDialog = null;
 
@@ -22,21 +23,18 @@ require(["dojo/_base/declare",
 			// refer to https://www.ibm.com/support/knowledgecenter/SSTPHR_5.0.8/com.ibm.viewone.configuring/dvopr113.htm
 			return 5;
 		});
-		
-		// evaluate the state of custom button 2 on the top toolbar 
-		lang.setObject("viewerToolbarPluginTopButton2Eval", function () {
-			// refer to https://www.ibm.com/support/knowledgecenter/SSTPHR_5.0.8/com.ibm.viewone.configuring/dvopr113.htm
-			return 5;
-		});
-		
-		// add event handler for custom button 2 on the top toolbar 
-		aspect.after(ViewoneHTMLViewer.prototype, "_attachViewerEvent", function() {	
-			// add the handler to ViewoneHTMLViewer to get the viewer instance
-			window[this.viewerId + "_deleteItem"] = lang.hitch(this, "_deleteItem");		
+				
+		// add functions for custom button 2 on the top toolbar. Attach to ViewoneHTMLViewer to get the viewer instance.
+		aspect.after(ViewoneHTMLViewer.prototype, "_attachViewerEvent", function() {
+			// event handler
+			window[this.viewerId + "_viewerToolbarPluginDeleteItem"] = lang.hitch(this, "_viewerToolbarPluginDeleteItem");
+			
+			// evaluate the button state
+			window[this.viewerId + "_viewerToolbarPluginEvalDeleteItem"] = lang.hitch(this, "_viewerToolbarPluginEvalDeleteItem");	
 		});
 
 		// calls the default delete action and then close the viewer
-		ViewoneHTMLViewer.prototype._deleteItem = function() {
+		ViewoneHTMLViewer.prototype._viewerToolbarPluginDeleteItem = function() {
 			console.log("viewerId: " + this.viewerId);
 			console.log("docid: " + this._item.id);
 			Desktop.getActionsHandler().actionDeleteItem(this._item.repository, [this._item], lang.hitch(this, function() {
@@ -51,6 +49,19 @@ require(["dojo/_base/declare",
 						contentDialog.onClose();					
 				} 
 			}, true));
+		};
+		
+		// enable/disable the delete button per privilege
+		ViewoneHTMLViewer.prototype._viewerToolbarPluginEvalDeleteItem = function() {
+			var action = new Action({
+				id: "DeleteItem",
+				privilegeName: "privDelete"
+			});
+			var enabled = action.canPerformAction(this._item.repository, [this._item]);
+			if (enabled) 
+				return 5;
+			else
+				return 3;
 		};
 
 });

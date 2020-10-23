@@ -7,6 +7,21 @@ ${messages.configuration_title}
 			</td>
 		</tr>	
 		
+		<!-- position of buttons -->
+		<tr>
+			<td class="propertyRowLabel">
+				<label for="${id}_appendToToolbar">${messages.configuration_top_buttons_position}</label>&nbsp;
+				<div data-dojo-type="ecm/widget/HoverHelp" data-dojo-attach-point="appendToToolbarHoverHelp">${messages.configuration_top_buttons_position_hover}</div>
+			</td>
+			<td class="propertyRowValue">
+				<div data-dojo-type="ecm/widget/CheckBox"
+					data-dojo-attach-point="appendToToolbarCheckBox"
+					data-dojo-attach-event="onChange: _onParamChange"
+					data-dojo-props="id: '${id}_appendToToolbar'"></div>
+				<label>${messages.configuration_top_buttons_position_append}</label>
+			</td>
+		</tr>
+				
 		<!-- top button 1 -->
 		<tr>
 			<td class="propertyRowLabel">

@@ -24,12 +24,13 @@ define([
 		"dojo/json",
 		"dijit/_TemplatedMixin",
 		"dijit/_WidgetsInTemplateMixin",
+		"ecm/widget/CheckBox",
 		"ecm/widget/ValidationTextBox",
 		"ecm/widget/admin/PluginConfigurationPane",
 		"dojo/i18n!./nls/messages",
 		"dojo/text!./templates/ConfigurationPane.html",
 	],
-	function(declare, dojoJson, _TemplatedMixin, _WidgetsInTemplateMixin, ValidationTextBox, PluginConfigurationPane, mes, template) {
+	function(declare, dojoJson, _TemplatedMixin, _WidgetsInTemplateMixin, CheckBox, ValidationTextBox, PluginConfigurationPane, mes, template) {
 
 		/**
 		 * @name ViewerToolbarPlugin.ConfigurationPane
@@ -74,6 +75,8 @@ define([
 
 					this.stampButtonLabelField.set('value', jsonConfig.stampButtonLabel);
 					this.stampImageField.set('value', jsonConfig.stampImage);
+					
+					this.appendToToolbarCheckBox.set("checked", jsonConfig.appendToToolbar);	
 				} catch (e) {
 					this.logError("load", "failed to load configuration: " + e.message);
 				}
@@ -88,6 +91,9 @@ define([
 
 				this.stampButtonLabelField.set('value', this.defaultStampButtonLabel);
 				this.stampImageField.set('value', this.defaultStampButtonImage);
+				
+				this.appendToToolbarCheckBox.set("checked", true);	
+				
 				this._onParamChange();
 			}
 		},
@@ -103,7 +109,9 @@ define([
 				topButton2ImageDisabled: this.topButton2ImageDisabledField.get('value'),
 				
 				stampButtonLabel: this.stampButtonLabelField.get('value'),
-				stampImage: this.stampImageField.get('value')				
+				stampImage: this.stampImageField.get('value'),
+				
+				appendToToolbar: this.appendToToolbarCheckBox.get("checked")
 			};
 			this.configurationString = JSON.stringify(configJson);
 			this.onSaveNeeded(true);

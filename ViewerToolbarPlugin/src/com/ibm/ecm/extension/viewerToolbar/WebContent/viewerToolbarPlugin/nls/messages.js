@@ -7,6 +7,9 @@ define({
 		
 		configuration_title_top_button: "Configure the custom buttons on the top toolbar.",
 
+		configuration_top_buttons_position: "Position:",
+		configuration_top_buttons_position_hover: "Custom button positioning on the toolbar",
+		configuration_top_buttons_position_append: "Follow existing buttons",
 		configuration_top_button1_tooltip: "Tooltip of button 1:",
 		configuration_top_button1_tooltip_hover: "This parameter is the help text that is used in the button tooltip.",
 		configuration_top_button1_image_enabled: "Image for enabled state of button 1:",
