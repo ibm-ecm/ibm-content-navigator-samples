@@ -24,6 +24,7 @@ ViewerToolbarPlugin.jar is generated under ibm-content-navigator-samples/ViewerT
 
 ## This plugin contains two examples for adding custom buttons
 1. Two custom buttons on the top toolbar of viewer.
+-  User may configure the position of the buttons.
 -  Button 1 is to display messages.
 -  Button 2 is to delete the document and close the viewer.
 -  The parameters for the buttons are set in filter() function of [ViewOneActionResponseFilter.java](/ViewerToolbarPlugin/src/com/ibm/ecm/extension/viewerToolbar/services/ViewOneActionResponseFilter.java)
@@ -34,10 +35,10 @@ ViewerToolbarPlugin.jar is generated under ibm-content-navigator-samples/ViewerT
 ![image for examples](/ViewerToolbarPlugin/examples.png)
 
 ## Additional reference
-1. barbutton parameter of viewer  
-https://www.ibm.com/support/knowledgecenter/SSTPHR_5.0.8/com.ibm.viewone.configuring/dvopr113.htm
-2. Custom button positioning after ViewONE buttons
-https://www.ibm.com/support/pages/ibm%C2%AE-daeja%E2%84%A2-viewone-virtual-version-501-release-notes
-3. Image stamp settings of viewer  
-http://www-01.ibm.com/support/docview.wss?uid=swg27043272
+1. [bar<N>button<N> parameter](https://www.ibm.com/support/knowledgecenter/SSTPHR_5.0.8/com.ibm.viewone.configuring/dvopr113.htm) of Daeja ViewONE
+
+2. [Custom button positioning after ViewONE buttons](https://www.ibm.com/support/pages/ibm%C2%AE-daeja%E2%84%A2-viewone-virtual-version-501-release-notes)
+
+3. [Stamp parameters](hhttps://www.ibm.com/support/knowledgecenter/SSTPHR_5.0.8/com.ibm.viewone.configuring/dvoco131.htm) of Daeja ViewONE
+
 4. Javadoc for [JSONViewoneBootstrapResponse](https://www.ibm.com/support/knowledgecenter/SSEUEX_3.0.8/com.ibm.javaeuc.doc/com/ibm/ecm/json/JSONViewoneBootstrapResponse.html)
