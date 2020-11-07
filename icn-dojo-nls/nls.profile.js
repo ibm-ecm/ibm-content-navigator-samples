@@ -7,7 +7,7 @@ var profile = {
 	layerOptimize: "comments",
 	optimize: "comments",
 	stripConsole: "warn",
-	localeList: "ko,zh,ja", // A comma-separated list of ISO language codes
+	localeList: "sr,mn", // A comma-separated list of ISO language codes
 
 	packages: [
 		{

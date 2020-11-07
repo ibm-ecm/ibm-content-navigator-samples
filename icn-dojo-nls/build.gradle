@@ -1,6 +1,7 @@
 import java.nio.file.Files
 import java.nio.file.Paths
 import java.util.zip.GZIPOutputStream
+import java.util.zip.GZIPInputStream
 
 ext {
 	dojoBuildDir = "$buildDir/dojoBuild"
@@ -22,6 +23,9 @@ task init {
 task unzipDojo(dependsOn: 'init', type: Copy) {
 	from zipTree(file("$projectDir/$dojoSrcArchive"))
 	into dojoBuildDir
+	eachFile { fcp ->
+    	fcp.path = fcp.path.replaceFirst("^dojo-.*-src", '')
+  	}
 }
 
 task copyFiles(dependsOn: 'unzipDojo') {
@@ -56,6 +60,20 @@ task buildBundles(dependsOn: 'shrinkFiles') {
 				gzipFile("$dojoBuildDir/release/ecm/nls", it.name)
 			}
 		}
+		
+		reCompress.execute()
+	}
+}
+
+task reCompress() {
+	doLast {		
+		copy {
+			from "$projectDir/ecm/ecm.js.jgz"
+			into "$buildDir"
+		}		
+
+		// update locales in ecm.js.jgz of ICN
+		updateLocalesInGzip("$buildDir", "ecm.js")
 	}
 }
 
@@ -65,3 +83,37 @@ def gzipFile(sourcePath, sourceFile) {
 	gos.close()
 }
 
+def updateLocalesInGzip(sourcePath, sourceFile) {
+	// decompress the original jgz
+	String origFilePath = Paths.get("$sourcePath/$sourceFile" + ".orig.js");
+	delete origFilePath
+	GZIPInputStream gin = new GZIPInputStream(new FileInputStream("$sourcePath/$sourceFile" + ".jgz"))
+	Files.copy(gin, Paths.get(origFilePath))
+	gin.close()
+
+	// path of uncompressed file
+	String filePath = Paths.get("$sourcePath/$sourceFile");
+
+	// add extra locales
+	String[] locales = "$extraLocales".split(",")		
+	file(origFilePath).withInputStream { stream ->
+		file(filePath).withWriter { writer ->
+			stream.eachLine { line ->
+				int index = line.indexOf(",\\\"ROOT")
+				if(index > 0) {
+					String newLine = line.substring(0, index) 
+					locales.each { locale ->
+						newLine = newLine + ",\\\"" + locale + "\\\""
+					}
+					newLine = newLine + line.substring(index) 
+					writer.writeLine newLine
+				} else {
+					writer.writeLine line
+				}
+			}
+		}
+	}
+
+	// compress the updated file
+	gzipFile("$buildDir", "ecm.js")
+}
