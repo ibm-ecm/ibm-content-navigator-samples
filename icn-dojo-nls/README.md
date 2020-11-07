@@ -1,8 +1,9 @@
 # Add additional language resource bundles to ICN
 
+This guide includes the configuration steps to make ICN support additional languages for both client side and server side.
+
 The Gradle build script can be used to build localized resource bundles in the ICN client, for additional languages other than the ones that come with ICN.
 
-This guide includes the configuration steps to make ICN support additional languages for both client side and server side.
 
 ## Building and deploying the localized resource bundles
 
@@ -34,8 +35,8 @@ This guide includes the configuration steps to make ICN support additional langu
 
 14. Rebuild and redeploy the ICN web application.
 15. Restart the ICN application server.
-16. Delete browser cache..
-17. Configuration ICN client to use browser language setting.
+16. Delete browser cache.
+17. Configure ICN client to use browser language setting.
 
 
 ## Additional references
