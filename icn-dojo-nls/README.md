@@ -11,7 +11,7 @@ The Gradle build script can be used to build localized resource bundles in the I
 2. Update the path to the Dojo toolkit full source archive file in the [gradle.properties](/icn-dojo-nls/gradle.properties) file.
 3. Copy file ecm.js.jgz from the 'IBM/ECMClient/configure/explodedformat/navigator/ecm' directory to the 'ecm' directory.
 4. Copy the root resource bundle file of ICN, navigator/ecm/nls/messages.js, to the 'ecm/nls' directory.
-5. Copy localized resource bundles for the additional languages to the 'ecn/nls' directory. Each resource bundle needs to be in a directory named as the ISO language code of the language as below.
+5. Copy localized resource bundles to the 'ecn/nls' directory. Each resource bundle needs to be in a directory named as the ISO language code of the language as below.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ecm/<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ecm.js<br/>
@@ -22,7 +22,7 @@ The Gradle build script can be used to build localized resource bundles in the I
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mn/ (ISO language code for Mongolian)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;messages.js (Mongolian resource bundle)<br/>
 
-6. Replace the ISO language code list at the bottom of the copied root resource bundle with the ISO language code list for the addtional languages.
+6. Add the additional languages to the ISO language code list at the bottom of the copied root resource bundle.
 7. Add the ISO language code list for the addtional languages as value of the 'localeList' property in the [nls.profile.js](/icn-dojo-nls/nls.profile.js) file and the 'extraLocales' property in the [gradle.properties](/icn-dojo-nls/gradle.properties) file.
 8. Build localized resource bundles by running './gradlew buildBundles' / 'gradlew.bat buildBundles'.
 9. Copy the built and compressed resource bundle files for the additional languages, ecm_[language code].js.jgz, in the 'build' directory to the 'IBM/ECMClient/configure/explodedformat/navigator/ecm/nls' directory.
