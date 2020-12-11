@@ -53,13 +53,21 @@ public class DocumentUploadFilterPluginRequestFilter extends PluginRequestFilter
 		PluginLogger logger = callbacks.getLogger();
 		String repositoryId = request.getParameter("repositoryId");
 		String configStr = callbacks.loadConfiguration(); //contains allowed MIME types as an object {allowedTypes:[values]}
-		JSONObject configObj = JSONObject.parse(configStr);
-		JSONArray allowedTypes = (JSONArray)configObj.get("allowedTypes");
+		if (configStr == null || configStr.isEmpty()) {
+			return null;
+		}
+		
 		boolean validationErrors = true;
 
 		try {
+			JSONObject configObj = JSONObject.parse(configStr);
+			JSONArray allowedTypes = (JSONArray)configObj.get("allowedTypes");
 			String mimeType = request.getParameter("mimetype");
 
+			if (allowedTypes == null || allowedTypes.isEmpty()) {
+				return null;
+			}
+			
 			for (int i = 0; i < allowedTypes.size(); i++) {
 				String s = (String)allowedTypes.get(i);
 				if (s.equals(mimeType)) {
