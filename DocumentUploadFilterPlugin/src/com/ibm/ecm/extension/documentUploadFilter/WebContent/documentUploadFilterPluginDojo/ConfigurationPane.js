@@ -23,6 +23,7 @@
 define([
     "dojo/_base/lang",
 	"dojo/_base/declare",
+	"dojo/on",
 	"dijit/_TemplatedMixin",
 	"dijit/_WidgetsInTemplateMixin",
 	"ecm/widget/HoverHelp",
@@ -30,7 +31,7 @@ define([
 	"ecm/widget/admin/PluginConfigurationPane",
 	"dojo/text!./templates/ConfigurationPane.html",
 	"./Messages"
-], function(lang, declare, _TemplatedMixin, _WidgetsInTemplateMixin, HoverHelp, MultiValueInputPane, PluginConfigurationPane, template, Messages) {
+], function(lang, declare, on, _TemplatedMixin, _WidgetsInTemplateMixin, HoverHelp, MultiValueInputPane, PluginConfigurationPane, template, Messages) {
 	return declare("DocumentUploadFilterPluginDojo.ConfigurationPane", [ PluginConfigurationPane, _TemplatedMixin, _WidgetsInTemplateMixin], {
 	    templateString: template,
 	    widgetsInTemplate: true,
@@ -77,7 +78,7 @@ define([
             this._multiValueInputPane.setData(list);
             this._multiValueInputPane.setEditable(true);
             this._multiValueInputContainer.appendChild(this._multiValueInputPane.domNode);
-            this.connect(this._multiValueInputPane, "onValuesChanged", this._onFieldChange);
+            this._valuesChangedHandle = on(this._multiValueInputPane, "valuesChanged", lang.hitch(this, this._onFieldChange));
             this._multiValueInputPane.startup();
             this._multiValueInputPane.onShow();
         },
@@ -87,6 +88,11 @@ define([
             if (this._multiValueInputPane) {
                 this._multiValueInputPane.destroy();
                 delete this._multiValueInputPane;
+            }
+
+            if (this._valuesChangedHandle) {
+                this._valuesChangedHandle.destroy();
+                delete this._valuesChangedHandle;
             }
         }
     });

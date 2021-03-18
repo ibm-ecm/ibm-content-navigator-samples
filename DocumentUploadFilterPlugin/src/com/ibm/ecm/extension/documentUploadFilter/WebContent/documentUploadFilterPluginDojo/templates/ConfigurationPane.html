@@ -2,6 +2,6 @@
 	<div id="${id}_documentUploadFilter">
 		<label> ${messages.document_Upload_Filter_label} </label>
 		<div data-dojo-type="ecm/widget/HoverHelp"> ${messages.document_Upload_Filter_hover_help} </div>
-		<div data-dojo-attach-point="_multiValueInputContainer"></div>
+		<div data-dojo-attach-point="_multiValueInputContainer" data-dojo-attach-event="onKeyUp: _onFieldChange"></div>
 	</div>
 </div>

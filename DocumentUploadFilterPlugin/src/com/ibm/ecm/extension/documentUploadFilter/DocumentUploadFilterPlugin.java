@@ -22,7 +22,7 @@ public class DocumentUploadFilterPlugin extends Plugin {
 
 	@Override
 	public String getVersion() {
-		return "3.0.9";
+		return "1.0.1";
 	}
 
 	@Override
