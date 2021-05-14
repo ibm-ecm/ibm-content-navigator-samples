@@ -58,7 +58,7 @@ The following example shows how to configure the custom events to audit document
 
 ## Customizing the plug-in
 The following example shows how to customize the plug-in if other custom events are created or other actions are audited.
-1. Map the action id to the custom event id in [Constants.java](/src/com/ibm/ecm/extension/customEvent/Constants.java).
+1. Map the action id to the custom event id in [Constants.java](/CustomEventPlugin/src/com/ibm/ecm/extension/customEvent/Constants.java).
 
 ```
     put("action_id", "event_id");
