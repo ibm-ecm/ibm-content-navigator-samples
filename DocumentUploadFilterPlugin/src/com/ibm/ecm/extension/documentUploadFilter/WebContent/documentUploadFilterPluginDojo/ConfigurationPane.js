@@ -80,7 +80,10 @@ define([
             this._multiValueInputContainer.appendChild(this._multiValueInputPane.domNode);
             this._valuesChangedHandle = on(this._multiValueInputPane, "valuesChanged", lang.hitch(this, this._onFieldChange));
             this._multiValueInputPane.startup();
-            this._multiValueInputPane.onShow();
+            _this = this;
+            setTimeout(function() { // it appears to take a while for the selection to catch up to what just happened so putting it on a timer
+                    _this._multiValueInputPane.onShow();
+            }, 100);
         },
 
         destroy: function() {
@@ -91,7 +94,7 @@ define([
             }
 
             if (this._valuesChangedHandle) {
-                this._valuesChangedHandle.destroy();
+                this._valuesChangedHandle.remove();
                 delete this._valuesChangedHandle;
             }
         }
