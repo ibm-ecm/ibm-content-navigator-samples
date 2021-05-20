@@ -101,10 +101,8 @@ public class RaiseEventService extends PluginService {
 		String[] docIds = (String[])request.getParameterValues(Constants.DOCIDS);		
 		JSONResponse jsonResponse = new JSONResponse();
 
-		synchronized (callbacks.getSynchObject(repositoryId, Constants.SERVER_TYPE_P8)) 
-		{
-			try 
-			{
+		try {			
+			synchronized (callbacks.getSynchObject(repositoryId, Constants.SERVER_TYPE_P8)) {
 				// get the event id for the action
 				String eventId = Constants.actionEventMap.get(actionId);
 				if (eventId != null) {
@@ -152,12 +150,14 @@ public class RaiseEventService extends PluginService {
 				}
 				
 				jsonResponse.put("success", true);
-			} catch (Exception e) {
-				// provide error information
-				callbacks.getLogger().logError(this, methodName, request, e);				
-				jsonResponse.addErrorMessage(new JSONMessage(0, "Error ocurred when creating custom event", null, null, null, null));
 			}
-		}
+		} catch (Exception e) {
+			// provide error information
+			callbacks.getLogger().logError(this, methodName, request, e);
+			jsonResponse.addErrorMessage(new JSONMessage(0, "Error ocurred when creating custom event", null, null, null, null));
+		} finally {
+			UserContext.get().popSubject();
+		}		
 				
 		callbacks.getLogger().logExit(this, methodName, request);
 		
