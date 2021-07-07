@@ -7,6 +7,7 @@ import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
 
 import com.ibm.ecm.event.annotations.*;
+import com.ibm.ecm.event.messages.*;
 import com.ibm.ecm.extension.PluginServiceCallbacks;
 import com.ibm.ecm.json.JSONResponse;
 
@@ -46,5 +47,31 @@ public class SamplePluginEventHandler {
 
 	public void handleTopicMessageAsync(@ObservesAsync @Topic("SamplePlugin:samplePluginService") JSONResponse message) {
 		System.out.println("SamplePluginEventHandler received topic message: " + message);
+	}
+
+	/**
+	 * Listens for "error" messages with specific message key - additem.error.failed
+	 */
+
+	public void editAddDocumentFailedMessage(@Observes @MessageKey("additem.error.failed") @MessageType("error") ActionMessage message, HttpServletRequest request, PluginServiceCallbacks callbacks) {
+		String exceptionCause = message.getException().getMessage();
+		String newText = message.getText() + " is caused by: " + exceptionCause;
+		message.updateMessage(message.number(), newText, message.explanation(), message.userResponse(), message.adminResponse());
+	}
+
+	/**
+	 * Listens for all error messages
+	 */
+
+	public void editErrorMessages(@Observes @MessageType("error") ActionMessage message, HttpServletRequest request, PluginServiceCallbacks callbacks) {
+
+	}
+
+	/**
+	 * Listens for all messages
+	 */
+
+	public void editAllMessages(@Observes ActionMessage message, HttpServletRequest request, PluginServiceCallbacks callbacks) {
+
 	}
 }
