@@ -1,5 +1,5 @@
 /*
- * Licensed Materials - Property of IBM (c) Copyright IBM Corp. 2017  All Rights Reserved.
+ * Licensed Materials - Property of IBM (c) Copyright IBM Corp. 2021  All Rights Reserved.
  * 
  * US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with
  * IBM Corp.
@@ -38,7 +38,7 @@ define([
 		load: function(callback) {
 			if (this.configurationString) {
 				var config = eval("(" + this.configurationString + ")");
-				this.searchPageSizeTextBox.set("value", config.searchPageSize || null);
+				this.searchPageSizeTextBox.set("value", config.searchPageSize);
 			}
 		},
 
