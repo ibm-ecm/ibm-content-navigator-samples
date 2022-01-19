@@ -8,7 +8,7 @@ Use these instructions to help you get the plug-in up and running in IBM Content
 
 ### Prerequisites
 
-* IBM Content Navigator 3.0.7 iFix 1 or later
+* IBM Content Navigator 3.0.10 or later
 * J2EE library
 * [Apache Ant](http://ant.apache.org/)
 * [Dojo ToolKit](https://dojotoolkit.org/download/)

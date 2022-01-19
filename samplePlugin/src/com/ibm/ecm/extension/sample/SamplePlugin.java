@@ -114,7 +114,7 @@ public class SamplePlugin extends Plugin {
 
 	@Override
 	public String getVersion() {
-		return "3.0.7.1";
+		return "3.0.10";
 	}
 
 	@Override

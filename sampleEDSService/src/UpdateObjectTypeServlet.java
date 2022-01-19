@@ -114,6 +114,7 @@ public class UpdateObjectTypeServlet extends HttpServlet {
 			for (int j = 0; j < requestProperties.size(); j++) {
 				JSONObject requestProperty = (JSONObject)requestProperties.get(j);
 				String  value = String.valueOf(requestProperty.get("value"));
+				sendErrorResponse(response, "EDS error details for logging.", "Example of an error from EDS.");
 				if (value.equals("error")) {
 					sendErrorResponse(response, "EDS error details for logging.", "Example of an error from EDS.");
 					return;
