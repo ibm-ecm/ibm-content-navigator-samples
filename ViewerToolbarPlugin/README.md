@@ -6,8 +6,11 @@ This plugin demonstrates how to add custom buttons to the viewer's toobars.
 
 
 ## Build the plugin
-
-Run Ant Build using ibm-content-navigator-samples/ViewerToolbarPlugin/build.xml
+1. Make sure the NPM and ANT are installed.
+2. Copy all the dependencies into the **lib** directory.
+    * **navigatorAPI.jar**
+    * **j2ee.jar**
+3. Run ant -f build.xml using ibm-content-navigator-samples/ViewerToolbarPlugin/build.xml
 
 
 ViewerToolbarPlugin.jar is generated under ibm-content-navigator-samples/ViewerToolbarPlugin

@@ -10,9 +10,12 @@ User can customize ICN UI using React after read this sample.
 ## Build the plugin
 
 1. Make sure the NPM and ANT are installed.
-2. cd ibm-content-navigator-samples/ReactEmailDialogPlugin
-3. Open build.xml. Search for "npmPath" at line 5. Update your NPM path in the value if the path is not default NPM path on your environment.
-4. ant -f build.xml 
+2. Copy all the dependencies into the **lib** directory.
+    * **navigatorAPI.jar**
+    * **j2ee.jar**
+3. cd ibm-content-navigator-samples/ReactEmailDialogPlugin
+4. Open build.xml. Search for "npmPath" at line 5. Update your NPM path in the value if the path is not default NPM path on your environment.
+5. ant -f build.xml 
 
 ReactEmailDialogPlugin.jar is generated under ibm-content-navigator-samples/ReactEmailDialogPlugin
 

@@ -26,7 +26,11 @@ This plugin demonstrates how to configure columns in Browse view.
     @import url("./CustomDialog.css");
     @import url("./CustomWidget.css");         
 ```
-5. Run Ant Build using [build.xml](/UserColumnSettingsPlugin/build.xml).
+5. Copy all the dependencies into the **lib** directory.
+    * **navigatorAPI.jar**
+    * **j2ee.jar**
+	* **Jace.jar**
+6. Run Ant Build using [build.xml](/UserColumnSettingsPlugin/build.xml).
 - UserColumnSettingsPlugin.jar is generated under ibm-content-navigator-samples/UserColumnSettingsPlugin
 
 ## Install the plugin

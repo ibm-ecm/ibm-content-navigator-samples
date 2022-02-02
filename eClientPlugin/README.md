@@ -7,10 +7,13 @@ eClient plug-in
 
 ## Build the plugin
 
-* Run Ant Build using ibm-content-navigator-samples/eClientPlugin/build.xml
-
-
-* eClientPlugin.jar is generated under ibm-content-navigator-samples/eClientPlugin
+1. Make sure the ANT is installed.
+2. Copy all the dependencies into the **lib** directory.
+    * **icncore.jar**
+    * **j2ee.jar**
+3. cd icn-plugins/AFP2PDFPlusPlugin
+4. Run Ant Build using ibm-content-navigator-samples/eClientPlugin/build.xml
+	* eClientPlugin.jar is generated under ibm-content-navigator-samples/eClientPlugin
 
 ## Install the plugin
 1. Login IBM Content Navigator and open the Admin desktop

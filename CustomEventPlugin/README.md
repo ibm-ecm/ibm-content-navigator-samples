@@ -21,7 +21,12 @@ If a P8 repository is configured for auditing, events may be recorded for histor
 
 ## Build the plug-in
 
-Run Ant Build using ibm-content-navigator-samples/CustomEventPlugin/build.xml
+1. Make sure the ANT is installed.
+2. Copy all the dependencies into the **lib** directory.
+    * **navigatorAPI.jar**
+    * **Jace.jar**
+    * **j2ee.jar**
+3. Run Ant Build using ibm-content-navigator-samples/CustomEventPlugin/build.xml
 
 
 CustomEventPlugin.jar is generated under ibm-content-navigator-samples/CustomEventPlugin

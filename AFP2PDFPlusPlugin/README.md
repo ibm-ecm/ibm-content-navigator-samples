@@ -7,8 +7,11 @@ This plugin is a sample demostrate how to auto start afp2pdf plus service when I
 ## Build the plugin
 
 1. Make sure the ANT is installed.
-2. cd icn-plugins/AFP2PDFPlusPlugin
-3. ant -f build.xml 
+2. Copy all the dependencies into the **lib** directory.
+    * **navigatorAPI.jar**
+    * **j2ee.jar**
+3. cd icn-plugins/AFP2PDFPlusPlugin
+4. ant -f build.xml 
 
 AFP2PDFPlusPlugin.jar is generated under icn-plugins/AFP2PDFPlusPlugin
 
