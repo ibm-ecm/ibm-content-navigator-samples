@@ -1,0 +1,44 @@
+<div>
+
+	The following configuration parameters are provided by the configuration component of the sample plug-in.
+
+	You can use the text in this area to introduce the configuration parameters.
+
+	<table class="propertyTable" role="presentation">
+		<tr>
+			<td class="propertyRowLabel">
+				<span class="required">*</span>
+				<label for="${id}_param1">User ID:</label>&nbsp;
+			</td>
+			<td class="propertyRowValue">
+				<div id="${id}_param1" data-dojo-attach-point="userIDField" data-dojo-attach-event="onKeyUp: _onParamChange" maxLength="2048" data-dojo-type="ecm.widget.ValidationTextBox" required="true" trim="true" propercase="false"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="propertyRowLabel">
+				<span class="required">*</span>
+				<label for="${id}_param2">Integration Key:</label>&nbsp;
+			</td>
+			<td class="propertyRowValue">
+				<div id="${id}_param2" data-dojo-attach-point="integratorKeyField" data-dojo-attach-event="onKeyUp: _onParamChange" maxLength="64" data-dojo-type="ecm.widget.ValidationTextBox" required="true" trim="true" propercase="false"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="propertyRowLabel">
+				<span class="required">*</span>
+				<label for="${id}_param3">Account ID:</label>&nbsp;
+			</td>
+			<td class="propertyRowValue">
+				<div id="${id}_param3" data-dojo-attach-point="accountIDField" data-dojo-attach-event="onKeyUp: _onParamChange" maxLength="2048" data-dojo-type="ecm.widget.ValidationTextBox" required="true" trim="true" propercase="false"></div>
+			</td>
+		</tr>
+		<tr>
+			<td class="propertyRowLabel">
+				<label for="${id}_param4">RSA Private Key File Location:</label>&nbsp;
+			</td>
+			<td class="propertyRowValue">
+				<div id="${id}_param4" data-dojo-attach-point="rsaKeyField" data-dojo-attach-event="onKeyUp: _onParamChange" maxLength="2048" data-dojo-type="ecm.widget.ValidationTextBox" required="true" trim="true" propercase="false"></div>
+			</td>
+		</tr>
+	</table>
+</div>
