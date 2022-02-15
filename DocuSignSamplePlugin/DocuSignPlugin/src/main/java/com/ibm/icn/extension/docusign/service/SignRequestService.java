@@ -30,7 +30,6 @@ import com.ibm.ecm.json.JSONResultSetResponse;
 import com.ibm.json.java.JSON;
 import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
-import com.ibm.icn.extension.docusign.service.Constants;
 import com.ibm.icn.extension.docusign.util.DocuSignUtil;
 import com.ibm.icn.extension.docusign.util.P8ConnectionUtil;
 import com.ibm.icn.extension.docusign.util.ResourceRequestUtil;
@@ -214,11 +213,15 @@ public class SignRequestService extends PluginService {
 			URL url = new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignUserId + "/envelopes");
 			System.out.println("---- url executed : " + url.toString());
 			resultJson = DocuSignUtil.executePostUrl(url, token, payloadJson);
+			String msgresultJson = "This is resultJson: " + resultJson;
+			callbacks.getLogger().logExit(this, msgresultJson, request);
 			
 			// update document document meta-data with envelope Id
 			// and, set the sign status to 'sent'
 			String envelopeId;
 			envelopeId = (String) resultJson.get("envelopeId");
+			String msgenvelopeId = "This is envelopeId: " + envelopeId;
+			callbacks.getLogger().logExit(this, envelopeId, request);
 			p8DocumentObj.getProperties().putValue(Constants.DOCUMENT_SIGNATURE_STATUS, Constants.SIGNATURE_STATUS.SENT.getValue());
 			p8DocumentObj.getProperties().putValue(Constants.ENVELOPE_ID, envelopeId);
 			p8DocumentObj.save(RefreshMode.NO_REFRESH);	

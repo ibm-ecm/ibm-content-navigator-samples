@@ -9,6 +9,7 @@ public class Constants {
 	
 	public static final String OAUTH_TOKEN = "oAuthToken";
 	public static final String DOCUSIGN_USERID = "docusignUserId";
+	public static final String DOCUSIGN_ACCOUNTID = "docusignAccountID";
 	
 	public static final String ENVELOPE_ID = "DSEnvelopeID";
 	public static final String DOCUMENT_SIGNATURE_STATUS = "DSSignatureStatus";
@@ -38,6 +39,9 @@ public class Constants {
 	public static final String DOCUMENTS_BASE64 = "documentBase64";
 	public static final String DOCUMENT_ID = "documentId";
 	public static final String FILE_EXTENSION = "fileExtension";
+	// OAuth grant types
+	/** JWT grant type. */
+	public final static String GRANT_TYPE_JWT = "urn:ietf:params:oauth:grant-type:jwt-bearer";
 	
 	// add other mimeTypes to be supported for DocuSign signature requests
 	// and set the FILE_EXTENSION for a document in the SignRequestService

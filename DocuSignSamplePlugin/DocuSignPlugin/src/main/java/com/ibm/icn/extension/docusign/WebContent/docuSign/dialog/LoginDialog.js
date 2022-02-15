@@ -23,22 +23,22 @@ function(declare, lang, connect, domClass, domStyle, ObjectStore, Memory, Templa
 
 		callback: null,
 
-		postCreate: function() 
+		postCreate: function()
 		{
 			this.inherited(arguments);
-			
+
 			//this.setTitle("Login to Docusign Account");
 			this.titleBar.title = "DocuSign Log In";
 			this.intro.innerHTML = "Log in to your DocuSign account";
 		},
-		
-		_login: function() 
+
+		_login: function()
 		{
 			var methodName = "_login";
 			this.logEntry(methodName);
 
 			this.cleanMessage();
-			
+
 			var data = {
 				user: this.username.get('value'),
 				password: this.password.get('value')

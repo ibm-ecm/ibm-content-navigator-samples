@@ -2,6 +2,11 @@
  * Licensed Materials - Property of IBM (C) Copyright IBM Corp. 2016 US Government Users Restricted Rights - Use,
  * duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
  */
+//-----------------------------------
+/*
+* OAuth2.0 Migration
+* Updated to require Integration Key & Secret Key
+*/
 
 define([
 		"dojo/_base/declare",
@@ -35,35 +40,58 @@ define([
 			if (this.configurationString) {
 				try {
 					var jsonConfig = dojoJson.parse(this.configurationString);
-					this.integratorKeyField.set('value',jsonConfig.configuration[0].value);
+					this.integratorKeyField.set('value', jsonConfig.configuration[0].value);
+					this.userIDField.set('value', jsonConfig.configuration[1].value);
+					this.accountIDField.set('value', jsonConfig.configuration[2].value);
+					this.rsaKeyField.set('value', jsonConfig.configuration[3].value);
 				} catch (e) {
 					this.logError("load", "failed to load configuration: " + e.message);
 				}
 			}
 		},
-		
+
 		_onParamChange: function() {
 			var configArray = [];
-			
-			configString = {  
-					name: "integratorKey",
-					value: this.integratorKeyField.get('value')
-				}; 
+
+			//add integrator key then accountID
+
+			configString = {
+                    name: "integratorKey",
+                    value: this.integratorKeyField.get('value')
+                };
+            configArray.push(configString);
+
+			configString = {
+				name: "userID",
+				value: this.userIDField.get('value')
+			};
 			configArray.push(configString);
-			
+
+			configString = {
+				name: "accountID",
+				value: this.accountIDField.get('value')
+			};
+			configArray.push(configString);
+
+			configString = {
+				name: "rsaKey",
+				value: this.rsaKeyField.get('value')
+			};
+			configArray.push(configString);
+
 			var configJson = {
 				"configuration" : configArray
 			};
-			
+
 			this.configurationString = JSON.stringify(configJson);
 			this.onSaveNeeded(true);
 		},
-		
+
 		validate: function() {
-			if(!this.integratorKeyField.isValid())
+			if(!this.userIDField.isValid() || !this.integratorKeyField.isValid() || !this.accountIDField.isValid() || !this.rsaKeyField.isValid())
 				return false;
-			
+
 			return true;
-		}	
+		}
 	});
 });

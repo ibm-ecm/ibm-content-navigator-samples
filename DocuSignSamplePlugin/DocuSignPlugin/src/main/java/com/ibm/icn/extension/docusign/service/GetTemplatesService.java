@@ -40,12 +40,12 @@ public class GetTemplatesService extends PluginService {
 		
 		if (session != null && 
 				session.getAttribute(Constants.OAUTH_TOKEN) != null &&
-					session.getAttribute(Constants.DOCUSIGN_USERID) != null)
+					session.getAttribute(Constants.DOCUSIGN_ACCOUNTID) != null)
 		{
 			String token = (String) session.getAttribute(Constants.OAUTH_TOKEN);
-			String docusignUserId = (String) session.getAttribute(Constants.DOCUSIGN_USERID);
+			String docusignAccountID = (String) session.getAttribute(Constants.DOCUSIGN_ACCOUNTID);
 			
-			URL url = new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignUserId + "/templates");
+			URL url = new URL("https://demo.docusign.net/restapi/v2.1/accounts/" + docusignAccountID + "/templates");
 			resultJson = DocuSignUtil.executeGetUrl(url, token);
 			
 			JSONArray resultTemplates = (JSONArray) resultJson.get("envelopeTemplates");

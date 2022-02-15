@@ -1,0 +1,102 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.ibm.ecm.extension</groupId>
+  <artifactId>DocuSignPlugin</artifactId>
+  <packaging>jar</packaging>
+  <version>2.0</version>
+  <name>DocuSignPlugin</name>
+
+  <dependencies>
+    <!-- Navigator-->
+    <dependency>
+      <groupId>com.ibm.ecm.icn</groupId>
+      <artifactId>navigatorAPI</artifactId>
+      <version>[3.0.11-0,)</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- IcnTask-->
+    <dependency>
+      <groupId>com.ibm.ecm</groupId>
+      <artifactId>icntasks</artifactId>
+      <version>1.0</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/ICNTasks.jar</systemPath>
+    </dependency>
+    <!-- DocuSign esign-->
+    <dependency>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.ws.rs</groupId>
+          <artifactId>jsr311-api</artifactId>
+        </exclusion>
+      </exclusions>
+      <groupId>com.docusign</groupId>
+      <artifactId>docusign-esign-java</artifactId>
+      <version>3.6.0</version>
+    </dependency>
+    <!-- javax-->
+    <dependency>
+      <groupId>javax</groupId>
+      <artifactId>javaee-api</artifactId>
+      <version>6.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4.7</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- taskManagerAPI-->
+    <dependency>
+      <groupId>com.ibm.ecm.taskman</groupId>
+      <artifactId>taskManagerAPI</artifactId>
+      <version>3.0.6-SNAPSHOT</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <finalName>docuSignPlugin</finalName>
+    <resources>
+      <resource>
+        <directory>${project.basedir}/src/main/java</directory>
+        <filtering>true</filtering>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.3.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+            </manifest>
+            <manifestEntries>
+              <Plugin-Class>com.ibm.icn.extension.docusign.DocuSignPlugin</Plugin-Class>
+            </manifestEntries>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+          <appendAssemblyId>false</appendAssemblyId>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id> <!-- this is used for inheritance merges -->
+            <phase>package</phase> <!-- bind to the packaging phase -->
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

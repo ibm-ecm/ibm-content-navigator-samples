@@ -19,14 +19,10 @@ import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
 
 public class DocuSignUtil {
-	
-	/*
-	 * Create X-DocuSign-Authentication authentication header from DocuSignConfiguration object
-	 */
+
 	public static String getDocusignCredentialHeader(DocuSignConfiguration docusignParams) 
 	{
-		String creds = "{\"Username\":\"" +  docusignParams.getDocuSignUserName() + 
-				"\",\"Password\":\"" +  docusignParams.getDocuSignPassword() + 
+		String creds = "{\"AccountID\":\"" + docusignParams.getDocusignAccountID() +
 				"\",\"IntegratorKey\":\"" + docusignParams.getDocuSignIntegratorKey() + 
 			"\"}";
 		
@@ -36,6 +32,7 @@ public class DocuSignUtil {
 	/*
 	 * Create X-DocuSign-Authentication authentication header from docusign user, password and integration key
 	 */
+	//deprecated
 	public static String getDocusignCredentialHeader(String user, String password, String key) 
 	{
 		String creds = "{\"Username\":\"" +  user + 
