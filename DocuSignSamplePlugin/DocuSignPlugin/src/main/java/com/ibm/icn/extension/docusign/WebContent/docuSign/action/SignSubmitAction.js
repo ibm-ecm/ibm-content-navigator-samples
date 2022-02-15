@@ -43,7 +43,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/json", "ecm/model/Action"
 					}
 					else if (response.returncode == -1)
 					{
-						self._showLoginDialog(items);
+						self._loginDocuSign(items);
 					}
 				},
 				backgroundRequest : false,
@@ -69,7 +69,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/json", "ecm/model/Action"
 			this.loginDialog.show();
 		},	
 
-		_loginDocuSign: function(items, data)
+		_loginDocuSign: function(items)
 		{	
 			var self = this;
 			
@@ -79,7 +79,6 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/json", "ecm/model/Action"
 					serverType : items[0].repository.type,
 					docId : items[0].docid
 				},
-				requestBody: json.stringify(data),
 				requestCompleteCallback: function(response) {
 					if (response.returncode == 0)
 					{
@@ -87,12 +86,11 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/json", "ecm/model/Action"
 					}
 					else if (response.returncode == -1)
 					{
-						self._showLoginDialog(items);
 					}					
 				},
 				backgroundRequest : false,
 				requestFailedCallback: function(errorResponse) {
-					self._showLoginDialog(items);
+
 				}
 			});
 		},		

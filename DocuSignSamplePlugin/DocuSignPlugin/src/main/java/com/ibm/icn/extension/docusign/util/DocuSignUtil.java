@@ -22,7 +22,7 @@ public class DocuSignUtil {
 
 	public static String getDocusignCredentialHeader(DocuSignConfiguration docusignParams) 
 	{
-		String creds = "{\"AccountID\":\"" + docusignParams.getdocusignAccountID() +
+		String creds = "{\"AccountID\":\"" + docusignParams.getDocusignAccountID() +
 				"\",\"IntegratorKey\":\"" + docusignParams.getDocuSignIntegratorKey() + 
 			"\"}";
 		

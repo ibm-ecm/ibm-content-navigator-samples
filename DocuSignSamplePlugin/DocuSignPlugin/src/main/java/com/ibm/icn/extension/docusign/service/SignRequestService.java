@@ -8,13 +8,12 @@ package com.ibm.icn.extension.docusign.service;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URL;
-import java.util.Base64;
 
 import javax.security.auth.Subject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-//import javax.xml.bind.DatatypeConverter;
+import javax.xml.bind.DatatypeConverter;
 
 import com.filenet.api.constants.AutoUniqueName;
 import com.filenet.api.constants.DefineSecurityParentage;
@@ -31,7 +30,6 @@ import com.ibm.ecm.json.JSONResultSetResponse;
 import com.ibm.json.java.JSON;
 import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
-import com.ibm.icn.extension.docusign.service.Constants;
 import com.ibm.icn.extension.docusign.util.DocuSignUtil;
 import com.ibm.icn.extension.docusign.util.P8ConnectionUtil;
 import com.ibm.icn.extension.docusign.util.ResourceRequestUtil;
@@ -155,9 +153,7 @@ public class SignRequestService extends PluginService {
         // create in-line template for document
         JSONObject inlineTemplateForDocument = new JSONObject();
         JSONArray documents = new JSONArray();
-//        String base64Doc = DatatypeConverter.printBase64Binary(fileBytes);
-		String base64Doc = Base64.getEncoder().encodeToString(fileBytes);
-		byte[] decodedBytes = Base64.getDecoder().decode("encodedUserPassword");
+        String base64Doc = DatatypeConverter.printBase64Binary(fileBytes);
 
         JSONObject document = new JSONObject();
         document.put(Constants.DOCUMENTS_BASE64, base64Doc);

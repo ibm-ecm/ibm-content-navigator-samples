@@ -58,7 +58,7 @@ public class DocuSignConfiguration
 	/*
 	 *  Get docusign integrator key aka accountID
 	 */
-	public String getdocusignAccountID()
+	public String getDocusignAccountID()
 	{
 		return this.docusignAccountID;
 	}

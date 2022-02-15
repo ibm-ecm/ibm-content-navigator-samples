@@ -6,14 +6,6 @@
 package com.ibm.icn.extension.docusign.service;
 
 import java.io.*;
-import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.spec.PKCS8EncodedKeySpec;
-import org.apache.commons.codec.binary.Base64;
-
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +21,7 @@ import com.ibm.ecm.extension.PluginServiceCallbacks;
 import com.ibm.json.java.JSON;
 import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
-import com.ibm.icn.extension.docusign.util.DocuSignUtil;
 import com.ibm.icn.extension.docusign.util.ResourceRequestUtil;
-import org.bouncycastle.util.io.pem.PemHeader;
 
 public class DocuSignLoginService extends PluginService {
 	
@@ -54,28 +44,22 @@ public class DocuSignLoginService extends PluginService {
 		List<String> scopes = new ArrayList<String>();
 		scopes.add("signature");
 		scopes.add("impersonation");
-		
-		String requestBody = ResourceRequestUtil.getRequestBody(request);			
-		JSONObject requestBodyJson = (JSONObject) JSON.parse(requestBody);
 
 		//collectData from Config file
 		String configStr = callbacks.loadConfiguration();
 		JSONObject configJson = (JSONObject) JSON.parse(configStr);
-		JSONArray configurations = (JSONArray) configJson.get("configuration");
-		JSONObject userIDJson = (JSONObject) configurations.get(0);
-		String docusignUserID = (String) userIDJson.get("value");
-		JSONObject integratorKeyJson = (JSONObject) configurations.get(1);
-		String docusignIntegratorKey = (String) integratorKeyJson.get("value");
-		JSONObject accountIDJson = (JSONObject) configurations.get(2);
-		String docusignAccountID = (String) accountIDJson.get("value");
-		JSONObject rsaPrivateKeyJson = (JSONObject) configurations.get(3);
-		String docusignRsaPrivateKey = (String) rsaPrivateKeyJson.get("value");
-		String oAuthBasePath = "account.docusign.com";
+		JSONObject configurations = (JSONObject) configJson.get("configuration");
+		String docusignUserID = (String) configurations.get("userID");
+		String docusignIntegratorKey = (String) configurations.get("integratorKey");
+		String docusignAccountID = (String) configurations.get("accountID");
+		String docusignRsaPrivateKey = (String) configurations.get("rsaKey");
+		String oAuthBasePath = "account-d.docusign.com";
+		String basePath = "https://demo.docusign.net/restapi";
 
 		OAuth.OAuthToken oAuthToken;
 
 		File privateKeyFile = new File(docusignRsaPrivateKey);
-		FileInputStream fin;
+		FileInputStream fin = null;
 		byte privateKeyFileContent[] = null;
 		try {
 			fin = new FileInputStream(privateKeyFile);
@@ -83,18 +67,20 @@ public class DocuSignLoginService extends PluginService {
 			fin.read(privateKeyFileContent);
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			callbacks.getLogger().logError(this, methodName, request, e);
+			throw new IOException("The specified file in file path: '" + docusignRsaPrivateKey + "' was not found.");
+		}
+		finally {
+			if(fin != null){
+				fin.close();
+			}
 		}
 
 		ApiClient apiClient = new ApiClient();
-		apiClient.setBasePath("https://demo.docusign.net/restapi");
-		apiClient.setOAuthBasePath("account-d.docusign.com");
+		apiClient.setBasePath(basePath);
+		apiClient.setOAuthBasePath(oAuthBasePath);
 		try {
-			callbacks.getLogger().logEntry(this, "Entering...", request);
 			oAuthToken = apiClient.requestJWTUserToken(docusignIntegratorKey, docusignUserID, scopes, privateKeyFileContent,3600);
-			String oauthmsg = "oAuthToken: " + oAuthToken.getAccessToken();
-			callbacks.getLogger().logEntry(this, oauthmsg, request);
-
 			apiClient.setAccessToken(oAuthToken.getAccessToken(), oAuthToken.getExpiresIn());
 
 			PrintWriter responseWriter = response.getWriter();
@@ -109,7 +95,7 @@ public class DocuSignLoginService extends PluginService {
 				session.setAttribute(Constants.DOCUSIGN_ACCOUNTID, docusignAccountID);
 
 				// send success response esponse to client
-				jsonResponse = "{\"returncode\": \"0\", \"oAuthToken\": \"" + token + "\", \"docusignAccountID\": \"" + docusignAccountID + "\", \"status\": \"success\"}";
+				jsonResponse = "{\"returncode\": \"0\", \"status\": \"success\"}";
 			}
 			else
 			{
@@ -126,9 +112,12 @@ public class DocuSignLoginService extends PluginService {
 			callbacks.getLogger().logExit(this, methodName, request);
 
 		} catch (ApiException e) {
+			callbacks.getLogger().logError(this, methodName, request, e);
+			throw new ApiException();
 
 		} catch (IOException e) {
-
+			callbacks.getLogger().logError(this, methodName, request, e);
+			throw new IOException();
 		}
 	}
 }
