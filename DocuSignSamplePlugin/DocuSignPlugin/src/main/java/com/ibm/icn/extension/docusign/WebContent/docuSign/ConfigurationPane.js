@@ -39,56 +39,59 @@ define([
 		load: function(callback) {
 			if (this.configurationString) {
 				try {
-                    var jsonConfig = dojoJson.parse(this.configurationString);
-                    // if jsonConfig.configuration
-                    if(Array.isArray(jsonConfig.configuration)) {
-                        this.integratorKeyField.set('value', jsonConfig.configuration[0].value);
-                        this.userIDField.set('value', jsonConfig.configuration[1].value);
-                        this.accountIDField.set('value', jsonConfig.configuration[2].value);
-                        this.rsaKeyField.set('value', jsonConfig.configuration[3].value);
-
-
-                        jsonConfig.configuration = {
-                            "integratorKey" : this.integratorKeyField.get('value'),
-                            "userID" : this.userIDField.get('value'),
-                            "accountID" : this.accountIDField.get('value'),
-                            "rsaKey" : this.rsaKeyField.get('value')
-                        };
-                    } else {
-                        this.integratorKeyField.set('value',jsonConfig.configuration.integratorKey);
-                        this.userIDField.set('value', jsonConfig.configuration.userID);
-                        this.accountIDField.set('value', jsonConfig.configuration.accountID);
-                        this.rsaKeyField.set('value', jsonConfig.configuration.rsaKey);
-                    }
-                } catch (e) {
-                    this.logError("load", "failed to load configuration: " + e.message);
-                }
+					var jsonConfig = dojoJson.parse(this.configurationString);
+					this.integratorKeyField.set('value', jsonConfig.configuration[0].value);
+					this.userIDField.set('value', jsonConfig.configuration[1].value);
+					this.accountIDField.set('value', jsonConfig.configuration[2].value);
+					this.rsaKeyField.set('value', jsonConfig.configuration[3].value);
+				} catch (e) {
+					this.logError("load", "failed to load configuration: " + e.message);
+				}
 			}
 		},
-		
+
 		_onParamChange: function() {
 			var configArray = [];
 
+			//add integrator key then accountID
+
 			configString = {
-                "integratorKey" : this.integratorKeyField.get('value'),
-                "userID" : this.userIDField.get('value'),
-                "accountID" : this.accountIDField.get('value'),
-                "rsaKey" : this.rsaKeyField.get('value')
-            }
-			
-			var configJson = {
-				"configuration" : configString
+                    name: "integratorKey",
+                    value: this.integratorKeyField.get('value')
+                };
+            configArray.push(configString);
+
+			configString = {
+				name: "userID",
+				value: this.userIDField.get('value')
 			};
-			
+			configArray.push(configString);
+
+			configString = {
+				name: "accountID",
+				value: this.accountIDField.get('value')
+			};
+			configArray.push(configString);
+
+			configString = {
+				name: "rsaKey",
+				value: this.rsaKeyField.get('value')
+			};
+			configArray.push(configString);
+
+			var configJson = {
+				"configuration" : configArray
+			};
+
 			this.configurationString = JSON.stringify(configJson);
 			this.onSaveNeeded(true);
 		},
-		
+
 		validate: function() {
 			if(!this.userIDField.isValid() || !this.integratorKeyField.isValid() || !this.accountIDField.isValid() || !this.rsaKeyField.isValid())
 				return false;
-			
+
 			return true;
-		}	
+		}
 	});
 });

@@ -21,7 +21,6 @@ import com.ibm.ecm.extension.PluginServiceCallbacks;
 import com.ibm.json.java.JSON;
 import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
-import com.ibm.icn.extension.docusign.util.ResourceRequestUtil;
 
 public class DocuSignLoginService extends PluginService {
 	
@@ -48,11 +47,15 @@ public class DocuSignLoginService extends PluginService {
 		//collectData from Config file
 		String configStr = callbacks.loadConfiguration();
 		JSONObject configJson = (JSONObject) JSON.parse(configStr);
-		JSONObject configurations = (JSONObject) configJson.get("configuration");
-		String docusignUserID = (String) configurations.get("userID");
-		String docusignIntegratorKey = (String) configurations.get("integratorKey");
-		String docusignAccountID = (String) configurations.get("accountID");
-		String docusignRsaPrivateKey = (String) configurations.get("rsaKey");
+		JSONArray configurations = (JSONArray) configJson.get("configuration");
+		JSONObject integratorKeyJson = (JSONObject) configurations.get(0);
+		String docusignIntegratorKey = (String) integratorKeyJson.get("value");
+		JSONObject userIDJson = (JSONObject) configurations.get(1);
+		String docusignUserID = (String) userIDJson.get("value");
+		JSONObject accountIDJson = (JSONObject) configurations.get(2);
+		String docusignAccountID = (String) accountIDJson.get("value");
+		JSONObject rsaPrivateKeyJson = (JSONObject) configurations.get(3);
+		String docusignRsaPrivateKey = (String) rsaPrivateKeyJson.get("value");
 		String oAuthBasePath = "account-d.docusign.com";
 		String basePath = "https://demo.docusign.net/restapi";
 
@@ -68,7 +71,7 @@ public class DocuSignLoginService extends PluginService {
 
 		} catch (IOException e) {
 			callbacks.getLogger().logError(this, methodName, request, e);
-			throw new IOException("The specified file in file path: '" + docusignRsaPrivateKey + "' was not found.");
+			throw new Exception("The specified file in file path: '" + docusignRsaPrivateKey + "' was not found.");
 		}
 		finally {
 			if(fin != null){
@@ -113,11 +116,11 @@ public class DocuSignLoginService extends PluginService {
 
 		} catch (ApiException e) {
 			callbacks.getLogger().logError(this, methodName, request, e);
-			throw new ApiException();
+			throw new Exception("Failed to create APIClient");
 
 		} catch (IOException e) {
 			callbacks.getLogger().logError(this, methodName, request, e);
-			throw new IOException();
+			throw new Exception("Failed to response writer stream");
 		}
 	}
 }

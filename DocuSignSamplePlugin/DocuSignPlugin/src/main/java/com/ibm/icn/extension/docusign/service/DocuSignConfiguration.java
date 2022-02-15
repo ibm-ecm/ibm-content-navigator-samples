@@ -14,8 +14,9 @@ import com.ibm.json.java.JSONObject;
 /*****************************************************************************************************************
  * This class stores the DocuSign credentials required to connect to DocuSign systems.
  * The credentials required to authenticate to a DocuSign system are 
- * integrator key (application id or client id)
- * account #
+ * //Deprecated.
+ * //TODO: Migrate TO OAUTH2.0
+ * 				integrator key (application id or client id)  
  ******************************************************************************************************************/
 public class DocuSignConfiguration 
 {
