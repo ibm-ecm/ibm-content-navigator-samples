@@ -32,7 +32,7 @@ public class DocuSignUtil {
 	/*
 	 * Create X-DocuSign-Authentication authentication header from docusign user, password and integration key
 	 */
-	//deprecated
+	@Deprecated
 	public static String getDocusignCredentialHeader(String user, String password, String key) 
 	{
 		String creds = "{\"Username\":\"" +  user + 
