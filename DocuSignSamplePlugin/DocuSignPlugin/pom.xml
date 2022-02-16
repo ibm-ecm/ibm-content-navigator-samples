@@ -12,14 +12,15 @@
     <dependency>
       <groupId>com.ibm.ecm.icn</groupId>
       <artifactId>navigatorAPI</artifactId>
-      <version>[3.0.11-0,)</version>
-      <scope>provided</scope>
+      <version>3.0.11</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/navigatorAPI.jar</systemPath>
     </dependency>
     <!-- IcnTask-->
     <dependency>
       <groupId>com.ibm.ecm</groupId>
       <artifactId>icntasks</artifactId>
-      <version>1.0</version>
+      <version>3.0.11</version>
       <scope>system</scope>
       <systemPath>${project.basedir}/lib/ICNTasks.jar</systemPath>
     </dependency>
@@ -43,6 +44,14 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>jace</groupId>
+      <artifactId>jace</artifactId>
+      <version>3.0.11</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/Jace.jar</systemPath>
+    </dependency>
+
+    <dependency>
       <groupId>javax.mail</groupId>
       <artifactId>mail</artifactId>
       <version>1.4.7</version>
@@ -52,9 +61,10 @@
     <dependency>
       <groupId>com.ibm.ecm.taskman</groupId>
       <artifactId>taskManagerAPI</artifactId>
-      <version>3.0.6-SNAPSHOT</version>
+      <version>3.0.11</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/taskManagerAPI.jar</systemPath>
     </dependency>
-
   </dependencies>
 
   <build>

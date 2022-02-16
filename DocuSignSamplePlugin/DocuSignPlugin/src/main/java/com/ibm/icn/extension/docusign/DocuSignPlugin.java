@@ -37,27 +37,6 @@ public class DocuSignPlugin extends Plugin {
     }
 
     @Override
-    public String getCopyright() {
-        /* Note: The copyright is not translated, so do not put into properties
-         * files that will be translated. */
-        String copyright = "Licensed Materials - Property of IBM Corp. (5725-U01) "
-                + "(C) Copyright 2016 IBM Corporation. IBM and the IBM logo are "
-                + "trademarks of IBM Corporation, registered in many jurisdictions "
-                + "worldwide.  Java and all Java-based trademarks and logos are "
-                + "trademarks or registered trademarks of Oracle and/or its "
-                + "affiliates. Built on Eclipse is a trademark of Eclipse Foundation,"
-                + "Inc. Other product and service names might be trademarks of IBM "
-                + "or other companies. This Program is licensed under the terms of "
-                + "the license agreement accompanying the Program. This license "
-                + "agreement may be either located in a Program directory folder or "
-                + "library identified as \"License\" or \"Non_IBM_License\", if "
-                + "applicable, or provided as a printed license agreement. Please "
-                + "read this agreement carefully before using the Program. By using "
-                + "the Program, you agree to these terms.";
-        return copyright;
-    }
-
-    @Override
     public String getName(Locale locale) {
         return "IBM Content Navigator DocuSign Sample Plugin";
     }
