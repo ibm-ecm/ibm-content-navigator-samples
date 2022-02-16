@@ -5,7 +5,7 @@
 //-----------------------------------
 /*
 * OAuth2.0 Migration
-* Updated to require Integration Key & Secret Key
+* Updated to require Integration Key & RSA Key, USER ID & Account ID
 */
 
 define([
