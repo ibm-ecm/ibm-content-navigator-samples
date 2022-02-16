@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.ibm.ecm.extension</groupId>
   <artifactId>DocuSignPlugin</artifactId>
@@ -13,16 +13,14 @@
       <groupId>com.ibm.ecm.icn</groupId>
       <artifactId>navigatorAPI</artifactId>
       <version>3.0.11</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/navigatorAPI.jar</systemPath>
+      <scope>compile</scope>
     </dependency>
     <!-- IcnTask-->
     <dependency>
       <groupId>com.ibm.ecm</groupId>
       <artifactId>icntasks</artifactId>
       <version>3.0.11</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/ICNTasks.jar</systemPath>
+      <scope>compile</scope>
     </dependency>
     <!-- DocuSign esign-->
     <dependency>
@@ -47,8 +45,7 @@
       <groupId>jace</groupId>
       <artifactId>jace</artifactId>
       <version>3.0.11</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/Jace.jar</systemPath>
+      <scope>compile</scope>
     </dependency>
 
     <dependency>
@@ -62,8 +59,7 @@
       <groupId>com.ibm.ecm.taskman</groupId>
       <artifactId>taskManagerAPI</artifactId>
       <version>3.0.11</version>
-      <scope>system</scope>
-      <systemPath>${project.basedir}/lib/taskManagerAPI.jar</systemPath>
+      <scope>compile</scope>
     </dependency>
   </dependencies>
 
