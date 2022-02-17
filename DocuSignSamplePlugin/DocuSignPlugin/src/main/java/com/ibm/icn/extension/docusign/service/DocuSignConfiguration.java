@@ -13,15 +13,16 @@ import com.ibm.json.java.JSONObject;
 
 /*****************************************************************************************************************
  * This class stores the DocuSign credentials required to connect to DocuSign systems.
- * The credentials required to authenticate to a DocuSign system are 
- * //Deprecated.
- * //TODO: Migrate TO OAUTH2.0
- * 				integrator key (application id or client id)  
+ * The credentials required to authenticate to a DocuSign system are
+ * IntegratorKey
+ * AccountID
+ * UserID
  ******************************************************************************************************************/
 public class DocuSignConfiguration 
 {
 	private String docusignIntegratorKey; //
 	private String docusignAccountID;
+	private String docusignUserID;
 
 	/*
 	 * Parse the plug-in configuration string into a JSON and set required DocuSign authentication values.
@@ -31,9 +32,12 @@ public class DocuSignConfiguration
 		try {
 			JSONObject configJson = (JSONObject) JSON.parse(configStr);
 			JSONArray configJsonArray = (JSONArray) configJson.get("configuration");
-			
-			JSONObject integratorKeyJson = (JSONObject) configJsonArray.get(2);
+
+			JSONObject integratorKeyJson = (JSONObject) configJsonArray.get(0);
 			docusignIntegratorKey = (String) integratorKeyJson.get("value");
+
+			JSONObject userIDJson = (JSONObject) configJsonArray.get(1);
+			docusignUserID = (String) userIDJson.get("value");
 			
 			JSONObject accountIDJson = (JSONObject) configJsonArray.get(2);
 			docusignAccountID = (String) accountIDJson.get("value");
@@ -62,4 +66,13 @@ public class DocuSignConfiguration
 	{
 		return this.docusignAccountID;
 	}
+
+	/*
+	 *  Get UserID
+	 */
+	public String getDocusignUserID()
+	{
+		return this.docusignUserID;
+	}
+
 }
