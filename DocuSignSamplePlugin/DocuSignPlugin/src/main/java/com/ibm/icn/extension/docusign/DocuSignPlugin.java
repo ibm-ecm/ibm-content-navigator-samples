@@ -6,10 +6,7 @@
 
 package com.ibm.icn.extension.docusign;
 
-import java.net.URLClassLoader;
 import java.util.Locale;
-
-import com.ibm.icn.extension.*;
 import com.ibm.icn.extension.docusign.tasks.AutocheckinTaskRegistration;
 import com.ibm.ecm.extension.Plugin;
 import com.ibm.ecm.extension.PluginAction;
@@ -97,53 +94,17 @@ public class DocuSignPlugin extends Plugin {
     }
 
     private com.ibm.ecm.extension.PluginService[] getCachedServices() {
-
-        if (serviceArray == null)
+        if(serviceArray == null)
         {
-            PluginService signService = null;
-            PluginService statusService = null;
-            PluginService updateService = null;
-            PluginService configurationService = null;
-            PluginService getTemplatesService = null;
-            PluginService loginService = null;
-
-            try {
-                URLClassLoader customClassLoader = com.ibm.icn.extension.docusign.util.ClassLoaderUtil
-                        .getCustomClassLoader(this.getClass());
-
-                signService = (PluginService) customClassLoader
-                        .loadClass(
-                                "com.ibm.icn.extension.docusign.service.SignRequestService")
-                        .newInstance();
-                statusService = (PluginService) customClassLoader
-                        .loadClass(
-                                "com.ibm.icn.extension.docusign.service.SignStatusService")
-                        .newInstance();
-                updateService = (PluginService) customClassLoader
-                        .loadClass(
-                                "com.ibm.icn.extension.docusign.service.UpdateSignedDocumentService")
-                        .newInstance();
-                configurationService = (PluginService) customClassLoader
-                        .loadClass(
-                                "com.ibm.icn.extension.docusign.service.GetConfigurationService")
-                        .newInstance();
-                getTemplatesService = (PluginService) customClassLoader
-                        .loadClass(
-                                "com.ibm.icn.extension.docusign.service.GetTemplatesService")
-                        .newInstance();
-                loginService = (PluginService) customClassLoader
-                        .loadClass(
-                                "com.ibm.icn.extension.docusign.service.DocuSignLoginService")
-                        .newInstance();
-
-                serviceArray = new com.ibm.ecm.extension.PluginService[] {
-                        signService, statusService, updateService, configurationService, getTemplatesService, loginService};
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            serviceArray = new com.ibm.ecm.extension.PluginService[] {
+                    new com.ibm.icn.extension.docusign.service.SignRequestService(),
+                    new com.ibm.icn.extension.docusign.service.SignStatusService(),
+                    new com.ibm.icn.extension.docusign.service.UpdateSignedDocumentService(),
+                    new com.ibm.icn.extension.docusign.service.GetConfigurationService(),
+                    new com.ibm.icn.extension.docusign.service.GetTemplatesService(),
+                    new com.ibm.icn.extension.docusign.service.DocuSignLoginService()
+            };
         }
-
         return serviceArray;
     }
 
