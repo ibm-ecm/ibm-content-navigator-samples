@@ -6,10 +6,7 @@
 
 package com.ibm.icn.extension.docusign;
 
-import java.net.URLClassLoader;
 import java.util.Locale;
-
-import com.ibm.icn.extension.*;
 import com.ibm.icn.extension.docusign.tasks.AutocheckinTaskRegistration;
 import com.ibm.ecm.extension.Plugin;
 import com.ibm.ecm.extension.PluginAction;
