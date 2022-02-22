@@ -116,11 +116,11 @@ function(declare, lang, connect, domClass, domStyle, ObjectStore, Memory, aspect
 		destroy: function() {
 		    this.inherited(arguments);
 		    if(this.selectDropDown) {
-		        this.selectDropDown.destroy();
+		        this.selectDropDown.destroyRecursive();
 		        delete this.selectDropDown;
 		    }
 		    if(this._confirmationDialog) {
-                this._confirmationDialog.destroy();
+                this._confirmationDialog.destroyRecursive();
                 delete this._confirmationDialog;
             }
 		}
