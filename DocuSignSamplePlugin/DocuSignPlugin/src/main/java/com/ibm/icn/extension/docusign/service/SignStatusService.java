@@ -87,17 +87,17 @@ public class SignStatusService extends PluginService {
 		JSONObject recipientsJson = null;
 		HttpSession session = request.getSession();
 
-		if (session != null && 
-				session.getAttribute("oAuthToken") != null &&
-					session.getAttribute("docusignUserId") != null)
+		if (session != null &&
+				session.getAttribute(Constants.OAUTH_TOKEN) != null &&
+				session.getAttribute(Constants.DOCUSIGN_ACCOUNTID) != null)
 		{
-			String token = (String) session.getAttribute("oAuthToken");
-			String docusignUserId = (String) session.getAttribute("docusignUserId");
+			String token = (String) session.getAttribute(Constants.OAUTH_TOKEN);
+			String docusignAccountId = (String) session.getAttribute(Constants.DOCUSIGN_ACCOUNTID);
 			
-			URL url = new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignUserId + "/envelopes/" + envelopeId);
+			URL url = new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignAccountId + "/envelopes/" + envelopeId);
 			tempJson = DocuSignUtil.executeGetUrl(url, token);
 			
-			URL recipientsUrl =  new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignUserId + "/envelopes/" + envelopeId + "/recipients");
+			URL recipientsUrl =  new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignAccountId + "/envelopes/" + envelopeId + "/recipients");
 			recipientsJson = DocuSignUtil.executeGetUrl(recipientsUrl, token);
 
 			JSONArray signers = (JSONArray) recipientsJson.get("signers");

@@ -96,6 +96,8 @@ public class DocuSignLoginService extends PluginService {
 				HttpSession session = request.getSession();
 				session.setAttribute(Constants.OAUTH_TOKEN, token);
 				session.setAttribute(Constants.DOCUSIGN_ACCOUNTID, docusignAccountID);
+				session.setAttribute(Constants.DOCUSIGN_USERID, docusignUserID);
+				session.setMaxInactiveInterval(3600);
 
 				// send success response esponse to client
 				jsonResponse = "{\"returncode\": \"0\", \"status\": \"success\"}";

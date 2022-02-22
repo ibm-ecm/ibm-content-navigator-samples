@@ -65,14 +65,14 @@ public class UpdateSignedDocumentService extends PluginService {
 		HttpSession session = request.getSession();
 		boolean loginNeeded = false;
 		
-		if (session != null && 
+		if (session != null &&
 				session.getAttribute(Constants.OAUTH_TOKEN) != null &&
-					session.getAttribute(Constants.DOCUSIGN_USERID) != null)
+				session.getAttribute(Constants.DOCUSIGN_ACCOUNTID) != null)
 		{
 			String token = (String) session.getAttribute(Constants.OAUTH_TOKEN);
-			String docusignUserId = (String) session.getAttribute(Constants.DOCUSIGN_USERID);
+			String docusignAccountId = (String) session.getAttribute(Constants.DOCUSIGN_ACCOUNTID);
 			
-			URL url = new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignUserId + "/envelopes/" + envelopeId + "/documents/1");
+			URL url = new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignAccountId + "/envelopes/" + envelopeId + "/documents/1");
 
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
