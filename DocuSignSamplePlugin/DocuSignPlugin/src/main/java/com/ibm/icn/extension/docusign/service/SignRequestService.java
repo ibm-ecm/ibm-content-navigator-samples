@@ -203,14 +203,14 @@ public class SignRequestService extends PluginService {
 		HttpSession session = request.getSession();
 		JSONObject resultJson = null;
 		
-		if (session != null && 
-				session.getAttribute("oAuthToken") != null &&
-					session.getAttribute("docusignUserId") != null)
+		if (session != null &&
+				session.getAttribute(Constants.OAUTH_TOKEN) != null &&
+				session.getAttribute(Constants.DOCUSIGN_ACCOUNTID) != null)
 		{
-			String token = (String) session.getAttribute("oAuthToken");
-			String docusignUserId = (String) session.getAttribute("docusignUserId");
+			String token = (String) session.getAttribute(Constants.OAUTH_TOKEN);
+			String docusignAccountId = (String) session.getAttribute(Constants.DOCUSIGN_ACCOUNTID);
 			
-			URL url = new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignUserId + "/envelopes");
+			URL url = new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignAccountId + "/envelopes");
 			System.out.println("---- url executed : " + url.toString());
 			resultJson = DocuSignUtil.executePostUrl(url, token, payloadJson);
 			String msgresultJson = "This is resultJson: " + resultJson;
@@ -259,13 +259,13 @@ public class SignRequestService extends PluginService {
 
             HttpSession session = request.getSession();
             if (session != null &&
-                            session.getAttribute("oAuthToken") != null &&
-                                    session.getAttribute("docusignUserId") != null)
+					session.getAttribute(Constants.OAUTH_TOKEN) != null &&
+					session.getAttribute(Constants.DOCUSIGN_ACCOUNTID) != null)
             {
-                    String token = (String) session.getAttribute("oAuthToken");
-                    String docusignUserId = (String) session.getAttribute("docusignUserId");
+                    String token = (String) session.getAttribute(Constants.OAUTH_TOKEN);
+                    String docusignAccountId = (String) session.getAttribute(Constants.DOCUSIGN_ACCOUNTID);
 
-                    URL templateDocumentUrl =  new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignUserId + "/templates/" + templateId + "/documents");
+                    URL templateDocumentUrl =  new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignAccountId + "/templates/" + templateId + "/documents");
                     documentsJson = DocuSignUtil.executeGetUrl(templateDocumentUrl, token);
 
                     JSONArray documents = (JSONArray) documentsJson.get("templateDocuments");
