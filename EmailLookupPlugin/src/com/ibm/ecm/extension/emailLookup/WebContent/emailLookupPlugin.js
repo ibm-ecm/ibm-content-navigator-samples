@@ -576,7 +576,7 @@ require(["dojo/aspect",
         addInputToList: function(user) {
             var emailList = user.email;
 			if (emailList && emailList.length && user.email.match(this.EMAIL_REGEX)) {
-				array.forEach(emailList, "this.list.addItem({ id: item, displayName: item, email: item });", this);
+				this.list.addItem({ id: item, displayName: item, email: item });
             }
             this._lastQueryString = null;
             this.cleanupDropDown();
