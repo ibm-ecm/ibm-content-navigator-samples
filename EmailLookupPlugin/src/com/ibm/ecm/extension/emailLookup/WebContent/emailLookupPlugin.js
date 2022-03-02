@@ -58,7 +58,13 @@ require(["dojo/aspect",
 
         widgetsInTemplate: true,
 
+        _notEmailCharacters: /[^a-zA-Z0-9!#$%&'*+\/=?^_`{|}~\-@.\"\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]+/g,
+
+        EMAIL_REGEX: "(?:[a-zA-Z0-9!#$%&\'*+\/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&\'*+\/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])",
+
+
         postCreate: function() {
+            debugger;
             this.inherited(arguments);
 
             this._searchResultsCache = {
@@ -81,6 +87,16 @@ require(["dojo/aspect",
                 propercase:false,
                 pageSize: this._MAX_ROWS,
                 autoComplete:false,
+                isValid: function() {
+                    var value = this.get("value");
+                    if(this.dropDown && value ) {
+                        var user = array.filter(this.dropDown.items, "return item.name == this", value).shift();
+                        if (user) {
+                            return user.email && user.email.match(this.EMAIL_REGEX);
+                        }
+                    }
+                    return ComboBox.prototype.isValid.apply(this, arguments);
+                },
                 autoWidth: true,
                 labelType:'html',
                 labelFunc:this.labelFunc,
@@ -88,7 +104,19 @@ require(["dojo/aspect",
             domClass.add(this.input._buttonNode, "dijitHidden");
             this.input.startup();
 
-            this.own(aspect.after(this.list, "onItemRemoved", lang.hitch(this, this.onChange)));
+            this.own(aspect.after(this.list, "onItemRemoved", lang.hitch(this, function() {
+                this._setInputValue();
+                this.onChange();
+            })));
+
+            this.own(aspect.after(this.list, "onItemAdded", lang.hitch(this, function() {
+                this.input.placeAt(this.list._itemsNode);
+                setTimeout(lang.hitch(this, function(){
+                    this.input.focus();
+                    win.scrollIntoView(this.input.domNode);
+                    this.onChange();
+                }));
+            })));
 
             this.own(aspect.around(this.store, "query", lang.hitch(this, function(originalQuery){
                 return lang.hitch(this, function() {
@@ -176,8 +204,11 @@ require(["dojo/aspect",
                         "query": this.input.value
                     };
 
-                    this.input.list.addItem({ id: user.id, displayName: user.name, email: user.email, user: user })
-                    this.placeAt(this.list._itemsNode, "last");
+                    var emailList = this._parseText(user.email);
+                    if (emailList.length) {
+                        array.forEach(emailList, "this.list.addItem({ id: item, displayName: item, email: item });", this);
+                    }
+                    this.placeAt(this.list._itemsNode);
                     this._lastQueryString = null;
                     this.cleanupDropDown();
                     this.input.set("value", "");
@@ -551,14 +582,38 @@ require(["dojo/aspect",
          * Adds a user to the list of selected users.
          */
         addInputToList: function(user) {
-            this.list.addItem({ id: user.id, displayName: user.name, email: user.email, user: user})
-            this.input.placeAt(this.list._itemsNode, "last");
+            //set input value method
+            //_setInputValue
+            var emailList = this._parseText(user.email);
+			if (emailList.length) {
+				array.forEach(emailList, "this.list.addItem({ id: item, displayName: item, email: item });", this);
+            }
             this._lastQueryString = null;
             this.cleanupDropDown();
-            this.input.focus();
             this.input.set("value", "");
-            this.onChange();
+            this._setInputValue();
         },
+
+        _setInputValue: function() {
+            //get value from list
+            var inputValue = [];
+            if(this.list._items && this.list._items.length > 0) {
+                for (var i = 0; i < this.list._items.length; i++) {
+                    inputValue.push(this.list._items[i].email);
+                }
+            }
+            this.set('value',inputValue);
+        },
+
+        _parseText: function(text) {
+			var preProcessedValues = [], values = [], value = "";
+			preProcessedValues = text.split(this._notEmailCharacters);
+			array.forEach(text.split(this._notEmailCharacters), function(email) {
+				if(value = email.match(this.EMAIL_REGEX))
+					values.push(value[0]);
+			}, this);
+			return values;
+		},
 
         /**
          * Checks to see if the control is valid.
