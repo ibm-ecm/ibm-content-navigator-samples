@@ -201,18 +201,10 @@ require(["dojo/aspect",
                     var user = {
                         "id": this.input.value,
                         "name": this.input.value,
-                        "query": this.input.value
+                        "email": this.input.value
                     };
 
-                    var emailList = this._parseText(user.email);
-                    if (emailList.length) {
-                        array.forEach(emailList, "this.list.addItem({ id: item, displayName: item, email: item });", this);
-                    }
-                    this.placeAt(this.list._itemsNode);
-                    this._lastQueryString = null;
-                    this.cleanupDropDown();
-                    this.input.set("value", "");
-                    this.onChange();
+                    this.addInputToList(user);
                 } else {
                     this.displayResults(null, null, false);
                 }
@@ -582,10 +574,8 @@ require(["dojo/aspect",
          * Adds a user to the list of selected users.
          */
         addInputToList: function(user) {
-            //set input value method
-            //_setInputValue
-            var emailList = this._parseText(user.email);
-			if (emailList.length) {
+            var emailList = user.email;
+			if (emailList && emailList.length && user.email.match(this.EMAIL_REGEX)) {
 				array.forEach(emailList, "this.list.addItem({ id: item, displayName: item, email: item });", this);
             }
             this._lastQueryString = null;
@@ -603,16 +593,6 @@ require(["dojo/aspect",
                 }
             }
             this.set('value',inputValue);
-        },
-
-        _parseText: function(text) {
-            var preProcessedValues = [], values = [], value = "";
-            preProcessedValues = text.split(this._notEmailCharacters);
-            array.forEach(text.split(this._notEmailCharacters), function(email) {
-                if(value = email.match(this.EMAIL_REGEX))
-                    values.push(value[0]);
-            }, this);
-            return values;
         },
 
         /**
