@@ -606,14 +606,14 @@ require(["dojo/aspect",
         },
 
         _parseText: function(text) {
-			var preProcessedValues = [], values = [], value = "";
-			preProcessedValues = text.split(this._notEmailCharacters);
-			array.forEach(text.split(this._notEmailCharacters), function(email) {
-				if(value = email.match(this.EMAIL_REGEX))
-					values.push(value[0]);
-			}, this);
-			return values;
-		},
+            var preProcessedValues = [], values = [], value = "";
+            preProcessedValues = text.split(this._notEmailCharacters);
+            array.forEach(text.split(this._notEmailCharacters), function(email) {
+                if(value = email.match(this.EMAIL_REGEX))
+                    values.push(value[0]);
+            }, this);
+            return values;
+        },
 
         /**
          * Checks to see if the control is valid.
