@@ -196,7 +196,7 @@ require(["dojo/aspect",
                     clearTimeout(this._initializationTimeout);
                 }
 
-                if (!this.isUserAdded(this.input.value) && this.isTrueEmail(this.input.value)) {
+                if (!this.isUserAdded(this.input.value) && this.input.value.match(this.EMAIL_REGEX)) {
                     // this is an e-mail address
                     var user = {
                         "id": this.input.value,
@@ -274,7 +274,7 @@ require(["dojo/aspect",
                     if (this.store.data.length > 0 && this.input.dropDown.items.length > 0){
 
                         // If the dropdown is open, add the first user in the dropdown to the list if there are users in the store.
-                        if (!this._processing && this.input.dropDown.items[0].value != this._NO_RESULTS_ID){
+                        if (!this._processing){
                             var user = this.input.dropDown.items[0];
                             this.addInputToList(user);
                             this.cleanupDropDown();
@@ -473,11 +473,12 @@ require(["dojo/aspect",
                 }
                 else {
 
-                    if (this.store.data.length == 0 && numberOfUsersFound == 0 && this._lastQueryString && this.isTrueEmail(this._lastQueryString)) {
+                    if (this.store.data.length == 0 && numberOfUsersFound == 0 && this._lastQueryString && this._lastQueryString.match(this.EMAIL_REGEX)) {
                         // this is an e-mail address of a non-provisioned user
                         this.store.add({
                             "id": this._lastQueryString,
                             "name": this._lastQueryString,
+                            "email": this._lasQueryString
                         });
                         
                     } else if (this.store.data.length == 0 && searchResults == null) {
@@ -528,11 +529,6 @@ require(["dojo/aspect",
             }
         },
 
-        isTrueEmail: function(email) {
-            var emailReg = /^([a-zA-Z0-9])+([a-zA-Z0-9_.+-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;
-            return emailReg.test(email);
-        },
-
         /**
          * Checks to see if a user has been added to the list.
          */
@@ -574,9 +570,9 @@ require(["dojo/aspect",
          * Adds a user to the list of selected users.
          */
         addInputToList: function(user) {
-            var emailList = user.email;
-			if (emailList && emailList.length && user.email.match(this.EMAIL_REGEX)) {
-				this.list.addItem({ id: item, displayName: item, email: item });
+            var emailList = user.email ? user.email : user.id;
+			if (emailList && emailList.length && emailList.match(this.EMAIL_REGEX)) {
+				this.list.addItem({ id: user.id, displayName: user.name, email: user.email });
             }
             this._lastQueryString = null;
             this.cleanupDropDown();
