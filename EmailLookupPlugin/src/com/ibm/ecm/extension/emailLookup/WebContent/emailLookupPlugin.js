@@ -227,6 +227,10 @@ require(["dojo/aspect",
             }
         },
 
+        _isSeparator: function(c) {
+            return c == " " || c == ";" || c == ",";
+        },
+
         /**
          * Called when the user types into the user lookup combo box.
          */
@@ -265,25 +269,19 @@ require(["dojo/aspect",
             // Handle special keys.
             if (evt){
                 if (evt.keyCode == keys.ESCAPE || evt.keyCode == keys.UP_ARROW || evt.keyCode == keys.DOWN_ARROW ||
-                         evt.keyCode == keys.LEFT_ARROW || evt.keyCode == keys.RIGHT_ARROW || evt.keyCode == keys.PAGE_DOWN ||
-                         evt.keyCode == keys.PAGE_UP) {
+                            evt.keyCode == keys.LEFT_ARROW || evt.keyCode == keys.RIGHT_ARROW || evt.keyCode == keys.PAGE_DOWN ||
+                            evt.keyCode == keys.PAGE_UP) {
                     return;
-                }
-                else if (evt.keyCode == keys.ENTER || evt.keyCode == 188 /* comma */){
-
-                    if (this.store.data.length > 0 && this.input.dropDown.items.length > 0){
-
-                        // If the dropdown is open, add the first user in the dropdown to the list if there are users in the store.
-                        if (!this._processing){
-                            var user = this.input.dropDown.items[0];
-                            this.addInputToList(user);
-                            this.cleanupDropDown();
-                        }
-                        else if (this.input.value && this.input.value.length > 0 && evt.keyCode == keys.ENTER){
-                            this.input.openDropDown();
-                        }
+                } else if (evt.keyCode == keys.ENTER) {
+                    if (this.input.isValid()) {
+                        this.addInputToList();
                         return;
+                    } else {
+                        this.input.validate(); // shows the error
                     }
+                } else if (this._isSeparator(evt.key)) { // We must check for space again.
+                    this._lastInput = "";
+                    this.addInputToList();
                 }
             }
 
@@ -570,13 +568,16 @@ require(["dojo/aspect",
          * Adds a user to the list of selected users.
          */
         addInputToList: function(user) {
-            var emailList = user.email ? user.email : user.id;
-			if (emailList && emailList.length && emailList.match(this.EMAIL_REGEX)) {
-				this.list.addItem({ id: user.id, displayName: user.name, email: user.email });
+            var email = "";
+            var value = this.input.get("value");
+			if (email = value.match(this.EMAIL_REGEX)) {
+				this.list.addItem({ id: email[0], displayName: email[0], email: email[0] });
+				this.input.set("value", "");
+				this.cleanupDropDown();
             }
-            this._lastQueryString = null;
-            this.cleanupDropDown();
-            this.input.set("value", "");
+            else {
+                this.input.validate(); // shows the error
+            }
             this._setInputValue();
         },
 
