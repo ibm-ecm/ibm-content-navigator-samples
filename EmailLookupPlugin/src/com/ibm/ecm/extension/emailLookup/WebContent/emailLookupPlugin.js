@@ -44,6 +44,8 @@ require(["dojo/aspect",
          */
         _MAX_ROWS: 5,
 
+        _NO_USER_FOUND: "No users found",
+
         _NO_RESULTS_MSG: "No results were found.",
 
         _SELECT_USER_ERROR: "You must select a valid user",
@@ -52,8 +54,6 @@ require(["dojo/aspect",
          * Minimum elapsed time (ms) in between keystrokes before querying for users.
          */
         _INTERVAL_LOOKUP: 500,
-
-        _NO_USER_FOUND: "No users found",
 
         templateString: '<div><div data-dojo-type="ecm/widget/CompositeButtonListPane" data-dojo-attach-point="list"></div></div>',
 
