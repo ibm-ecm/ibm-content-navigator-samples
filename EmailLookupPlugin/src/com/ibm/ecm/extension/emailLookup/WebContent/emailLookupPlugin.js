@@ -62,7 +62,6 @@ require(["dojo/aspect",
 
 
         postCreate: function() {
-            debugger;
             this.inherited(arguments);
 
             this._searchResultsCache = {
