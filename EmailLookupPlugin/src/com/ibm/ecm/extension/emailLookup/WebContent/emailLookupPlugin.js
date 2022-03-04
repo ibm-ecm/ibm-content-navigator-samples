@@ -545,7 +545,6 @@ require(["dojo/aspect",
         var input = new _UserListInput({
             id: id,
             onChange: lang.hitch(this, "updateSendButtonState"),
-            dialog: this
         }).placeAt(domNode);
         input.startup();
         return input;
