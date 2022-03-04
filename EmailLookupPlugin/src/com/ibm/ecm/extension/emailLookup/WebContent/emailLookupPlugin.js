@@ -44,11 +44,9 @@ require(["dojo/aspect",
          */
         _MAX_ROWS: 5,
 
-        _NO_USER_FOUND: "No users found",
+        _NO_USER_FOUND: "No Users Found",
 
-        _NO_RESULTS_MSG: "No results were found.",
-
-        _SELECT_USER_ERROR: "You must select a valid user",
+        _NO_RESULTS_MSG: "No Results Were Found.",
 
         /**
          * Minimum elapsed time (ms) in between keystrokes before querying for users.
@@ -87,7 +85,7 @@ require(["dojo/aspect",
                     if(this.dropDown && value ) {
                         var user = array.filter(this.dropDown.items, "return item.name == this", value).shift();
                         if (user) {
-                            return user.email && user.email.match(this.EMAIL_REGEX);
+                            return user.email && user.email.match(EmailDialog.emailAddressPattern);
                         }
                     }
                     return ComboBox.prototype.isValid.apply(this, arguments);
@@ -213,10 +211,7 @@ require(["dojo/aspect",
          * Display an error if the user has entered text for a user but not selected a valid one.
          */
         _onInputBlur: function(evt) {
-             if (!this.repository || !this.repository._isP8()) {
-                if (this.input.get("value") != "")
-                    this._addInputToList();
-             } else if (this.input.value && this.input.value.length > 0) {
+             if (this.input.value && this.input.value.length > 0) {
                 // cancel pending query
                 if (this._queryTimeout) {
                     clearTimeout(this._queryTimeout);
@@ -371,7 +366,7 @@ require(["dojo/aspect",
             var emailAdded = false;
             if(this.input && this.input.dropDown) {
                 var user = array.filter(this.input.dropDown.items, "return item.name == this", value).shift();
-                if (user && user.email && user.email.match(this.EMAIL_REGEX)) {
+                if (user && user.email && user.email.match(EmailDialog.emailAddressPattern)) {
                     this.list.addItem({ id: user.id, displayName: user.name, email: user.email});
                     this.input.set("value", "");
                     emailAdded = true;
@@ -379,7 +374,7 @@ require(["dojo/aspect",
             }
 
             if (!emailAdded) {
-                if (email = value.match(this.EMAIL_REGEX)) {
+                if (email = value.match(EmailDialog.emailAddressPattern)) {
                     this.list.addItem({ id: email[0], displayName: email[0], email: email[0] });
                     this.input.set("value", "");
                 } else {
@@ -392,7 +387,7 @@ require(["dojo/aspect",
             var preProcessedValues = [], values = [], value = "";
             preProcessedValues = text.split(this._notEmailCharacters);
             array.forEach(text.split(this._notEmailCharacters), function(email) {
-                if(value = email.match(this.EMAIL_REGEX))
+                if(value = email.match(EmailDialog.emailAddressPattern))
                     values.push(value[0]);
             });
             return values;
@@ -497,7 +492,7 @@ require(["dojo/aspect",
         _setValueAttr: function(values) {
             this.list.removeAllItems();
             array.forEach(values, function(value) {
-                if (value.match(this.EMAIL_REGEX)) {
+                if (value.match(EmailDialog.emailAddressPattern)) {
                     this.list.addItem({
                         id: value,
                         displayName: value,
