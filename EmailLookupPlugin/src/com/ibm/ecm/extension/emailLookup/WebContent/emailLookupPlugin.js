@@ -447,8 +447,6 @@ require(["dojo/aspect",
 
                 this._lastQueryString = queryString;
 
-                // clear store to remove existing data if this is a new query
-
             } catch (e) {
                 this._processing = false;
                 throw e;
