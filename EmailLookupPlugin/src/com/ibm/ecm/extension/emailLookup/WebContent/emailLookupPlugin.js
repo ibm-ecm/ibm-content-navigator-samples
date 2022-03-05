@@ -441,7 +441,7 @@ require(["dojo/aspect",
                     },
                     backgroundRequest : false,
                     requestFailedCallback: function(errorResponse) {
-                        // ignore handline failures
+                        // ignore failures
                     }
                 });
 
