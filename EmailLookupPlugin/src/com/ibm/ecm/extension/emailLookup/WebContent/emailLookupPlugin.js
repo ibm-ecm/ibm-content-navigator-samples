@@ -542,7 +542,7 @@ require(["dojo/aspect",
     EmailDialog.prototype.createEmailAddressListInput = function(id, domNode) {
         var input = new _UserListInput({
             id: id,
-            onChange: lang.hitch(this, "updateSendButtonState"),
+            onChange: lang.hitch(this, "updateSendButtonState")
         }).placeAt(domNode);
         input.startup();
         return input;
