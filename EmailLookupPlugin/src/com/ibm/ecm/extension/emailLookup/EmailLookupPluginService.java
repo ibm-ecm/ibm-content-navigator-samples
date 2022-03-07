@@ -137,11 +137,9 @@ public class EmailLookupPluginService extends PluginService {
 
     private JSONArray fetchUserList(String query) {
         // this function searches by name and email
-
         JSONArray userList = userStore(); // Note: A real implementation would query an actual store (i.e., DB or REST) to find the users
         JSONArray userQueryResponse = new JSONArray();
-        String queryLowerCase = query.toLowerCase();
-        for (int i = 0; i < userList.size() - 1; i++) {
+        for (int i = 0; i < userList.size(); i++) {
             //by name
             String name = (String)((JSONObject)userList.get(i)).get("name");
             if (name.toLowerCase().startsWith(query.toLowerCase())) {
