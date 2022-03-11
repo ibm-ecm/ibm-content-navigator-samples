@@ -33,10 +33,11 @@ define([
 			
 			if (valid == true) {
 				this.taskParameters.targetRepositoryId = this.taskCreationPane.getSelectedRepository();
-				this.taskParameters.docusignUserName = this.taskCreationPane.getDocusignUser();
-				this.taskParameters.docusignPassword = this.taskCreationPane.getDocusignPassword();
+				this.taskParameters.docusignUserID = this.taskCreationPane.getDocusignUserID();
+				this.taskParameters.docusignAccountID = this.taskCreationPane.getDocusignAccountID();
 				this.taskParameters.docusignIntegratorKey = this.taskCreationPane.getDocusignIntegrationKey();
-				this.taskParameters.docusignAutocheckinFlag = this.taskCreationPane.getDocuSignAutocheckinFlag();
+				this.taskParameters.docusignPrivateKey = this.taskCreationPane.getDocusignPrivateKey();
+				this.taskParameters.docusignAutocheckinFlag = this.taskCreationPane.getDocuSignAutocheckInFlag();
 				
 				this.inherited(arguments);
 			}

@@ -53,7 +53,8 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 					}
 					else if (response.returncode == -1)
 					{
-						self._showLoginDialog(items);
+					    //Request a new Token
+						self._loginDocuSign(items);
 					}
 				},
 				backgroundRequest : false,
@@ -85,7 +86,7 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 					}
 					else if (response.returncode == -1)
 					{
-						self._showLoginDialog(items);
+						self._loginDocuSign(items);
 					}					
 				},
 				backgroundRequest : false,
@@ -94,24 +95,8 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 				}
 			});
 		},
-		
-		_showLoginDialog: function(items) 
-		{
-			var callback = lang.hitch(this, function(requestData){
-				this._loginDocuSign(items, requestData);
-			});
-			
-			if(this.loginDialog){
-				this.loginDialog.destroy();
-			}
-			this.loginDialog = new LoginDialog({
-				callback: callback
-			});
-			
-			this.loginDialog.show();
-		},	
 
-		_loginDocuSign: function(items, data)
+		_loginDocuSign: function(items)
 		{	
 			var self = this;
 			
@@ -121,7 +106,6 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 					serverType : items[0].repository.type,
 					docId : items[0].docid
 				},
-				requestBody: json.stringify(data),
 				requestCompleteCallback: function(response) {
 					if (response.returncode == 0)
 					{
@@ -129,7 +113,6 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 					}
 					else if (response.returncode == -1)
 					{
-						self._showLoginDialog(items);
 					}						
 				},
 				backgroundRequest : false,

@@ -16,12 +16,12 @@ public class AutocheckinTaskRegistration extends PluginAsyncTaskType {
 
 	@Override
 	public String getClassHandlerName() {
-		return "com.ibm.icn.extension.docusign.tasks.CheckinSignedDocument";
+		return "com.ibm.icn.extension.docusign.tasks.CheckInSignedDocument";
 	}
 
 	@Override
 	public String getName(Locale arg0) {
-		return "DocuSign signature status udpates configuration";
+		return "DocuSign signature status updates configuration";
 	}
 	
 	public String getTaskCreationDialogDijitClass() 
