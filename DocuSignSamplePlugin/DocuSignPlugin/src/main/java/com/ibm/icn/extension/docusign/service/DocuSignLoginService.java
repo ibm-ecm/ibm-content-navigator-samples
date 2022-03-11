@@ -82,6 +82,7 @@ public class DocuSignLoginService extends PluginService {
 		ApiClient apiClient = new ApiClient();
 		apiClient.setBasePath(basePath);
 		apiClient.setOAuthBasePath(oAuthBasePath);
+		apiClient.setConnectTimeout(180000);
 		try {
 			oAuthToken = apiClient.requestJWTUserToken(docusignIntegratorKey, docusignUserID, scopes, privateKeyFileContent,3600);
 			apiClient.setAccessToken(oAuthToken.getAccessToken(), oAuthToken.getExpiresIn());
