@@ -72,9 +72,9 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 					else if (response.returncode == -1)
 					{
 						if (!this._messageDialog) {
-                          this._messageDialog = new MessageDialog();
-                        }
-                        this._messageDialog.showMessage(response.errorMessage);
+						this._messageDialog = new MessageDialog();
+						}
+						this._messageDialog.showMessage(response.errorMessage);
 					}						
 				},
 				backgroundRequest : false,

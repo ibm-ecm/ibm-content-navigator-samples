@@ -157,29 +157,30 @@ public class CheckInSignedDocument extends BaseTask {
                 else
                 {
                     // send fail response response back to client
-                    throw new ApiException("token is null");
+                    throw new RuntimeException("token is null");
                 }
 
             } catch (ApiException e) {
+                //todo: what is fine.
+                TaskLogger.severe(CLASS_NAME, functionName, "There was a failure in retrieving token", e);
                 throw new Exception("Failed to create APIClient");
-
             }
         }
         catch (MalformedURLException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            TaskLogger.severe(CLASS_NAME, functionName, "There was a malformed url", e);
             addError(e);
         } catch (ProtocolException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            TaskLogger.severe(CLASS_NAME, functionName, "There was a failure in retrieving token", e);
             addError(e);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            TaskLogger.severe(CLASS_NAME, functionName, "There was a failure in retrieving token", e);
             addError(e);
         } catch (Exception e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            TaskLogger.severe(CLASS_NAME, functionName, "There was a failure in retrieving token", e);
             addError(e);
         }
     }
