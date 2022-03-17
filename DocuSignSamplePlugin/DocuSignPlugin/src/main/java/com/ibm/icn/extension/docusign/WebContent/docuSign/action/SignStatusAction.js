@@ -3,8 +3,8 @@
  * duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
  */
 
-define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action",  "ecm/model/Request",  "../dialog/LoginDialog",			"../dialog/DocumentStatus"],
-	function(declare, lang, json, Action, Request, LoginDialog, DocumentStatus) {
+define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action",  "ecm/model/Request",  "../dialog/LoginDialog", "../dialog/DocumentStatus", "ecm/widget/dialog/MessageDialog"],
+	function(declare, lang, json, Action, Request, LoginDialog, DocumentStatus, MessageDialog) {
 
 	/**
 	 * @name docuSign.action.SignStatusAction
@@ -113,6 +113,10 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 					}
 					else if (response.returncode == -1)
 					{
+					    if (!this._messageDialog) {
+                          this._messageDialog = new MessageDialog();
+                        }
+                        this._messageDialog.showMessage(response.errorMessage);
 					}						
 				},
 				backgroundRequest : false,

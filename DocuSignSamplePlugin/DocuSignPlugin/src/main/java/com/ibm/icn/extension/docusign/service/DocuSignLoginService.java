@@ -106,7 +106,7 @@ public class DocuSignLoginService extends PluginService {
 			else
 			{
 				// send fail response response back to client
-				jsonResponse = "{\"returncode\": \"-1\", \"errorMessage\": \"OAuth2 authentication failed\"}";
+				jsonResponse = "{\"returncode\": \"-1\", \"errorMessage\": \"OAuth2 authentication failed. Try Again\"}";
 			}
 
 			response.setContentType("text/plain");
