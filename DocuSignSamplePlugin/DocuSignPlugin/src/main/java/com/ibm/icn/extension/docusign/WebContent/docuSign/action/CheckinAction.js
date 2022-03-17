@@ -106,6 +106,14 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 		isVisible: function(repository, listType) 
 		{
 			return this.inherited(arguments);
+		},
+
+		destroy: function() {
+			this.inherited(arguments);
+			if (this._messageDialog) {
+				this._messageDialog.destroyRecursive();
+				this._messageDialog = null;
+			}
 		}
 	});
 });
