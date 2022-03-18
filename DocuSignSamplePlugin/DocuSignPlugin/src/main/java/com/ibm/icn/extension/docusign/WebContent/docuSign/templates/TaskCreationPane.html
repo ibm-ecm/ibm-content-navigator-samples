@@ -15,27 +15,7 @@
 				<tr>
 					<td class="propertyRowLabel">
 						<span class="ecmLabeledInputFieldRequired">*</span>
-						<label data-dojo-attach-point="docuSignUserLabel" for="${id}_docuSignUserLabel">DocuSign User Name</label>
-					</td>
-					<td class="propertyRowValue">
-						<select id="${id}_docuSignUser" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="docuSignUser" style="width:auto;">
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td class="propertyRowLabel">
-						<span class="ecmLabeledInputFieldRequired">*</span>
-						<label data-dojo-attach-point="docuSignPasswordLabel" for="${id}_docuSignPasswordLabel">DocuSign Password</label>
-					</td>
-					<td class="propertyRowValue">
-						<select id="${id}_docuSignPassword" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="docuSignPassword" style="width:auto;">
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td class="propertyRowLabel">
-						<span class="ecmLabeledInputFieldRequired">*</span>
-						<label data-dojo-attach-point="docuSignIntegrationKeyLabel" for="${id}_docuSignIntegrationKeyLabel">DocuSign Integration Key</label>
+						<label data-dojo-attach-point="docuSignIntegrationKeyLabel" for="${id}_docuSignIntegrationKey">DocuSign Integration Key</label>
 					</td>
 					<td class="propertyRowValue">
 						<select id="${id}_docuSignIntegrationKey" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="docuSignIntegrationKey" style="width:auto;">
@@ -45,10 +25,40 @@
 				<tr>
 					<td class="propertyRowLabel">
 						<span class="ecmLabeledInputFieldRequired">*</span>
-						<label data-dojo-attach-point="docuSignAutocheckinLabel" for="${id}_docuSignAutocheckinLabel">Enable auto check-in</label>
+						<label data-dojo-attach-point="docuSignUserIDLabel" for="${id}_docuSignUserID">DocuSign User ID</label>
 					</td>
 					<td class="propertyRowValue">
-						<input id="${id}_docuSignAutocheckin" data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="docuSignAutocheckin">
+						<select id="${id}_docuSignUserID" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="docuSignUserID" style="width:auto;">
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="propertyRowLabel">
+						<span class="ecmLabeledInputFieldRequired">*</span>
+						<label data-dojo-attach-point="docuSignAccountIDLabel" for="${id}_docuSignAccountID">DocuSign Account ID</label>
+					</td>
+					<td class="propertyRowValue">
+						<select id="${id}_docuSignAccountID" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="docuSignAccountID" style="width:auto;">
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="propertyRowLabel">
+						<span class="ecmLabeledInputFieldRequired">*</span>
+						<label data-dojo-attach-point="docuSignPrivateKeyLabel" for="${id}_docuSignPrivateKey">DocuSign Private Key File Location</label>
+					</td>
+					<td class="propertyRowValue">
+						<select id="${id}_docuSignPrivateKey" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="docuSignPrivateKey" style="width:auto;">
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="propertyRowLabel">
+						<span class="ecmLabeledInputFieldRequired">*</span>
+						<label data-dojo-attach-point="docuSignAutocheckInLabel" for="${id}_docuSignAutocheckIn">Enable auto check-in</label>
+					</td>
+					<td class="propertyRowValue">
+						<input id="${id}_docuSignAutocheckIn" data-dojo-type="dijit/form/CheckBox" data-dojo-attach-point="docuSignAutocheckIn">
 					</td>
 				</tr>						
 			</tbody>

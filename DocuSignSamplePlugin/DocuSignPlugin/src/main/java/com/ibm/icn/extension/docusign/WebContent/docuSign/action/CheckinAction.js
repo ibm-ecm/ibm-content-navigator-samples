@@ -3,8 +3,8 @@
  * duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
  */
 
-define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action",  "ecm/model/Request",  "../dialog/LoginDialog"],
-	function(declare, lang, json, Action, Request, LoginDialog) {
+define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action",  "ecm/model/Request",  "../dialog/LoginDialog", "ecm/widget/dialog/MessageDialog"],
+	function(declare, lang, json, Action, Request, LoginDialog, MessageDialog) {
 
 	/**
 	 * @name docuSign.action.CheckinAction
@@ -44,7 +44,7 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 					{
 						items = [];
 						items.push(item);
-						self._showLoginDialog(items);
+						self._loginDocuSign(items);
 					}					
 				},
 				backgroundRequest : false,
@@ -53,24 +53,8 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 				}
 			});
 		},
-		
-		_showLoginDialog: function(items) 
-		{
-			var callback = lang.hitch(this, function(requestData){
-				this._loginDocuSign(items, requestData);
-			});
-			
-			if(this.loginDialog){
-				this.loginDialog.destroy();
-			}
-			this.loginDialog = new LoginDialog({
-				callback: callback
-			});
-			
-			this.loginDialog.show();
-		},	
 
-		_loginDocuSign: function(items, data)
+		_loginDocuSign: function(items)
 		{	
 			var self = this;
 			
@@ -80,7 +64,6 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 					serverType : items[0].repository.type,
 					docId : items[0].docid
 				},
-				requestBody: json.stringify(data),
 				requestCompleteCallback: function(response) {
 					if (response.returncode == 0)
 					{
@@ -88,7 +71,10 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 					}
 					else if (response.returncode == -1)
 					{
-						self._showLoginDialog(items);
+						if (!this._messageDialog) {
+						this._messageDialog = new MessageDialog();
+						}
+						this._messageDialog.showMessage(response.errorMessage);
 					}						
 				},
 				backgroundRequest : false,
@@ -120,6 +106,14 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 		isVisible: function(repository, listType) 
 		{
 			return this.inherited(arguments);
+		},
+
+		destroy: function() {
+			this.inherited(arguments);
+			if (this._messageDialog) {
+				this._messageDialog.destroyRecursive();
+				this._messageDialog = null;
+			}
 		}
 	});
 });

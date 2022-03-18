@@ -82,6 +82,7 @@ public class DocuSignLoginService extends PluginService {
 		ApiClient apiClient = new ApiClient();
 		apiClient.setBasePath(basePath);
 		apiClient.setOAuthBasePath(oAuthBasePath);
+		apiClient.setConnectTimeout(180000);
 		try {
 			oAuthToken = apiClient.requestJWTUserToken(docusignIntegratorKey, docusignUserID, scopes, privateKeyFileContent,3600);
 			apiClient.setAccessToken(oAuthToken.getAccessToken(), oAuthToken.getExpiresIn());
@@ -105,7 +106,7 @@ public class DocuSignLoginService extends PluginService {
 			else
 			{
 				// send fail response response back to client
-				jsonResponse = "{\"returncode\": \"-1\", \"errorMessage\": \"OAuth2 authentication failed\"}";
+				jsonResponse = "{\"returncode\": \"-1\", \"errorMessage\": \"OAuth2 authentication failed. Try Again\"}";
 			}
 
 			response.setContentType("text/plain");

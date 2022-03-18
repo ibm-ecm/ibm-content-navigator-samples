@@ -4,8 +4,8 @@
  */
 
 define(["dojo/_base/declare", "dojo/_base/lang", "dojo/json", "ecm/model/Action", 
-        "ecm/model/Request", "ecm/model/Message", "../dialog/LoginDialog", "../dialog/SignDialog"],
-	function(declare, lang, json, Action, Request, Message, LoginDialog, SignDialog) {
+        "ecm/model/Request", "ecm/model/Message", "../dialog/LoginDialog", "../dialog/SignDialog", "ecm/widget/dialog/MessageDialog"],
+	function(declare, lang, json, Action, Request, Message, LoginDialog, SignDialog, MessageDialog) {
 
 	/**
 	 * @name docuSign.action.SignSubmitAction
@@ -86,6 +86,11 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/json", "ecm/model/Action"
 					}
 					else if (response.returncode == -1)
 					{
+					    //ToDo Show error dialog
+						if (!this._messageDialog) {
+							this._messageDialog = new MessageDialog();
+						}
+						this._messageDialog.showMessage(response.errorMessage);
 					}					
 				},
 				backgroundRequest : false,
@@ -166,6 +171,14 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/json", "ecm/model/Action"
 		isVisible: function(repository, listType) 
 		{
 			return this.inherited(arguments);
+		},
+
+		destroy: function() {
+			this.inherited(arguments);
+			if (this._messageDialog) {
+				this._messageDialog.destroyRecursive();
+				this._messageDialog = null;
+			}
 		}
 	});
 });

@@ -57,20 +57,24 @@ define([
 			return this.p8RepoSelect.get('value');
 		},
 		
-		getDocusignUser: function () {
-			return this.docuSignUser.get('value');
+		getDocusignUserID: function () {
+			return this.docuSignUserID.get('value');
 		},
 		
-		getDocusignPassword: function () {
-			return this.docuSignPassword.get('value');
+		getDocusignAccountID: function () {
+			return this.docuSignAccountID.get('value');
 		},
 		
 		getDocusignIntegrationKey: function () {
 			return this.docuSignIntegrationKey.get('value');
 		},
+
+		getDocusignPrivateKey: function () {
+            return this.docuSignPrivateKey.get('value');
+        },
 		
-		getDocuSignAutocheckinFlag: function () {
-			return this.docuSignAutocheckin.get('checked');
+		getDocuSignAutocheckInFlag: function () {
+			return this.docuSignAutocheckIn.get('checked');
 		},
 		
 		_showRepositories: function () {
