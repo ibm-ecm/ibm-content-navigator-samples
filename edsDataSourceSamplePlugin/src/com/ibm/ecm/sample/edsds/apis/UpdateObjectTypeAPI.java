@@ -1,7 +1,22 @@
 /*
- * Licensed Materials - Property of IBM
- * (C) Copyright IBM Corp. 2010, 2020
- * US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+ * Licensed Materials - Property of IBM (c) Copyright IBM Corp. 2020 All Rights Reserved.
+ * 
+ * US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with
+ * IBM Corp.
+ * 
+ * DISCLAIMER OF WARRANTIES:
+ * 
+ * Permission is granted to copy and modify this Sample code, and to distribute modified versions provided that both the
+ * copyright notice, and this permission notice and warranty disclaimer appear in all copies and modified versions.
+ * 
+ * THIS SAMPLE CODE IS LICENSED TO YOU AS-IS. IBM AND ITS SUPPLIERS AND LICENSORS DISCLAIM ALL WARRANTIES, EITHER
+ * EXPRESS OR IMPLIED, IN SUCH SAMPLE CODE, INCLUDING THE WARRANTY OF NON-INFRINGEMENT AND THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE. IN NO EVENT WILL IBM OR ITS LICENSORS OR SUPPLIERS BE LIABLE FOR
+ * ANY DAMAGES ARISING OUT OF THE USE OF OR INABILITY TO USE THE SAMPLE CODE, DISTRIBUTION OF THE SAMPLE CODE, OR
+ * COMBINATION OF THE SAMPLE CODE WITH ANY OTHER CODE. IN NO EVENT SHALL IBM OR ITS LICENSORS AND SUPPLIERS BE LIABLE
+ * FOR ANY LOST REVENUE, LOST PROFITS OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL, CONSEQUENTIAL, INCIDENTAL OR PUNITIVE
+ * DAMAGES, HOWEVER CAUSED AND REGARDLESS OF THE THEORY OF LIABILITY, EVEN IF IBM OR ITS LICENSORS OR SUPPLIERS HAVE
+ * BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
  */
 package com.ibm.ecm.sample.edsds.apis;
 
@@ -16,6 +31,9 @@ import javax.servlet.http.HttpServletRequest;
 import com.ibm.ecm.extension.PluginAPI;
 import com.ibm.ecm.extension.PluginLogger;
 import com.ibm.ecm.extension.PluginServiceCallbacks;
+
+import com.ibm.ecm.sample.edsds.apis.EDSException.Type;
+
 import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
 
@@ -113,6 +131,8 @@ public class UpdateObjectTypeAPI extends PluginAPI {
 		 *    "locale" - client locale
 		 *    "objectStoreId" - P8 object store Id associated with the action (P8)
 		 *    "userid" - Id of user executing the action
+		 *    "initialInProgressChanges" (since ICN 3.0.12) - boolean string ("true" or "false") indicating that an inProgressChanges request is part
+		 *        of the initialization phase of either an initialNewObject or initialExistingObject request (value may be null when not applicable)
 		 */
 
 		String objectTypeName = getJsonStringProperty(argumentsJson, "objectTypeName", request, logger);
@@ -178,7 +198,18 @@ public class UpdateObjectTypeAPI extends PluginAPI {
 		 */
 		
 		JSONObject jsonResponse = new JSONObject();
-		jsonResponse.put("properties", getResponseProperties(requestMode, requestProperties, propertyData));
+		try {
+			jsonResponse.put("properties", getResponseProperties(requestMode, requestProperties, propertyData, clientContext));
+		} catch (EDSException e) {
+			// If the exception represents a warning, return a warning message (unlike an error, a warning allows the user to continue the task at hand,
+			// i.e., updating properties)
+			if (e.getType() == Type.warning) {
+				jsonResponse.put("warningMessage", e.getMessage()); // to be logged by the EDS plug-in
+				jsonResponse.put("userMessage", e.getMessage()); // to be displayed to the user
+			} else {
+				throw e;
+			}
+		}
 
 		if (argumentsJson.containsKey("externalDataIdentifier")) {
 			String identifier = (String) argumentsJson.get("externalDataIdentifier");
@@ -314,15 +345,18 @@ public class UpdateObjectTypeAPI extends PluginAPI {
 	 * @return
 	 * @throws Exception
 	 */
-	private JSONArray getResponseProperties(String requestMode, JSONArray requestProperties, JSONArray propertyData) throws Exception {
+	private JSONArray getResponseProperties(String requestMode, JSONArray requestProperties, JSONArray propertyData, JSONObject clientContext) throws EDSException {
 		JSONArray responseProperties = new JSONArray();
+		boolean initialInProgressChanges = Boolean.valueOf((String) clientContext.get("initialInProgressChanges"));
 
-		// This looks for the word "error" as the value of any field.  If it is found, a general error is raised.  
+		// This looks for the word "error" or "warning" as the value of any field.  If it is found, a general error or warning is raised.
 		for (int j = 0; j < requestProperties.size(); j++) {
 			JSONObject requestProperty = (JSONObject)requestProperties.get(j);
 			String  value = String.valueOf(requestProperty.get("value"));
 			if (value.equals("error")) {
-				throw new Exception("Example of an error from EDS.");
+				throw new EDSException("Example of an error from EDS.");
+			} else if (requestMode.equals("inProgressChanges") && !initialInProgressChanges && value.equals("warning")) {
+				throw new EDSException("Example of a warning from EDS raised during in-progress changes.", Type.warning);
 			}
 		}
 

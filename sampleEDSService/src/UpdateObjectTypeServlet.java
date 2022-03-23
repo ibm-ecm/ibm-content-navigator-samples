@@ -104,19 +104,25 @@ public class UpdateObjectTypeServlet extends HttpServlet {
 		// "locale" - client locale
 		// "objectStoreId" - P8 object store Id associated with the action (P8)
 		// "userid" - Id of user executing the action
+		// "initialInProgressChanges" (since ICN 3.0.12) - boolean string ("true" or "false") indicating that an inProgressChanges request is part
+		//     of the initialization phase of either an initialNewObject or initialExistingObject request (value may be null when not applicable)
 		System.out.println("sampleEDService.UpdateObjectTypeServlet: clientContext="+clientContext);
 		
 		System.out.println("sampleEDService.UpdateObjectTypeServlet: Cookie="+request.getHeader("Cookie"));
 		try {
 		
-			// This looks for the word "error" as the value of any field. If it is found, an error message (i.e., "Example of an error from EDS.")
-			// is returned and displayed to the user.
+			// This looks for the word "error" or "warning" as the value of any field. If it is found, an error or warning message
+			// (i.e., "Example of an error from EDS.") is returned and displayed to the user.
+			boolean initialInProgressChanges = Boolean.valueOf((String) clientContext.get("initialInProgressChanges"));
 			for (int j = 0; j < requestProperties.size(); j++) {
 				JSONObject requestProperty = (JSONObject)requestProperties.get(j);
 				String  value = String.valueOf(requestProperty.get("value"));
-				sendErrorResponse(response, "EDS error details for logging.", "Example of an error from EDS.");
 				if (value.equals("error")) {
 					sendErrorResponse(response, "EDS error details for logging.", "Example of an error from EDS.");
+					return;
+				} else if (requestMode.equals("inProgressChanges") && !initialInProgressChanges && value.equals("warning")) {
+					// Return a warning message (unlike an error, a warning allows the user to continue the task at hand, i.e., updating properties)
+					sendWarningResponse(response, "EDS warning details for logging.", "Example of a warning from EDS raised during in-progress changes.");
 					return;
 				}
 			}
@@ -324,6 +330,23 @@ public class UpdateObjectTypeServlet extends HttpServlet {
 	 */
 	private void sendErrorResponse(HttpServletResponse response, String errorMessage) throws IOException {
 		sendErrorResponse(response, errorMessage, null);
+	}
+
+	/**
+	 * Sends a JSON warning response.
+	 * 
+	 * @param response HTTP servlet response
+	 * @param warningMessage message to be logged by the EDS plug-in (not displayed to the user)
+	 * @param userMessage message to be displayed to the user
+	 * @throws IOException if an error occurs
+	 */
+	private void sendWarningResponse(HttpServletResponse response, String warningMessage, String userMessage) throws IOException {
+		JSONObject jsonResponse = new JSONObject();
+		jsonResponse.put("warningMessage", warningMessage);
+		jsonResponse.put("userMessage", userMessage);
+		System.out.println("  " + jsonResponse.serialize());
+		PrintWriter writer = response.getWriter();
+		jsonResponse.serialize(writer);
 	}
 	
 	private JSONArray  getPropertyData(String objectType, Locale locale) throws IOException {
