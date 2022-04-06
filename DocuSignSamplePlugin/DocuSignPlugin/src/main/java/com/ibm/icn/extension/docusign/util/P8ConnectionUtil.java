@@ -23,7 +23,6 @@ import com.filenet.api.util.UserContext;
 import com.ibm.ecm.configuration.Config;
 import com.ibm.ecm.configuration.RepositoryConfig;
 import com.ibm.ecm.icntasks.util.MockHttpServletRequest;
-import com.ibm.ecm.icntasks.util.ServerInfo;
 import com.ibm.ecm.task.ContextParams;
 import com.ibm.ecm.task.TaskLogger;
 import com.ibm.icn.extension.docusign.service.Constants;
@@ -60,25 +59,25 @@ public class P8ConnectionUtil {
 				TaskLogger.warning("P8ConnectionUtil", "getTargetOS", "UserId and Password are null");
 
 			Domain domain = null;
-			ServerInfo serverInfo = null;
 			String stanza = "Navigator";
+			UserContext userCtx = new UserContext();
 
 			try {
 				Connection conn = com.filenet.api.core.Factory.Connection.getConnection(targetP8ServerName);
 				TaskLogger.fine("P8FilenetUtils", "fetchP8Domain", "Fetched domain stanza ='" + stanza);
 				Subject jaceSubject = UserContext.createSubject(conn, adminUserName, adminPassword, stanza);
-				UserContext userCtx = UserContext.get();
+				userCtx = UserContext.get();
 				userCtx.pushSubject(jaceSubject);
 				PropertyFilter domainFilter = new PropertyFilter();
 				domainFilter.addIncludeProperty(new FilterElement((Integer)null, (Long)null, (Boolean)null, "Name", (Integer)null));
 				domainFilter.setMaxRecursion(1);
 				domain = com.filenet.api.core.Factory.Domain.fetchInstance(conn, (String)null, domainFilter);
-				serverInfo = new ServerInfo(jaceSubject, domain);
 				TaskLogger.fine("P8FilenetUtils", "fetchP8Domain", "Fetched domain '" + domain.get_Name() + "' successfully.");
 			} catch (Exception var9) {
 				throw var9;
+			} finally {
+				userCtx.popSubject();
 			}
-			domain = serverInfo.getDomain();
 			
 			// Fetch object store
 			targetOS = fetchObjectStoreInstance(domain, targetOSName);
