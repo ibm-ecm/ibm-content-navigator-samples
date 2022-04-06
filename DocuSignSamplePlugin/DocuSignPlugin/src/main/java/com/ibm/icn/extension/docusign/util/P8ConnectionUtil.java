@@ -72,15 +72,15 @@ public class P8ConnectionUtil {
 				domainFilter.addIncludeProperty(new FilterElement((Integer)null, (Long)null, (Boolean)null, "Name", (Integer)null));
 				domainFilter.setMaxRecursion(1);
 				domain = com.filenet.api.core.Factory.Domain.fetchInstance(conn, (String)null, domainFilter);
+
+				// Fetch object store
+				targetOS = fetchObjectStoreInstance(domain, targetOSName);
 				TaskLogger.fine("P8FilenetUtils", "fetchP8Domain", "Fetched domain '" + domain.get_Name() + "' successfully.");
 			} catch (Exception var9) {
 				throw var9;
 			} finally {
 				userCtx.popSubject();
 			}
-			
-			// Fetch object store
-			targetOS = fetchObjectStoreInstance(domain, targetOSName);
 		}
 		catch (Exception ex) {
 			TaskLogger.severe("P8ConnectionUtil", "getTargetOSRef", "Failed to get TOS repo info", ex);
