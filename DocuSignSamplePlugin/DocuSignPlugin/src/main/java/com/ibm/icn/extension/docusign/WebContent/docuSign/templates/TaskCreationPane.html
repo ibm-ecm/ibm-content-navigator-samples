@@ -55,6 +55,26 @@
 				<tr>
 					<td class="propertyRowLabel">
 						<span class="ecmLabeledInputFieldRequired">*</span>
+						<label data-dojo-attach-point="adminUserNameLabel" for="${id}_adminUserName">Navigator Admin User Name</label>
+					</td>
+					<td class="propertyRowValue">
+						<select id="${id}_adminUserName" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="adminUserName" style="width:auto;">
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="propertyRowLabel">
+						<span class="ecmLabeledInputFieldRequired">*</span>
+						<label data-dojo-attach-point="adminPasswordLabel" for="${id}_adminPassword">Navigator Admin Password</label>
+					</td>
+					<td class="propertyRowValue">
+						<select id="${id}_adminPassword" data-dojo-type="dijit/form/TextBox" data-dojo-attach-point="adminPassword" style="width:auto;">
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="propertyRowLabel">
+						<span class="ecmLabeledInputFieldRequired">*</span>
 						<label data-dojo-attach-point="docuSignAutocheckInLabel" for="${id}_docuSignAutocheckIn">Enable auto check-in</label>
 					</td>
 					<td class="propertyRowValue">

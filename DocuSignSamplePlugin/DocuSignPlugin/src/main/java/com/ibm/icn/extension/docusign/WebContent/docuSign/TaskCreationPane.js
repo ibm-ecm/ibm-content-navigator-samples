@@ -72,7 +72,15 @@ define([
 		getDocusignPrivateKey: function () {
             return this.docuSignPrivateKey.get('value');
         },
-		
+
+		getAdminUserName: function () {
+            return this.adminUserName.get('value');
+        },
+
+		getAdminPassword: function () {
+            return this.adminPassword.get('value');
+        },
+        
 		getDocuSignAutocheckInFlag: function () {
 			return this.docuSignAutocheckIn.get('checked');
 		},

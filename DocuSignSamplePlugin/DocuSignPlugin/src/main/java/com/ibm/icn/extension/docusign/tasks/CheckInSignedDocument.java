@@ -51,6 +51,8 @@ public class CheckInSignedDocument extends BaseTask {
     private String docusignIntegratorKey;
     private String docusignPrivateKey;
     private String targetRepositoryId;
+    private String adminUserName;
+    private String adminPassword;
     private boolean autoCheckIn;
 
     private ObjectStore objectStore;
@@ -77,7 +79,8 @@ public class CheckInSignedDocument extends BaseTask {
 
             // get & set task parameters
             getTaskParameters(taskInfo);
-            objectStore = P8ConnectionUtil.getTargetOS(targetRepositoryId);
+            objectStore = P8ConnectionUtil.getTargetOS(adminUserName, adminPassword, targetRepositoryId);
+//            objectStore = P8ConnectionUtil.getTargetOS(targetRepositoryId);
 
             TaskLogger.fine(CLASS_NAME, functionName, "Object Store selected: " + objectStore.get_Name());
 
@@ -343,6 +346,9 @@ public class CheckInSignedDocument extends BaseTask {
         docusignAccountID =  (String) specificTaskRequestJson.get("docusignAccountID");
         docusignIntegratorKey =  (String) specificTaskRequestJson.get("docusignIntegratorKey");
         docusignPrivateKey =  (String) specificTaskRequestJson.get("docusignPrivateKey");
+        adminUserName = (String) specificTaskRequestJson.get("adminUserName");
+        adminPassword = (String) specificTaskRequestJson.get("adminPassword");
+
         //p8Folder = (String) specificTaskRequestJson.get("docusignP8Folder");
         String isAutoCheckIn = (String) specificTaskRequestJson.get("docusignAutocheckInFlag");
         autoCheckIn = Boolean.parseBoolean(isAutoCheckIn);

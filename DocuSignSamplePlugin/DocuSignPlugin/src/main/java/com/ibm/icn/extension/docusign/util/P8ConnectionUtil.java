@@ -13,33 +13,28 @@ import com.filenet.api.constants.AccessRight;
 import com.filenet.api.constants.AccessType;
 import com.filenet.api.constants.PropertyNames;
 import com.filenet.api.constants.RefreshMode;
-import com.filenet.api.core.Document;
-import com.filenet.api.core.Domain;
-import com.filenet.api.core.Factory;
-import com.filenet.api.core.Folder;
-import com.filenet.api.core.ObjectStore;
-import com.filenet.api.core.ReferentialContainmentRelationship;
+import com.filenet.api.core.*;
 import com.filenet.api.exception.EngineRuntimeException;
 import com.filenet.api.exception.ExceptionCode;
 import com.filenet.api.property.FilterElement;
 import com.filenet.api.property.PropertyFilter;
 import com.filenet.api.security.AccessPermission;
+import com.filenet.api.util.UserContext;
 import com.ibm.ecm.configuration.Config;
 import com.ibm.ecm.configuration.RepositoryConfig;
-import com.ibm.ecm.icntasks.p8.P8TaskUtils;
 import com.ibm.ecm.icntasks.util.MockHttpServletRequest;
-import com.ibm.ecm.icntasks.util.ServerInfo;
-import com.ibm.ecm.icntasks.util.TaskUtils;
 import com.ibm.ecm.task.ContextParams;
 import com.ibm.ecm.task.TaskLogger;
 import com.ibm.icn.extension.docusign.service.Constants;
+
+import javax.security.auth.Subject;
 
 /*
  * Util class provides functions to retrieve Task Manager connection, login and get target object store info.
  */
 public class P8ConnectionUtil {
 
-	static public ObjectStore getTargetOS(String tosId) throws Exception {
+	static public ObjectStore getTargetOS(String adminUserName, String adminPassword, String tosId) throws Exception {
 
 		ObjectStore targetOS = null;
 		
@@ -58,18 +53,34 @@ public class P8ConnectionUtil {
 			TaskLogger.fine("P8ConnectionUtil", "getTargetOSRef", "P8 server uri: " + targetP8ServerName);
 			
 			// get target OS and admin id/pwd
-			String targetOSName = sourceRepositoryConfig.getObjectStore();			
-			String adminUser = cp.getAdminUser();
-			String adminPassword = TaskUtils.getDecryptedPassword(cp.getAdminPassword(), null);
+			String targetOSName = sourceRepositoryConfig.getObjectStore();
 			
-			if ((adminUser == null) || (adminPassword == null))
+			if ((adminUserName == null) || (adminPassword == null))
 				TaskLogger.warning("P8ConnectionUtil", "getTargetOS", "UserId and Password are null");
-			
-			ServerInfo serverInfo = P8TaskUtils.fetchP8Domain(targetP8ServerName, adminUser, adminPassword);
-			Domain domain = serverInfo.getDomain();
-			
-			// Fetch object store
-			targetOS = P8TaskUtils.fetchObjectStoreInstance(domain, targetOSName);
+
+			Domain domain = null;
+			String stanza = "Navigator";
+			UserContext userCtx = new UserContext();
+
+			try {
+				Connection conn = com.filenet.api.core.Factory.Connection.getConnection(targetP8ServerName);
+				TaskLogger.fine("P8FilenetUtils", "fetchP8Domain", "Fetched domain stanza ='" + stanza);
+				Subject jaceSubject = UserContext.createSubject(conn, adminUserName, adminPassword, stanza);
+				userCtx = UserContext.get();
+				userCtx.pushSubject(jaceSubject);
+				PropertyFilter domainFilter = new PropertyFilter();
+				domainFilter.addIncludeProperty(new FilterElement((Integer)null, (Long)null, (Boolean)null, "Name", (Integer)null));
+				domainFilter.setMaxRecursion(1);
+				domain = com.filenet.api.core.Factory.Domain.fetchInstance(conn, (String)null, domainFilter);
+
+				// Fetch object store
+				targetOS = fetchObjectStoreInstance(domain, targetOSName);
+				TaskLogger.fine("P8FilenetUtils", "fetchP8Domain", "Fetched domain '" + domain.get_Name() + "' successfully.");
+			} catch (Exception var9) {
+				throw var9;
+			} finally {
+				userCtx.popSubject();
+			}
 		}
 		catch (Exception ex) {
 			TaskLogger.severe("P8ConnectionUtil", "getTargetOSRef", "Failed to get TOS repo info", ex);
@@ -77,6 +88,18 @@ public class P8ConnectionUtil {
 		}
 
 		return targetOS;
+	}
+
+	public static ObjectStore fetchObjectStoreInstance(Domain domain, String objStoreName) {
+		PropertyFilter filter = new PropertyFilter();
+		filter.addIncludeProperty(0, (Long)null, (Boolean)null, "RootClassDefinitions", (Integer)null);
+		filter.addIncludeProperty(0, (Long)null, (Boolean)null, "DisplayName", (Integer)null);
+		filter.addIncludeProperty(0, (Long)null, (Boolean)null, "Id", (Integer)null);
+		filter.addIncludeProperty(0, (Long)null, (Boolean)null, "Name", (Integer)null);
+		filter.addIncludeProperty(0, (Long)null, (Boolean)null, "SymbolicName", (Integer)null);
+		ObjectStore objStore = com.filenet.api.core.Factory.ObjectStore.fetchInstance(domain, objStoreName, filter);
+		TaskLogger.fine("P8FilenetUtils", "fetchObjectStoreInstance", "Fetched object store '" + objStore.get_DisplayName() + "' successfully.");
+		return objStore;
 	}
 	
 	
