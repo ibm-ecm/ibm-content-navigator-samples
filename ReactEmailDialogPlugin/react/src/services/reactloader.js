@@ -6,7 +6,7 @@ import { GlobalMessage as gMsg } from './gmessage';
 
 export class ReactLoader {
     constructor(mService) {
-        this.createBy = "RecycleBinPlugin"
+        this.createBy = "ReactEmailDialogPlugin"
         if(mService){
             this.mService = mService;
         }else{

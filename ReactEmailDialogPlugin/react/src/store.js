@@ -1,10 +1,10 @@
 import { applyMiddleware, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import promise from 'redux-promise-middleware';
-import { routerMiddleware } from 'react-router-redux';
+import { createPromise } from 'redux-promise-middleware'
+
 import reducers from './reducers';
 
-const historyMiddleware = routerMiddleware(history);
-const middleware = applyMiddleware(historyMiddleware, thunk, promise());
+const promise = createPromise({ types: { fulfilled: 'success' } });
+const middleware = applyMiddleware(promise, thunk);
 
 export default createStore(reducers, middleware);
