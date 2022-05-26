@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import store from "./store"
 import UserColumnSettings from './components/usercolumnsettings/usercolumnsettings'
 import { ReactLoader } from "./services/reactloader";
-import { ReactMessageService } from "./services/reactmessage";
 import { GlobalMessage as gMsg } from './services/gmessage'
 
 import './styles/app.css';
