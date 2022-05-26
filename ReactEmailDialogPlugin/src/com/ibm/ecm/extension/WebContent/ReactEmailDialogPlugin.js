@@ -24,7 +24,7 @@ function(declare, lang,aspect,CommonActionsHandler) {
         script.onload = callback;
         document.body.appendChild(script);
 	};
-
+	console.log("======Loading Plugin=====");
 	//Load css files
 	loadCSS("./plugin/ReactEmailDialogPlugin/getResource/reactEmailDialogPlugin/build/icn-react.min.css");
 

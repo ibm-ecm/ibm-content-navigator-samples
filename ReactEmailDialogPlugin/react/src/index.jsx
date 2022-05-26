@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import store from "./store"
 import EmailDialog from './components/EmailDialog/emaildialog'
 import { ReactLoader } from "./services/reactloader";
-import { ReactMessageService } from "./services/reactmessage";
 import { GlobalMessage as gMsg } from './services/gmessage'
 import './3pt/ap-components/ap-components-react.min.css';
 
