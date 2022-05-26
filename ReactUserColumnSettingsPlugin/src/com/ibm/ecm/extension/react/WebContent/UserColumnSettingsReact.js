@@ -23,6 +23,7 @@ function(declare, lang) {
         document.body.appendChild(script);
 	};
 
+	console.log("=====Loading plugin=====");
 	//Load css files
 //	loadCSS("plugin/UserColumnSettingsPluginReact/Plugin/getResource/userColumnSettings/build/ReactUserColumnSettings.css");
 

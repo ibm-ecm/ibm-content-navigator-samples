@@ -76,7 +76,7 @@ function build(previousFileSizes) {
 
     console.log('File sizes after gzip:');
     console.log();
-    printFileSizesAfterBuild(stats, previousFileSizes);
+    printFileSizesAfterBuild(stats, previousFileSizes,paths.appBuild);
     console.log();
 
     var appPackage  = require(paths.appPackageJson);
