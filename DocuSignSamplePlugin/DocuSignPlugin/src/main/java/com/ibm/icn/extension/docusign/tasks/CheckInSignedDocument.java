@@ -242,12 +242,12 @@ public class CheckInSignedDocument extends BaseTask {
         final String functionName = "checkInDocument";
         TaskLogger.fine(CLASS_NAME, functionName, "Entering method: " + functionName);
         Subject subject = TaskUtils.getSubjectForWAS(ltpaToken);
-        UserContext.get().pushSubject(subject);
 
         if (is != null)
         {
             try
             {
+                UserContext.get().pushSubject(subject);
                 Id vsId = doc.get_VersionSeries().get_Id();
                 doc.checkout(ReservationType.EXCLUSIVE, vsId, doc.getClassName(), doc.getProperties());
                 doc.save(RefreshMode.REFRESH);
