@@ -28,9 +28,12 @@ import com.filenet.api.core.Factory;
 import com.filenet.api.core.Folder;
 import com.filenet.api.core.ObjectStore;
 import com.filenet.api.util.Id;
+import com.filenet.api.util.UserContext;
 import com.ibm.ecm.task.TaskLogger;
 import com.ibm.ecm.task.commonj.work.BaseTask;
 import com.ibm.ecm.task.entities.Task;
+import com.ibm.ecm.icntasks.p8.*;
+import com.ibm.ecm.icntasks.util.TaskUtils;
 import com.docusign.esign.client.ApiClient;
 import com.docusign.esign.client.ApiException;
 import com.docusign.esign.client.auth.OAuth;
@@ -40,6 +43,7 @@ import com.ibm.icn.extension.docusign.util.P8ConnectionUtil;
 import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
 
+import javax.security.auth.Subject;
 import javax.servlet.http.HttpSession;
 
 public class CheckInSignedDocument extends BaseTask {
@@ -54,6 +58,7 @@ public class CheckInSignedDocument extends BaseTask {
     private String adminUserName;
     private String adminPassword;
     private boolean autoCheckIn;
+    private String ltpaToken;
 
     private ObjectStore objectStore;
 
@@ -70,6 +75,7 @@ public class CheckInSignedDocument extends BaseTask {
     @Override
     public void performTask(){
         final String functionName = "performTask";
+        ltpaToken = TaskUtils.getSubjectLTPAToken();
         TaskLogger.fine(CLASS_NAME, functionName, "Enter Copy Box File to Case task.");
 
         try {
@@ -80,8 +86,6 @@ public class CheckInSignedDocument extends BaseTask {
             // get & set task parameters
             getTaskParameters(taskInfo);
             objectStore = P8ConnectionUtil.getTargetOS(adminUserName, adminPassword, targetRepositoryId);
-//            objectStore = P8ConnectionUtil.getTargetOS(targetRepositoryId);
-
             TaskLogger.fine(CLASS_NAME, functionName, "Object Store selected: " + objectStore.get_Name());
 
             /*----------------------------------
@@ -237,6 +241,8 @@ public class CheckInSignedDocument extends BaseTask {
     {
         final String functionName = "checkInDocument";
         TaskLogger.fine(CLASS_NAME, functionName, "Entering method: " + functionName);
+        Subject subject = TaskUtils.getSubjectForWAS(ltpaToken);
+        UserContext.get().pushSubject(subject);
 
         if (is != null)
         {
@@ -282,6 +288,8 @@ public class CheckInSignedDocument extends BaseTask {
             catch (Exception e)
             {
                 e.printStackTrace();
+            } finally {
+                UserContext.get().popSubject();
             }
         }
 
@@ -306,7 +314,7 @@ public class CheckInSignedDocument extends BaseTask {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
             conn.setDoOutput(true);
-            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             conn.setRequestProperty("Authorization", "Bearer " + token);
 
             if (conn.getResponseCode() != 200) {
@@ -314,7 +322,7 @@ public class CheckInSignedDocument extends BaseTask {
                         + conn.getResponseCode());
             }
 
-            signedDocument = (InputStream) conn.getContent();
+            signedDocument = conn.getInputStream();
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
