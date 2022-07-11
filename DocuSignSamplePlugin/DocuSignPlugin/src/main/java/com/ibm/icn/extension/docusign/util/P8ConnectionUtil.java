@@ -104,7 +104,7 @@ public class P8ConnectionUtil {
 		return objStore;
 	}
 
-	static public String getTargetP8ServerName(String tosId) throws Exception {
+	public static String getTargetP8ServerName(String tosId) throws Exception {
 		MockHttpServletRequest request = new MockHttpServletRequest();
 
 		ContextParams cp = ContextParams.getShardInstance();
