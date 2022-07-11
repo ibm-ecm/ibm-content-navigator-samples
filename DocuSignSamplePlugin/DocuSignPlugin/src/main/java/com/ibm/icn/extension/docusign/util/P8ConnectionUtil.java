@@ -90,6 +90,8 @@ public class P8ConnectionUtil {
 		return targetOS;
 	}
 
+
+
 	public static ObjectStore fetchObjectStoreInstance(Domain domain, String objStoreName) {
 		PropertyFilter filter = new PropertyFilter();
 		filter.addIncludeProperty(0, (Long)null, (Boolean)null, "RootClassDefinitions", (Integer)null);
@@ -100,6 +102,21 @@ public class P8ConnectionUtil {
 		ObjectStore objStore = com.filenet.api.core.Factory.ObjectStore.fetchInstance(domain, objStoreName, filter);
 		TaskLogger.fine("P8FilenetUtils", "fetchObjectStoreInstance", "Fetched object store '" + objStore.get_DisplayName() + "' successfully.");
 		return objStore;
+	}
+
+	static public String getTargetP8ServerName(String tosId) throws Exception {
+		MockHttpServletRequest request = new MockHttpServletRequest();
+
+		ContextParams cp = ContextParams.getShardInstance();
+		TaskLogger.fine("P8ConnectionUtil", "getTargetOSRef", "cp.getDatabaseSchemaName() = " + cp.getDatabaseSchemaName());
+		TaskLogger.fine("P8ConnectionUtil", "getTargetOSRef", "cp.getDatabaseJDBCJNDI() = " + cp.getDatabaseJDBCJNDI());
+		Config.initialize(null, null, cp.getDatabaseSchemaName(), cp.getDatabaseJDBCJNDI(), null);
+
+		request.addParameter("repositoryId", tosId);
+		RepositoryConfig sourceRepositoryConfig = Config.getRepositoryConfig(request);
+
+		String targetP8ServerName = sourceRepositoryConfig.getServerName();
+		return targetP8ServerName;
 	}
 	
 	
