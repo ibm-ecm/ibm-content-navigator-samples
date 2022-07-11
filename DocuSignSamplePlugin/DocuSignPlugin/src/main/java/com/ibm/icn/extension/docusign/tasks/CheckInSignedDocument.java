@@ -11,10 +11,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import com.filenet.api.collection.ContentElementList;
 import com.filenet.api.collection.DocumentSet;
@@ -22,29 +19,26 @@ import com.filenet.api.constants.AutoClassify;
 import com.filenet.api.constants.CheckinType;
 import com.filenet.api.constants.RefreshMode;
 import com.filenet.api.constants.ReservationType;
-import com.filenet.api.core.ContentTransfer;
-import com.filenet.api.core.Document;
-import com.filenet.api.core.Factory;
-import com.filenet.api.core.Folder;
-import com.filenet.api.core.ObjectStore;
+import com.filenet.api.core.*;
 import com.filenet.api.util.Id;
 import com.filenet.api.util.UserContext;
+
 import com.ibm.ecm.task.TaskLogger;
 import com.ibm.ecm.task.commonj.work.BaseTask;
 import com.ibm.ecm.task.entities.Task;
-import com.ibm.ecm.icntasks.p8.*;
-import com.ibm.ecm.icntasks.util.TaskUtils;
+import com.ibm.ecm.task.ContextParams;
+
 import com.docusign.esign.client.ApiClient;
 import com.docusign.esign.client.ApiException;
 import com.docusign.esign.client.auth.OAuth;
 import com.ibm.icn.extension.docusign.service.Constants;
 import com.ibm.icn.extension.docusign.util.DocuSignUtil;
 import com.ibm.icn.extension.docusign.util.P8ConnectionUtil;
+
 import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
 
 import javax.security.auth.Subject;
-import javax.servlet.http.HttpSession;
 
 public class CheckInSignedDocument extends BaseTask {
 
@@ -58,7 +52,6 @@ public class CheckInSignedDocument extends BaseTask {
     private String adminUserName;
     private String adminPassword;
     private boolean autoCheckIn;
-    private String ltpaToken;
 
     private ObjectStore objectStore;
 
@@ -75,7 +68,6 @@ public class CheckInSignedDocument extends BaseTask {
     @Override
     public void performTask(){
         final String functionName = "performTask";
-        ltpaToken = TaskUtils.getSubjectLTPAToken();
         TaskLogger.fine(CLASS_NAME, functionName, "Enter Copy Box File to Case task.");
 
         try {
@@ -241,13 +233,18 @@ public class CheckInSignedDocument extends BaseTask {
     {
         final String functionName = "checkInDocument";
         TaskLogger.fine(CLASS_NAME, functionName, "Entering method: " + functionName);
-        Subject subject = TaskUtils.getSubjectForWAS(ltpaToken);
+        String targetP8ServerName = P8ConnectionUtil.getTargetP8ServerName(targetRepositoryId);
+        String stanza = "Navigator";
 
         if (is != null)
         {
             try
             {
-                UserContext.get().pushSubject(subject);
+                Connection conn = com.filenet.api.core.Factory.Connection.getConnection(targetP8ServerName);
+                TaskLogger.fine("P8FilenetUtils", "checkInDocument", "Fetched domain stanza ='" + stanza);
+                Subject jaceSubject = UserContext.createSubject(conn, adminUserName, adminPassword, stanza);
+                UserContext userCtx = UserContext.get();
+                userCtx.pushSubject(jaceSubject);
                 Id vsId = doc.get_VersionSeries().get_Id();
                 doc.checkout(ReservationType.EXCLUSIVE, vsId, doc.getClassName(), doc.getProperties());
                 doc.save(RefreshMode.REFRESH);
