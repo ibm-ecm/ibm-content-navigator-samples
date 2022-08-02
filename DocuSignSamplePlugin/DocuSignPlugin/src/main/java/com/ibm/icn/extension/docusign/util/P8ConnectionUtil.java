@@ -50,6 +50,7 @@ public class P8ConnectionUtil {
 			RepositoryConfig sourceRepositoryConfig = Config.getRepositoryConfig(request);
 
 			String targetP8ServerName = sourceRepositoryConfig.getServerName();
+			String serverConnType = getConnectionType(targetP8ServerName);
 			TaskLogger.fine("P8ConnectionUtil", "getTargetOSRef", "P8 server uri: " + targetP8ServerName);
 			
 			// get target OS and admin id/pwd
@@ -65,21 +66,27 @@ public class P8ConnectionUtil {
 			try {
 				Connection conn = com.filenet.api.core.Factory.Connection.getConnection(targetP8ServerName);
 				TaskLogger.fine("P8FilenetUtils", "fetchP8Domain", "Fetched domain stanza ='" + stanza);
-				Subject jaceSubject = UserContext.createSubject(conn, adminUserName, adminPassword, stanza);
-				userCtx = UserContext.get();
-				userCtx.pushSubject(jaceSubject);
+				System.out.println("Server Conn Type = " + serverConnType);
+				if (serverConnType == "EJB") {
+					System.out.println("Signing into user context ");
+					Subject jaceSubject = UserContext.createSubject(conn, adminUserName, adminPassword, stanza);
+					userCtx = UserContext.get();
+					userCtx.pushSubject(jaceSubject);
+				} else {
+					System.out.println("NOT Signing into user context ");
+				}
 				PropertyFilter domainFilter = new PropertyFilter();
 				domainFilter.addIncludeProperty(new FilterElement((Integer)null, (Long)null, (Boolean)null, "Name", (Integer)null));
 				domainFilter.setMaxRecursion(1);
 				domain = com.filenet.api.core.Factory.Domain.fetchInstance(conn, (String)null, domainFilter);
-
 				// Fetch object store
 				targetOS = fetchObjectStoreInstance(domain, targetOSName);
 				TaskLogger.fine("P8FilenetUtils", "fetchP8Domain", "Fetched domain '" + domain.get_Name() + "' successfully.");
 			} catch (Exception var9) {
 				throw var9;
 			} finally {
-				userCtx.popSubject();
+				if(serverConnType == "EJB")
+					userCtx.popSubject();
 			}
 		}
 		catch (Exception ex) {
@@ -90,7 +97,17 @@ public class P8ConnectionUtil {
 		return targetOS;
 	}
 
+	static public String getConnectionType(String uri) {
+		if (uri == null || uri.length() < 4)
+			return "";
 
+		// WSI/SOAP Session is being used over http and https
+
+		if (uri.substring(0, 4).equalsIgnoreCase("http"))
+			return "WSI";
+
+		return "EJB";
+	}
 
 	public static ObjectStore fetchObjectStoreInstance(Domain domain, String objStoreName) {
 		PropertyFilter filter = new PropertyFilter();
