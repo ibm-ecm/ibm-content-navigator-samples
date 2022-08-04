@@ -66,27 +66,21 @@ public class P8ConnectionUtil {
 			try {
 				Connection conn = com.filenet.api.core.Factory.Connection.getConnection(targetP8ServerName);
 				TaskLogger.fine("P8FilenetUtils", "fetchP8Domain", "Fetched domain stanza ='" + stanza);
-				System.out.println("Server Conn Type = " + serverConnType);
-				if (serverConnType == "EJB") {
-					System.out.println("Signing into user context ");
-					Subject jaceSubject = UserContext.createSubject(conn, adminUserName, adminPassword, stanza);
-					userCtx = UserContext.get();
-					userCtx.pushSubject(jaceSubject);
-				} else {
-					System.out.println("NOT Signing into user context ");
-				}
+				Subject jaceSubject = UserContext.createSubject(conn, adminUserName, adminPassword, stanza);
+				userCtx = UserContext.get();
+				userCtx.pushSubject(jaceSubject);
 				PropertyFilter domainFilter = new PropertyFilter();
 				domainFilter.addIncludeProperty(new FilterElement((Integer)null, (Long)null, (Boolean)null, "Name", (Integer)null));
 				domainFilter.setMaxRecursion(1);
 				domain = com.filenet.api.core.Factory.Domain.fetchInstance(conn, (String)null, domainFilter);
 				// Fetch object store
 				targetOS = fetchObjectStoreInstance(domain, targetOSName);
+				System.out.println("***+targetOS: " + targetOS);
 				TaskLogger.fine("P8FilenetUtils", "fetchP8Domain", "Fetched domain '" + domain.get_Name() + "' successfully.");
 			} catch (Exception var9) {
 				throw var9;
 			} finally {
-				if(serverConnType == "EJB")
-					userCtx.popSubject();
+				userCtx.popSubject();
 			}
 		}
 		catch (Exception ex) {
