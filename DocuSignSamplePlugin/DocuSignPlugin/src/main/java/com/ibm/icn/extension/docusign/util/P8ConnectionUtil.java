@@ -90,6 +90,8 @@ public class P8ConnectionUtil {
 		return targetOS;
 	}
 
+
+
 	public static ObjectStore fetchObjectStoreInstance(Domain domain, String objStoreName) {
 		PropertyFilter filter = new PropertyFilter();
 		filter.addIncludeProperty(0, (Long)null, (Boolean)null, "RootClassDefinitions", (Integer)null);
