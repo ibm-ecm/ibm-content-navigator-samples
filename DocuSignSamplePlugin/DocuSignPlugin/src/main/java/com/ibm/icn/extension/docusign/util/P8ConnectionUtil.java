@@ -72,7 +72,7 @@ public class P8ConnectionUtil {
 				domainFilter.addIncludeProperty(new FilterElement((Integer)null, (Long)null, (Boolean)null, "Name", (Integer)null));
 				domainFilter.setMaxRecursion(1);
 				domain = com.filenet.api.core.Factory.Domain.fetchInstance(conn, (String)null, domainFilter);
-				
+
 				// Fetch object store
 				targetOS = fetchObjectStoreInstance(domain, targetOSName);
 				TaskLogger.fine("P8FilenetUtils", "fetchP8Domain", "Fetched domain '" + domain.get_Name() + "' successfully.");
@@ -88,18 +88,6 @@ public class P8ConnectionUtil {
 		}
 
 		return targetOS;
-	}
-
-	static public String getConnectionType(String uri) {
-		if (uri == null || uri.length() < 4)
-			return "";
-
-		// WSI/SOAP Session is being used over http and https
-
-		if (uri.substring(0, 4).equalsIgnoreCase("http"))
-			return "WSI";
-
-		return "EJB";
 	}
 
 	public static ObjectStore fetchObjectStoreInstance(Domain domain, String objStoreName) {
