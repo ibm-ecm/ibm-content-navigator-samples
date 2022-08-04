@@ -74,8 +74,7 @@ public class P8ConnectionUtil {
 				domainFilter.setMaxRecursion(1);
 				domain = com.filenet.api.core.Factory.Domain.fetchInstance(conn, (String)null, domainFilter);
 				// Fetch object store
-				targetOS = fetchObjectStoreInstance(domain, targetOSName);
-				System.out.println("***+targetOS: " + targetOS);
+				targetOS = fetchObjectStoreInstance(domain, targetOSName)
 				TaskLogger.fine("P8FilenetUtils", "fetchP8Domain", "Fetched domain '" + domain.get_Name() + "' successfully.");
 			} catch (Exception var9) {
 				throw var9;
