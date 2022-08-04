@@ -50,7 +50,6 @@ public class P8ConnectionUtil {
 			RepositoryConfig sourceRepositoryConfig = Config.getRepositoryConfig(request);
 
 			String targetP8ServerName = sourceRepositoryConfig.getServerName();
-			String serverConnType = getConnectionType(targetP8ServerName);
 			TaskLogger.fine("P8ConnectionUtil", "getTargetOSRef", "P8 server uri: " + targetP8ServerName);
 			
 			// get target OS and admin id/pwd
@@ -73,6 +72,7 @@ public class P8ConnectionUtil {
 				domainFilter.addIncludeProperty(new FilterElement((Integer)null, (Long)null, (Boolean)null, "Name", (Integer)null));
 				domainFilter.setMaxRecursion(1);
 				domain = com.filenet.api.core.Factory.Domain.fetchInstance(conn, (String)null, domainFilter);
+				
 				// Fetch object store
 				targetOS = fetchObjectStoreInstance(domain, targetOSName);
 				TaskLogger.fine("P8FilenetUtils", "fetchP8Domain", "Fetched domain '" + domain.get_Name() + "' successfully.");
