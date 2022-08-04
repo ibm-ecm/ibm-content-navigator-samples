@@ -21,7 +21,6 @@ import com.filenet.api.constants.RefreshMode;
 import com.filenet.api.constants.ReservationType;
 import com.filenet.api.core.*;
 import com.filenet.api.util.Id;
-import com.filenet.api.util.UserContext;
 
 import com.ibm.ecm.task.TaskLogger;
 import com.ibm.ecm.task.commonj.work.BaseTask;
@@ -242,9 +241,6 @@ public class CheckInSignedDocument extends BaseTask {
             {
                 Connection conn = com.filenet.api.core.Factory.Connection.getConnection(targetP8ServerName);
                 TaskLogger.fine("P8FilenetUtils", "checkInDocument", "Fetched domain stanza ='" + stanza);
-                Subject jaceSubject = UserContext.createSubject(conn, adminUserName, adminPassword, stanza);
-                UserContext userCtx = UserContext.get();
-                userCtx.pushSubject(jaceSubject);
                 Id vsId = doc.get_VersionSeries().get_Id();
                 doc.checkout(ReservationType.EXCLUSIVE, vsId, doc.getClassName(), doc.getProperties());
                 doc.save(RefreshMode.REFRESH);
@@ -285,8 +281,6 @@ public class CheckInSignedDocument extends BaseTask {
             catch (Exception e)
             {
                 e.printStackTrace();
-            } finally {
-                UserContext.get().popSubject();
             }
         }
 
@@ -355,7 +349,7 @@ public class CheckInSignedDocument extends BaseTask {
         adminPassword = (String) specificTaskRequestJson.get("adminPassword");
 
         //p8Folder = (String) specificTaskRequestJson.get("docusignP8Folder");
-        String isAutoCheckIn = (String) specificTaskRequestJson.get("docusignAutocheckInFlag");
+        String isAutoCheckIn = (String) specificTaskRequestJson.get("docusignAutocheckinFlag");
         autoCheckIn = Boolean.parseBoolean(isAutoCheckIn);
 
         TaskLogger.fine(CLASS_NAME, functionName, "Exiting method: " + functionName);
