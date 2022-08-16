@@ -96,22 +96,33 @@ def updateLocalesInGzip(sourcePath, sourceFile) {
 
 	// add extra locales
 	String[] locales = "$extraLocales".split(",")		
+	Boolean newStyle = true
 	file(origFilePath).withInputStream { stream ->
 		file(filePath).withWriter { writer ->
 			stream.eachLine { line ->
-				int index = line.indexOf(",\"ROOT")
-				if(index > 0) {
-					String newLine = line.substring(0, index) 
-					println "updateLocalesInGzip: original line\n" + line
-					locales.each { locale ->
-						newLine = newLine + ",\"" + locale + "\""
+				if (line.indexOf("i18n!*preload") > 0) {
+					int index = line.indexOf(",\"ROOT")
+					if(index == -1) {
+						index = line.indexOf(",\\\"ROOT")
+						newStyle = false
 					}
-					newLine = newLine + line.substring(index) 
-					println "updateLocalesInGzip: updated to\n" + newLine
-					writer.writeLine newLine
-				} else {
-					writer.writeLine line
+					if(index > 0) {
+						String newLine = line.substring(0, index) 
+						println "updateLocalesInGzip: original line\n" + line
+						locales.each { locale ->
+							if (newStyle) {
+								newLine = newLine + ",\"" + locale + "\""
+							} else {
+								newLine = newLine + ",\\\"" + locale + "\\\""
+							}
+						}
+						newLine = newLine + line.substring(index) 
+						println "updateLocalesInGzip: updated to\n" + newLine
+						writer.writeLine newLine
+						return
+					}
 				}
+				writer.writeLine line
 			}
 		}
 	}
