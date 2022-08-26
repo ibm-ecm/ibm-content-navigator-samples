@@ -59,7 +59,7 @@ public class P8ConnectionUtil {
 				TaskLogger.warning("P8ConnectionUtil", "getTargetOS", "UserId and Password are null");
 
 			Domain domain = null;
-			String stanza = "Navigator";
+			String stanza = "FileNetP8WSI";
 			UserContext userCtx = new UserContext();
 
 			try {
