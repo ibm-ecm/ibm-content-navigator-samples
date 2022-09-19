@@ -36,9 +36,10 @@ define([
 		
 		destroy: function() {
         	this.inherited(arguments);
-			
-    		if (this._repoList)
+
+    		if (this._repoList) {
 				delete this._repoList;
+			}
         },
 
 		postCreate: function() {

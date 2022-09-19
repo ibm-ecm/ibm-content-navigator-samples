@@ -33,6 +33,12 @@ import com.docusign.esign.client.auth.OAuth;
 import com.ibm.icn.extension.docusign.service.Constants;
 import com.ibm.icn.extension.docusign.util.DocuSignUtil;
 import com.ibm.icn.extension.docusign.util.P8ConnectionUtil;
+import com.ibm.ecm.configuration.RepositoryConfig;
+import com.filenet.api.util.UserContext;
+import com.ibm.ecm.configuration.Config;
+import com.ibm.ecm.icntasks.util.MockHttpServletRequest;
+import com.filenet.api.property.PropertyFilter;
+import com.filenet.api.property.FilterElement;
 
 import com.ibm.json.java.JSONArray;
 import com.ibm.json.java.JSONObject;
@@ -124,7 +130,6 @@ public class CheckInSignedDocument extends BaseTask {
                 if (token != null)
                 {
                     URL url = new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignAccountID + "/envelopes?from_date=" + from_date + "&status=completed");
-                    System.out.println("========= url = " + url.toString());
                     JSONObject envelopesReturned = DocuSignUtil.executeGetUrl(url, token);
 
                     int envelopesCount = Integer.parseInt((String) envelopesReturned.get("resultSetSize"));
@@ -191,36 +196,84 @@ public class CheckInSignedDocument extends BaseTask {
     private void checkInSignedDocument(String envelopeId, String token) throws Exception
     {
         Document doc = null;
+        ObjectStore targetOS = null;
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        Domain domain = null;
+        String stanza = "FileNetP8WSI";
 
-        Folder stagingFolder = Factory.Folder.fetchInstance(objectStore, "/" + Constants.DOCUSIGN_STAGING_FOLDER, null);
-        DocumentSet docSet = stagingFolder.get_ContainedDocuments();
+        ContextParams cp = ContextParams.getShardInstance();
+        TaskLogger.fine("checkInSignedDocument", "checkInSignedDocument Function", "cp.getDatabaseSchemaName() = " + cp.getDatabaseSchemaName());
+        TaskLogger.fine("checkInSignedDocument", "checkInSignedDocument Function", "cp.getDatabaseJDBCJNDI() = " + cp.getDatabaseJDBCJNDI());
 
-        Iterator<?> documents = docSet.iterator();
-        while (documents.hasNext())
-        {
-            doc = (Document) documents.next();
-            String docEnvelopeId = getDocumentEnvelopeId(doc);
-            if (docEnvelopeId == null)
-                continue;
-            int docSignStatus = getDocumentSignStatus(doc);
+        Config.initialize(null, null, cp.getDatabaseSchemaName(), cp.getDatabaseJDBCJNDI(), null);
+        TaskLogger.fine("CheckInSignedDocument", "checkInSignedDocument Function", "Config initialized");
 
-            if (docEnvelopeId.equals(envelopeId) &&
-                    docSignStatus != Constants.SIGNATURE_STATUS.CHECKEDIN.getValue())
+        request.addParameter("repositoryId", targetRepositoryId);
+        RepositoryConfig sourceRepositoryConfig = Config.getRepositoryConfig(request);
+
+        String targetP8ServerName = sourceRepositoryConfig.getServerName();
+
+        String targetOSName = sourceRepositoryConfig.getObjectStore();
+        TaskLogger.fine("CheckInSignedDocument", "checkInSignedDocument Function", "targetOSName:" + targetOSName);
+
+        try {
+            Connection conn = com.filenet.api.core.Factory.Connection.getConnection(targetP8ServerName);
+            TaskLogger.fine("CheckInSignedDocument", "checkInSignedDocument Function", "conn = " + conn);
+            Subject ambientSubject = UserContext.getAmbientSubject();
+            TaskLogger.fine("CheckInSignedDocument", "checkInSignedDocument Function", "This is the value of ambientSubject:" + ambientSubject);
+            Subject jaceSubject = UserContext.createSubject(conn, adminUserName, adminPassword, stanza);
+            UserContext.get().pushSubject(jaceSubject);
+
+            PropertyFilter domainFilter = new PropertyFilter();
+            domainFilter.addIncludeProperty(new FilterElement((Integer) null, (Long) null, (Boolean) null, "Name", (Integer) null));
+            domainFilter.setMaxRecursion(1);
+
+            Folder stagingFolder = Factory.Folder.fetchInstance(objectStore, "/" + Constants.DOCUSIGN_STAGING_FOLDER, null);
+            DocumentSet docSet = stagingFolder.get_ContainedDocuments();
+            Iterator<?> documents = docSet.iterator();
+            while (documents.hasNext())
             {
-                if (autoCheckIn)
-                {
-                    InputStream is = downloadContentFromDocusign(docEnvelopeId, token);
+                doc = (Document) documents.next();
+                String docEnvelopeId = getDocumentEnvelopeId(doc);
+                if (docEnvelopeId == null)
+                    continue;
+                int docSignStatus = getDocumentSignStatus(doc);
 
-                    if (is != null)
-                        checkInDocument(objectStore, doc, is);
-                }
-                else
+                if (docEnvelopeId.equals(envelopeId) &&
+                        docSignStatus != Constants.SIGNATURE_STATUS.CHECKEDIN.getValue())
                 {
-                    doc.getProperties().putValue("DSSignatureStatus", Constants.SIGNATURE_STATUS.COMPLETED.getValue());
-                    doc.save(RefreshMode.NO_REFRESH);
+                    if (autoCheckIn)
+                    {
+                        InputStream is = downloadContentFromDocusign(docEnvelopeId, token);
+
+                        if (is != null)
+                            checkInDocument(objectStore, doc, is);
+                    }
+                    else
+                    {
+                        doc.getProperties().putValue("DSSignatureStatus", Constants.SIGNATURE_STATUS.COMPLETED.getValue());
+                        doc.save(RefreshMode.NO_REFRESH);
+                    }
                 }
             }
+
+        } catch (Exception cisdE) {
+            throw cisdE;
+        } finally {
+            UserContext.get().popSubject();
         }
+    }
+
+    public static ObjectStore fetchObjectStoreInstance(Domain domain, String objStoreName) {
+        PropertyFilter filter = new PropertyFilter();
+        filter.addIncludeProperty(0, (Long)null, (Boolean)null, "RootClassDefinitions", (Integer)null);
+        filter.addIncludeProperty(0, (Long)null, (Boolean)null, "DisplayName", (Integer)null);
+        filter.addIncludeProperty(0, (Long)null, (Boolean)null, "Id", (Integer)null);
+        filter.addIncludeProperty(0, (Long)null, (Boolean)null, "Name", (Integer)null);
+        filter.addIncludeProperty(0, (Long)null, (Boolean)null, "SymbolicName", (Integer)null);
+        ObjectStore objStore = com.filenet.api.core.Factory.ObjectStore.fetchInstance(domain, objStoreName, filter);
+        TaskLogger.fine("P8FilenetUtils", "fetchObjectStoreInstance", "Fetched object store '" + objStore.get_DisplayName() + "' successfully.");
+        return objStore;
     }
 
 

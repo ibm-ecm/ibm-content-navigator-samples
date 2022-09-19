@@ -105,6 +105,8 @@ public class SignRequestService extends PluginService {
 				{
 					// provide error information
 					callbacks.getLogger().logError(this, methodName, request, e);
+				} finally {
+					UserContext.get().popSubject();
 				}
 			}
 		} else 

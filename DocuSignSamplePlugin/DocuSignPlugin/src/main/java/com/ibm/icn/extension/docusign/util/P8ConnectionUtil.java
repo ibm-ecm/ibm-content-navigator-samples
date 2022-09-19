@@ -8,6 +8,7 @@ package com.ibm.icn.extension.docusign.util;
 import java.util.Iterator;
 
 import com.filenet.api.collection.AccessPermissionList;
+import com.filenet.api.collection.DocumentSet;
 import com.filenet.api.collection.ReferentialContainmentRelationshipSet;
 import com.filenet.api.constants.AccessRight;
 import com.filenet.api.constants.AccessType;
@@ -66,8 +67,7 @@ public class P8ConnectionUtil {
 				Connection conn = com.filenet.api.core.Factory.Connection.getConnection(targetP8ServerName);
 				TaskLogger.fine("P8FilenetUtils", "fetchP8Domain", "Fetched domain stanza ='" + stanza);
 				Subject jaceSubject = UserContext.createSubject(conn, adminUserName, adminPassword, stanza);
-				userCtx = UserContext.get();
-				userCtx.pushSubject(jaceSubject);
+				UserContext.get().pushSubject(jaceSubject);
 				PropertyFilter domainFilter = new PropertyFilter();
 				domainFilter.addIncludeProperty(new FilterElement((Integer)null, (Long)null, (Boolean)null, "Name", (Integer)null));
 				domainFilter.setMaxRecursion(1);
@@ -79,7 +79,7 @@ public class P8ConnectionUtil {
 			} catch (Exception var9) {
 				throw var9;
 			} finally {
-				userCtx.popSubject();
+				UserContext.get().popSubject();
 			}
 		}
 		catch (Exception ex) {
@@ -89,9 +89,7 @@ public class P8ConnectionUtil {
 
 		return targetOS;
 	}
-
-
-
+	
 	public static ObjectStore fetchObjectStoreInstance(Domain domain, String objStoreName) {
 		PropertyFilter filter = new PropertyFilter();
 		filter.addIncludeProperty(0, (Long)null, (Boolean)null, "RootClassDefinitions", (Integer)null);

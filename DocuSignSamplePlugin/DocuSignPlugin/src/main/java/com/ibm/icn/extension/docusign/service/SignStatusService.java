@@ -78,6 +78,8 @@ public class SignStatusService extends PluginService {
 				catch (Exception e) {
 					// provide error information
 					callbacks.getLogger().logError(this, methodName, request, e);
+				} finally {
+					UserContext.get().popSubject();
 				}
 			}
 		}
