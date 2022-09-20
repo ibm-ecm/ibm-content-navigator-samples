@@ -81,6 +81,7 @@ public class SignRequestService extends PluginService {
 		
 		Id vsId = null;
 		byte[] fileBytes = null;
+		Boolean subjectAdded = false;
 		
 		// This sample assumes the repository type is P8.
 		if (serverType.equalsIgnoreCase("p8")) {
@@ -91,6 +92,7 @@ public class SignRequestService extends PluginService {
 					// get object store context
 					Subject subject = callbacks.getP8Subject(repositoryId);
 					UserContext.get().pushSubject(subject);
+					subjectAdded = true;
 					objectStore = callbacks.getP8ObjectStore(repositoryId);
 					
 					// retrieve the p8 document content
@@ -105,6 +107,9 @@ public class SignRequestService extends PluginService {
 				{
 					// provide error information
 					callbacks.getLogger().logError(this, methodName, request, e);
+				} finally {
+					if (subjectAdded)
+						UserContext.get().popSubject();
 				}
 			}
 		} else 
