@@ -61,13 +61,14 @@ public class P8ConnectionUtil {
 
 			Domain domain = null;
 			String stanza = "FileNetP8WSI";
-			UserContext userCtx = new UserContext();
+			Boolean subjectAdded = false;
 
 			try {
 				Connection conn = com.filenet.api.core.Factory.Connection.getConnection(targetP8ServerName);
 				TaskLogger.fine("P8FilenetUtils", "fetchP8Domain", "Fetched domain stanza ='" + stanza);
 				Subject jaceSubject = UserContext.createSubject(conn, adminUserName, adminPassword, stanza);
 				UserContext.get().pushSubject(jaceSubject);
+				subjectAdded = true;
 				PropertyFilter domainFilter = new PropertyFilter();
 				domainFilter.addIncludeProperty(new FilterElement((Integer)null, (Long)null, (Boolean)null, "Name", (Integer)null));
 				domainFilter.setMaxRecursion(1);
@@ -79,7 +80,8 @@ public class P8ConnectionUtil {
 			} catch (Exception var9) {
 				throw var9;
 			} finally {
-				UserContext.get().popSubject();
+				if (subjectAdded)
+					UserContext.get().popSubject();
 			}
 		}
 		catch (Exception ex) {
@@ -89,7 +91,7 @@ public class P8ConnectionUtil {
 
 		return targetOS;
 	}
-	
+
 	public static ObjectStore fetchObjectStoreInstance(Domain domain, String objStoreName) {
 		PropertyFilter filter = new PropertyFilter();
 		filter.addIncludeProperty(0, (Long)null, (Boolean)null, "RootClassDefinitions", (Integer)null);
