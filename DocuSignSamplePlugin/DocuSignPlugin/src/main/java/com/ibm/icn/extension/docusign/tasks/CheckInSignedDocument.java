@@ -200,6 +200,7 @@ public class CheckInSignedDocument extends BaseTask {
         MockHttpServletRequest request = new MockHttpServletRequest();
         Domain domain = null;
         String stanza = "FileNetP8WSI";
+        Boolean subjectAdded = false;
 
         ContextParams cp = ContextParams.getShardInstance();
         TaskLogger.fine("checkInSignedDocument", "checkInSignedDocument Function", "cp.getDatabaseSchemaName() = " + cp.getDatabaseSchemaName());
@@ -223,6 +224,7 @@ public class CheckInSignedDocument extends BaseTask {
             TaskLogger.fine("CheckInSignedDocument", "checkInSignedDocument Function", "This is the value of ambientSubject:" + ambientSubject);
             Subject jaceSubject = UserContext.createSubject(conn, adminUserName, adminPassword, stanza);
             UserContext.get().pushSubject(jaceSubject);
+            subjectAdded = true;
 
             PropertyFilter domainFilter = new PropertyFilter();
             domainFilter.addIncludeProperty(new FilterElement((Integer) null, (Long) null, (Boolean) null, "Name", (Integer) null));
@@ -260,7 +262,8 @@ public class CheckInSignedDocument extends BaseTask {
         } catch (Exception cisdE) {
             throw cisdE;
         } finally {
-            UserContext.get().popSubject();
+            if (subjectAdded)
+                UserContext.get().popSubject();
         }
     }
 

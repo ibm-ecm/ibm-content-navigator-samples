@@ -59,9 +59,11 @@ public class SignStatusService extends PluginService {
 		
 		if (serverType.equalsIgnoreCase("p8")) {
 			synchronized (callbacks.getSynchObject(repositoryId, serverType)) {
+				Boolean subjectAdded = false;
 				try {
 					Subject subject = callbacks.getP8Subject(repositoryId);
 					UserContext.get().pushSubject(subject);
+					subjectAdded = true;
 					
 					ObjectStore objectStore = callbacks.getP8ObjectStore(repositoryId);
 					
@@ -79,7 +81,8 @@ public class SignStatusService extends PluginService {
 					// provide error information
 					callbacks.getLogger().logError(this, methodName, request, e);
 				} finally {
-					UserContext.get().popSubject();
+					if (subjectAdded)
+						UserContext.get().popSubject();
 				}
 			}
 		}
