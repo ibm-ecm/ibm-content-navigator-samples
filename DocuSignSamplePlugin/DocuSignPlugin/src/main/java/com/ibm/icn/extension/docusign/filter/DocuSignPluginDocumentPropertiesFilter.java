@@ -14,7 +14,7 @@ public class DocuSignPluginDocumentPropertiesFilter extends
 	@Override
 	public String[] getFilteredServices() 
 	{
-		return new String[] { "/p8/openItem", "/cm/openItem", "/cm/openContentClass","/p8/openContentClass" };
+		return new String[] { "/p8/openItem", "/p8/openContentClass" };
 	}
 	
 	@Override

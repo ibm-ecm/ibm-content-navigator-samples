@@ -19,8 +19,7 @@ public class DocuSignPluginResponseFilter extends PluginResponseFilter {
 
 	@Override
 	public String[] getFilteredServices() {
-		return new String[] { "/p8/search", "/cm/search", "/cmis/search",
-				"/p8/openFolder", "/cm/openFolder", "/cmis/openFolder" };
+		return new String[] { "/p8/search", "/p8/openFolder"};
 	}
 
 	@Override
