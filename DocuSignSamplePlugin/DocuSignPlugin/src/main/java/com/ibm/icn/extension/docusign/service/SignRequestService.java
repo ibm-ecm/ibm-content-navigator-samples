@@ -82,6 +82,7 @@ public class SignRequestService extends PluginService {
 		Id vsId = null;
 		byte[] fileBytes = null;
 		Boolean subjectAdded = false;
+		String jsonResponse = "{\"returncode\": \"-1\", \"errorMessage\": \"Session is null\"}";
 		
 		// This sample assumes the repository type is P8.
 		if (serverType.equalsIgnoreCase("p8")) {
@@ -102,6 +103,133 @@ public class SignRequestService extends PluginService {
 					mimeType = p8DocumentObj.get_MimeType();
 
 					fileBytes = GetDocumentContent.getContentBytes(callbacks, repositoryId, docId, vsId);
+			        // create Json objects required for payload
+					JSONObject payloadJson = new JSONObject();		
+					JSONArray compositeTemplates = new JSONArray();
+					JSONObject compositeTemplate = new JSONObject();
+					JSONArray inlineTemplates = new JSONArray();
+					
+					// create in-line template for recipients
+					JSONObject inlineTemplateForRecipients = new JSONObject();
+					JSONObject recipients = new JSONObject();
+					JSONArray signers = new JSONArray();
+					JSONArray carbonCopies = new JSONArray();
+					
+					for (int i = 0; i < signersInputArray.size(); i++)
+					{
+						JSONObject signerJson = new JSONObject();
+						signerJson.put(Constants.EMAIL, signersInputArray.get(i));
+						signerJson.put(Constants.NAME, signersInputArray.get(i));
+						signerJson.put(Constants.ROLE_NAME, "Signer" + (i + 1));
+						signerJson.put(Constants.RECIPIENT_ID, i+1);
+						
+						signers.add(signerJson);
+					}
+					
+					for (int i = 0; i < copiersInputArray.size(); i++)
+					{
+						JSONObject signerJson = new JSONObject();
+						signerJson.put(Constants.EMAIL, copiersInputArray.get(i));
+						signerJson.put(Constants.NAME, copiersInputArray.get(i));
+						signerJson.put(Constants.RECIPIENT_ID, signersInputArray.size() + i + 1);
+						
+						carbonCopies.add(signerJson);
+					}
+					
+					recipients.put(Constants.SIGNERS, signers);
+					recipients.put(Constants.CARBON_COPIES, carbonCopies);
+					inlineTemplateForRecipients.put(Constants.SEQUENCE, "3");
+					inlineTemplateForRecipients.put(Constants.RECIPIENTS, recipients);
+					
+					// create in-line template for document
+					JSONObject inlineTemplateForDocument = new JSONObject();
+					JSONArray documents = new JSONArray();
+					String base64Doc = DatatypeConverter.printBase64Binary(fileBytes);
+
+					JSONObject document = new JSONObject();
+					document.put(Constants.DOCUMENTS_BASE64, base64Doc);
+
+					// add the document id of the document from the template
+					String documentId = getDocumentIdFromTemplate(request, templateId);
+
+					document.put(Constants.DOCUMENT_ID, documentId);
+					document.put(Constants.NAME, p8DocumentObj.getProperties().getStringValue("DocumentTitle"));
+					
+					// Check if the incoming doc extension is .docx
+					// default extension supports pdf documents
+					if (mimeType.equals(Constants.DOCX_EXTENSION))
+					{
+						document.put(Constants.FILE_EXTENSION, "docx");
+					}
+					documents.add(document);
+
+					inlineTemplateForDocument.put(Constants.SEQUENCE, "1");
+					inlineTemplateForDocument.put(Constants.DOCUMENTS, documents);
+					inlineTemplates.add(inlineTemplateForRecipients);
+					inlineTemplates.add(inlineTemplateForDocument);
+					
+					// create server template
+					JSONArray serverTemplates = new JSONArray();
+					JSONObject serverTemplate = new JSONObject();
+					serverTemplate.put(Constants.SEQUENCE, "2");
+					serverTemplate.put(Constants.TEMPLATE_ID, templateId);
+					serverTemplates.add(serverTemplate);
+
+					compositeTemplate.put(Constants.COMPOSITE_TEMPLATE_ID, "1");
+					compositeTemplate.put(Constants.INLINE_TEMPLATES, inlineTemplates);
+					compositeTemplate.put(Constants.SERVER_TEMPLATES, serverTemplates);
+					compositeTemplates.add(compositeTemplate);
+					
+					payloadJson.put(Constants.STATUS, "sent");
+					payloadJson.put(Constants.EMAIL_SUB, emailSubject);
+					payloadJson.put(Constants.EMAIL_MSG, emailMessage);
+					payloadJson.put(Constants.COMPOSITE_TEMPLATES, compositeTemplates);
+					
+					callbacks.getLogger().logDebug(this, methodName, request, "json payload sent = " + payloadJson.toString());
+					System.out.println("==========");
+					System.out.println("~~~~~~~ mimeType = " + mimeType);
+					System.out.println(payloadJson.toString());
+					System.out.println("==========");
+
+					HttpSession session = request.getSession();
+					JSONObject resultJson = null;
+					
+					if (session != null &&
+							session.getAttribute(Constants.OAUTH_TOKEN) != null &&
+							session.getAttribute(Constants.DOCUSIGN_ACCOUNTID) != null)
+					{
+						String token = (String) session.getAttribute(Constants.OAUTH_TOKEN);
+						String docusignAccountId = (String) session.getAttribute(Constants.DOCUSIGN_ACCOUNTID);
+						
+						URL url = new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignAccountId + "/envelopes");
+						System.out.println("---- url executed : " + url.toString());
+						resultJson = DocuSignUtil.executePostUrl(url, token, payloadJson);
+						String msgresultJson = "This is resultJson: " + resultJson;
+						callbacks.getLogger().logExit(this, msgresultJson, request);
+						
+						// update document document meta-data with envelope Id
+						// and, set the sign status to 'sent'
+						String envelopeId;
+						envelopeId = (String) resultJson.get("envelopeId");
+						String msgenvelopeId = "This is envelopeId: " + envelopeId;
+						callbacks.getLogger().logExit(this, envelopeId, request);
+						p8DocumentObj.getProperties().putValue(Constants.DOCUMENT_SIGNATURE_STATUS, Constants.SIGNATURE_STATUS.SENT.getValue());
+						p8DocumentObj.getProperties().putValue(Constants.ENVELOPE_ID, envelopeId);
+						p8DocumentObj.save(RefreshMode.NO_REFRESH);	
+
+						// create a document reference for document in staging folder to 
+						// scope searching of documents sent to DocuSign for signatures 
+						Folder stagingFolder = P8ConnectionUtil.getP8StagingFolder(objectStore);
+						
+						ReferentialContainmentRelationship rcr = stagingFolder.file(p8DocumentObj,
+								AutoUniqueName.AUTO_UNIQUE, p8DocumentObj.getProperties().getStringValue("DocumentTitle"),
+								DefineSecurityParentage.DO_NOT_DEFINE_SECURITY_PARENTAGE);
+						rcr.save(RefreshMode.NO_REFRESH);
+						
+						// send Response back to client
+						jsonResponse = "{\"returncode\": \"0\", \"envelopeId\": \"" + envelopeId + "\", \"status\": 2}";	// sent has integer value 2
+					}
+					
 				} 
 				catch (Exception e) 
 				{
@@ -115,137 +243,6 @@ public class SignRequestService extends PluginService {
 		} else 
 		{
 			callbacks.getLogger().logError(this, methodName, request, "Only P8 datastore types are supported at this time.");
-		}
-		
-		// create Json objects required for payload
-		JSONObject payloadJson = new JSONObject();		
-		JSONArray compositeTemplates = new JSONArray();
-		JSONObject compositeTemplate = new JSONObject();
-		JSONArray inlineTemplates = new JSONArray();
-		
-		// create in-line template for recipients
-		JSONObject inlineTemplateForRecipients = new JSONObject();
-		JSONObject recipients = new JSONObject();
-		JSONArray signers = new JSONArray();
-		JSONArray carbonCopies = new JSONArray();
-		
-		for (int i = 0; i < signersInputArray.size(); i++)
-		{
-			JSONObject signerJson = new JSONObject();
-			signerJson.put(Constants.EMAIL, signersInputArray.get(i));
-			signerJson.put(Constants.NAME, signersInputArray.get(i));
-			signerJson.put(Constants.ROLE_NAME, "Signer" + (i + 1));
-			signerJson.put(Constants.RECIPIENT_ID, i+1);
-			
-			signers.add(signerJson);
-		}
-		
-		for (int i = 0; i < copiersInputArray.size(); i++)
-		{
-			JSONObject signerJson = new JSONObject();
-			signerJson.put(Constants.EMAIL, copiersInputArray.get(i));
-			signerJson.put(Constants.NAME, copiersInputArray.get(i));
-			signerJson.put(Constants.RECIPIENT_ID, signersInputArray.size() + i + 1);
-			
-			carbonCopies.add(signerJson);
-		}
-		
-		recipients.put(Constants.SIGNERS, signers);
-		recipients.put(Constants.CARBON_COPIES, carbonCopies);
-		inlineTemplateForRecipients.put(Constants.SEQUENCE, "3");
-		inlineTemplateForRecipients.put(Constants.RECIPIENTS, recipients);
-		
-        // create in-line template for document
-        JSONObject inlineTemplateForDocument = new JSONObject();
-        JSONArray documents = new JSONArray();
-        String base64Doc = DatatypeConverter.printBase64Binary(fileBytes);
-
-        JSONObject document = new JSONObject();
-        document.put(Constants.DOCUMENTS_BASE64, base64Doc);
-
-        // add the document id of the document from the template
-        String documentId = getDocumentIdFromTemplate(request, templateId);
-
-        document.put(Constants.DOCUMENT_ID, documentId);
-        document.put(Constants.NAME, p8DocumentObj.getProperties().getStringValue("DocumentTitle"));
-		
-        // Check if the incoming doc extension is .docx
-        // default extension supports pdf documents
-        if (mimeType.equals(Constants.DOCX_EXTENSION))
-        {
-        	document.put(Constants.FILE_EXTENSION, "docx");
-        }
-        documents.add(document);
-
-        inlineTemplateForDocument.put(Constants.SEQUENCE, "1");
-        inlineTemplateForDocument.put(Constants.DOCUMENTS, documents);
-        inlineTemplates.add(inlineTemplateForRecipients);
-        inlineTemplates.add(inlineTemplateForDocument);
-		
-		// create server template
-		JSONArray serverTemplates = new JSONArray();
-		JSONObject serverTemplate = new JSONObject();
-		serverTemplate.put(Constants.SEQUENCE, "2");
-		serverTemplate.put(Constants.TEMPLATE_ID, templateId);
-		serverTemplates.add(serverTemplate);
-
-		compositeTemplate.put(Constants.COMPOSITE_TEMPLATE_ID, "1");
-		compositeTemplate.put(Constants.INLINE_TEMPLATES, inlineTemplates);
-		compositeTemplate.put(Constants.SERVER_TEMPLATES, serverTemplates);
-		compositeTemplates.add(compositeTemplate);
-		
-		payloadJson.put(Constants.STATUS, "sent");
-		payloadJson.put(Constants.EMAIL_SUB, emailSubject);
-		payloadJson.put(Constants.EMAIL_MSG, emailMessage);
-		payloadJson.put(Constants.COMPOSITE_TEMPLATES, compositeTemplates);
-		
-		callbacks.getLogger().logDebug(this, methodName, request, "json payload sent = " + payloadJson.toString());
-		System.out.println("==========");
-		System.out.println("~~~~~~~ mimeType = " + mimeType);
-		System.out.println(payloadJson.toString());
-		System.out.println("==========");
-		String jsonResponse = null;
-		HttpSession session = request.getSession();
-		JSONObject resultJson = null;
-		
-		if (session != null &&
-				session.getAttribute(Constants.OAUTH_TOKEN) != null &&
-				session.getAttribute(Constants.DOCUSIGN_ACCOUNTID) != null)
-		{
-			String token = (String) session.getAttribute(Constants.OAUTH_TOKEN);
-			String docusignAccountId = (String) session.getAttribute(Constants.DOCUSIGN_ACCOUNTID);
-			
-			URL url = new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignAccountId + "/envelopes");
-			System.out.println("---- url executed : " + url.toString());
-			resultJson = DocuSignUtil.executePostUrl(url, token, payloadJson);
-			String msgresultJson = "This is resultJson: " + resultJson;
-			callbacks.getLogger().logExit(this, msgresultJson, request);
-			
-			// update document document meta-data with envelope Id
-			// and, set the sign status to 'sent'
-			String envelopeId;
-			envelopeId = (String) resultJson.get("envelopeId");
-			String msgenvelopeId = "This is envelopeId: " + envelopeId;
-			callbacks.getLogger().logExit(this, envelopeId, request);
-			p8DocumentObj.getProperties().putValue(Constants.DOCUMENT_SIGNATURE_STATUS, Constants.SIGNATURE_STATUS.SENT.getValue());
-			p8DocumentObj.getProperties().putValue(Constants.ENVELOPE_ID, envelopeId);
-			p8DocumentObj.save(RefreshMode.NO_REFRESH);	
-
-			// create a document reference for document in staging folder to 
-			// scope searching of documents sent to DocuSign for signatures 
-			Folder stagingFolder = P8ConnectionUtil.getP8StagingFolder(objectStore);
-		    
-			ReferentialContainmentRelationship rcr = stagingFolder.file(p8DocumentObj,
-			        AutoUniqueName.AUTO_UNIQUE, p8DocumentObj.getProperties().getStringValue("DocumentTitle"),
-			        DefineSecurityParentage.DO_NOT_DEFINE_SECURITY_PARENTAGE);
-			rcr.save(RefreshMode.NO_REFRESH);
-			
-			// send Response back to client
-			jsonResponse = "{\"returncode\": \"0\", \"envelopeId\": \"" + envelopeId + "\", \"status\": 2}";	// sent has integer value 2
-		}
-		else
-		{
-			jsonResponse = "{\"returncode\": \"-1\", \"errorMessage\": \"Session is null\"}";
 		}
 		
 		PrintWriter responseWriter = response.getWriter();

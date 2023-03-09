@@ -56,7 +56,7 @@ public class SignStatusService extends PluginService {
 		callbacks.getLogger().logDebug(this, methodName, request, "Request Parameter: repositoryId = " + ((repositoryId != null) ? repositoryId : ""));
 		callbacks.getLogger().logDebug(this, methodName, request, "Request Parameter: docid = " + ((docId != null) ? docId : ""));
 		callbacks.getLogger().logDebug(this, methodName, request, "Request Parameter: envelopeId = " + ((envelopeId != null) ? envelopeId : ""));
-		
+		String jsonResponse = "{\"returncode\": \"-1\", \"errorMessage\": \"Session is null\"}";
 		if (serverType.equalsIgnoreCase("p8")) {
 			synchronized (callbacks.getSynchObject(repositoryId, serverType)) {
 				Boolean subjectAdded = false;
@@ -72,10 +72,59 @@ public class SignStatusService extends PluginService {
 					p8DocumentObj = Factory.Document.fetchInstance(objectStore, tempDocId, null);
 					envelopeId = p8DocumentObj.getProperties().getStringValue(Constants.ENVELOPE_ID);
 					
-					/*//Document p8DocumentObj = Factory.Document.getInstance(objectStore, "Document", tempDocId);
-					Id vsId = p8DocumentObj.get_VersionSeries().get_Id();					
-					p8DocumentObj.checkout(ReservationType.EXCLUSIVE, vsId, p8DocumentObj.getClassName(), p8DocumentObj.getProperties());
-					p8DocumentObj.save(RefreshMode.REFRESH);*/
+					JSONObject tempJson = null;
+					JSONObject recipientsJson = null;
+					HttpSession session = request.getSession();
+
+					if (session != null &&
+							session.getAttribute(Constants.OAUTH_TOKEN) != null &&
+							session.getAttribute(Constants.DOCUSIGN_ACCOUNTID) != null)
+					{
+						String token = (String) session.getAttribute(Constants.OAUTH_TOKEN);
+						String docusignAccountId = (String) session.getAttribute(Constants.DOCUSIGN_ACCOUNTID);
+						
+						URL url = new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignAccountId + "/envelopes/" + envelopeId);
+						tempJson = DocuSignUtil.executeGetUrl(url, token);
+						
+						URL recipientsUrl =  new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignAccountId + "/envelopes/" + envelopeId + "/recipients");
+						recipientsJson = DocuSignUtil.executeGetUrl(recipientsUrl, token);
+
+						JSONArray signers = (JSONArray) recipientsJson.get("signers");
+						
+						String signersNames = "";
+						String signersEmails = "";
+						for (int i = 0; i < signers.size(); i++)
+						{
+							JSONObject signer = (JSONObject) signers.get(i);
+							String signerName = (String) signer.get("name");
+							String signerEmail = (String) signer.get("email");
+							
+							if (i == 0) {
+								signersNames = signerName;
+								signersEmails = signerEmail;
+							}
+							else {
+								signersNames = signersNames + ", " + signerName;
+								signersEmails = signersEmails + ", " + signerEmail;
+							}			
+						}
+						
+						tempJson.put("signerName", signersNames);
+						tempJson.put("signerEmail", signersEmails);
+						tempJson.put("envelopeId", envelopeId);
+						tempJson.put("returncode", "0");
+						
+						jsonResponse = tempJson.toString();
+						
+						// update sign status, if any, when retrieving the document status from DocuSign system
+						int docSignStatus = p8DocumentObj.getProperties().getInteger32Value(Constants.DOCUMENT_SIGNATURE_STATUS);
+						int currentSignStatus = getSignatureStatus(tempJson);
+						if (docSignStatus != currentSignStatus)
+						{
+							p8DocumentObj.getProperties().putValue(Constants.DOCUMENT_SIGNATURE_STATUS, currentSignStatus);
+							p8DocumentObj.save(RefreshMode.NO_REFRESH);
+						}
+					}
 				}
 				catch (Exception e) {
 					// provide error information
@@ -87,72 +136,12 @@ public class SignStatusService extends PluginService {
 			}
 		}
 		
-		String jsonResponse = null;
-		JSONObject tempJson = null;
-		JSONObject recipientsJson = null;
-		HttpSession session = request.getSession();
-
-		if (session != null &&
-				session.getAttribute(Constants.OAUTH_TOKEN) != null &&
-				session.getAttribute(Constants.DOCUSIGN_ACCOUNTID) != null)
-		{
-			String token = (String) session.getAttribute(Constants.OAUTH_TOKEN);
-			String docusignAccountId = (String) session.getAttribute(Constants.DOCUSIGN_ACCOUNTID);
-			
-			URL url = new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignAccountId + "/envelopes/" + envelopeId);
-			tempJson = DocuSignUtil.executeGetUrl(url, token);
-			
-			URL recipientsUrl =  new URL("https://demo.docusign.net/restapi/v2/accounts/" + docusignAccountId + "/envelopes/" + envelopeId + "/recipients");
-			recipientsJson = DocuSignUtil.executeGetUrl(recipientsUrl, token);
-
-			JSONArray signers = (JSONArray) recipientsJson.get("signers");
-			
-			String signersNames = "";
-			String signersEmails = "";
-			for (int i = 0; i < signers.size(); i++)
-			{
-				JSONObject signer = (JSONObject) signers.get(i);
-				String signerName = (String) signer.get("name");
-				String signerEmail = (String) signer.get("email");
-				
-				if (i == 0) {
-					signersNames = signerName;
-					signersEmails = signerEmail;
-				}
-				else {
-					signersNames = signersNames + ", " + signerName;
-					signersEmails = signersEmails + ", " + signerEmail;
-				}			
-			}
-			
-			tempJson.put("signerName", signersNames);
-			tempJson.put("signerEmail", signersEmails);
-			tempJson.put("envelopeId", envelopeId);
-			tempJson.put("returncode", "0");
-			
-			jsonResponse = tempJson.toString();
-			
-			// update sign status, if any, when retrieving the document status from DocuSign system
-			int docSignStatus = p8DocumentObj.getProperties().getInteger32Value(Constants.DOCUMENT_SIGNATURE_STATUS);
-			int currentSignStatus = getSignatureStatus(tempJson);
-			if (docSignStatus != currentSignStatus)
-			{
-				p8DocumentObj.getProperties().putValue(Constants.DOCUMENT_SIGNATURE_STATUS, currentSignStatus);
-				p8DocumentObj.save(RefreshMode.NO_REFRESH);
-			}
-		}
-		else
-		{
-			jsonResponse = "{\"returncode\": \"-1\", \"errorMessage\": \"Session is null\"}";
-			//throw new IllegalStateException("Session object is null!");
-		}
-		
 		// Send Response back to client
 		PrintWriter responseWriter = response.getWriter();
-        response.setContentType("text/plain");
-        responseWriter.print(jsonResponse);
-        responseWriter.flush();
-        responseWriter.close();
+		response.setContentType("text/plain");
+		responseWriter.print(jsonResponse);
+		responseWriter.flush();
+		responseWriter.close();
 		
 		callbacks.getLogger().logExit(this, methodName, request);
 	}
