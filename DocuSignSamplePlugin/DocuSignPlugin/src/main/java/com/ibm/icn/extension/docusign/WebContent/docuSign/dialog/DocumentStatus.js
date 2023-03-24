@@ -101,7 +101,6 @@ function(declare, lang, connect, domClass, domStyle, web, Messages, Button, Requ
 		_downloadCertificate: function () 
 		{
 			this.logEntry("_downloadCertificate");
-			var self = this;
 			var params = {};
 			params.certificateUri = encodeURIComponent(this._certificateUri);
 			params["plugin"] = "DocuSignPlugin";
@@ -119,31 +118,12 @@ function(declare, lang, connect, domClass, domStyle, web, Messages, Button, Requ
 						value: Request._security_token
 					}, this.downloadForm));
 				}
-	
-				if (this.params) {
-					var value;
-					for ( var name in this.params) {
-						if (name == "security_token") {
-							continue;
-						}
-						var value = this.params[name];
-						if (lang.isArray(value)) {
-							for ( var i in value) {
-								inputs.push(domConstruct.create("input", {
+				inputs.push(domConstruct.create("input", {
 									type: "hidden",
-									name: name,
-									value: value[i]
+									name:  "certificateUri",
+									value: params.certificateUri
 								}, this.downloadForm));
-							}
-						} else {
-							inputs.push(domConstruct.create("input", {
-								type: "hidden",
-								name: name,
-								value: value
-							}, this.downloadForm));
-						}
-					}
-				}
+	
 				
 				var request = new Request({
 					requestMethod: "GET",
