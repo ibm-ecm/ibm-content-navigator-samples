@@ -114,6 +114,7 @@ public class DocuSignPlugin extends Plugin {
             serviceArray = new com.ibm.ecm.extension.PluginService[] {
                     new com.ibm.icn.extension.docusign.service.SignRequestService(),
                     new com.ibm.icn.extension.docusign.service.SignStatusService(),
+                    new com.ibm.icn.extension.docusign.service.DownloadCertificateService(),
                     new com.ibm.icn.extension.docusign.service.UpdateSignedDocumentService(),
                     new com.ibm.icn.extension.docusign.service.GetConfigurationService(),
                     new com.ibm.icn.extension.docusign.service.GetTemplatesService(),
