@@ -64,7 +64,8 @@ public class DocuSignPlugin extends Plugin {
             actionArray = new com.ibm.ecm.extension.PluginAction[] {
                     new com.ibm.icn.extension.docusign.action.SignSubmitAction(),
                     new com.ibm.icn.extension.docusign.action.SignStatusAction(),
-                    new com.ibm.icn.extension.docusign.action.CheckinAction()
+                    new com.ibm.icn.extension.docusign.action.CheckinAction(),
+                    new com.ibm.icn.extension.docusign.action.DocumentHistoryAction()
             };
         }
         return actionArray;
@@ -115,6 +116,7 @@ public class DocuSignPlugin extends Plugin {
                     new com.ibm.icn.extension.docusign.service.SignRequestService(),
                     new com.ibm.icn.extension.docusign.service.SignStatusService(),
                     new com.ibm.icn.extension.docusign.service.DownloadCertificateService(),
+                    new com.ibm.icn.extension.docusign.service.GetDocumentHistoryService(),
                     new com.ibm.icn.extension.docusign.service.UpdateSignedDocumentService(),
                     new com.ibm.icn.extension.docusign.service.GetConfigurationService(),
                     new com.ibm.icn.extension.docusign.service.GetTemplatesService(),

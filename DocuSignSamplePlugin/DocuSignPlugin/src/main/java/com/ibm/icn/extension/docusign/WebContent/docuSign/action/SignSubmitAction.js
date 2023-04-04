@@ -33,7 +33,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/json", "ecm/model/Action"
 				requestParams: {
 					repositoryId : items[0].repository.id,
 					serverType : items[0].repository.type,
-					docId : items[0].docid,
+					docId : items[0].id,
 					payLoad: json.stringify(payLoadObject)
 				},
 				requestCompleteCallback: function(response) {
@@ -77,7 +77,7 @@ define(["dojo/_base/declare", "dojo/_base/lang", "dojo/json", "ecm/model/Action"
 				requestParams: {
 					repositoryId : items[0].repository.id,
 					serverType : items[0].repository.type,
-					docId : items[0].docid
+					docId : items[0].id
 				},
 				requestCompleteCallback: function(response) {
 					if (response.returncode == 0)

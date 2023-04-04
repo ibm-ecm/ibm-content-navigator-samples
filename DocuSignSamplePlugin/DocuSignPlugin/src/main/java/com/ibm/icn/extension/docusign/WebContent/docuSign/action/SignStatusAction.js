@@ -109,7 +109,7 @@ define(["dojo/_base/declare",  "dojo/_base/lang", "dojo/json", "ecm/model/Action
 				requestCompleteCallback: function(response) {
 					if (response.returncode == 0)
 					{
-						self._getDocumentStatus(items, data);
+						self._getDocumentStatus(items);
 					}
 					else if (response.returncode == -1)
 					{
