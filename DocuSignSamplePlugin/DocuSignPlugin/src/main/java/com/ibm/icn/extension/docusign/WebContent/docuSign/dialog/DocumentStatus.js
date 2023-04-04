@@ -12,15 +12,11 @@ define([
 	"dojox/validate/web",
 	"ecm/Messages",
 	"ecm/widget/Button",
-	"ecm/model/Request",
-	"dojo/dom",
-	"dojo/dom-construct",
-	"dojo/_base/array",
 	"ecm/widget/dialog/BaseDialog",
 	"dojo/text!./templates/DocumentStatus.html"
 ],
 
-function(declare, lang, connect, domClass, domStyle, web, Messages, Button, Request, dom, domConstruct, array, BaseDialog, template) {
+function(declare, lang, connect, domClass, domStyle, web, Messages, Button, BaseDialog, template) {
 
 	return declare("docuSign.dialog.DocumentStatus", [
 		BaseDialog
@@ -49,8 +45,6 @@ function(declare, lang, connect, domClass, domStyle, web, Messages, Button, Requ
 
 			this._saveButton = this.addButton("Check-in Signed Document", "onSave", false, false, "SAVE");
 			this._saveButton.set("disabled", true);
-			
-			this._getCertificateButton = this.addButton("Download Certificate", "_downloadCertificate", false, false, "DOWNLOAD_CERTIFICATE");
 		},
 
 		/**
@@ -76,7 +70,6 @@ function(declare, lang, connect, domClass, domStyle, web, Messages, Button, Requ
 			this._emailDiv.innerHTML = signStatus.signerEmail;
 			this._subjectDiv.innerHTML = signStatus.emailSubject;
 			this._sentTimeDiv.innerHTML = signStatus.sentDateTime;
-			this._certificateUri = signStatus.certificateUri;
 			
 			this._sentTimeDiv.innerHTML = dojo.date.locale.format(new Date(signStatus.sentDateTime), {formatLength: "medium"});
 			
@@ -97,67 +90,7 @@ function(declare, lang, connect, domClass, domStyle, web, Messages, Button, Requ
 			}
 			this.logExit("onSave");
 		},
-		
-		_downloadCertificate: function () 
-		{
-			this.logEntry("_downloadCertificate");
-			var params = {};
-			params.certificateUri = encodeURIComponent(this._certificateUri);
-			params["plugin"] = "DocuSignPlugin";
-			params["action"] = "DownloadCertificateService";
-			Request.setSecurityToken(params);
-			this.downloadForm = this._createDownloadForm();
-			if(this.downloadForm) {
-				var requestUrl = Request.getServiceRequestUrl("plugin", "", params);
-				var inputs = []; // temporary input elements for additional parameters
-		
-				if (Request.enableSecureService && Request._security_token) {
-					inputs.push(domConstruct.create("input", {
-						type: "hidden",
-						name: "security_token",
-						value: Request._security_token
-					}, this.downloadForm));
-				}
-				inputs.push(domConstruct.create("input", {
-									type: "hidden",
-									name:  "certificateUri",
-									value: params.certificateUri
-								}, this.downloadForm));
-	
-				
-				var request = new Request({
-					requestMethod: "GET",
-					requestUrl: requestUrl,
-					requestHeaders: {
-						"Cache-Control": "no-cache"
-					},
-					synchronous: true,
-				});
-				try{
-					request.dojoIOIFrameDownload(this.downloadForm);
-				} finally {
-					// clean up temporary input elements
-					array.forEach(inputs, domConstruct.destroy);
-				}
-			} 
-			this.logExit("_downloadCertificate");
-		},
-		
-		_createDownloadForm: function() {
-			// Create form for passing download parameter values to get around the 2K URL length limitation for IE
-			var downloadForm = dom.byId("documentDownloadForm");
-			if (downloadForm) {
-				document.body.removeChild(downloadForm);
-			}
-			downloadForm = document.createElement("form");
-			downloadForm.setAttribute("id", "documentDownloadForm");
-			downloadForm.setAttribute("name", "documentDownloadForm");
-			downloadForm.setAttribute("method", "post");
-			downloadForm.setAttribute("accept-charset", "UTF-8");
-			document.body.appendChild(downloadForm);
-			return downloadForm;
-		},
-		
+
 		resize: function() {
 			this.inherited(arguments);
 		}
