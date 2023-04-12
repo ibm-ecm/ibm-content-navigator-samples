@@ -14,7 +14,7 @@ define([
 	
 	lang.setObject("docuSign.util.DetailsViewDecorator.docuSignPluginStatusDecorator", function(data, rowId, rowIndex) {
 
-		if (!rowId || !data || !rowIndex)
+		if (!rowId || !data || rowIndex == null)
 			return;
 		
 		var item = this.grid.row(rowId).item();
