@@ -42,6 +42,7 @@ define([
 			
 			return returnTag;
 		}
+		return returnTag;
 		
 	});
 
