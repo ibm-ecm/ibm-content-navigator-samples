@@ -20,11 +20,6 @@ Before proceeding with the installation, please ensure that you have the followi
 Tools:
  * Kubernetes or OCP CLI: Installed and properly configured on your system
 
-System Requirements:
- * Cluster:
- * Storage:
- * Database:
-
 Preparation Steps
 ------------------
 
