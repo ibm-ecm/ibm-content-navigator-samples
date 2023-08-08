@@ -1,0 +1,160 @@
+###############################################################################
+#
+# Licensed Materials - Property of IBM
+#
+# (C) Copyright IBM Corp. 2022. All Rights Reserved.
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+###############################################################################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ibm-icn-operator
+  labels:
+    app.kubernetes.io/instance: ibm-icn
+    app.kubernetes.io/managed-by: ibm-icn
+    app.kubernetes.io/name: ibm-icn
+    release: 3.0.13
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: ibm-icn-operator
+  template:
+    metadata:
+      labels:
+        name: ibm-icn-operator
+        app.kubernetes.io/instance: ibm-icn
+        app.kubernetes.io/managed-by: ibm-icn
+        app.kubernetes.io/name: ibm-icn
+        release: 3.0.13
+    spec:
+      hostNetwork: false
+      hostPID: false
+      hostIPC: false
+      securityContext:
+        runAsNonRoot: true
+      serviceAccountName: ibm-icn-operator
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+                      - s390x
+                      - ppc64le
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 3
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+                      - s390x
+                      - ppc64le
+      initContainers:
+        - name: folder-prepare-container
+          image: "icr.io/cpopen/icp4a-content-operator:22.0.2-LA601"
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+              - ALL
+          ## Uncomment this to enable seccomp profile on OCP 4.12+
+          #  seccompProfile:
+          #    type: RuntimeDefault
+          volumeMounts:
+            - name: license-folder-pvc
+              mountPath: /license-folder
+            - name: ansible-folder-pvc
+              mountPath: /ansible-folder
+            - name: tmp-folder-pvc
+              mountPath: /tmp-folder
+            - name: log-folder-pvc
+              mountPath: /log-folder
+            - name: ibm-folder-pvc
+              mountPath: /ibm-folder
+          command:
+            - "/bin/sh"
+            - "-ecx"
+            - >
+              rm -rf /license-folder/* && rm -rf /tmp-folder/* && rm -rf /ansible-folder/* && rm -rf /log-folder/* && rm -rf /ibm-folder/* &&
+              cp -rp /licenses/* /license-folder && 
+              mkdir -p /ansible-folder/.ansible &&
+              cp -rp /opt/ansible/* /ansible-folder &&
+              cp -rp /opt/ansible/.ansible/* /ansible-folder/.ansible &&
+              cp -rp /opt/ibm/* /ibm-folder
+      containers:
+        - name: operator
+          # Replace this with the built image name
+          image: "icr.io/cpopen/icp4a-content-operator:22.0.2-LA601"
+          imagePullPolicy: "IfNotPresent"
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+              - ALL
+          ## Uncomment this to enable seccomp profile on OCP 4.12+
+          #  seccompProfile:
+          #    type: RuntimeDefault
+          resources:
+            limits:
+              cpu: '1'
+              memory: 2Gi
+            requests:
+              cpu: 500m
+              memory: 256Mi
+          args:
+          - '--zap-encoder=console'
+          env:
+            - name: WATCH_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: OPERATOR_NAME
+              value: "ibm-fncm-operator"
+            - name: MAX_CONCURRENT_RECONCILES_ICP4ACLUSTER_ICP4A_IBM_COM
+              value: "10"
+            - name: ANSIBLE_GATHERING
+              value: smart
+            # MUST exist, used to accept dba license, valid value only can be "accept"
+            - name: fncm_license
+              value: "accept"
+          volumeMounts:
+            - name: license-folder-pvc
+              mountPath: /licenses
+            - name: ansible-folder-pvc
+              mountPath: /opt/ansible
+            - name: tmp-folder-pvc
+              mountPath: /tmp
+            - name: log-folder-pvc
+              mountPath: /logs
+            - name: ibm-folder-pvc
+              mountPath: /opt/ibm
+      imagePullSecrets:
+      - name: "ibm-entitlement-key"
+      volumes:
+        - name: license-folder-pvc
+          emptyDir: {}
+        - name: tmp-folder-pvc
+          emptyDir: {}
+        - name: ansible-folder-pvc
+          emptyDir: {}
+        - name: log-folder-pvc
+          emptyDir: {}
+        - name: ibm-folder-pvc
+          emptyDir: {}
