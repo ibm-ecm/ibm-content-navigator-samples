@@ -325,4 +325,12 @@ Troubleshooting
 Conclusion
 ----------
 
-Congratulations! You have successfully installed the IBM Content Navigator.
+Congratulations! You have successfully installed IBM Content Navigator.
+
+Next Steps
+----------
+
+#. For more information on connecting your respective repository to IBM Content Navigator, please refer to the provided documentation below:
+
+    * `Connecting to IBM Content Manager OnDemand <https://www.ibm.com/docs/en/content-navigator/3.0.14?topic=ccrcn-connecting-content-manager-ondemand-repository-from-content-navigator-container-deployment>`_
+    * `Connecting to IBM Content Manager 8 <https://www.ibm.com/docs/en/content-navigator/3.0.14?topic=ccrcn-connecting-content-manager-repository-from-content-navigator-container-deployment>`_
