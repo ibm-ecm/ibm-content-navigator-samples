@@ -56,6 +56,25 @@ Complete the following tasks to prepare for your deployment:
       .. note::
          The provided scripts should be reviewed and modified to meet your specific requirements.
 
+      .. note::
+         The IBM Navigator Operator comes preloaded with the JDBC driver.
+         Please see the below for the drivers included:
+
+        .. list-table:: Database Drivers
+                   :header-rows: 1
+
+                   * - Database
+                     - Version
+                   * - DB2
+                     - 11.5 M8 FP0
+                   * - Oracle
+                     - 19.18.0.0
+                   * - Microsoft SQL Server
+                     - 12.2.0
+                   * - PostgreSQL
+                     - 42.6.0
+
+
 #. Create the `ibm-ban-secret` in your cluster.
     * Obtain the following information:
         * appLoginUsername & appLoginPassword:
@@ -185,6 +204,39 @@ There are two options for the CR template:
                database_servername
                database_port
                database_name
+
+#. If you have SSL enabled Database connection then you need follow the below procedure:
+
+    .. note::
+
+        By default SSL is enabled for the database connection.
+        If you want to disable SSL then you need to update the CR with the following parameters:
+        `spec.datasource_configuration.dc_ssl_enabled = false`
+
+        If SSL is disabled, `spec.datasource_configuration.dc_icn_datasource.database_ssl_secret_name` is not required.
+
+
+    * Create a secret for the SSL certificate.
+
+        .. code-block:: bash
+
+            kubectl create secret generic db-ssl-secret --from-file=tls.crt=<PathToCertFile> -n <namespace-name>
+
+    * Update the CR with the following parameters:
+
+            .. list-table:: CR Values for SSL enabled Database
+               :header-rows: 1
+
+               * - Section
+                 - Parameters
+                 - Value
+               * - spec.datasource_configuration
+                 - dc_ssl_enabled
+                 - true
+               * - spec.datasource_configuration.dc_icn_datasource
+                 - database_ssl_secret_name
+                 - db-ssl-secret
+
 
 #. Apply the CR in your cluster.
 
