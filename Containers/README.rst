@@ -10,6 +10,8 @@ For more details on IBM Content Navigator, please refer to the provided `documen
 Currently supported version using the following instructions:
  * IBM Content Navigator 3.0.13
  * IBM Content Navigator 3.0.14
+ * IBM Content Navigator 3.0.15
+
 
 
 Prerequisites
@@ -107,7 +109,7 @@ Complete the following tasks to prepare for your deployment:
 
         .. code-block:: bash
 
-            cd ./Containers/3.0.13
+            cd ./Containers/3.0.15
 
     * Edit the supplied `cluster_role_binding.yaml` file to include the namespace you created in the previous step.
     * Replace the `<NAMESPACE>` values with your created namespace.
