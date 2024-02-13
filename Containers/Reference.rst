@@ -8,50 +8,50 @@ Spec Parameters
 ---------------
 
     .. csv-table:: Spec Parameters
-       :file: CSV/spec-reference.csv
+       :file: ./CSV/spec-reference.csv
        :header-rows: 1
 
 Shared Parameters
 ----------------
 
     .. csv-table:: Shared Parameters
-       :file: CSV/shared-reference.csv
+       :file: ./CSV/shared-reference.csv
        :header-rows: 1
 
 OIDC Parameters
 ---------------
 
     .. csv-table:: OIDC Parameters
-       :file: CSV/oidc-reference.csv
+       :file: ./CSV/oidc-reference.csv
        :header-rows: 1
 
 Monitoring and Logging Parameters
 ---------------------------------
 
     .. csv-table:: Monitoring Parameters
-       :file: CSV/monitoring-reference.csv
+       :file: ./CSV/monitoring-reference.csv
        :header-rows: 1
 
     .. csv-table:: Logging Parameters
-       :file: CSV/logging-reference.csv
+       :file: ./CSV/logging-reference.csv
        :header-rows: 1
 
 Datasource Parameters
 ---------------------
 
     .. csv-table:: Shared Datasource Parameters
-       :file: CSV/database-shared-reference.csv
+       :file: ./CSV/database-shared-reference.csv
        :header-rows: 1
 
     .. csv-table:: Datasource Parameters
-       :file: CSV/database-reference.csv
+       :file: ./CSV/database-reference.csv
        :header-rows: 1
 
 Navigator Parameters
 --------------------
 
     .. csv-table:: Navigator Parameters
-       :file: CSV/navigator-reference.csv
+       :file: ./CSV/navigator-reference.csv
        :header-rows: 1
 
 
