@@ -8,8 +8,19 @@ Spec Parameters
 ---------------
 
     .. csv-table:: Spec Parameters
-       :file: ./CSV/spec-reference.csv
-       :header-rows: 1
+       :header: "Parameter", "Description", "Example", "Required"
+       :widths: 15, 20, 20, 10
+
+        "content_optional_components","Specify which component to include (true) or omit (false).","cpe: false","No"
+        ,,"graphql: false",
+        ,,"cmis: false",
+        ,,"css: false",
+        ,,"es: false",
+        ,,"tm: false",
+        ,,"ban: true",
+        ,,,
+        "license.accept","Must exist to accept the IBM license. The only valid value is ""true"".","true","Yes"
+        "appVersion", "The version of the current release.", "23.0.2", "Yes"
 
 Shared Parameters
 ----------------
