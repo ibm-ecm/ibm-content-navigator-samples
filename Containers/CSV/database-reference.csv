@@ -1,0 +1,20 @@
+﻿Parameters,Description,Default/Example Values,Required
+dc_database_type,"Specify the type for your Business Automation Navigator database. The possible values are ""db2"" or ""db2HADR"" or ""oracle"". This setting must be the same as for the Global Configuration Database and the object store database types.","""db2""",Yes
+dc_common_icn_datasource_name,The JNDI name of the non-XA JDBC data source associated with the IBM Content Navigator table space or database. The name must be unique.,"""ECMClientDS""",Yes
+database_servername,The host name of the server where the database software is installed.,"""<hostname>""","Yes, but not applicable to database type of Oracle which requires a JDBC URL"
+database_port,"Provide the database port. For Db2, the default is ""50000"".","""50000""","Yes, but not applicable to database type of Oracle which requires a JDBC URL"
+database_name,Provide the database name.,"""ICNDB""","Yes, but not applicable to database type of Oracle which requires a JDBC URL"
+database_ssl_secret_name,The name of the secret that contains the Db2 SSL certificate.,"""<secret_name>""","Yes, if using SSL with Db2"
+dc_oracle_icn_jdbc_url,Oracle: Provide the URL for the IBM Content Navigator database.,"SSL URL: ""jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCPS)(HOST={host})(PORT={port}))('CONNECT_DATA=(SERVICE_NAME={ICNDB})))""","Yes, if the database type is Oracle"
+,,"Non-SSL URL: ""jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={host})(PORT={port}))('CONNECT_DATA=(SERVICE_NAME={ICNDB})))""",
+,,,
+dc_hadr_standby_servername,Db2 HADR: Enter the standby server name.,"""<hostname>""",Yes
+dc_hadr_standby_port,Db2 HADR: Enter the standby database server port.,"""50000""",Yes
+dc_hadr_validation_timeout,Db2 HADR: Specify the validation timeout entry.,15,No
+dc_hadr_retry_interval_for_client_reroute,Db2 HADR: Specify the time in seconds between connection attempts made by the automatic client reroute if the primary connection to the server fails.,15,No
+dc_hadr_max_retries_for_client_reroute,Db2 HADR: The maximum number of connection retries attempted by automatic client reroute if the primary connection to the server fails. This property is used only if the Retry interval for client reroute property is set.,3,No
+connection_manager.min_pool_size,"Specifies the minimum number of physical connections to maintain. With the default setting of 0, no connections are created with the database starts.",0,No
+connection_manager.max_pool_size,Specifies the maximum number of physical connections that you can create in this pool. The maximum pool size for connections depends on the number of connections that are supported by your database driver.,50,No
+connection_manager.max_idle_time,Use this setting to specify how long to wait to clean up idle connections.,1m,No
+connection_manager.reap_time,"Specifies the interval, in seconds, between runs of the pool maintenance thread.",2m,No
+connection_manager.purge_policy,Specifies how to purge connections when a stale connection or fatal connection error is detected.,EntirePool,No

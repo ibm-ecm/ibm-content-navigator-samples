@@ -77,6 +77,16 @@ Complete the following tasks to prepare for your deployment:
                      - 42.6.0
 
 
+#. Create the IBM Content Navigator namespace in your cluster.
+      * Login to your OCP or CNCF cluster.
+      * Option 1: Run the following command to create the namespace:
+
+         .. code-block:: bash
+
+              kubectl create namespace <namespace-name>
+
+      * Option 2: Create the namespace through the OCP Console.
+
 #. Create the `ibm-ban-secret` in your cluster.
     * Obtain the following information:
         * appLoginUsername & appLoginPassword:
@@ -92,17 +102,7 @@ Complete the following tasks to prepare for your deployment:
 
         .. code-block:: bash
 
-            kubectl create -f ibm-ban-secret.yaml
-
-#. Create the IBM Content Navigator namespace in your cluster.
-      * Login to your OCP or CNCF cluster.
-      * Option 1: Run the following command to create the namespace:
-
-         .. code-block:: bash
-
-              kubectl create namespace <namespace-name>
-
-      * Option 2: Create the namespace through the OCP Console.
+            kubectl create -f ibm-ban-secret.yaml -n <namespace-name>
 
 #. Prepare your deployment files.
     * Navigate to folder for the version of IBM Content Navigator you are deploying.
@@ -119,7 +119,7 @@ Operator Deployment Steps
 
 After completing the above preparation steps, you are ready to deploy the IBM Content Navigator Operator.
 
-#. *OCP Only* - Apply the cluster role and binding to your cluster.
+#. *OCP Only* - Apply the cluster role and binding to your cluster. These artifacts are applied cluster-wide.
     * Run the following command to create the cluster role and binding:
 
         .. code-block:: bash
@@ -133,11 +133,11 @@ After completing the above preparation steps, you are ready to deploy the IBM Co
 
         .. code-block:: bash
 
-                kubectl create -f role.yaml
-                kubectl create -f service_account.yaml
-                kubectl create -f role_binding.yaml
+                kubectl create -f role.yaml -n <namespace-name>
+                kubectl create -f service_account.yaml -n <namespace-name>
+                kubectl create -f role_binding.yaml -n <namespace-name>
 
-#. Apply the CRD (Custom Resource Definition) to your cluster.
+#. Apply the CRD (Custom Resource Definition) to your cluster. These artifacts are applied cluster-wide.
 
     * Run the following command to create the CRD:
 
@@ -151,7 +151,7 @@ After completing the above preparation steps, you are ready to deploy the IBM Co
 
         .. code-block:: bash
 
-            kubectl create -f operator.yaml
+            kubectl create -f operator.yaml -n <namespace-name>
 
 #. Verify that the Operator is running.
 
@@ -165,8 +165,8 @@ After completing the above preparation steps, you are ready to deploy the IBM Co
 
         .. code-block:: bash
 
-            NAME                                 READY   STATUS    RESTARTS   AGE
-            ibm-content-navigator-operator-xxx    1/1     Running   0          2m
+            NAME                    READY   STATUS    RESTARTS   AGE
+            ibm-icn-operator-xxx    1/1     Running   0          2m
 
 Create the Custom Resource (CR)
 -----
@@ -183,8 +183,11 @@ There are two options for the CR template:
 
 .. note::
 
+    The `ibm_icn_cr_production.yaml` template is a minimal configuration.
     Start with the ibm_icn_cr_production.yaml template and add the parameters from the ibm_icn_cr_production_FC_navigator.yaml template as needed.
     Use `ibm_icn_cr_production_FC_navigator.yaml` as a reference for all available parameters.
+    See :doc:`Reference </Reference.rst>` for a complete list of all available parameters.
+
 
 #. Edit the supplied CR template to include your desired values.
 
@@ -265,7 +268,7 @@ Verifying your Deployment
         .. code-block:: bash
 
             NAME                                 READY   STATUS    RESTARTS   AGE
-            ibm-content-navigator-xxx            1/1     Running   0          2m
+            icndeploy-navigator-deploy-xxx       1/1     Running   0          2m
 
 #. Check the CR status for verification.
 

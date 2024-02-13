@@ -1,0 +1,11 @@
+﻿Parameter,Description,Example value,Required
+appVersion,The version of the current release.,23.0.2,Yes
+content_optional_components,Specify which component to include (true) or omit (false).,cpe: false,No
+,,graphql: false,
+,,cmis: false,
+,,css: false,
+,,es: false,
+,,tm: false,
+,,ban: true,
+,,,
+license.accept,"Must exist to accept the IBM license. The only valid value is ""true"".",TRUE,Yes

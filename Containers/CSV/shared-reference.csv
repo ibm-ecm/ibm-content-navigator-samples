@@ -1,0 +1,45 @@
+﻿Parameters,Description,Default Values,Required
+enable_fips,Enable/disable FIPS mode for the deployment.,FALSE,No
+external_tls_certificate_secret,"Shared custom TLS secret which will be used to sign all external routes if defined. If this is not defined, all external routes will be signed with root_ca_secret",,No
+image_pull_secrets,List of shared image pull secrets.,ibm-entitlement-key,No
+root_ca_secret,"If you provide your own root certificate, enter the value.",icn-root-ca,No
+sc_deployment_context,Do not change this default setting.,FNCM,Yes
+sc_deployment_platform,Enter your certified Kubernetes platform type,OCP,Yes
+,,"Use ""OCP"" for Red Hat OpenShift Container Platform",
+,,"Use ""ROKS"" if the platform is Red Hat OpenShift on IBM Cloud®.",
+,,"Use "" other"" for to deploy on non-OCP Kubernetes based platforms.",
+,,,
+sc_deployment_profile_size,"For a production deployment type, the default is small. You can change the profile to medium or large, as required. For more information, see Identifying the infrastructure requirements.",small,No
+sc_deployment_type,Do not change this default setting.,production,Yes
+sc_ecm_ltpa_secret_name,"If creating using a custom ltpa-secret name, specify the name here. The value is required for deploying geographically dispersed FNCM clusters.",{{ meta.name }}-ecm-ltpa,No
+sc_egress_configuration,To enable or disable egress access to external systems. The default is to restrict access to external systems.,"The default for sc_restricted_internet_access is true, if not defined.",No
+sc_restricted_internet_access,,"The default for sc_api_namespace is ""openshift-kube-apiserver"", ""openshift-apiserver"". Use a comma separated list of namespaces or ""{}"" can also be used as a value when you see ""(\""dial tcp XXX.XX.X.X:443: i/o timeout\"")"" error in the operator log. It is equivalent to all namespaces (namespaceSelector:{}).",
+sc_api_namespace,"Set the value of sc_restricted_internet_access to false to provide all pods access to external systems. You can customize your network policy or use specific policies with 'matchLabels' to set exceptions. For more information, see Configuring cluster security.","The default for sc_api_port is 443,6443.",
+sc_api_port,,"The default for sc_dns_namespace is ""openshift-dns"". It can be a comma separated list of namespaces or ""{}"" can also be used as a value. It is equivalent to all namespaces (namespaceSelector:{}).",
+sc_dns_namespace,"If set to false, all the pods have unrestricted network access to external systems.","The default for sc_dns_port is 53,5353.",
+sc_dns_port,,,
+,"Important: When the value of sc_restricted_internet_access is true, none of the pods can access any external system other than the known addresses for databases, LDAPs, and federated systems. For more information, see Configuring cluster security.",,
+sc_fncm_license_model,Choose one of these license models if you are using a license from FileNet Content Manager or IBM Content Foundation:,,Yes
+,,,
+,"The expected values are ICF.PVUNonProd, ICF.PVUProd, ICF.UVU, FNCM.PVUNonProd, FNCM.PVUProd, FNCM.UVU, or FNCM.CU.",,
+,,,
+,Choose one of these licensing models if you are using a license for IBM Cloud Pak® for Business Automation to deploy the standalone IBM® FileNet® Content Manager containers.,,
+,,,
+,"Valid values depend on your license terms; select from: CP4BA.NonProd, CP4BA.Prod, CP4BA.User",,
+,,,
+sc_image_repository,"All components must use the same docker image repository. For IBM Entitlement Registry use cp.icr.io. For a local docker image repository, set the parameter to the value of the URL, for example, myimageregistry.com/project_name. For an air gap installation, make sure that the parameter is set to the default value.",icr.io/cpopen/icn,No
+sc_ingress_enable,"For ROKS and CNCF clusters, this is used to enable Ingress. The default value is ""false"" which creates routes instead of Ingress.",FALSE,No
+sc_ingress_tls_secret_name,This secret provides TLS for the Ingress controller.,Empty,Yes
+sc_run_as_user,Optional and only applicable for non-Open Shift Cloud Platform installations. Specify a RunAs user for the security of the pod. This is usually a numerical ID.,,No
+sc_seccomp_profile.localhost_profile,"Specify the local path of the seccomp profile file. This parameter is required if sc_seccomp_profile.type is set to Localhost. The value of sc_seccomp_profile.localhost_profile is ignored if sc_seccomp_profile.type is set to anything other than Localhost. For more information, see Configuring seccomp profiles.",Example: profiles/audit.json,Only if sc_seccomp_profile.type is set to Localhost
+sc_seccomp_profile.type,"Specify the type of seccomp profile to be used by the pods. Possible values are: Unconfined, RuntimeDefault, Localhost. For more information about seccomp profile, see the Restrict a Container's Syscalls with seccomp.",Default value:,No
+,,RuntimeDefault on OCP 4.11 and later,
+,,empty on other platforms,
+,,,
+,,Example: Localhost,
+storage_configuration,"Three storage classes are needed for slow, medium, and fast storage. If one storage class is defined, then you can use that one storage class for all three parameters.",None,Yes
+sc_fast_file_storage_classname,,,
+sc_medium_file_storage_classname,,,
+sc_slow_file_storage_classname,,,
+,,,
+trusted_certificate_list,"If connecting to an external service over SSL, use the certificate file to create a secret and then add the secret name for this parameter.",[],

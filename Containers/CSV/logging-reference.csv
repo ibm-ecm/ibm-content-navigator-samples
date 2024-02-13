@@ -1,0 +1,11 @@
+﻿Parameters,Description,Default or Example Values,Required
+mon_log_parse,"Set this parameter to ""true"" to enable log parsing. This allows you to filter and query logs using parsed parameters.",TRUE,No
+mon_log_service_endpoint,"This is the endpoint to the Elasticsearch server. For example, <elastic_search_server_host>:9200",<hostname>:9200,No
+private_logging_enabled,"Specify whether to use private logging. Setting to true (for Filebeat) writes the console log, message log, trace log, and ffdc log to the folder /logs/application.",FALSE,No
+,,,
+,"Setting to false (for Red Hat OpenShift) writes the console log, message log, trace log, and ffdc log to the folder stdout.",,
+logging_type,"default, enable logging at the DBA container as backend service.",default,No
+,"sidecar, enable logging as the DBA container's sidecar.",,
+,"node-logging, enable logging as DaemonSet to collect Kubernetes node logging.",,
+,,,
+mon_log_path,"Colon (:) separated list of paths to logs that Filebeat should forward. By default, the principle logs for the IBM components, including Liberty and the containerized applications, are forwarded automatically when logging is enabled for a component. To have Filebeat forward other logs, use the MON_LOG_PATH parameter can be used to provide the list of file paths as seen by Filebeat from inside the container.",/path_to_extra_log,
