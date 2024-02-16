@@ -185,8 +185,7 @@ There are two options for the CR template:
 
     The `ibm_icn_cr_production.yaml` template is a minimal configuration.
     Start with the ibm_icn_cr_production.yaml template and add the parameters from the ibm_icn_cr_production_FC_navigator.yaml template as needed.
-    Use `ibm_icn_cr_production_FC_navigator.yaml` as a reference for all available parameters.
-    See `Reference.rst` for a complete list of all available parameters.
+    Use `ibm_icn_cr_production_FC_navigator.yaml` as a reference for all available parameters. See `Reference.rst` for a complete list of all available parameters.
 
 #. Edit the supplied CR template to include your desired values.
 
