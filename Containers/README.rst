@@ -5,7 +5,7 @@ Introduction
 ------------
 
 Welcome to the IBM Content Navigator Container Deployment for CMOD & CM8 readme! This readme provides instructions for preparation and deployment of IBM Content Navigator in a kubernettes environment.
-For more details on IBM Content Navigator, please refer to the provided `documentation <https://www.ibm.com/docs/en/content-navigator/3.0.14>`_.
+For more details on IBM Content Navigator, please refer to the provided `documentation <https://www.ibm.com/docs/en/content-navigator/3.0.15>`_.
 
 Currently supported version using the following instructions:
  * IBM Content Navigator 3.0.13
