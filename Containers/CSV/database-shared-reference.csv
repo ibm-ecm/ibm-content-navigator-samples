@@ -1,3 +1,0 @@
-﻿Parameters,Description,Default/Example Values,Required
-database_precheck,"Some databases, like Oracle OID, have a default format for the connection URL that can interfere with deployment by the operator. Setting database_precheck to false can prevent these deployment errors.",TRUE,No
-dc_ssl_enabled,Used to support database connection over SSL for Db2 or Oracle.,TRUE,No
