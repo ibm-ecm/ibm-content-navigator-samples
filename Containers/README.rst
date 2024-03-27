@@ -4,7 +4,7 @@ IBM Content Navigator Container Deployment for CMOD & CM8
 Introduction
 ------------
 
-Welcome to the IBM Content Navigator Container Deployment for CMOD & CM8 readme! This readme provides instructions for preparation and deployment of IBM Content Navigator in a kubernettes environment.
+Welcome to the IBM Content Navigator Container Deployment for CMOD & CM8 readme! This readme provides instructions for preparation and deployment of IBM Content Navigator in a kubernetes environment.
 For more details on IBM Content Navigator, please refer to the provided `documentation <https://www.ibm.com/docs/en/content-navigator/3.0.15>`_.
 
 Currently supported version using the following instructions:
@@ -74,7 +74,7 @@ Complete the following tasks to prepare for your deployment:
                    * - Microsoft SQL Server
                      - 12.2.0
                    * - PostgreSQL
-                     - 42.6.0
+                     - 42.7.2
 
 
 #. Create the IBM Content Navigator namespace in your cluster.
