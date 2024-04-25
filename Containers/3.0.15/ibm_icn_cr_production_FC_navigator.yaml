@@ -118,7 +118,9 @@ spec:
 
     ## For ROKS and CNCF Ingress, provide TLS secret name for Ingress controller.
     sc_ingress_tls_secret_name: "<Required>"
-    ## This is the deployment hostname suffix, this is optional and the default hostname suffix will be used as {meta.namespace}.router-canonicalhostname
+
+    ## OCP: Hostname suffix added to the default ingress hostname, this is optional and the default hostname suffix will be {meta.namespace}.
+    ## CNCF: Hostname used to access your deployment. This is required for ingress creation.
     #sc_deployment_hostname_suffix: "{{ meta.namespace }}"
 
     ## Used for single Ingress creation for both ECM and BAN.
@@ -135,7 +137,7 @@ spec:
     images:
       keytool_init_container:
         repository: icr.io/cpopen/icn/dba-keytool-initcontainer
-        tag: "23.0.2-IF003"
+        tag: "23.0.2-IF004"
 
     ## This is necessary if you want to use your own JDBC drivers and/or need to provide ICCSAP drivers.  If you are providing multiple JDBC drivers and ICCSAP drivers, 
     ## all the files must be compressed in a single file.
@@ -331,7 +333,7 @@ spec:
     image:
       ## The default repository is the IBM Entitled Registry
       repository: icr.io/cpopen/icn/navigator
-      tag: ga-3015-icn-la101
+      tag: ga-3015-icn-if002
 
       ## This will override the image pull policy in the shared_configuration.
       pull_policy: IfNotPresent
