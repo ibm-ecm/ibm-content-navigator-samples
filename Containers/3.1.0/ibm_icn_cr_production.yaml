@@ -1,0 +1,155 @@
+###############################################################################
+##
+##Licensed Materials - Property of IBM
+##
+##(C) Copyright IBM Corp. 2023. All Rights Reserved.
+##
+##US Government Users Restricted Rights - Use, duplication or
+##disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+##
+###############################################################################
+apiVersion: fncm.ibm.com/v1
+kind: FNCMCluster
+metadata:
+  name: icndeploy
+  labels:
+    app.kubernetes.io/instance: ibm-icn
+    app.kubernetes.io/managed-by: ibm-icn
+    app.kubernetes.io/name: ibm-icn
+    release: 3.1.0
+spec:
+  ##########################################################################
+  ## This section contains the shared configuration for all ICN components #
+  ##########################################################################
+  appVersion: 24.0.0
+
+  ## MUST exist, used to accept ibm license, valid value only can be "true"
+  license:
+    accept:
+
+  ## The optional components to be installed if listed here.
+  content_optional_components:
+    cpe: false
+    graphql: false
+    cmis: false
+    css: false
+    es: false
+    tm: false
+    ban: true
+
+  shared_configuration:
+    ## The deployment context as selected.
+    sc_deployment_context: FNCM
+
+    ## All ICN components must use/share the image_pull_secrets to pull images
+    image_pull_secrets:
+    - ibm-entitlement-key
+
+    ## All FNCM components must use/share the same docker image repository.  For example, if IBM Entitlement Registry is used, then
+    ## it should be "cp.icr.io".  Otherwise, it will be a local docker registry.
+    sc_image_repository: icr.io/cpopen/icn
+
+    ## All ICN components must use/share the root_ca_secret in order for integration.
+    root_ca_secret: icn-root-ca
+
+    ## The deployment type as selected.
+    sc_deployment_type: production
+
+    ## No selection required
+    sc_fncm_license_model: ""
+
+    ## Optional: You can specify a profile size for CloudPak - valid values are small,medium,large - default is small.
+    sc_deployment_profile_size: "small"
+
+    ## Specify the RunAsUser for the security context of the pod.  This is usually a numeric value that corresponds to a user ID.
+    ## For non-OCP (e.g., CNCF platforms such as AWS, GKE, etc), this parameter is optional. It is not supported on OCP and ROKS.
+    sc_run_as_user:
+
+    ## The platform to be deployed specified by the user.  Possible values are: OCP, ROKS and other.
+    ## based on input from the user.
+    sc_deployment_platform: "<Required>"
+
+    ## OCP: Hostname suffix added to the default ingress hostname, this is optional and the default hostname suffix will be {meta.namespace}.
+    ## CNCF: Hostname used to access your deployment. This is required for ingress creation.
+    #sc_deployment_hostname_suffix: "{{ meta.namespace }}"
+
+    ## If the root certificate authority (CA) key of the external service is not signed by the operator root CA key, provide the TLS certificate of
+    ## the external service to the component's truststore.
+    trusted_certificate_list: []
+
+    ## This is necessary if you want to use your own JDBC drivers and/or need to provide ICCSAP drivers.  If you are providing multiple JDBC drivers and ICCSAP drivers,
+    ## all the files must be compressed in a single file.
+    ## First you need to package your drivers into a compressed package in the format of "saplibs/drivers_files" and/or
+    ## "jdbc/db2|oracle|postgresql|sqlserver/driver_files". For example, if you are providing your own DB2 and Oracle JDBC drivers and ICCSAP drivers, then the compressed
+    ## file should have the following structure and content:
+    ##   /jdbc/db2/db2jcc4.jar
+    ##   /jdbc/db2/db2jcc_license_cu.jar
+    ##   /jdbc/oracle/ojdbc8.jar
+    ##   /saplibs/libicudata.so.50
+    ##   /saplibs/...
+    ## Then you need to put the compressed package on an anonymously accessible web server and provide the link here.
+    ## The CR can handle .zip files using unzip as well as .tar, .tar.gz, .tar.bz2, .tar.xz. Does not handle .gz files, .bz2 files, .xz, or .zst files that do not contain a .tar archive.
+    #sc_drivers_url:
+
+   ## Provide the storage class names for the storage. It can be one storage class for all storage classes or can provide different one for each.
+   ## Operator will use the provided storage classes to provision required PVC volumes.
+    storage_configuration:
+      sc_slow_file_storage_classname: "<Required>"
+      sc_medium_file_storage_classname: "<Required>"
+      sc_fast_file_storage_classname: "<Required>"
+
+    # Enable/disable FIPS mode for the deployment (default value is "false")
+    enable_fips: false
+
+  ## The beginning section of database configuration
+  datasource_configuration:
+    ## The dc_ssl_enabled parameter is used to support database connection over SSL for DB2/Oracle/SQLServer/PostgrSQL.
+    dc_ssl_enabled: true
+    ## The database_precheck parameter is used to enable or disable CPE/Navigator database connection check.
+    ## If set to "true", then CPE/Navigator database connection check will be enabled.
+    ## if set to "false", then CPE/Navigator database connection check will not be enabled.
+    # database_precheck: true
+    ## The database configuration for ICN (Navigator) - aka BAN (Business Automation Navigator)
+    dc_icn_datasource:
+      ## Provide the database type from your infrastructure.  The possible values are "db2" or "db2HADR" or "oracle" or "sqlserver" or "postgresql".  This should be the same as the
+      ## GCD and object store configuration above.
+      dc_database_type: "<Required>"
+      ## Provide the ICN datasource name.  The default value is "ECMClientDS".
+      dc_common_icn_datasource_name: "ECMClientDS"
+      database_servername: "<Required>"
+      ## Provide the database server port.  For Db2, the default is "50000". Not applicable to Oracle which requires a JDBC URL.
+      database_port: "<Required>"
+      ## Provide the name of the database for ICN (Navigator).  For example: "ICNDB"
+      database_name: "<Required>"
+      ## The name of the secret that contains the DB2/Oracle/PostgreSQL/SQLServer SSL certificate.
+      database_ssl_secret_name: "<Required>"
+      ## If the database type is Oracle, provide the Oracle DB connection string.
+      ## For example:
+      ## SSL URL: "jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCPS)(HOST={host})(PORT={port}))('CONNECT_DATA=(SERVICE_NAME={dbname})))"
+      ## Non-SSL URL: "jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={host})(PORT={port}))('CONNECT_DATA=(SERVICE_NAME={dbname})))"
+      dc_oracle_icn_jdbc_url: "<Required>"
+      ## Provide the validation timeout.  If not preference, keep the default value.
+      dc_hadr_validation_timeout: 15
+      ######################################################################################
+      ## If the database type is "Db2HADR", then complete the rest of the parameters below.
+      ## Otherwise, remove or comment out the rest of the parameters below.
+      ######################################################################################
+      dc_hadr_standby_servername: "<Required>"
+      ## Provide the standby database server port.  For Db2, the default is "50000".
+      dc_hadr_standby_port: "<Required>"
+      ## Provide the retry internal.  If not preference, keep the default value.
+      dc_hadr_retry_interval_for_client_reroute: 15
+      ## Provide the max # of retries.  If not preference, keep the default value.
+      dc_hadr_max_retries_for_client_reroute: 3
+      ## Connection manager for a data source.
+
+  ########################################################################
+  ########   IBM Content Navigator configuration                  ########
+  ########################################################################
+  navigator_configuration:
+
+    ## Custom Operator Label for Navigator
+    custom_operator_pod_label: ibm-icn-operator
+
+    ## Create Basic Auth Login for Navigator
+    disable_basic_auth: false

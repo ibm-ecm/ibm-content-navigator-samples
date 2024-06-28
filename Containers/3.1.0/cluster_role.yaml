@@ -1,0 +1,55 @@
+###############################################################################
+#
+# Licensed Materials - Property of IBM
+#
+# (C) Copyright IBM Corp. 2023 All Rights Reserved.
+#
+# US Government Users Restricted Rights - Use, duplication or
+# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+###############################################################################
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: ibm-icn-operator
+  labels:
+    app.kubernetes.io/instance: ibm-icn
+    app.kubernetes.io/managed-by: ibm-icn
+    app.kubernetes.io/name: ibm-icn
+    release: 3.1.0
+rules:
+# Allow the operator to obtain the cluster's ingress domain for route creation
+- apiGroups:
+  - operator.openshift.io
+  resources:
+  - ingresscontrollers
+  verbs:
+    - get
+
+# Allow the operator to determine the version of the installed operator, supporting all-namespace deployment
+- apiGroups:
+  - operators.coreos.com
+  resources:
+  - clusterserviceversions
+  verbs:
+  - get
+  - list
+
+# Allow the operator to check where the operator is running, supporting all-namespace deployment
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - list
+  - get
+  - delete
+
+# Allow the operator to obtain the network type of the cluster to create egress policy CIDR ranges
+- apiGroups:
+  - config.openshift.io
+  resources:
+  - networks
+  verbs:
+  - get
+  - list
