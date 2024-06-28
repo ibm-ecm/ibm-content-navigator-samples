@@ -1,0 +1,512 @@
+###############################################################################
+##
+##Licensed Materials - Property of IBM
+##
+##(C) Copyright IBM Corp. 2023. All Rights Reserved.
+##
+##US Government Users Restricted Rights - Use, duplication or
+##disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+##
+###############################################################################
+apiVersion: fncm.ibm.com/v1
+kind: FNCMCluster
+metadata:
+  name: icndeploy
+  labels:
+    app.kubernetes.io/instance: ibm-icn
+    app.kubernetes.io/managed-by: ibm-icn
+    app.kubernetes.io/name: ibm-icn
+    release: 3.1.0
+spec:
+  ##########################################################################
+  ## This section contains the shared configuration for all ICN components #
+  ##########################################################################
+  appVersion: 24.0.0
+
+  ## MUST exist, used to accept ibm license, valid value only can be "true"
+  license:
+    accept:
+
+  ## Operator used to have a required PVC before 5.5.9 release, named operator-shared-pvc by default.
+  ## If your deployment set a different name, you need to uncomment this and set your PVC name here in order to reuse the ICCSAP and JDBC drivers in it.
+  ## var_operator_pvc: operator-shared-pvc
+
+  ## The optional components to be installed if listed here.
+  content_optional_components:
+    cpe: false
+    graphql: false
+    cmis: false
+    css: false
+    es: false
+    tm: false
+    ban: true
+
+  shared_configuration:
+    ## This is the deployment context is FNCM. No update it required.
+    sc_deployment_context: FNCM
+
+    ## All ICN components must use/share the image_pull_secrets to pull images
+    image_pull_secrets:
+    - ibm-entitlement-key
+
+    ## All ICN components must use/share the same docker image repository.  For example, if IBM Entitlement Registry is used, then
+    ## it should be "icr.io/cpopen/icn".  Otherwise, it will be a local docker registry.
+    sc_image_repository: icr.io/cpopen/icn
+
+    ## All ICN components must use/share the root_ca_secret in order for integration.
+    root_ca_secret: icn-root-ca
+
+    ## All ICN components must use/share the ltpa_secret in order for integration.
+    ## Required for deploying geographically dispersed ICN clusters.
+    ## Specify the secret name here
+    sc_ecm_ltpa_secret_name: "{{ meta.name }}-ecm-ltpa"
+
+    ## Shared custom TLS secret which will be used to sign all external routes if defined.
+    ## If this is not defined, all external routes will be signed with `root_ca_secret`
+    external_tls_certificate_secret:
+
+    ## The deployment type as selected.
+    sc_deployment_type: production
+
+    ## Optional setting for secure computing mode (seccomp) profile for FNCM containers.  The default seccomp profile is RuntimeDefault on OCP 4.11 (k8s v1.24) or higher. seccomp profile won't be created on OCP 4.10 (k8s v1.23) or lower.
+    ## For more information on seccomp please refer to https://kubernetes.io/docs/tutorials/security/seccomp/ and https://docs.openshift.com/container-platform/4.12/security/seccomp-profiles.html
+    ## NOTE: Defining a custom, localhost seccomp profile that is stricter than the default RuntimeDefault profile may cause our pods fail to start.  This custom profile should be created at the worker nodes.
+    sc_seccomp_profile:
+    #  type: # RuntimeDefault, Localhost, Unconfined
+    #  localhost_profile: # Local path of custom seccomp profile when type `Localhost` is used. The custom profile must be accessible by the pod and must exist locally on all worker nodes.  For example: `/profiles/fine-grained.json`.
+
+    sc_egress_configuration:
+      ## Required. Enable or disable egress access to external systems.  If "sc_restricted_internet_access" is defined and has no value set, then default will be "true".  If
+      ## "sc_restricted_internet_access" is not defined  (e.g., in the case of upgrade, the existing CR will not have sc_restricted_internet_access ), then
+      ## "sc_restricted_internet_access" will be "false"
+      sc_restricted_internet_access: true
+      ## Optional.  Kubernetes API server namespace(s) (comma separated) to be used for egress network policy when `sc_restricted_internet_access: true` and `sc_deployment_platform: "other"`.
+      ## "{}" can also be used as a value.  It is equivalent to all namespaces (eg: namespaceSelector:{})
+      ## Default are "openshift-kube-apiserver", "openshift-apiserver" for OCP and ROKS.
+      ## Possible values are "kube-system", "default", "kube-public" for other.
+      sc_api_namespace:
+      ## Optional.  Kubernetes API server port(s) (comma separated) to be used for egress network policy when `sc_restricted_internet_access: true` and `sc_deployment_platform: "other"`.
+      ## Default are 443,6443 for OCP, ROKS, other
+      sc_api_port:
+      ## Optional.  Kubernetes DNS service namespace(s) (comma separated) to be used for egress network policy when `sc_restricted_internet_access: true` and `sc_deployment_platform: "other"`.
+      ## "{}" can also be used as a value.  It is equivalent to all namespaces (eg: namespaceSelector:{})
+      ## Default is "openshift-dns" for OCP and ROKS.
+      ## Possible values are "kube-system", "default", "kube-public" for other.
+      sc_dns_namespace:
+      ## Optional.  Kubernetes DNS service port(s) (comma separated) to be used for egress network policy when `sc_restricted_internet_access: true` and `sc_deployment_platform: "other"`.
+      ## Default are 53,5353 for OCP, ROKS and other
+      sc_dns_port:
+
+    ## No selection required
+    sc_fncm_license_model: ""
+
+    ## Optional: You can specify a profile size for CloudPak - valid values are small,medium,large - default is small.
+    sc_deployment_profile_size: "small"
+    
+    ## Specify the RunAsUser for the security context of the pod.  This is usually a numeric value that corresponds to a user ID.
+    ## For non-OCP (e.g., CNCF platforms such as AWS, GKE, etc), this parameter is optional. It is not supported on OCP and ROKS.
+    sc_run_as_user:
+
+    ## The platform to be deployed specified by the user.  Possible values are: OCP, ROKS, and other.
+    sc_deployment_platform: "<Required>"
+
+    ## For ROKS and CNCF, this is used to enable the creation of ingresses. The default value is "false".
+    sc_ingress_enable: false
+
+    ## Service type to support CNCF Ingress creation, possible values are ClusterIP, NodePort
+    #sc_service_type: ClusterIP
+
+    ## For ROKS and CNCF Ingress, provide TLS secret name for Ingress controller.
+    sc_ingress_tls_secret_name: "<Required>"
+
+    ## OCP: Hostname suffix added to the default ingress hostname, this is optional and the default hostname suffix will be {meta.namespace}.
+    ## CNCF: Hostname used to access your deployment. This is required for ingress creation.
+    #sc_deployment_hostname_suffix: "{{ meta.namespace }}"
+
+    ## Used for single Ingress creation for both ECM and BAN.
+    ## In case any custom annotation is needed for the environment provide below.
+    ##  sc_ingress_annotations:
+    ##   - kubernetes.io/ingress.class: nginx
+    ## To include '{{ }}' in annotation like '{{example}}', add a backward slash before curly brace like '\{\{example\}\}'.
+    #sc_ingress_annotations:
+
+    ## If the root certificate authority (CA) key of the external service is not signed by the operator root CA key, provide the TLS certificate of
+    ## the external service to the component's truststore.
+    trusted_certificate_list: []
+
+    ## This is the image repository and tag that correspond to shared images for all FNCM components.
+    images:
+      keytool_init_container:
+        repository: icr.io/cpopen/icn/dba-keytool-initcontainer
+        tag: "24.0.0"
+
+    ## This is necessary if you want to use your own JDBC drivers and/or need to provide ICCSAP drivers.  If you are providing multiple JDBC drivers and ICCSAP drivers, 
+    ## all the files must be compressed in a single file.
+    ## First you need to package your drivers into a compressed package in the format of "saplibs/drivers_files" and/or 
+    ## "jdbc/db2|oracle|postgresql|sqlserver/driver_files". For example, if you are providing your own DB2 and Oracle JDBC drivers and ICCSAP drivers, then the compressed
+    ## file should have the following structure and content:
+    ##   /jdbc/db2/db2jcc4.jar
+    ##   /jdbc/db2/db2jcc_license_cu.jar
+    ##   /jdbc/oracle/ojdbc8.jar
+    ##   /saplibs/libicudata.so.50
+    ##   /saplibs/...
+    ## Then you need to put the compressed package on an anonymously accessible web server and provide the link here.
+    ## The CR can handle .zip files using unzip as well as .tar, .tar.gz, .tar.bz2, .tar.xz. Does not handle .gz files, .bz2 files, .xz, or .zst files that do not contain a .tar archive.    
+    #sc_drivers_url:
+
+    ## On OCP 3.x and 4.x, these three (3) parameters  for "enterprise" deployment.
+    ## when deploying you would provide the different storage classes for the slow, medium
+    ## and fast storage parameters below.  If you only have 1 storage class defined, then you can use that 1 storage class for all 3 parameters.
+    storage_configuration:
+      sc_slow_file_storage_classname: "<Required>"
+      sc_medium_file_storage_classname: "<Required>"
+      sc_fast_file_storage_classname: "<Required>"
+
+    # Enable/disable FIPS mode for the deployment (default value is "false")
+    enable_fips: false
+
+    ## Uncomment out this section if you have OpenId Connect identity providers.
+    #open_id_connect_providers:
+    ## Set a provider name that will be used in your redirect URL.
+    #- provider_name: ""
+      ## Set a display name for the sign-in button in Navigator.
+      #display_name: "Single Sign on"
+      ## Enter your OIDC secret names for the ECM and Navigator Components.
+      #client_oidc_secret:
+         #nav: "" # Points to a secret with client_id and client_secret in that format.
+         #cpe: "" # Points to a secret with client_id and client_secret in that format.
+      #issuer_identifier: ""
+      ## COMMON REQUIRED PROPERTIES AND VALUES
+      ## If no value is set, the default value is taken. Uncomment or add new parameters as applicable for your provider.
+      #response_type: "code"
+      #scope: "openid email profile"
+      #map_identity_to_registry_user: "false"
+      #authn_session_disabled: "false"
+      #inbound_propagation: "supported"
+      #https_required: "true"
+      #validation_method: "introspect"
+      #disable_ltpa_cookie: "false"
+      #signature_algorithm: "RS256"
+      #user_identifier: "sub"
+      #unique_user_identifier: "sub"
+      #user_identity_to_create_subject: "sub"
+      ### Uncomment out discovery_endpoint_url
+      ##discovery_endpoint_url:
+      ###
+      ### Optional parameters
+      ###
+      ##authorization_endpoint_url: ""
+      ##token_endpoint_url: ""
+      ##validation_endpoint_url: ""
+      ##trust_alias_name: "secret name you created"
+      ##disables_iss_checking: "true"
+      ##jwk_client_oidc_secret:
+      ##  nav: "" # Points to a secret with client_id and client_secret in that format.
+      ##  cpe: "" # Points to a secret with client_id and client_secret in that format.
+      ##token_reuse: "true"
+
+      ###
+      ### User defined parameters.
+      ### If you do not see a parameter that is needed for your OpenId Connect identity provider,
+      ### you can use this section to define key value pairs separated by the delimiter `:`.
+      ### If you want to change the default delimiter, add `DELIM=<NEW_DELIMITER>` in-front of your
+      ### key value pair. Ex: 'DELIM=;myKey;myValue'.  In this example, the new delimiter is `;` and
+      ### the key value pair is set to `myKey;myValue` instead of `myKey:myValue`.
+      ####
+      ##oidc_ud_param:
+      ##- "DELIM=;revokeEndpointUrl;https://xxx/yyy"
+      ##- "DELIM=;introspectEndpointUrl;https:/xxx/zzz"
+      ##- 'DELIM=;myKey;myValue'
+      ##- "myKey2:myValue2"
+      ##- "myKey3:myValue3"
+
+  ## The beginning section of database configuration for ICN
+  datasource_configuration:
+    ## The dc_ssl_enabled parameter is used to support database connection over SSL for DB2/Oracle/SQLServer/PostgrSQL.
+    dc_ssl_enabled: true
+    ## The database_precheck parameter is used to enable or disable CPE/Navigator database connection check.
+    ## If set to "true", then CPE/Navigator database connection check will be enabled.
+    ## if set to "false", then CPE/Navigator database connection check will not be enabled.
+    #database_precheck: true
+    ## The database configuration for ICN (Navigator) - aka BAN (Business Automation Navigator)
+    dc_icn_datasource:
+      ## Provide the database type from your infrastructure.  The possible values are "db2" or "db2HADR" or "oracle" or "sqlserver" or "postgresql".  This should be the same as the 
+      ## GCD and object store configuration above.
+      dc_database_type: "<Required>"
+      ## Provide the ICN datasource name.  The default value is "ECMClientDS".
+      dc_common_icn_datasource_name: "ECMClientDS"
+      database_servername: "<Required>"
+      ## Provide the database server port.  For Db2, the default is "50000". Not applicable to Oracle which requires a JDBC URL.
+      database_port: "<Required>"
+      ## Provide the name of the database for ICN (Navigator).  For example: "ICNDB"
+      database_name: "<Required>"
+      ## The name of the secret that contains the DB2/Oracle/PostgreSQL/SQLServer SSL certificate.
+      database_ssl_secret_name: "<Required>"
+      ## If the database type is Oracle, provide the Oracle DB connection string.
+      ## For example:
+      ## SSL URL: "jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCPS)(HOST={host})(PORT={port}))('CONNECT_DATA=(SERVICE_NAME={dbname})))"
+      ## Non-SSL URL: "jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST={host})(PORT={port}))('CONNECT_DATA=(SERVICE_NAME={dbname})))"
+      dc_oracle_icn_jdbc_url: "<Required>"
+      ## Provide the validation timeout.  If not preference, keep the default value.
+      dc_hadr_validation_timeout: 15
+      ######################################################################################
+      ## If the database type is "Db2HADR", then complete the rest of the parameters below.
+      ## Otherwise, remove or comment out the rest of the parameters below.
+      ######################################################################################
+      dc_hadr_standby_servername: "<Required>"
+      ## Provide the standby database server port.  For Db2, the default is "50000".
+      dc_hadr_standby_port: "<Required>"
+      ## Provide the retry internal.  If not preference, keep the default value.
+      dc_hadr_retry_interval_for_client_reroute: 15
+      ## Provide the max # of retries.  If not preference, keep the default value.
+      dc_hadr_max_retries_for_client_reroute: 3
+      ## Connection manager for a data source.
+      connection_manager:
+        ## Minimum number of physical connections to maintain in the pool.
+        min_pool_size: 0
+        ## Maximum number of physical connections for a pool.
+        max_pool_size: 50
+        ## Amount of time a connection can be unused or idle until it can be discarded during pool maintenance, if doing so does not reduce the pool below the minimum size.
+        max_idle_time: 1m
+        ## Amount of time between runs of the pool maintenance thread.
+        reap_time: 2m
+        ## Specifies which connections to destroy when a stale connection is detected in a pool.
+        purge_policy: EntirePool
+
+ ## Monitor setting
+ # monitoring_configuration:
+ #   mon_metrics_writer_option: 4
+ #   mon_enable_plugin_pch: false
+ #   mon_enable_plugin_mbean: false
+ #   collectd_plugin_write_graphite_host: localhost
+ #   collectd_plugin_write_graphite_port: 2003
+ #   collectd_interval: 10
+ #   collectd_disable_host_monitoring: false
+ #   collectd_plugin_write_prometheus_port: 9103
+ ## You can use this configmap to customize PCH counters mounted at /opt/ibm/monitoring/pchmonitor/counters.xml. If not provided, Operator will create a default config map and any updates to it will not be overwritten by the Operator.
+ #   pch_counters_configmap: {{ meta.name }}-pch-counters-config
+
+ ## Logging setting
+ # logging_configuration:
+ #   mon_log_parse: false
+ #   mon_log_service_endpoint: localhost:5044
+ #   private_logging_enabled: false
+ #   logging_type: default
+ #   mon_log_path: /path_to_extra_log
+
+  ########################################################################
+  ########   IBM Content Navigator configuration                  ########
+  ########################################################################
+  navigator_configuration:
+    ## Navigator secret that contains user credentials for LDAP and database
+    ban_secret_name: ibm-ban-secret
+
+    ## Custom Operator Label for Navigator
+    custom_operator_pod_label: ibm-icn-operator
+
+    ## Create Basic Auth Login for Navigator
+    disable_basic_auth: false
+
+    ## By default, all the components create ingress and routes with required annotations. In case any custom annotation is needed for the environment provide below.
+    #    route_ingress_annotations:
+    #      - haproxy.router.openshift.io/balance: roundrobin
+    #route_ingress_annotations:
+    
+    # Optional: You can specify a profile size for Navigator if different from Shared Configuration (see shared_configuration.sc_deployment_profile_size).  In other words,
+    # you can override "shared_configuration.sc_deployment_profile_size" with "deployment_profile_size" defined here.
+    # The valid values are small, medium, large - default is small.  The resources in this file are reflecting a "small" profile.
+    #deployment_profile_size: "small"
+
+    ## Optional: Use an existing certificate for automatic creation of OpenShift routes.
+    ## Set this key if you have an external TLS certificate. Leave this empty if you don't have an external TLS certificate, operator will generate one for you.
+    #ban_ext_tls_secret_name:
+    ## Optional. The Certificate Authority (CA) used to sign the external TLS secret for automatic creation of OpenShift routes.
+    ## Set this key if you have a CA to sign the external TLS certificate, leave this parameter empty if you don't have the CA of your external TLS certificate.
+    #ban_auth_ca_secret_name:
+
+    ## The architecture of the cluster.  This is the default for Linux and should not be changed.
+    arch:
+      amd64: "3 - Most preferred"
+
+    ## The number of replicas or pods to be deployed.  The default is 1 replica and for high availability in a production env,
+    ## it is recommended to have 2 or more.
+    replica_count: 2
+
+    ## This is the image repository and tag that correspond to image registry, which is where the image will be pulled.
+    image:
+      ## The default repository is the IBM Entitled Registry
+      repository: icr.io/cpopen/icn/navigator
+      tag: ga-310-icn
+
+      ## This will override the image pull policy in the shared_configuration.
+      pull_policy: IfNotPresent
+
+    ## Logging for workloads.  This is the default setting.
+    log:
+      format: json
+
+    ## The initial resources (CPU, memory, and ephemeral storage) requests and limits.  If more resources are needed,
+    ## make the changes here to meet your requirement.
+    resources:
+      requests:
+        cpu: "500m"
+        memory: "512Mi"
+        ephemeral_storage: "1Gi"
+      limits:
+        cpu: "1"
+        memory: "3072Mi"
+        ephemeral_storage: "3Gi"
+
+      ## By default "Autoscaling" is disabled (i.e., enabled: false).  If you enable auto_scaling (i.e., enabled: true), be sure to 
+      ## provide values for max_replicas, min_replicas, and target_cpu_utilization_percentage.
+      auto_scaling:
+        enabled: false
+        max_replicas: "<Required>"
+        min_replicas: "<Required>"
+        ## This is the default cpu percentage before autoscaling occurs.
+        target_cpu_utilization_percentage: "<Required>"
+
+    node_affinity:
+      #-------------------------------------
+      # custom_node_selector_match_expression will be added in node selector match expressions.
+      # It accepts array list inputs. You can assign multiple selector match expressions except (kubernetes.io/arch)
+      # Example value:
+      # - key: kubernetes.io/hostname
+      #   operator: In
+      #   values:
+      #     - worker0
+      #     - worker1
+      #     - worker3
+      #-------------------------------------
+      custom_node_selector_match_expression: [ ]
+    ## Values in this field will be used as annotations in all generated pods, and it must be valid annotation key value pairs.
+    # Example:
+    # customAnnotationKey: customAnnotationValue
+    ## To include '{{ }}' in annotation like '{{example}}', add a backward slash before curly brace like '\{\{example\}\}'.
+    custom_annotations: { }
+    ## Values in this field will be used as labels in all generated pods, and it must be valid label key value pairs
+    # Example:
+    # customLabelKey: customLabelValue
+    custom_labels: { }
+
+    ## send email
+    java_mail:
+      host: "fncm-exchange1.ibm.com"
+      port: "25"
+      sender: "MailAdmin@fncmexchange.com"
+      ssl_enabled: false
+
+    # Disable FIPS for the component (default value is "false"), change it to "true" if you enable FIPS mode for the deployment with shared_configuration.enable_fips = true, but want to disable FIPS mode for the component.
+    disable_fips: false
+
+    ## Set securityContext for Navigator deployment.
+    security_context:
+      ## Controls which group IDs containers add. For example "supplemental_groups: [1000620001,1000620002]"
+      supplemental_groups:
+      ## This can take an array of key value pairs to assign SELinux labels to a Container, for example
+      ## selinux_options:
+        ## level: "s0:c123,c456"
+        ## type: "spc_t
+      selinux_options:
+      # Defines behavior for changing ownership and permission of the volume before being exposed inside a Pod. This field has two possible values (Always,OnRootMismatch)
+      # For example fs_groupchangepolicy: "OnRootMismatch"
+      fs_groupchangepolicy:
+
+    ## Below are the default ICN Production settings.  Make the necessary changes as you see fit.  Refer to IBM Documentation for details.
+    icn_production_setting:
+      timezone: Etc/UTC
+
+      ## Customized font path for multi-language support, put ALL used font files into this path, "/opt/ibm/wlp/usr/servers/defaultServer/configDropins/overrides/fonts" is suggested so the value can be persisted after pod restart.
+      ## By default, Navigator will load fonts from "/opt/ibm/java/jre/lib/fonts"
+      gdfontpath: "/opt/ibm/java/jre/lib/fonts"
+
+      ## The initial use of available memory.
+      jvm_initial_heap_percentage: 40
+      ## The maximum percentage of available memory to use.
+      jvm_max_heap_percentage: 66
+
+      ## Use this "jvm_customize_options" parameter to specify JVM arguments using comma separation. For example, if you want to set the following JVM arguments:
+      ##  -Dmy.test.jvm.arg1=123
+      ##  -Dmy.test.jvm.arg2=abc
+      ##  -XX:+SomeJVMSettings
+      ##  -XshowSettings:vm"
+      ## Then set the following: jvm_customize_options="-Dmy.test.jvm.arg1=123,-Dmy.test.jvm.arg2=abc,-XX:+SomeJVMSettings,-XshowSettings:vm"
+      ## If your JVM option contains comma then you have to include 'DELIM=;' to use a different separator, for example jvm_customize_options="DELIM=;-Dmy.test.jvm.arg1=123;-Dcom.filenet.authentication.wsi.AuthTokenOrder=oauth,oidc,ltpa". Semicolon can be replaced with any other char.
+      ## If your JVM option contains double quotes then you need to escape it like this: jvm_customize_options="-Dsettings.navigator.default=logging.level={\"_value\":\"4\",\"_mergeOption\":\"replace\"}"
+      jvm_customize_options:
+
+      icn_jndids_name: ECMClientDS
+      icn_schema: ICNDB
+      icn_table_space: ICNDB
+      allow_remote_plugins_via_http: false
+      ## uncomment copy_files_to_war parameter to copy customized files into Navigator web application.
+      ## The <custom-dir>/navigator_war_filesources.xml must be located in config volume mapping, which is /opt/ibm/wlp/usr/servers/defaultServer/configDropins/overrides
+      # copy_files_to_war: <custom-dir>/navigator_war_filesources.xml
+
+      ## The WalkMe URL references a WalkMe snippet.  This snippet is a piece of JavaScript code that allows WalkMe to be displayed in the application.
+      ## Each WalkMe Editor account has a unique snippet code that can be accessed inside the Editor.
+      #  walkme_url: https://cdn.walkme.com/users/4e7c687193414395aa0411837a9eee4b/test/walkme_4e7c687193414395aa0411837a9eee4b_https.js
+
+      ## This section is optional and it takes a list of configmaps.
+      ## A configmap can hold files or environment data but it cannot a mix of both.
+      ## The volume_path is optional for a configmap that holds files as its data and if it's not specified,
+      ## then the files will be mounted to the overrides directory.  If the configmap data holds environment variables
+      ## then is_env is required and set it to true.
+
+      #custom_configmap:
+      # - name: <name of configmap>
+      #   volume_path:  # optional
+      # - name: <name of configmap>
+      #   is_env: # required if the configmap holds environment variables.
+
+    ## Default settings for monitoring
+    monitor_enabled: false
+    ## Default settings for logging
+    logging_enabled: false
+
+    ## Persistent Volume Claims for ICN.  If the storage_configuration in the shared_configuration is configured,
+    ## the Operator will create the PVC using the names below.
+    datavolume:
+      existing_pvc_for_icn_cfgstore: 
+        name: "icn-cfgstore"
+        size: 1Gi
+      existing_pvc_for_icn_logstore: 
+        name: "icn-logstore"
+        size: 1Gi
+      existing_pvc_for_icn_pluginstore: 
+        name: "icn-pluginstore"
+        size: 1Gi
+      existing_pvc_for_icnvw_cachestore: 
+        name: "icn-vw-cachestore"
+        size: 1Gi
+      existing_pvc_for_icnvw_logstore: 
+        name: "icn-vw-logstore"
+        size: 1Gi
+      existing_pvc_for_icn_aspera: 
+        name: "icn-asperastore" 
+        size: 1Gi
+
+    ## Default values for both startup, readiness and liveness probes.  Modify these values to meet your requirements.
+    probe:
+      startup:
+        initial_delay_seconds: 120
+        period_seconds: 10
+        timeout_seconds: 10
+        failure_threshold: 6
+      readiness:
+        period_seconds: 10
+        timeout_seconds: 10
+        failure_threshold: 6
+      liveness:
+        period_seconds: 10
+        timeout_seconds: 5
+        failure_threshold: 6
+
+    ## Only use this parameter if you want to override the image_pull_secrets setting in the shared_configuration above.
+    image_pull_secrets:
+      name: "ibm-entitlement-key"
+
+    ## Optional entry only if you have the open_id_connect_providers enabled.
+    ## if not specified it will be set to false.
+    ## Enabling this will give the user the option to sign-in using the LDAP.
+    enable_ldap: true
