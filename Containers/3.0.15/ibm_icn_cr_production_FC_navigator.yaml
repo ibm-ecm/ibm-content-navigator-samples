@@ -137,7 +137,7 @@ spec:
     images:
       keytool_init_container:
         repository: icr.io/cpopen/icn/dba-keytool-initcontainer
-        tag: "23.0.2-IF004"
+        tag: "23.0.2-IF006"
 
     ## This is necessary if you want to use your own JDBC drivers and/or need to provide ICCSAP drivers.  If you are providing multiple JDBC drivers and ICCSAP drivers, 
     ## all the files must be compressed in a single file.
@@ -333,7 +333,7 @@ spec:
     image:
       ## The default repository is the IBM Entitled Registry
       repository: icr.io/cpopen/icn/navigator
-      tag: ga-3015-icn-if002
+      tag: ga-3015-icn-if003
 
       ## This will override the image pull policy in the shared_configuration.
       pull_policy: IfNotPresent
@@ -352,7 +352,7 @@ spec:
       limits:
         cpu: "1"
         memory: "3072Mi"
-        ephemeral_storage: "2.5Gi"
+        ephemeral_storage: "3Gi"
 
       ## By default "Autoscaling" is disabled (i.e., enabled: false).  If you enable auto_scaling (i.e., enabled: true), be sure to 
       ## provide values for max_replicas, min_replicas, and target_cpu_utilization_percentage.
