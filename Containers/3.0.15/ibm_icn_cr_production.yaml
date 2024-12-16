@@ -112,12 +112,11 @@ spec:
     ## The database configuration for ICN (Navigator) - aka BAN (Business Automation Navigator)
     dc_icn_datasource:
       ## Provide the database type from your infrastructure.  The possible values are "db2" or "db2HADR" or "oracle" or "sqlserver" or "postgresql".  This should be the same as the
-      ## GCD and object store configuration above.
       dc_database_type: "<Required>"
       ## Provide the ICN datasource name.  The default value is "ECMClientDS".
       dc_common_icn_datasource_name: "ECMClientDS"
       database_servername: "<Required>"
-      ## Provide the database server port.  For Db2, the default is "50000".  For Oracle, the default is "1521"
+      ## Provide the database server port.  For Db2, the default is "50000". Not applicable to Oracle which requires a JDBC URL.
       database_port: "<Required>"
       ## Provide the name of the database for ICN (Navigator).  For example: "ICNDB"
       database_name: "<Required>"
