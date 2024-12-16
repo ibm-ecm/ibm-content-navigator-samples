@@ -40,6 +40,8 @@ spec:
     es: false
     tm: false
     ban: true
+    iccsap: false
+    ier: false
 
   shared_configuration:
     ## This is the deployment context is FNCM. No update it required.
@@ -76,9 +78,9 @@ spec:
     #  localhost_profile: # Local path of custom seccomp profile when type `Localhost` is used. The custom profile must be accessible by the pod and must exist locally on all worker nodes.  For example: `/profiles/fine-grained.json`.
 
     sc_egress_configuration:
-      ## Required. Enable or disable egress access to external systems.  If "sc_restricted_internet_access" is defined and has no value set, then default will be "true".  If
-      ## "sc_restricted_internet_access" is not defined  (e.g., in the case of upgrade, the existing CR will not have sc_restricted_internet_access ), then
-      ## "sc_restricted_internet_access" will be "false"
+      ## Required. Enable or disable egress access to external systems.
+      ## If "sc_restricted_internet_access" is defined and has no value set, then default will be "true".
+      ## If "sc_restricted_internet_access" is not defined (e.g., in the case of upgrade, the existing CR will not have sc_restricted_internet_access), then "sc_restricted_internet_access" will be "false"
       sc_restricted_internet_access: true
       ## Optional.  Kubernetes API server namespace(s) (comma separated) to be used for egress network policy when `sc_restricted_internet_access: true` and `sc_deployment_platform: "other"`.
       ## "{}" can also be used as a value.  It is equivalent to all namespaces (eg: namespaceSelector:{})
@@ -138,7 +140,7 @@ spec:
     images:
       keytool_init_container:
         repository: icr.io/cpopen/icn/dba-keytool-initcontainer
-        tag: "24.0.0"
+        tag: "24.0.0-IF003"
 
     ## This is necessary if you want to use your own JDBC drivers and/or need to provide ICCSAP drivers.  If you are providing multiple JDBC drivers and ICCSAP drivers, 
     ## all the files must be compressed in a single file.
@@ -336,7 +338,7 @@ spec:
     image:
       ## The default repository is the IBM Entitled Registry
       repository: icr.io/cpopen/icn/navigator
-      tag: ga-310-icn
+      tag: ga-310-icn-la101
 
       ## This will override the image pull policy in the shared_configuration.
       pull_policy: IfNotPresent

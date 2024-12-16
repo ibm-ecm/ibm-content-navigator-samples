@@ -36,6 +36,8 @@ spec:
     es: false
     tm: false
     ban: true
+    iccsap: false
+    ier: false
 
   shared_configuration:
     ## The deployment context as selected.
@@ -108,7 +110,7 @@ spec:
     ## The database_precheck parameter is used to enable or disable CPE/Navigator database connection check.
     ## If set to "true", then CPE/Navigator database connection check will be enabled.
     ## if set to "false", then CPE/Navigator database connection check will not be enabled.
-    # database_precheck: true
+    #database_precheck: true
     ## The database configuration for ICN (Navigator) - aka BAN (Business Automation Navigator)
     dc_icn_datasource:
       ## Provide the database type from your infrastructure.  The possible values are "db2" or "db2HADR" or "oracle" or "sqlserver" or "postgresql".  This should be the same as the
