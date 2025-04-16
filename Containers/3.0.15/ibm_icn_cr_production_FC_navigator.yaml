@@ -76,9 +76,9 @@ spec:
     #  localhost_profile: # Local path of custom seccomp profile when type `Localhost` is used. The custom profile must be accessible by the pod and must exist locally on all worker nodes.  For example: `/profiles/fine-grained.json`.
 
     sc_egress_configuration:
-      ## Required. Enable or disable egress access to external systems.  If "sc_restricted_internet_access" is defined and has no value set, then default will be "true".  If
-      ## "sc_restricted_internet_access" is not defined  (e.g., in the case of upgrade, the existing CR will not have sc_restricted_internet_access ), then
-      ## "sc_restricted_internet_access" will be "false"
+      ## Required. Enable or disable egress access to external systems.
+      ## If "sc_restricted_internet_access" is defined and has no value set, then default will be "true".
+      ## If "sc_restricted_internet_access" is not defined (e.g., in the case of upgrade, the existing CR will not have sc_restricted_internet_access), then "sc_restricted_internet_access" will be "false"
       sc_restricted_internet_access: true
       ## Optional.  Kubernetes API server namespace(s) (comma separated) to be used for egress network policy when `sc_restricted_internet_access: true` and `sc_deployment_platform: "other"`.
       ## "{}" can also be used as a value.  It is equivalent to all namespaces (eg: namespaceSelector:{})
@@ -127,6 +127,7 @@ spec:
     ## In case any custom annotation is needed for the environment provide below.
     ##  sc_ingress_annotations:
     ##   - kubernetes.io/ingress.class: nginx
+    ## To include '{{ }}' in annotation like '{{example}}', add a backward slash before curly brace like '\{\{example\}\}'.
     #sc_ingress_annotations:
 
     ## If the root certificate authority (CA) key of the external service is not signed by the operator root CA key, provide the TLS certificate of
@@ -137,7 +138,7 @@ spec:
     images:
       keytool_init_container:
         repository: icr.io/cpopen/icn/dba-keytool-initcontainer
-        tag: "23.0.2-IF006"
+        tag: "5.5.12-IF003"
 
     ## This is necessary if you want to use your own JDBC drivers and/or need to provide ICCSAP drivers.  If you are providing multiple JDBC drivers and ICCSAP drivers, 
     ## all the files must be compressed in a single file.
@@ -235,7 +236,7 @@ spec:
       ## Provide the ICN datasource name.  The default value is "ECMClientDS".
       dc_common_icn_datasource_name: "ECMClientDS"
       database_servername: "<Required>"
-      ## Provide the database server port.  For Db2, the default is "50000".  For Oracle, the default is "1521"
+      ## Provide the database server port.  For Db2, the default is "50000". Not applicable to Oracle which requires a JDBC URL.
       database_port: "<Required>"
       ## Provide the name of the database for ICN (Navigator).  For example: "ICNDB"
       database_name: "<Required>"
@@ -333,7 +334,7 @@ spec:
     image:
       ## The default repository is the IBM Entitled Registry
       repository: icr.io/cpopen/icn/navigator
-      tag: ga-3015-icn-if003
+      tag: ga-3015-icn-if005
 
       ## This will override the image pull policy in the shared_configuration.
       pull_policy: IfNotPresent
@@ -342,7 +343,7 @@ spec:
     log:
       format: json
 
-    ## The initial resources (CPU, memory) requests and limits.  If more resources are needed,
+    ## The initial resources (CPU, memory, and ephemeral storage) requests and limits.  If more resources are needed,
     ## make the changes here to meet your requirement.
     resources:
       requests:
@@ -379,6 +380,7 @@ spec:
     ## Values in this field will be used as annotations in all generated pods, and it must be valid annotation key value pairs.
     # Example:
     # customAnnotationKey: customAnnotationValue
+    ## To include '{{ }}' in annotation like '{{example}}', add a backward slash before curly brace like '\{\{example\}\}'.
     custom_annotations: { }
     ## Values in this field will be used as labels in all generated pods, and it must be valid label key value pairs
     # Example:
@@ -392,9 +394,21 @@ spec:
       sender: "MailAdmin@fncmexchange.com"
       ssl_enabled: false
 
+    # Disable FIPS for the component (default value is "false"), change it to "true" if you enable FIPS mode for the deployment with shared_configuration.enable_fips = true, but want to disable FIPS mode for the component.
+    disable_fips: false
 
-    ## Enable/disable FIPS (default value is "true")
-    disable_fips: true
+    ## Set securityContext for Navigator deployment.
+    security_context:
+      ## Controls which group IDs containers add. For example "supplemental_groups: [1000620001,1000620002]"
+      supplemental_groups:
+      ## This can take an array of key value pairs to assign SELinux labels to a Container, for example
+      ## selinux_options:
+        ## level: "s0:c123,c456"
+        ## type: "spc_t
+      selinux_options:
+      # Defines behavior for changing ownership and permission of the volume before being exposed inside a Pod. This field has two possible values (Always,OnRootMismatch)
+      # For example fs_groupchangepolicy: "OnRootMismatch"
+      fs_groupchangepolicy:
 
     ## Below are the default ICN Production settings.  Make the necessary changes as you see fit.  Refer to IBM Documentation for details.
     icn_production_setting:
@@ -415,6 +429,8 @@ spec:
       ##  -XX:+SomeJVMSettings
       ##  -XshowSettings:vm"
       ## Then set the following: jvm_customize_options="-Dmy.test.jvm.arg1=123,-Dmy.test.jvm.arg2=abc,-XX:+SomeJVMSettings,-XshowSettings:vm"
+      ## If your JVM option contains comma then you have to include 'DELIM=;' to use a different separator, for example jvm_customize_options="DELIM=;-Dmy.test.jvm.arg1=123;-Dcom.filenet.authentication.wsi.AuthTokenOrder=oauth,oidc,ltpa". Semicolon can be replaced with any other char.
+      ## If your JVM option contains double quotes then you need to escape it like this: jvm_customize_options="-Dsettings.navigator.default=logging.level={\"_value\":\"4\",\"_mergeOption\":\"replace\"}"
       jvm_customize_options:
 
       icn_jndids_name: ECMClientDS
@@ -440,10 +456,6 @@ spec:
       #   volume_path:  # optional
       # - name: <name of configmap>
       #   is_env: # required if the configmap holds environment variables.
-
-      ## This section you can set custom environments in the CR for the deployment
-      #custom_env_var:
-      # - some_custom_var_name: "some_custom_var_value"
 
     ## Default settings for monitoring
     monitor_enabled: false
