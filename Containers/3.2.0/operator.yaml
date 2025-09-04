@@ -16,7 +16,7 @@ metadata:
     app.kubernetes.io/instance: ibm-icn
     app.kubernetes.io/managed-by: ibm-icn
     app.kubernetes.io/name: ibm-icn
-    release: 3.0.15
+    release: 3.2.0
 spec:
   replicas: 1
   selector:
@@ -35,7 +35,7 @@ spec:
         com.ibm.fncm.networking/egress-allow-all: "true"
         com.ibm.fncm.networking/egress-allow-ldap: "true"
         com.ibm.fncm.ecm.networking/egress-allow-db: "true"
-        release: 3.0.15
+        release: 3.2.0
     spec:
       hostNetwork: false
       hostPID: false
@@ -66,7 +66,7 @@ spec:
                       - ppc64le
       initContainers:
         - name: folder-prepare-container
-          image: "icr.io/cpopen/icp4a-content-operator:5.5.12-IF005"
+          image: "icr.io/cpopen/icp4a-content-operator:5.7.0"
           securityContext:
             allowPrivilegeEscalation: false
             privileged: false
@@ -101,7 +101,7 @@ spec:
       containers:
         - name: operator
           # Replace this with the built image name
-          image: "icr.io/cpopen/icp4a-content-operator:5.5.12-IF005"
+          image: "icr.io/cpopen/icp4a-content-operator:5.7.0"
           imagePullPolicy: "IfNotPresent"
           securityContext:
             allowPrivilegeEscalation: false
