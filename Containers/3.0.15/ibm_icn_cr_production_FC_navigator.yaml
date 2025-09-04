@@ -107,6 +107,10 @@ spec:
     ## For non-OCP (e.g., CNCF platforms such as AWS, GKE, etc), this parameter is optional. It is not supported on OCP and ROKS.
     sc_run_as_user:
 
+    ## Specify the fsGroup for the security context of the pod.  This is usually a numeric value that corresponds to a group ID.
+    ## For non-OCP (e.g., CNCF platforms such as EKS, AKS, GKE, etc.), this parameter is optional. It is not supported on OCP and ROKS.
+    sc_fs_group:
+
     ## The platform to be deployed specified by the user.  Possible values are: OCP, ROKS, and other.
     sc_deployment_platform: "<Required>"
 
@@ -138,7 +142,7 @@ spec:
     images:
       keytool_init_container:
         repository: icr.io/cpopen/icn/dba-keytool-initcontainer
-        tag: "5.5.12-IF003"
+        tag: "5.5.12-IF005"
 
     ## This is necessary if you want to use your own JDBC drivers and/or need to provide ICCSAP drivers.  If you are providing multiple JDBC drivers and ICCSAP drivers, 
     ## all the files must be compressed in a single file.
@@ -185,7 +189,7 @@ spec:
       #inbound_propagation: "supported"
       #https_required: "true"
       #validation_method: "introspect"
-      #disable_ltpa_cookie: "false"
+      #disable_ltpa_cookie: "true"
       #signature_algorithm: "RS256"
       #user_identifier: "sub"
       #unique_user_identifier: "sub"
@@ -235,6 +239,7 @@ spec:
       dc_database_type: "<Required>"
       ## Provide the ICN datasource name.  The default value is "ECMClientDS".
       dc_common_icn_datasource_name: "ECMClientDS"
+      ## Provide the database server name or IP address of the database server, not applicable to Oracle which requires a JDBC URL.  If using an IPv6 literal, enclose it in square brackets [].
       database_servername: "<Required>"
       ## Provide the database server port.  For Db2, the default is "50000". Not applicable to Oracle which requires a JDBC URL.
       database_port: "<Required>"
@@ -334,7 +339,7 @@ spec:
     image:
       ## The default repository is the IBM Entitled Registry
       repository: icr.io/cpopen/icn/navigator
-      tag: ga-3015-icn-if005
+      tag: ga-3015-icn-if007
 
       ## This will override the image pull policy in the shared_configuration.
       pull_policy: IfNotPresent
@@ -428,9 +433,9 @@ spec:
       ##  -Dmy.test.jvm.arg2=abc
       ##  -XX:+SomeJVMSettings
       ##  -XshowSettings:vm"
-      ## Then set the following: jvm_customize_options="-Dmy.test.jvm.arg1=123,-Dmy.test.jvm.arg2=abc,-XX:+SomeJVMSettings,-XshowSettings:vm"
-      ## If your JVM option contains comma then you have to include 'DELIM=;' to use a different separator, for example jvm_customize_options="DELIM=;-Dmy.test.jvm.arg1=123;-Dcom.filenet.authentication.wsi.AuthTokenOrder=oauth,oidc,ltpa". Semicolon can be replaced with any other char.
-      ## If your JVM option contains double quotes then you need to escape it like this: jvm_customize_options="-Dsettings.navigator.default=logging.level={\"_value\":\"4\",\"_mergeOption\":\"replace\"}"
+      ## Then set the following: jvm_customize_options: "-Dmy.test.jvm.arg1=123,-Dmy.test.jvm.arg2=abc,-XX:+SomeJVMSettings,-XshowSettings:vm"
+      ## If your JVM option contains comma then you have to include 'DELIM=;' to use a different separator, for example jvm_customize_options: "DELIM=;-Dmy.test.jvm.arg1=123;-Dcom.filenet.authentication.wsi.AuthTokenOrder=oauth,oidc,ltpa". Semicolon can be replaced with any other char.
+      ## If your JVM option contains double quotes then you need to escape it like this: jvm_customize_options: "-Dsettings.navigator.default=logging.level={\"_value\":\"4\",\"_mergeOption\":\"replace\"}"
       jvm_customize_options:
 
       icn_jndids_name: ECMClientDS
@@ -461,6 +466,9 @@ spec:
     monitor_enabled: false
     ## Default settings for logging
     logging_enabled: false
+
+    ## By default, the plugin for Graphite is enable to emit container metrics.
+    collectd_enable_plugin_write_graphite: false
 
     ## Persistent Volume Claims for ICN.  If the storage_configuration in the shared_configuration is configured,
     ## the Operator will create the PVC using the names below.

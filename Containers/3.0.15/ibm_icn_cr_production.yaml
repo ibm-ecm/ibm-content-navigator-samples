@@ -62,14 +62,17 @@ spec:
     sc_deployment_profile_size: "small"
 
     ## Specify the RunAsUser for the security context of the pod.  This is usually a numeric value that corresponds to a user ID.
-    ## For non-OCP (e.g., CNCF platforms such as AWS, GKE, etc), this parameter is optional. It is not supported on OCP and ROKS.
+    ## For non-OCP (e.g., CNCF platforms such as EKS, AKS, GKE, etc.), this parameter is optional. It is not supported on OCP and ROKS.
     sc_run_as_user:
 
-    ## The platform to be deployed specified by the user.  Possible values are: OCP, ROKS and other.
-    ## based on input from the user.
+    ## Specify the fsGroup for the security context of the pod.  This is usually a numeric value that corresponds to a group ID.
+    ## For non-OCP (e.g., CNCF platforms such as EKS, AKS, GKE, etc.), this parameter is optional. It is not supported on OCP and ROKS.
+    sc_fs_group:
+
+    ## The platform to be deployed specified by the user.  Possible values are: OCP, ROKS, and other.
     sc_deployment_platform: "<Required>"
 
-    ## OCP: Hostname suffix added to the default ingress hostname, this is optional and the default hostname suffix will be {meta.namespace}.
+    ## OCP: Hostname suffix added to the default ingress hostname, this is optional, and the default hostname suffix will be {meta.namespace}.
     ## CNCF: Hostname used to access your deployment. This is required for ingress creation.
     #sc_deployment_hostname_suffix: "{{ meta.namespace }}"
 
@@ -108,13 +111,14 @@ spec:
     ## The database_precheck parameter is used to enable or disable CPE/Navigator database connection check.
     ## If set to "true", then CPE/Navigator database connection check will be enabled.
     ## if set to "false", then CPE/Navigator database connection check will not be enabled.
-    # database_precheck: true
+    #database_precheck: true
     ## The database configuration for ICN (Navigator) - aka BAN (Business Automation Navigator)
     dc_icn_datasource:
       ## Provide the database type from your infrastructure.  The possible values are "db2" or "db2HADR" or "oracle" or "sqlserver" or "postgresql".  This should be the same as the
       dc_database_type: "<Required>"
       ## Provide the ICN datasource name.  The default value is "ECMClientDS".
       dc_common_icn_datasource_name: "ECMClientDS"
+      ## Provide the database server name or IP address of the database server, not applicable to Oracle which requires a JDBC URL.  If using an IPv6 literal, enclose it in square brackets [].
       database_servername: "<Required>"
       ## Provide the database server port.  For Db2, the default is "50000". Not applicable to Oracle which requires a JDBC URL.
       database_port: "<Required>"

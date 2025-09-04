@@ -16,14 +16,14 @@ metadata:
     app.kubernetes.io/instance: ibm-icn
     app.kubernetes.io/managed-by: ibm-icn
     app.kubernetes.io/name: ibm-icn
-    release: 3.1.0
+    release: 3.2.0
 spec:
   ##########################################################################
   ## This section contains the shared configuration for all ICN components #
   ##########################################################################
-  appVersion: 24.0.0
+  appVersion: 25.0.0
 
-  ## MUST exist, used to accept ibm license, valid value only can be "true"
+  ## MUST exist, used to accept ibm license; valid value only can be "true"
   license:
     accept:
 
@@ -77,11 +77,13 @@ spec:
     #  type: # RuntimeDefault, Localhost, Unconfined
     #  localhost_profile: # Local path of custom seccomp profile when type `Localhost` is used. The custom profile must be accessible by the pod and must exist locally on all worker nodes.  For example: `/profiles/fine-grained.json`.
 
+    ## Staring with FNCM 5.7.0, the operators are no longer creating network policies automatically due to a change in the security requirements where the permissions to create network policies have been removed.
+    ## The optional parameter to enable/disable the creation of sample network policy templates for FNCM components.  If the parameter is not defined, then the default value is "false".
+    ## Set this flag to "true" if you plan to have restricted network policies in FNCM namespaces so that the operators can create sample network policy templates for FNCM components.
+    ## Please refer to the FNCM documentation for more information about how to retrieve and apply the sample network policy templates.
+    sc_generate_sample_network_policies: false
+
     sc_egress_configuration:
-      ## Required. Enable or disable egress access to external systems.
-      ## If "sc_restricted_internet_access" is defined and has no value set, then default will be "true".
-      ## If "sc_restricted_internet_access" is not defined (e.g., in the case of upgrade, the existing CR will not have sc_restricted_internet_access), then "sc_restricted_internet_access" will be "false"
-      sc_restricted_internet_access: true
       ## Optional.  Kubernetes API server namespace(s) (comma separated) to be used for egress network policy when `sc_restricted_internet_access: true` and `sc_deployment_platform: "other"`.
       ## "{}" can also be used as a value.  It is equivalent to all namespaces (eg: namespaceSelector:{})
       ## Default are "openshift-kube-apiserver", "openshift-apiserver" for OCP and ROKS.
@@ -104,12 +106,7 @@ spec:
 
     ## Optional: You can specify a profile size for CloudPak - valid values are small,medium,large - default is small.
     sc_deployment_profile_size: "small"
-
-    ## If a cluster is configured for multiple availability zones (AZ) and the parameter sc_is_multiple_az is set to true, then the pods are spread across all the zones.
-    ## By default, the sc_is_multiple_az parameter is set to false. When the value is set to true, the pods of the FNCM deployment are spread across your user-defined topology domains.
-    ## The pod API includes a spec.topologySpreadConstraints field, which is used by the FNCM operator to configure it.
-    sc_is_multiple_az: false
-
+    
     ## Specify the RunAsUser for the security context of the pod.  This is usually a numeric value that corresponds to a user ID.
     ## For non-OCP (e.g., CNCF platforms such as EKS, AKS, GKE, etc.), this parameter is optional. It is not supported on OCP and ROKS.
     sc_run_as_user:
@@ -149,7 +146,7 @@ spec:
     images:
       keytool_init_container:
         repository: icr.io/cpopen/icn/dba-keytool-initcontainer
-        tag: "24.0.0-IF006"
+        tag: "25.0.0"
 
     ## This is necessary if you want to use your own JDBC drivers and/or need to provide ICCSAP drivers.  If you are providing multiple JDBC drivers and ICCSAP drivers, 
     ## all the files must be compressed in a single file.
@@ -165,9 +162,8 @@ spec:
     ## The CR can handle .zip files using unzip as well as .tar, .tar.gz, .tar.bz2, .tar.xz. Does not handle .gz files, .bz2 files, .xz, or .zst files that do not contain a .tar archive.    
     #sc_drivers_url:
 
-    ## On OCP 3.x and 4.x, these three (3) parameters  for "enterprise" deployment.
-    ## when deploying you would provide the different storage classes for the slow, medium
-    ## and fast storage parameters below.  If you only have 1 storage class defined, then you can use that 1 storage class for all 3 parameters.
+   ## Provide the storage class names for the storage. It can be one storage class for all storage classes or can provide different one for each.
+   ## Operator will use the provided storage classes to provision required PVC volumes.
     storage_configuration:
       sc_slow_file_storage_classname: "<Required>"
       sc_medium_file_storage_classname: "<Required>"
@@ -196,7 +192,7 @@ spec:
       #inbound_propagation: "supported"
       #https_required: "true"
       #validation_method: "introspect"
-      #disable_ltpa_cookie: "false"
+      #disable_ltpa_cookie: "true"
       #signature_algorithm: "RS256"
       #user_identifier: "sub"
       #unique_user_identifier: "sub"
@@ -246,6 +242,7 @@ spec:
       dc_database_type: "<Required>"
       ## Provide the ICN datasource name.  The default value is "ECMClientDS".
       dc_common_icn_datasource_name: "ECMClientDS"
+      ## Provide the database server name or IP address of the database server, not applicable to Oracle which requires a JDBC URL.  If using an IPv6 literal, enclose it in square brackets [].
       database_servername: "<Required>"
       ## Provide the database server port.  For Db2, the default is "50000". Not applicable to Oracle which requires a JDBC URL.
       database_port: "<Required>"
@@ -294,8 +291,8 @@ spec:
  #   collectd_interval: 10
  #   collectd_disable_host_monitoring: false
  #   collectd_plugin_write_prometheus_port: 9103
- ## You can use this configmap to customize PCH counters mounted at /opt/ibm/monitoring/pchmonitor/counters.xml. If not provided, Operator will create a default config map and any updates to it will not be overwritten by the Operator.
- #   pch_counters_configmap: {{ meta.name }}-pch-counters-config
+## You can use this configmap to customize PCH counters mounted at /opt/ibm/monitoring/pchmonitor/counters.xml. If not provided, Operator will create a default config map and any updates to it will not be overwritten by the Operator.
+  #   pch_counters_configmap: {{ meta.name }}-pch-counters-config
 
  ## Logging setting
  # logging_configuration:
@@ -347,7 +344,7 @@ spec:
     image:
       ## The default repository is the IBM Entitled Registry
       repository: icr.io/cpopen/icn/navigator
-      tag: ga-310-icn-if005
+      tag: ga-320-icn
 
       ## This will override the image pull policy in the shared_configuration.
       pull_policy: IfNotPresent
@@ -441,9 +438,9 @@ spec:
       ##  -Dmy.test.jvm.arg2=abc
       ##  -XX:+SomeJVMSettings
       ##  -XshowSettings:vm"
-      ## Then set the following: jvm_customize_options="-Dmy.test.jvm.arg1=123,-Dmy.test.jvm.arg2=abc,-XX:+SomeJVMSettings,-XshowSettings:vm"
-      ## If your JVM option contains comma then you have to include 'DELIM=;' to use a different separator, for example jvm_customize_options="DELIM=;-Dmy.test.jvm.arg1=123;-Dcom.filenet.authentication.wsi.AuthTokenOrder=oauth,oidc,ltpa". Semicolon can be replaced with any other char.
-      ## If your JVM option contains double quotes then you need to escape it like this: jvm_customize_options="-Dsettings.navigator.default=logging.level={\"_value\":\"4\",\"_mergeOption\":\"replace\"}"
+      ## Then set the following: jvm_customize_options: "-Dmy.test.jvm.arg1=123,-Dmy.test.jvm.arg2=abc,-XX:+SomeJVMSettings,-XshowSettings:vm"
+      ## If your JVM option contains comma then you have to include 'DELIM=;' to use a different separator, for example jvm_customize_options: "DELIM=;-Dmy.test.jvm.arg1=123;-Dcom.filenet.authentication.wsi.AuthTokenOrder=oauth,oidc,ltpa". Semicolon can be replaced with any other char.
+      ## If your JVM option contains double quotes then you need to escape it like this: jvm_customize_options: "-Dsettings.navigator.default=logging.level={\"_value\":\"4\",\"_mergeOption\":\"replace\"}"
       jvm_customize_options:
 
       icn_jndids_name: ECMClientDS
@@ -523,4 +520,4 @@ spec:
     ## Optional entry only if you have the open_id_connect_providers enabled.
     ## if not specified it will be set to false.
     ## Enabling this will give the user the option to sign-in using the LDAP.
-    enable_ldap: true
+    #enable_ldap: true
