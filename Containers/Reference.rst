@@ -1,5 +1,5 @@
 IBM Content Navigator Container Deployment for CMOD & CM8 Custom Resource Reference
-=====================================================
+=====================================================================================
 
 This document provides a reference for the custom resources that are used to deploy IBM Content Navigator in a containerized environment.
 The custom resources are defined in the `ibm_icn_cr_production_FC.yaml` and `ibm_icn_cr_production.yaml` file.
@@ -10,9 +10,9 @@ Spec Parameters
     .. csv-table:: Spec Parameters
        :header: "Parameter", "Description", "Example", "Required"
 
-        "content_optional_components","Specify which component to include (true) or omit (false).",,"No"
+        "content_optional_components","Specify which component to include (true) or omit (false). Valid component keys: cpe, graphql, cmis, css, es, tm, ban, iccsap, ier, ccxmo.",,"No"
         "license.accept","Must exist to accept the IBM license. The only valid value is ""true"".","true","Yes"
-        "appVersion", "The version of the current release.", "23.0.2", "Yes"
+        "appVersion", "The version of the current release.", "26.0.0", "Yes"
 
 Shared Parameters
 ----------------
@@ -21,37 +21,48 @@ Shared Parameters
        :header: "Parameter", "Description", "Example", "Required"
 
         enable_fips,Enable/disable FIPS mode for the deployment.,False,No
-        external_tls_certificate_secret,"Shared custom TLS secret which will be used to sign all external routes if defined. If this is not defined, all external routes will be signed with root_ca_secret",,No
+        external_tls_certificate_secret,"Shared custom TLS secret which will be used to sign all external routes if defined. If this is not defined, all external routes will be signed with root_ca_secret",,No
         image_pull_secrets,List of shared image pull secrets.,ibm-entitlement-key,No
         root_ca_secret,"If you provide your own root certificate, enter the value.",icn-root-ca,No
         sc_deployment_context,Do not change this default setting.,FNCM,Yes
         sc_deployment_platform,Enter your certified Kubernetes platform type,OCP,Yes
         ,,"Use ""OCP"" for Red Hat OpenShift Container Platform",
         ,,"Use ""ROKS"" if the platform is Red Hat OpenShift on IBM Cloud®.",
-        ,,"Use "" other"" for to deploy on non-OCP Kubernetes based platforms.",
+        ,,"Use ""other"" for to deploy on non-OCP Kubernetes based platforms.",
         ,,,
-        sc_deployment_profile_size,"For a production deployment type, the default is small. You can change the profile to medium or large, as required. For more information, see Identifying the infrastructure requirements.",small,No
+        sc_deployment_profile_size,"For a production deployment type, the default is small. You can change the profile to medium or large, as required. For more information, see Identifying the infrastructure requirements.",small,No
         sc_deployment_type,Do not change this default setting.,production,Yes
         sc_ecm_ltpa_secret_name,"If creating using a custom ltpa-secret name, specify the name here. The value is required for deploying geographically dispersed FNCM clusters.",{{ meta.name }}-ecm-ltpa,No
-        sc_egress_configuration,To enable or disable egress access to external systems. The default is to restrict access to external systems.,"The default for sc_restricted_internet_access is true, if not defined.",No
-        sc_restricted_internet_access,,"The default for sc_api_namespace is ""openshift-kube-apiserver"", ""openshift-apiserver"". Use a comma separated list of namespaces or ""{}"" can also be used as a value when you see ""(\""dial tcp XXX.XX.X.X:443: i/o timeout\"")"" error in the operator log. It is equivalent to all namespaces (namespaceSelector:{}).",
-        sc_api_namespace,"Set the value of sc_restricted_internet_access to false to provide all pods access to external systems. You can customize your network policy or use specific policies with 'matchLabels' to set exceptions. For more information, see Configuring cluster security.","The default for sc_api_port is 443,6443.",
-        sc_api_port,,"The default for sc_dns_namespace is ""openshift-dns"". It can be a comma separated list of namespaces or ""{}"" can also be used as a value. It is equivalent to all namespaces (namespaceSelector:{}).",
-        sc_dns_namespace,"If set to false, all the pods have unrestricted network access to external systems.","The default for sc_dns_port is 53,5353.",
+        sc_egress_configuration,To enable or disable egress access to external systems. The default is to restrict access to external systems.,"The default for sc_restricted_internet_access is true, if not defined.",No
+        sc_restricted_internet_access,,"The default for sc_api_namespace is ""openshift-kube-apiserver"", ""openshift-apiserver"". Use a comma separated list of namespaces or ""{}"" can also be used as a value when you see ""(\""dial tcp XXX.XX.X.X:443: i/o timeout\"")"" error in the operator log. It is equivalent to all namespaces (namespaceSelector:{}).",
+        sc_api_namespace,"Set the value of sc_restricted_internet_access to false to provide all pods access to external systems. You can customize your network policy or use specific policies with 'matchLabels' to set exceptions. For more information, see Configuring cluster security.","The default for sc_api_port is 443,6443.",
+        sc_api_port,,"The default for sc_dns_namespace is ""openshift-dns"". It can be a comma separated list of namespaces or ""{}"" can also be used as a value. It is equivalent to all namespaces (namespaceSelector:{}).",
+        sc_dns_namespace,"If set to false, all the pods have unrestricted network access to external systems.","The default for sc_dns_port is 53,5353.",
         sc_dns_port,,,
-        ,"Important: When the value of sc_restricted_internet_access is true, none of the pods can access any external system other than the known addresses for databases, LDAPs, and federated systems. For more information, see Configuring cluster security.",,
-        sc_image_repository,"All components must use the same docker image repository. For a local docker image repository, set the parameter to the value of the URL, for example, myimageregistry.com/project_name. For an air gap installation, make sure that the parameter is set to the default value.",icr.io/cpopen/icn,No
+        ,"Important: When the value of sc_restricted_internet_access is true, none of the pods can access any external system other than the known addresses for databases, LDAPs, and federated systems. For more information, see Configuring cluster security.",,
+        sc_enable_instana_metric_collection,"Enables integration with Instana to collect application and infrastructure metrics for enhanced observability. Set to true to enable Instana monitoring for CCx applications.",False,No
+        sc_enable_pdb,"Global flag to enable or disable Pod Disruption Budget (PDB) creation across all components. A PDB is created with minAvailable: 1 only if the replica count is greater than 1; otherwise minAvailable: 0. Can be overridden at the component level (e.g., navigator_configuration.enable_pdb).",True,No
+        sc_enable_usage_metering,"Enable the operators to deploy cron jobs to send usage metrics to IBM Software Central. Set to false to opt out of sending usage metrics.",False,No
+        sc_fncm_license_model,The FNCM license model for the deployment. No selection is required for standard deployments.,,No
+        sc_fs_group,"Specify the fsGroup for the security context of the pod. This is a numeric value corresponding to a group ID. Optional for non-OCP platforms (e.g., EKS, AKS, GKE). Not supported on OCP and ROKS.",,No
+        sc_generate_sample_network_policies,"Enable or disable the creation of sample network policy templates for CCx components. Set to true if you plan to have restricted network policies in CCx namespaces. See FNCM documentation for how to retrieve and apply the sample network policy templates.",False,No
+        sc_image_repository,"All components must use the same docker image repository. For a local docker image repository, set the parameter to the value of the URL, for example, myimageregistry.com/project_name. For an air gap installation, make sure that the parameter is set to the default value.",icr.io/cpopen/icn,No
+        sc_is_multiple_az,"If a cluster is configured for multiple availability zones (AZ), set to true to spread pods across all zones using topologySpreadConstraints.",False,No
         images.keytool_init_container.repository,Image name for TLS init container,icr.io/cpopen/icn/dba-keytool-initcontainer,No
-        images.keytool_init_container.tag,Image tag for TLS init container,23.0.2,No
+        images.keytool_init_container.tag,Image tag for TLS init container,26.0.0,No
         sc_ingress_enable,"For ROKS and CNCF clusters, this is used to enable Ingress. The default value is ""false"" which creates routes instead of Ingress.",False,No
         sc_ingress_tls_secret_name,This secret provides TLS for the Ingress controller.,Empty,Yes
-        sc_run_as_user,Optional and only applicable for non-Open Shift Cloud Platform installations. Specify a RunAs user for the security of the pod. This is usually a numerical ID.,,No
-        sc_seccomp_profile.localhost_profile,"Specify the local path of the seccomp profile file. This parameter is required if sc_seccomp_profile.type is set to Localhost. The value of sc_seccomp_profile.localhost_profile is ignored if sc_seccomp_profile.type is set to anything other than Localhost. For more information, see Configuring seccomp profiles.",Example: profiles/audit.json,Only if sc_seccomp_profile.type is set to Localhost
-        sc_seccomp_profile.type,"Specify the type of seccomp profile to be used by the pods. Possible values are: Unconfined, RuntimeDefault, Localhost. For more information about seccomp profile, see the Restrict a Container's Syscalls with seccomp.",Default value:,No
+        sc_run_as_user,"Optional and only applicable for non-OCP (e.g., CNCF platforms such as EKS, AKS, GKE) installations. Specify a RunAs user for the security of the pod. This is usually a numerical ID. Not supported on OCP and ROKS.",,No
+        sc_seccomp_profile.localhost_profile,"Specify the local path of the seccomp profile file. This parameter is required if sc_seccomp_profile.type is set to Localhost. The value of sc_seccomp_profile.localhost_profile is ignored if sc_seccomp_profile.type is set to anything other than Localhost. For more information, see Configuring seccomp profiles.",Example: profiles/audit.json,Only if sc_seccomp_profile.type is set to Localhost
+        sc_seccomp_profile.type,"Specify the type of seccomp profile to be used by the pods. Possible values are: Unconfined, RuntimeDefault, Localhost. For more information about seccomp profile, see the Restrict a Container's Syscalls with seccomp.",Default value:,No
         ,,RuntimeDefault on OCP 4.11 and later,
         ,,empty on other platforms,
         ,,,
-        ,,Example: Localhost,
+        ,,Example: Localhost,
+        sc_service_ip_family_policy,"Corresponds to the ipFamilyPolicy property of Kubernetes service objects. Only applicable in dual-stack clusters where both IPv4 and IPv6 are enabled. If not set, defaults to cluster-level settings. Allowed values (case-sensitive): SingleStack, PreferDualStack, RequireDualStack. Setting a value not supported by your cluster will cause deployment to fail.",,No
+        sc_service_ip_families,"Corresponds to the ipFamilies property of Kubernetes service objects. Works in conjunction with sc_service_ip_family_policy. If not set, defaults to cluster-level settings. For SingleStack: a list with one IP family (IPv4 or IPv6). For PreferDualStack or RequireDualStack: a list of two IP families in desired order. IMPORTANT: Only supported for initial deployment; updating after deployment may cause instability.",,No
+        sc_tolerations,"Optional tolerations applied to all FNCM component pods. If component-specific tolerations are defined, they take precedence over these shared tolerations. Format is a list of toleration objects with keys: key, operator, value, effect.",,No
+        sc_vault_configuration.enable_external_secret_store,"Enable integration with an external secret store such as HashiCorp Vault. Set to true if you plan to integrate with an external secret store for all CCx components.",False,No
         storage_configuration,"Three storage classes are needed for slow, medium, and fast storage. If one storage class is defined, then you can use that one storage class for all three parameters.",None,Yes
         sc_fast_file_storage_classname,,,
         sc_medium_file_storage_classname,,,
@@ -65,6 +76,7 @@ OIDC Parameters
     .. csv-table:: OIDC Parameters
        :header: "Parameter", "Description", "Example", "Required"
 
+        audiences,"Specifies the allowed audience values for JWT token validation. Set to the ClientID of your OIDC application.","<ClientID>",No
         authn_session_disabled,An authentication session cookie will not be created for inbound propagation. The client is expected to send a valid OAuth token for every request.,(true or false),No
         authorization_endpoint_url,Specifies an Authorization endpoint URL.,(string),No
         client_oidc_secret.cpe,Enter the secret name that you created for your Content Platform Engine credentials.,(string),No
@@ -156,8 +168,9 @@ Monitoring and Logging Parameters
         collectd_plugin_write-graphite_host,The hostname for the Graphite service.,localhost,No
         collectd_plugin_write_graphite_port,The port for the Graphite service.,2003,No
         collectd_interval,"The interval seconds in which to query the read plugins. If set, will use the specified interval for collectd and plugins.",10,No
-        collectd_disable_host_monitoring,"If set to true, disables the collectd cpu, interface, load, memory, and prometheus plugins.",False,No
+        collectd_disable_host_monitoring,"If set to true, disables the collectd cpu, interface, load, memory, and prometheus plugins.",False,No
         collectd_plugin_write_prometheus_port,The port of the collectd embedded webserver should listen on that can be scraped by using Prometheus.,9103,No
+        pch_counters_configmap,"Optional. The name of a custom configmap to customize PCH counters mounted at /opt/ibm/monitoring/pchmonitor/counters.xml. If not provided, the operator creates a default configmap and any updates will not be overwritten.","{{ meta.name }}-pch-counters-config",No
 
     .. csv-table:: Logging Parameters
        :header: "Parameter", "Description", "Example", "Required"
@@ -180,12 +193,12 @@ Datasource Parameters
        :header: "Parameter", "Description", "Example", "Required"
 
         database_precheck,"Some databases, like Oracle OID, have a default format for the connection URL that can interfere with deployment by the operator. Setting database_precheck to false can prevent these deployment errors.",True,No
-        dc_ssl_enabled,Used to support database connection over SSL for Db2 or Oracle.,True,No
+        dc_ssl_enabled,"Used to support database connection over SSL for Db2, Oracle, SQLServer, or PostgreSQL.",True,No
 
     .. csv-table:: Datasource Parameters
        :header: "Parameter", "Description", "Example", "Required"
 
-        dc_database_type,"Specify the type for your Business Automation Navigator database. The possible values are ""db2"" or ""db2HADR"" or ""oracle"". This setting must be the same as for the Global Configuration Database and the object store database types.","""db2""",Yes
+        dc_database_type,"Specify the type for your Business Automation Navigator database. The possible values are ""db2"", ""db2HADR"", ""db2rds"", ""db2rdsHADR"", ""oracle"", ""sqlserver"", or ""postgresql"". This setting must be the same as for the Global Configuration Database and the object store database types.","""db2""",Yes
         dc_common_icn_datasource_name,The JNDI name of the non-XA JDBC data source associated with the IBM Content Navigator table space or database. The name must be unique.,"""ECMClientDS""",Yes
         database_servername,The host name of the server where the database software is installed.,"""<hostname>""","Yes, but not applicable to database type of Oracle which requires a JDBC URL"
         database_port,"Provide the database port. For Db2, the default is ""50000"".","""50000""","Yes, but not applicable to database type of Oracle which requires a JDBC URL"
@@ -211,50 +224,67 @@ Navigator Parameters
     .. csv-table:: Navigator Parameters
        :header: "Parameter", "Description", "Example", "Required"
 
-        resources.requests.ephemeral_storage,Specifies an ephemeral storage request for the container.,,No
-        resources.limits.ephemeral_storage,Specifies an ephemeral storage limit for the container.,,No
-        ban_secret_name,Contains the information about the LDAP user and password for components.,"""{{ meta.name }}-ban-ext-tls-secret""",Yes
+        resources.requests.ephemeral_storage,Specifies an ephemeral storage request for the container.,1Gi,No
+        resources.limits.ephemeral_storage,Specifies an ephemeral storage limit for the container.,3Gi,No
+        ban_secret_name,Contains the information about the LDAP user and password for components.,ibm-ban-secret,Yes
         route_ingress_annotations,"By default all the components create ingress and routes with required annotations. In case any custom annotation is needed for the environment, use this parameter to specify the annotations.",- haproxy.router.openshift.io/balance: roundrobin,No
         ban_ext_tls_secret_name,"If you create a tls secret, use this parameter to specify it for IBM Content Navigator. Otherwise the operator creates one for you.","""{{ meta.name }}-ban-ext-tls-secret""",No
         ban_auth_ca_secret_name,"If you create a ca secret, use this parameter to specify it for IBM Content Navigator. Otherwise the operator creates one for you.","""{{ meta.name }}-ban-auth-ca-secret""",No
         arch.amd64,The architecture for your environment.,3 - Most preferred,"Yes, leave default"
-        replica_count,How many Content Platform Engine replicas to deploy.,2,No
-        image.repository,The repository to use.,cp.cir.io/cp/cp4a/ban/navigator-sso,No
-        image.tag,The specific tag for your release.,ga-30x-icn,No
+        collectd_enable_plugin_write_graphite,Enable the collectd plugin for Graphite to emit container metrics.,False,No
+        deployment_profile_size,"Optional. Override the shared_configuration.sc_deployment_profile_size for Navigator specifically. Valid values are small, medium, large.",small,No
+        enable_pdb,"Enable or disable Pod Disruption Budget (PDB) creation for the Navigator component. Overrides the shared_configuration.sc_enable_pdb flag. A PDB with minAvailable: 1 is created only if the replica count is greater than 1.",True,No
+        replica_count,How many Navigator replicas to deploy.,2,No
+        image.repository,The repository to use.,icr.io/cpopen/icn/navigator,No
+        image.tag,The specific tag for your release.,26.0.0,No
         image.pull_policy,The pull policy for the image.,IfNotPresent,No
         log.format,The format for workload logging.,json,No
+        tolerations,"Optional tolerations for the Navigator pod. If defined, these take precedence over shared_configuration.sc_tolerations. Format is a list of toleration objects with keys: key, operator, value, effect.",,No
         resources.requests.cpu,Specifies a CPU request for the container.,500m,No
-        resource.requests.memory,Specify a memory request for the container.,512Mi,No
-        resource.limits.cpu,Specify a CPU limit for the container.,1,No
-        resource.limits.memory,Specify a memory limit for the container.,3072Mi,No
-        auto_scaling.enabled,Specify whether to enable auto scaling.,False,No
-        auto_scaling.max_replicas,The upper limit for the number of pods that can be set by the autoscaler. Required.,3,No
-        auto_scaling.min_replicas,"The lower limit for the number of pods that can be set by the autoscaler. If it is not specified or negative, the server will apply a default value.",2,No
-        auto_scaling.target_cpu_utilization_percentage,"The target average CPU utilization (represented as a percent of requested CPU) over all the pods. If it is not specified or negative, a default autoscaling policy is used.",80,No
-        java_mail.host,Specify the host of the mail session.,fncm-exchange1.example.com,No
-        node_affinity.custom_node_selector_match_expression,Added in node selector match expressions. It accepts array list inputs. You can assign multiple selector match expressions except (kubernetes.io/arch).,- key: kubernetes.io/hostname,No
-        ,"Note: This can be overwritten by the component level definition, for example navigator_configuration.node_affinity.custom_node_selector_match_expression.",  operator: In,
+        resources.requests.memory,Specify a memory request for the container.,512Mi,No
+        resources.limits.cpu,Specify a CPU limit for the container.,1,No
+        resources.limits.memory,Specify a memory limit for the container.,3072Mi,No
+        rolling_update.max_unavailable,"Maximum number of pods that can be unavailable during a rolling update. Can be an absolute number or a percentage (e.g., '25%').","25%",No
+        rolling_update.max_surge,"Maximum number of pods that can be scheduled above the desired number of pods during a rolling update. Can be an absolute number or a percentage (e.g., '1').",1,No
+        rolling_update.auto_scaling.enabled,Specify whether to enable Horizontal Pod Autoscaler (HPA) auto scaling.,False,No
+        rolling_update.auto_scaling.max_replicas,"The upper limit for the number of pods that can be set by the autoscaler. Required when auto_scaling.enabled is true.",3,No
+        rolling_update.auto_scaling.min_replicas,"The lower limit for the number of pods that can be set by the autoscaler. Required when auto_scaling.enabled is true.",2,No
+        rolling_update.auto_scaling.target_cpu_utilization_percentage,"The target average CPU utilization (represented as a percent of requested CPU) over all pods. Required when auto_scaling.enabled is true.",80,No
+        rolling_update.target_memory_utilization_percentage,The target average memory utilization percentage used by HPA to scale the deployment.,80,No
+        rolling_update.scaleup.policies_pods_value,The maximum number of pods the HPA is allowed to add during each scaleup interval (policies_pods_period_seconds). Default value is 1.,1,No
+        rolling_update.scaleup.policies_pods_period_seconds,Defines how often the HPA can apply a scaleup action in seconds. Default value is 15.,15,No
+        rolling_update.scaleup.stabilization_window_seconds,Cooldown window in seconds before applying a scaleup action. Default value is 30.,30,No
+        rolling_update.scaledown.policies_pods_value,The maximum number of pods the HPA is allowed to remove during each scaledown interval (policies_pods_period_seconds). Default value is 1.,1,No
+        rolling_update.scaledown.policies_pods_period_seconds,Defines how often the HPA can apply a scaledown action in seconds. Default value is 15.,15,No
+        rolling_update.scaledown.stabilization_window_seconds,Cooldown window in seconds before applying a scaledown action. Default value is 300.,300,No
+        node_affinity.custom_node_selector_match_expression,Added in node selector match expressions. It accepts array list inputs. You can assign multiple selector match expressions except (kubernetes.io/arch).,- key: kubernetes.io/hostname,No
+        ,"Note: This can be overwritten by the component level definition, for example navigator_configuration.node_affinity.custom_node_selector_match_expression.",  operator: In,
         ,,  values:,
         ,,    - worker0,
         ,,    - worker1,
         ,,    - worker3,
         custom_annotations,Values in this field are used as annotations in all generated pods. They must be valid annotation key-value pairs.,customAnnotationKey: customAnnotationValue,No
         custom_labels,Values in this field are used as labels in all generated pods. They must be valid label key-value pairs.,customLabelKey: customLabelValue,No
+        java_mail.host,Specify the host of the mail session.,fncm-exchange1.ibm.com,No
         java_mail.port,Specify the port to use with the mail session host.,25,No
         java_mail.sender,"For sender, enter a user that has access to the email server to log on.",MailAdmin@fncmexchange.com,No
         java_mail.ssl_enabled,Specify whether SSL is enabled.,False,No
+        security_context.supplemental_groups,"Controls which group IDs containers add. Specify as a list of numeric group IDs, for example [1000620001, 1000620002].",,No
+        security_context.selinux_options,"Assigns SELinux labels to a container. Specify as key-value pairs, for example level: s0:c123,c456 and type: spc_t.",,No
+        security_context.fs_groupchangepolicy,"Defines behavior for changing ownership and permission of the volume before it is exposed inside a pod. Possible values: Always, OnRootMismatch.",,No
         probe.startup.initial_delay_seconds,The behavior of startup probes to know when the container is started.,120,No
         probe.startup.period_seconds,The period in seconds.,10,No
         probe.startup.timeout_seconds,The timeout setting in seconds.,10,No
         probe.startup.failure_threshold,The threshold number for failures.,6,No
-        icn_production_setting.custom_env_var,Set the environment variables.,anyValue,No
-        icn_production_setting.custom_configmap.name,The name of the custom configmap.,custom-navigator-config-files,Yes
+        icn_production_setting.custom_configmap.name,The name of the custom configmap.,custom-navigator-config-files,No
         ,,,
-        ,"Note that, a configmap can hold files or environment data but it cannot a mix of both. The volume_path is optional for a configmap that holds files as its data. If a volume_path is not specified, the files is mounted to the Liberty configuration (cfgstore) mapped location. If the configmap data holds environment variables then must set is_env to true.",,
+        ,"Note that, a configmap can hold files or environment data but it cannot a mix of both. The volume_path is optional for a configmap that holds files as its data. If a volume_path is not specified, the files are mounted to the Liberty configuration (cfgstore) mapped location. If the configmap data holds environment variables then is_env must be set to true.",,
         icn_production_setting.custom_configmap.volume_path,The location you want to hold files in.,,No
         icn_production_setting.custom_configmap.is_env,Specify whether the config map holds environment variables.,False,No
+        icn_production_setting.copy_files_to_war,"Optional. Path to a navigator_war_filesources.xml that specifies customized files to copy into the Navigator web application. The file must be located in the config volume mapping at /opt/ibm/wlp/usr/servers/defaultServer/configDropins/overrides.",,No
+        icn_production_setting.walkme_url,"Optional. The WalkMe URL referencing a WalkMe snippet (a JavaScript code snippet) that allows WalkMe guidance to be displayed in the application. Each WalkMe Editor account has a unique snippet code accessible inside the Editor.",https://cdn.walkme.com/users/<id>/walkme_<id>_https.js,No
         icn_production_setting.timezone,The time zone for the container deployment.,Etc/UTC,No
-        icn_production_setting.gdfontpath,Customized font path for multi-language support. You need to place all used font files into this path,/opt/ibm/java/jre/lib/fonts,No
+        icn_production_setting.gdfontpath,"Customized font path for multi-language support. You need to place all used font files into this path. The suggested path is /opt/ibm/wlp/usr/servers/defaultServer/configDropins/overrides/fonts so the value persists after pod restart.",/opt/ibm/java/jre/lib/fonts,No
         icn_production_setting.jvm_initial_heap_percentage,The initial use of available memory.,40,No
         icn_production_setting.jvm_max_heap_percentage,The maximum percentage of available memory to use.,66,No
         icn_production_setting.jvm_customize_options,Optionally specify JVM arguments using comma separation. For example:,None,No
@@ -264,34 +294,36 @@ Navigator Parameters
         ,"If needed, you can use DELIM to change the character that is used to separate multiple JVM arguments. In this example, a semi-colon is used to separate the JVM arguments:",,
         ,,,
         ,"jvm_customize_options=""DELIM=;-Dcom.filenet.authentication.wsi.AutoDetectAuthToken=true;-Dcom.filenet.authentication.providers=ExShareUmsInternal,ExShareIbmId,ExShareGID""",,
+        ,,,
+        ,"If your JVM option contains double quotes, escape them as follows: jvm_customize_options: ""-Dsettings.navigator.default=logging.level={\""_value\"":\"" 4\"",\""_mergeOption\"":\""replace\""}""",,
         icn_production_setting.icn_jndids_name,Name for the Navigator JNDI datasource.,ECMClientDS,No
         icn_production_setting.icn_schema,Schema for IBM Content Navigator.,ICNDB,No
         icn_production_setting.icn_table_space,Table space for IBM Content Navigator.,ICNDB,No
-        icn_production_setting.allow_remote_plugins_via_http,It is recommended not to change this setting.,True,No
+        icn_production_setting.allow_remote_plugins_via_http,It is recommended not to change this setting.,False,No
         monitor_enabled,Specify whether to use the built-in monitoring capability.,False,No
         logging_enabled,Specify whether to use the built-in logging capability.,False,No
-        datavolume.existing _pvc_for_icn_cfgstore,The persistent volume claim for IBM Content Navigator configuration.,icn-cfgstore,"Yes, if you want to use existing PVC"
+        datavolume.existing_pvc_for_icn_cfgstore,The persistent volume claim for IBM Content Navigator configuration.,icn-cfgstore,"Yes, if you want to use existing PVC"
         name,,1Gi,No
         size,,,
         ,,,
-        datavolume.existing _pvc_for_icn_logstore,The persistent volume claim for IBM Content Navigator logs.,icn-logstore,"Yes, if you want to use existing PVC"
+        datavolume.existing_pvc_for_icn_logstore,The persistent volume claim for IBM Content Navigator logs.,icn-logstore,"Yes, if you want to use existing PVC"
         name,,1Gi,No
         size,,,
         ,,,
-        datavolume.existing _pvc_for_icn_pluginstore,The persistent volume claim for the plug-ins.,icn-pluginstore,"Yes, if you want to use existing PVC"
+        datavolume.existing_pvc_for_icn_pluginstore,The persistent volume claim for the plug-ins.,icn-pluginstore,"Yes, if you want to use existing PVC"
         name,,1Gi,No
         size,,,
         ,,,
-        datavolume.existing _pvc_for_icnvw_cachestore,The persistent volume claim for the viewer cache.,icn-vw-cachestore,"Yes, if you want to use existing PVC"
+        datavolume.existing_pvc_for_icnvw_cachestore,The persistent volume claim for the viewer cache.,icn-vw-cachestore,"Yes, if you want to use existing PVC"
         name,,1Gi,No
         size,,,
         ,,,
-        datavolume.existing _pvc_for_icnvw_logstore,The persistent volume claim for the viewer log.,icn-vw-logstore,"Yes, if you want to use existing PVC"
+        datavolume.existing_pvc_for_icnvw_logstore,The persistent volume claim for the viewer log.,icn-vw-logstore,"Yes, if you want to use existing PVC"
         name,,1Gi,No
         size,,,
         ,,,
-        datavolume.existing _pvc_for_icn_aspera,The persistent volume claim for Aspera®.,icn-asperastore,"Yes, if you want to use existing PVC"
-        name,,I Gi,No
+        datavolume.existing_pvc_for_icn_aspera,The persistent volume claim for Aspera®.,icn-asperastore,"Yes, if you want to use existing PVC"
+        name,,1Gi,No
         size,,,
         ,,,
         probe.readiness.period_seconds,The period in seconds.,10,No
@@ -300,9 +332,9 @@ Navigator Parameters
         probe.liveness.period_seconds,The period in seconds.,10,No
         probe.liveness.timeout_seconds,The timeout setting in seconds.,5,No
         probe.liveness.failure_threshold,The threshold number for failures.,6,No
-        image_pull_secrets.name,The secrets to be able to pull images.,admin.registrykey,"Yes, only if you want to override the comparable setting in the shared configuration section."
-        disable_fips,Set to false if your deployment requires FIPS enablement. The value of the parameter should be consistent with the value of ecm_configuration.disable_fips parameter.,True,No
-        enable_ldap,Optional entry only if you have the open_id_connect_providers enabled. Enabling this will give the user the option to sign-in using the LDAP.,False,No
+        image_pull_secrets.name,The secrets to be able to pull images.,ibm-entitlement-key,"Yes, only if you want to override the comparable setting in the shared configuration section."
+        disable_fips,Set to true to disable FIPS for this component. The value should be consistent with shared_configuration.enable_fips. Set to true if you want to disable FIPS for Navigator while the shared configuration has FIPS enabled.,False,No
+        enable_ldap,Optional entry only if you have the open_id_connect_providers enabled. Enabling this will give the user the option to sign-in using the LDAP.,False,No
         custom_operator_pod_label,Custom Operator Label for Navigator,ibm-icn-operator,Yes
         disable_basic_auth,Create Basic Auth Login for Navigator,false,Yes
 

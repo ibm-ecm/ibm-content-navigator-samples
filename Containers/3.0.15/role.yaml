@@ -68,7 +68,8 @@ rules:
 - apiGroups:
   - fncm.ibm.com
   resources:
-  - '*'
+  - fncmclusters
+  - fncmclusters/status
   verbs:
   - get
   - list
@@ -160,3 +161,17 @@ rules:
   - delete
   - update
   - patch
+
+- apiGroups:
+  - policy
+  resources:
+  - poddisruptionbudgets
+  - podsecuritypolicies
+  verbs:
+  - create
+  - list
+  - delete
+  - update
+  - patch
+  - get
+  - watch

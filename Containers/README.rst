@@ -5,7 +5,7 @@ Introduction
 ------------
 
 Welcome to the IBM Content Navigator Container Deployment for CMOD & CM8 readme! This readme provides instructions for preparation and deployment of IBM Content Navigator in a kubernetes environment.
-For more details on IBM Content Navigator, please refer to the provided `documentation <https://www.ibm.com/docs/en/content-navigator/3.2.0>`_.
+For more details on IBM Content Navigator, please refer to the provided `documentation <https://www.ibm.com/docs/en/content-navigator/26.0.0>`_.
 
 Currently supported version using the following instructions:
  * IBM Content Navigator 3.0.13
@@ -13,6 +13,7 @@ Currently supported version using the following instructions:
  * IBM Content Navigator 3.0.15
  * IBM Content Navigator 3.1.0
  * IBM Content Navigator 3.2.0
+ * IBM Content Navigator 26.0.0
 
 Prerequisites
 -------------
@@ -110,7 +111,7 @@ Complete the following tasks to prepare for your deployment:
 
         .. code-block:: bash
 
-            cd ./Containers/3.2.0
+            cd ./Containers/26.0.0
 
     * Edit the supplied `cluster_role_binding.yaml` file to include the namespace you created in the previous step.
     * Replace the `<NAMESPACE>` values with your created namespace.
@@ -337,5 +338,5 @@ Next Steps
 
 #. For more information on connecting your respective repository to IBM Content Navigator, please refer to the provided documentation below:
 
-    * `Connecting to IBM Content Manager OnDemand <https://www.ibm.com/docs/en/content-navigator/3.2.0?topic=ccrcn-connecting-content-manager-ondemand-repository-from-content-navigator-container-deployment>`_
-    * `Connecting to IBM Content Manager 8 <https://www.ibm.com/docs/en/content-navigator/3.2.0?topic=ccrcn-connecting-content-manager-repository-from-content-navigator-container-deployment>`_
+    * `Connecting to IBM Content Manager OnDemand <https://www.ibm.com/docs/en/content-navigator/26.0.0?topic=ccrcn-connecting-content-manager-ondemand-repository-from-content-navigator-container-deployment>`_
+    * `Connecting to IBM Content Manager 8 <https://www.ibm.com/docs/en/content-navigator/26.0.0?topic=ccrcn-connecting-content-manager-repository-from-content-navigator-container-deployment>`_

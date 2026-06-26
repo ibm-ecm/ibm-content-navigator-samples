@@ -16,18 +16,17 @@ metadata:
     app.kubernetes.io/instance: ibm-icn
     app.kubernetes.io/managed-by: ibm-icn
     app.kubernetes.io/name: ibm-icn
-    release: 3.1.0
+    release: 26.0.0
 spec:
   ##########################################################################
   ## This section contains the shared configuration for all ICN components #
   ##########################################################################
-  appVersion: 24.0.0
+  appVersion: 26.0.0
 
-  ## MUST exist, used to accept ibm license, valid value only can be "true"
+  ## MUST exist, used to accept ibm license; valid value only can be "true"
   license:
     accept:
 
-  ## Operator used to have a required PVC before 5.5.9 release, named operator-shared-pvc by default.
   ## If your deployment set a different name, you need to uncomment this and set your PVC name here in order to reuse the ICCSAP and JDBC drivers in it.
   ## var_operator_pvc: operator-shared-pvc
 
@@ -42,6 +41,7 @@ spec:
     ban: true
     iccsap: false
     ier: false
+    ccxmo: false
 
   shared_configuration:
     ## This is the deployment context is FNCM. No update it required.
@@ -70,6 +70,36 @@ spec:
     ## The deployment type as selected.
     sc_deployment_type: production
 
+    ## Values in this field will be used as annotations in all generated pods, and it must be valid annotation key value pairs.
+    # Example:
+    # customAnnotationKey: customAnnotationValue
+    ## This can be overwritten by component level definition for example ecm_configuration.cpe.custom_annotations.
+    ## To include '{{ }}' in annotation like '{{example}}', add a backward slash before curly brace like '\{\{example\}\}'.
+    custom_annotations: { }
+    ## Values in this field will be used as labels in all generated pods, and it must be valid label key value pairs
+    # Example:
+    # customLabelKey: customLabelValue
+    ## This can be overwritten by component level definition for example ecm_configuration.cpe.custom_labels.
+    custom_labels: { }
+
+    ## Optional setting for tolerations for FNCM containers.  The tolerations defined here will be applied to all components.
+    ## If there are component-specific tolerations defined, then the component-specific tolerations will take precedence over the shared tolerations.
+    ## Example:
+    ##   - key: "component"
+    ##     operator: "Equal"
+    ##     value: "cpe"
+    ##     effect: "NoSchedule"
+    sc_tolerations: []
+
+    ## This optional parameter is used to enable the integration with external secret store such as HashiCorp Vault. If the parameter is not defined, then the default value is "false".
+    ## Set this flag to "true" if you plan to integrate with external secret store for all CCx components.
+    sc_vault_configuration:
+      enable_external_secret_store: false
+
+    ## By default, we will always set the sc_enable_usage_metering flag to true and this will enable the operators to deploy the cron jobs to send usage metrics to software central.
+    ## Only set this flag to "false" if you want to opt-out sending usage metrics.
+    sc_enable_usage_metering: false
+
     ## Optional setting for secure computing mode (seccomp) profile for FNCM containers.  The default seccomp profile is RuntimeDefault on OCP 4.11 (k8s v1.24) or higher. seccomp profile won't be created on OCP 4.10 (k8s v1.23) or lower.
     ## For more information on seccomp please refer to https://kubernetes.io/docs/tutorials/security/seccomp/ and https://docs.openshift.com/container-platform/4.12/security/seccomp-profiles.html
     ## NOTE: Defining a custom, localhost seccomp profile that is stricter than the default RuntimeDefault profile may cause our pods fail to start.  This custom profile should be created at the worker nodes.
@@ -77,11 +107,12 @@ spec:
     #  type: # RuntimeDefault, Localhost, Unconfined
     #  localhost_profile: # Local path of custom seccomp profile when type `Localhost` is used. The custom profile must be accessible by the pod and must exist locally on all worker nodes.  For example: `/profiles/fine-grained.json`.
 
+    ## The optional parameter to enable/disable the creation of sample network policy templates for CCx components.  If the parameter is not defined, then the default value is "false".
+    ## Set this flag to "true" if you plan to have restricted network policies in CCx namespaces so that the operators can create sample network policy templates for CCx components.
+    ## Please refer to the FNCM documentation for more information about how to retrieve and apply the sample network policy templates.
+    sc_generate_sample_network_policies: false
+
     sc_egress_configuration:
-      ## Required. Enable or disable egress access to external systems.
-      ## If "sc_restricted_internet_access" is defined and has no value set, then default will be "true".
-      ## If "sc_restricted_internet_access" is not defined (e.g., in the case of upgrade, the existing CR will not have sc_restricted_internet_access), then "sc_restricted_internet_access" will be "false"
-      sc_restricted_internet_access: true
       ## Optional.  Kubernetes API server namespace(s) (comma separated) to be used for egress network policy when `sc_restricted_internet_access: true` and `sc_deployment_platform: "other"`.
       ## "{}" can also be used as a value.  It is equivalent to all namespaces (eg: namespaceSelector:{})
       ## Default are "openshift-kube-apiserver", "openshift-apiserver" for OCP and ROKS.
@@ -109,6 +140,15 @@ spec:
     ## By default, the sc_is_multiple_az parameter is set to false. When the value is set to true, the pods of the FNCM deployment are spread across your user-defined topology domains.
     ## The pod API includes a spec.topologySpreadConstraints field, which is used by the FNCM operator to configure it.
     sc_is_multiple_az: false
+
+    ## The global flag to enable or disable Pod Disruption Budget (PDB) creation across all components.  This flag can be overridden at specific configuration sections (eg: ecm_configuration.cpe.enable_pdb).  Default is true
+    ## A PDB will be created with a `minAvailable: 1` only if the replica count of a particular deployment is greater than 1.  Otherwise, the PDB will have `minAvailable: 0` if the replica is 1.
+    sc_enable_pdb: true
+
+    ## Enables integration with Instana to collect application and infrastructure metrics for enhanced observability.
+    ## This optional parameter controls the instana instrumentation. If the parameter is not defined, then the default value is "false".
+    ## Set this flag to "true" if you plan to enable instana monitoring for CCx application.
+    sc_enable_instana_metric_collection: false
 
     ## Specify the RunAsUser for the security context of the pod.  This is usually a numeric value that corresponds to a user ID.
     ## For non-OCP (e.g., CNCF platforms such as EKS, AKS, GKE, etc.), this parameter is optional. It is not supported on OCP and ROKS.
@@ -149,11 +189,11 @@ spec:
     images:
       keytool_init_container:
         repository: icr.io/cpopen/icn/dba-keytool-initcontainer
-        tag: "24.0.0-IF009"
+        tag: "26.0.0"
 
-    ## This is necessary if you want to use your own JDBC drivers and/or need to provide ICCSAP drivers.  If you are providing multiple JDBC drivers and ICCSAP drivers, 
+    ## This is necessary if you want to use your own JDBC drivers and/or need to provide ICCSAP drivers.  If you are providing multiple JDBC drivers and ICCSAP drivers,
     ## all the files must be compressed in a single file.
-    ## First you need to package your drivers into a compressed package in the format of "saplibs/drivers_files" and/or 
+    ## First you need to package your drivers into a compressed package in the format of "saplibs/drivers_files" and/or
     ## "jdbc/db2|oracle|postgresql|sqlserver/driver_files". For example, if you are providing your own DB2 and Oracle JDBC drivers and ICCSAP drivers, then the compressed
     ## file should have the following structure and content:
     ##   /jdbc/db2/db2jcc4.jar
@@ -162,12 +202,11 @@ spec:
     ##   /saplibs/libicudata.so.50
     ##   /saplibs/...
     ## Then you need to put the compressed package on an anonymously accessible web server and provide the link here.
-    ## The CR can handle .zip files using unzip as well as .tar, .tar.gz, .tar.bz2, .tar.xz. Does not handle .gz files, .bz2 files, .xz, or .zst files that do not contain a .tar archive.    
+    ## The CR can handle .zip files using unzip as well as .tar, .tar.gz, .tar.bz2, .tar.xz. Does not handle .gz files, .bz2 files, .xz, or .zst files that do not contain a .tar archive.
     #sc_drivers_url:
 
-    ## On OCP 3.x and 4.x, these three (3) parameters  for "enterprise" deployment.
-    ## when deploying you would provide the different storage classes for the slow, medium
-    ## and fast storage parameters below.  If you only have 1 storage class defined, then you can use that 1 storage class for all 3 parameters.
+   ## Provide the storage class names for the storage. It can be one storage class for all storage classes or can provide different one for each.
+   ## Operator will use the provided storage classes to provision required PVC volumes.
     storage_configuration:
       sc_slow_file_storage_classname: "<Required>"
       sc_medium_file_storage_classname: "<Required>"
@@ -175,6 +214,28 @@ spec:
 
     # Enable/disable FIPS mode for the deployment (default value is "false")
     enable_fips: false
+
+    ## This optional property is a string value corresponding to the "ipFamilyPolicy" property of Kubernetes "service" objects.
+    ## Ref: https://kubernetes.io/docs/reference/kubernetes-api/service-resources/service-v1/
+    ## This setting is only applicable in dual-stack clusters where both IPv4 and IPv6 are enabled.
+    ## If not set, then the "ipFamilyPolicy" property of the services will default to the cluster-level settings.
+    ## ALLOWED VALUES (case-sensitive): "SingleStack", "PreferDualStack", "RequireDualStack"
+    ## WARNING: Setting this property to a value not supported by your cluster will cause FNCM deployment to fail.
+    ## For example, if your cluster only supports one IP family, using "RequireDualStack" will cause deployment to fail.
+    sc_service_ip_family_policy:
+
+    ## This optional property is a list value corresponding to the "ipFamilies" property of Kubernetes "service" objects.
+    ## Ref: https://kubernetes.io/docs/reference/kubernetes-api/service-resources/service-v1/
+    ## This parameter works in conjunction with the ipFamilyPolicy to define the IP addressing behaviors for the Service.
+    ## If not set, then the "ipFamilies" property of the services will default to the cluster-level settings.
+    ## ALLOWED VALUES (case-sensitive):
+    ##   If "sc_service_ip_family_policy: SingleStack", then a list consisting of one IP family supported by your cluster ("IPv6" or "IPv4")
+    ##   If "sc_service_ip_family_policy: PreferDualStack" or "RequireDualStack", then a list of two IP families supported by your cluster in desired order ("IPv6", "IPv4")
+    ## WARNING: Setting this property to a value not supported by your cluster will cause FNCM deployment to fail.
+    ## For example, if your cluster does not support "IPv6" family, then including "IPv6" in this property will cause deployment to fail.
+    ## IMPORTANT: This setting is only supported for initial deployment. Updating this property after deployment has completed may
+    ## cause system instability and require some pods to be manually restarted.
+    sc_service_ip_families:
 
     ## Uncomment out this section if you have OpenId Connect identity providers.
     #open_id_connect_providers:
@@ -196,7 +257,8 @@ spec:
       #inbound_propagation: "supported"
       #https_required: "true"
       #validation_method: "introspect"
-      #disable_ltpa_cookie: "false"
+      #audiences: "<ClientID>"
+      #disable_ltpa_cookie: "true"
       #signature_algorithm: "RS256"
       #user_identifier: "sub"
       #unique_user_identifier: "sub"
@@ -241,11 +303,12 @@ spec:
     #database_precheck: true
     ## The database configuration for ICN (Navigator) - aka BAN (Business Automation Navigator)
     dc_icn_datasource:
-      ## Provide the database type from your infrastructure.  The possible values are "db2" or "db2HADR" or "oracle" or "sqlserver" or "postgresql".  This should be the same as the 
+      ## Provide the database type from your infrastructure.  The possible values are "db2" or "db2HADR" or "db2rds" or "db2rdsHADR" or "oracle" or "sqlserver" or "postgresql".  This should be the same as the
       ## GCD and object store configuration above.
       dc_database_type: "<Required>"
       ## Provide the ICN datasource name.  The default value is "ECMClientDS".
       dc_common_icn_datasource_name: "ECMClientDS"
+      ## Provide the database server name or IP address of the database server, not applicable to Oracle which requires a JDBC URL.  If using an IPv6 literal, enclose it in square brackets [].
       database_servername: "<Required>"
       ## Provide the database server port.  For Db2, the default is "50000". Not applicable to Oracle which requires a JDBC URL.
       database_port: "<Required>"
@@ -294,8 +357,8 @@ spec:
  #   collectd_interval: 10
  #   collectd_disable_host_monitoring: false
  #   collectd_plugin_write_prometheus_port: 9103
- ## You can use this configmap to customize PCH counters mounted at /opt/ibm/monitoring/pchmonitor/counters.xml. If not provided, Operator will create a default config map and any updates to it will not be overwritten by the Operator.
- #   pch_counters_configmap: {{ meta.name }}-pch-counters-config
+## You can use this configmap to customize PCH counters mounted at /opt/ibm/monitoring/pchmonitor/counters.xml. If not provided, Operator will create a default config map and any updates to it will not be overwritten by the Operator.
+  #   pch_counters_configmap: {{ meta.name }}-pch-counters-config
 
  ## Logging setting
  # logging_configuration:
@@ -322,7 +385,7 @@ spec:
     #    route_ingress_annotations:
     #      - haproxy.router.openshift.io/balance: roundrobin
     #route_ingress_annotations:
-    
+
     # Optional: You can specify a profile size for Navigator if different from Shared Configuration (see shared_configuration.sc_deployment_profile_size).  In other words,
     # you can override "shared_configuration.sc_deployment_profile_size" with "deployment_profile_size" defined here.
     # The valid values are small, medium, large - default is small.  The resources in this file are reflecting a "small" profile.
@@ -347,7 +410,7 @@ spec:
     image:
       ## The default repository is the IBM Entitled Registry
       repository: icr.io/cpopen/icn/navigator
-      tag: ga-310-icn-if009
+      tag: "26.0.0"
 
       ## This will override the image pull policy in the shared_configuration.
       pull_policy: IfNotPresent
@@ -355,6 +418,16 @@ spec:
     ## Logging for workloads.  This is the default setting.
     log:
       format: json
+
+    ## Tolerations are specified in the pod specification to allow the pod to be scheduled on tainted nodes.
+    ## Example, if you want to schedule the pod on a node with taints, you can add tolerations to the pod specification.
+    ## tolerations:
+    ##   - key: "component"
+    ##     operator: "Equal"
+    ##     value: "css"
+    ##     effect: "NoSchedule"
+    ## Default is empty list [], which uses Kubernetes defaults.
+    tolerations: [ ]
 
     ## The initial resources (CPU, memory, and ephemeral storage) requests and limits.  If more resources are needed,
     ## make the changes here to meet your requirement.
@@ -368,7 +441,14 @@ spec:
         memory: "3072Mi"
         ephemeral_storage: "3Gi"
 
-      ## By default "Autoscaling" is disabled (i.e., enabled: false).  If you enable auto_scaling (i.e., enabled: true), be sure to 
+    ## Rolling update settings for Navigator deployment.
+    ## By default, maxUnavailable is set to '25%' and maxSurge is set '1'. You can override these values by specifying max_unavailable and max_surge below.
+    ## The values can be defined as either a percentage (e.g., '25%') or an absolute number (e.g., 1).
+    rolling_update:
+      max_unavailable: '25%'
+      max_surge: '1'
+
+      ## By default "Autoscaling" is disabled (i.e., enabled: false).  If you enable auto_scaling (i.e., enabled: true), be sure to
       ## provide values for max_replicas, min_replicas, and target_cpu_utilization_percentage.
       auto_scaling:
         enabled: false
@@ -376,6 +456,24 @@ spec:
         min_replicas: "<Required>"
         ## This is the default cpu percentage before autoscaling occurs.
         target_cpu_utilization_percentage: "<Required>"
+      ## Set this parameter (in percentage) if you want HPA  scales a deployment based on the average memory utilization
+      target_memory_utilization_percentage: "<Required>"
+      ## Define scaleup/scaledown sections to control how fast and how often scaling happens.
+      ## These sections are optional; if they are not defined, the default values are set.
+      scaleup:  # policy is Pod
+        # the maximum number of pods that the HPA is allowed to add during each periodSeconds interval, default value is 1
+        policies_pods_value: "<Optional>"
+        # defines how often the HPA can apply a scaling action, default value is 15 (seconds)
+        policies_pods_period_seconds: "<Optional>"
+        # cooldown window before applying scaleUp action, default value is 30 (seconds)
+        stabilization_window_seconds: "<Optional>"
+      scaledown:
+        # the maximum number of pods that the HPA is allowed to remove during each periodSeconds interval, default value is 1
+        policies_pods_value: "<Optional>"
+        # defines how often the HPA can apply a scaling action, default value is 15 (seconds)
+        policies_pods_period_seconds: "<Optional>"
+        # cooldown window before applying scaleDown action, default value is 300 (seconds)
+        stabilization_window_seconds: "<Optional>"
 
     node_affinity:
       #-------------------------------------
@@ -423,6 +521,10 @@ spec:
       # For example fs_groupchangepolicy: "OnRootMismatch"
       fs_groupchangepolicy:
 
+    ## This flag enables or disables Pod Disruption Budget (PDB) creation for Navigator component. It overrides the shared_configuration.sc_enable_pdb flag. Default value is true.
+    ## A PDB for Navigator will be created with a `minAvailable: 1` only if the Navigator replica count is greater than 1.  Otherwise, if the replica is 1 the PDB will have `minAvailable: 0`.
+    enable_pdb: true
+
     ## Below are the default ICN Production settings.  Make the necessary changes as you see fit.  Refer to IBM Documentation for details.
     icn_production_setting:
       timezone: Etc/UTC
@@ -441,9 +543,9 @@ spec:
       ##  -Dmy.test.jvm.arg2=abc
       ##  -XX:+SomeJVMSettings
       ##  -XshowSettings:vm"
-      ## Then set the following: jvm_customize_options="-Dmy.test.jvm.arg1=123,-Dmy.test.jvm.arg2=abc,-XX:+SomeJVMSettings,-XshowSettings:vm"
-      ## If your JVM option contains comma then you have to include 'DELIM=;' to use a different separator, for example jvm_customize_options="DELIM=;-Dmy.test.jvm.arg1=123;-Dcom.filenet.authentication.wsi.AuthTokenOrder=oauth,oidc,ltpa". Semicolon can be replaced with any other char.
-      ## If your JVM option contains double quotes then you need to escape it like this: jvm_customize_options="-Dsettings.navigator.default=logging.level={\"_value\":\"4\",\"_mergeOption\":\"replace\"}"
+      ## Then set the following: jvm_customize_options: "-Dmy.test.jvm.arg1=123,-Dmy.test.jvm.arg2=abc,-XX:+SomeJVMSettings,-XshowSettings:vm"
+      ## If your JVM option contains comma then you have to include 'DELIM=;' to use a different separator, for example jvm_customize_options: "DELIM=;-Dmy.test.jvm.arg1=123;-Dcom.filenet.authentication.wsi.AuthTokenOrder=oauth,oidc,ltpa". Semicolon can be replaced with any other char.
+      ## If your JVM option contains double quotes then you need to escape it like this: jvm_customize_options: "-Dsettings.navigator.default=logging.level={\"_value\":\"4\",\"_mergeOption\":\"replace\"}"
       jvm_customize_options:
 
       icn_jndids_name: ECMClientDS
@@ -481,23 +583,23 @@ spec:
     ## Persistent Volume Claims for ICN.  If the storage_configuration in the shared_configuration is configured,
     ## the Operator will create the PVC using the names below.
     datavolume:
-      existing_pvc_for_icn_cfgstore: 
+      existing_pvc_for_icn_cfgstore:
         name: "icn-cfgstore"
         size: 1Gi
-      existing_pvc_for_icn_logstore: 
+      existing_pvc_for_icn_logstore:
         name: "icn-logstore"
         size: 1Gi
-      existing_pvc_for_icn_pluginstore: 
+      existing_pvc_for_icn_pluginstore:
         name: "icn-pluginstore"
         size: 1Gi
-      existing_pvc_for_icnvw_cachestore: 
+      existing_pvc_for_icnvw_cachestore:
         name: "icn-vw-cachestore"
         size: 1Gi
-      existing_pvc_for_icnvw_logstore: 
+      existing_pvc_for_icnvw_logstore:
         name: "icn-vw-logstore"
         size: 1Gi
-      existing_pvc_for_icn_aspera: 
-        name: "icn-asperastore" 
+      existing_pvc_for_icn_aspera:
+        name: "icn-asperastore"
         size: 1Gi
 
     ## Default values for both startup, readiness and liveness probes.  Modify these values to meet your requirements.
@@ -523,4 +625,4 @@ spec:
     ## Optional entry only if you have the open_id_connect_providers enabled.
     ## if not specified it will be set to false.
     ## Enabling this will give the user the option to sign-in using the LDAP.
-    enable_ldap: true
+    #enable_ldap: true

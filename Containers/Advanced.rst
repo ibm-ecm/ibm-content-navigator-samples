@@ -1,5 +1,5 @@
 IBM Content Navigator Container Deployment Advanced Options for CMOD & CM8
-=====================================================
+===========================================================================
 
 This document covers advanced deployment options and configurations for IBM Content Navigator deployment.
 
@@ -210,7 +210,6 @@ Complete the following steps to create an Ingress resource:
         kubectl get ingress -n <namespace>
         NAME                      CLASS    HOSTS                                 ADDRESS                                                                   PORTS   AGE
         icndeploy-fncm-ingress   alb   <custom-hostname>         <generated-address>   80      22d
-
 #. Retrieve your access info and product context routes
 
     .. code-block:: bash
@@ -220,5 +219,132 @@ Complete the following steps to create an Ingress resource:
         data:
           navigator-access-info: |-
             Business Automation Navigator for FNCM: <custom-hostname>/navigator/
+
+
+Configuring Tolerations
+-----------------------
+
+Tolerations allow pods to be scheduled onto nodes that have matching taints. You can configure tolerations in three places:
+the operator deployment itself, the shared configuration (which applies to all component pods including the temporary init pod
+that runs during deployment), and the individual Navigator component configuration.
+
+.. note::
+    Component-level tolerations (``navigator_configuration.tolerations``) take precedence over shared tolerations
+    (``shared_configuration.sc_tolerations``). Configure tolerations at the shared level to apply them broadly,
+    and override at the component level only when a specific component needs different scheduling behaviour.
+
+**1. Operator Deployment**
+
+The operator pod is deployed from ``operator.yaml`` and is not managed by the CR. If the node that should run the
+operator pod carries a taint, you must add tolerations directly to ``operator.yaml`` before applying it to the cluster.
+
+Uncomment and edit the ``tolerations`` block in the ``spec.template.spec`` section of ``operator.yaml``:
+
+.. code-block:: yaml
+
+    spec:
+      template:
+        spec:
+          # ... other fields ...
+          tolerations:
+          - key: "key1"
+            operator: "Equal"
+            value: "value1"
+            effect: "NoSchedule"
+          - key: "key2"
+            operator: "Exists"
+            effect: "NoExecute"
+            tolerationSeconds: 3600
+
+Apply the updated operator deployment:
+
+.. code-block:: bash
+
+    kubectl apply -f operator.yaml -n <namespace>
+
+**2. Shared Configuration (all components including the temporary init pod)**
+
+The ``sc_tolerations`` parameter in ``shared_configuration`` applies tolerations to every pod that the operator
+creates, including the temporary pod used during deployment initialisation. Use this when all components must be
+scheduled on tainted nodes.
+
+Add the ``sc_tolerations`` list to the ``shared_configuration`` section of your CR:
+
+.. code-block:: yaml
+
+    spec:
+      shared_configuration:
+        sc_tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "icn"
+          effect: "NoSchedule"
+        - key: "dedicated"
+          operator: "Equal"
+          value: "icn"
+          effect: "NoExecute"
+
+**3. Navigator Component Configuration**
+
+To apply tolerations to the Navigator pod, add a
+``tolerations`` list under ``navigator_configuration``:
+
+.. code-block:: yaml
+
+    spec:
+      navigator_configuration:
+        tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "navigator"
+          effect: "NoSchedule"
+        - key: "dedicated"
+          operator: "Equal"
+          value: "navigator"
+          effect: "NoExecute"
+
+**Combining all three**
+
+The following example shows a complete configuration where the operator, all shared components, and the Navigator
+pod each carry tolerations. The Navigator-level toleration overrides ``sc_tolerations`` for the Navigator pod only:
+
+.. code-block:: yaml
+
+    # operator.yaml – spec.template.spec
+    tolerations:
+    - key: "dedicated"
+      operator: "Equal"
+      value: "icn"
+      effect: "NoSchedule"
+
+    ---
+    # CR – shared_configuration (covers all components + temp init pod)
+    spec:
+      shared_configuration:
+        sc_tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "icn"
+          effect: "NoSchedule"
+
+      # CR – navigator_configuration (Navigator-specific override)
+      navigator_configuration:
+        tolerations:
+        - key: "dedicated"
+          operator: "Equal"
+          value: "navigator"
+          effect: "NoSchedule"
+
+The supported fields for each toleration entry are:
+
+.. csv-table:: Toleration Fields
+   :header: "Field", "Description", "Required"
+
+    key,"The taint key the toleration applies to. If empty, matches all taint keys (use with operator: Exists).",No
+    operator,"Relationship between key and value. Use ``Equal`` to match a specific value or ``Exists`` to match any value for that key.",Yes
+    value,The taint value to match. Only used when operator is ``Equal``.,No
+    effect,"The taint effect to match: ``NoSchedule``, ``PreferNoSchedule``, or ``NoExecute``. If empty, matches all effects.",No
+    tolerationSeconds,"Applicable only when effect is ``NoExecute``. Specifies how long (in seconds) the pod can remain bound to a tainted node before being evicted. If omitted, the pod is never evicted.",No
+
 
 

@@ -344,7 +344,7 @@ spec:
     image:
       ## The default repository is the IBM Entitled Registry
       repository: icr.io/cpopen/icn/navigator
-      tag: ga-320-icn
+      tag: ga-320-icn-if006
 
       ## This will override the image pull policy in the shared_configuration.
       pull_policy: IfNotPresent

@@ -142,7 +142,7 @@ spec:
     images:
       keytool_init_container:
         repository: icr.io/cpopen/icn/dba-keytool-initcontainer
-        tag: "5.5.12-IF005"
+        tag: "5.5.12-IF008"
 
     ## This is necessary if you want to use your own JDBC drivers and/or need to provide ICCSAP drivers.  If you are providing multiple JDBC drivers and ICCSAP drivers, 
     ## all the files must be compressed in a single file.
@@ -339,7 +339,7 @@ spec:
     image:
       ## The default repository is the IBM Entitled Registry
       repository: icr.io/cpopen/icn/navigator
-      tag: ga-3015-icn-if007
+      tag: ga-3015-icn-if010
 
       ## This will override the image pull policy in the shared_configuration.
       pull_policy: IfNotPresent

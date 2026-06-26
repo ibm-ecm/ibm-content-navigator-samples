@@ -2,7 +2,7 @@
 #
 # Licensed Materials - Property of IBM
 #
-# (C) Copyright IBM Corp. 2023. All Rights Reserved.
+# (C) Copyright IBM Corp. 2026. All Rights Reserved.
 #
 # US Government Users Restricted Rights - Use, duplication or
 # disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
@@ -13,10 +13,10 @@ kind: CustomResourceDefinition
 metadata:
   name: fncmclusters.fncm.ibm.com
   labels:
-    app.kubernetes.io/instance: ibm-icn
-    app.kubernetes.io/managed-by: ibm-icn
-    app.kubernetes.io/name: ibm-icn
-    release: 3.2.0
+    app.kubernetes.io/instance: ibm-content
+    app.kubernetes.io/managed-by: ibm-content
+    app.kubernetes.io/name: ibm-content
+    release: 26.0.0
 spec:
   group: fncm.ibm.com
   names:
@@ -78,10 +78,17 @@ spec:
                       type: boolean
                     ban:
                       type: boolean
+                    iccsap:
+                      type: boolean
+                    ier:
+                      type: boolean
+                    ccxmo:
+                      type: boolean
                 shared_configuration:
                   description: Shared Configuration for FNCM
                   required:
                     - sc_deployment_context
+                    - sc_fncm_license_model
                     - sc_deployment_platform
                   x-kubernetes-preserve-unknown-fields: true
                   type: object
@@ -347,6 +354,46 @@ spec:
                           type: number
                         dc_hadr_max_retries_for_client_reroute:
                           type: number
+                    dc_os_datasources:
+                      type: array
+                      description: Database configuration for the object store datasource for CPE
+                      items:
+                        type: object
+                        x-kubernetes-preserve-unknown-fields: true
+                        properties:
+                          dc_database_type:
+                            type: string
+                          dc_os_label:
+                            type: string
+                            nullable: true
+                          dc_common_os_datasource_name:
+                            type: string
+                          dc_common_os_xa_datasource_name:
+                            type: string
+                          database_servername:
+                            type: string
+                          database_name:
+                            type: string
+                          database_port:
+                            type: string
+                          database_ssl_secret_name:
+                            type: string
+                            nullable: true
+                          dc_oracle_os_jdbc_url:
+                            type: string
+                            nullable: true
+                          dc_hadr_standby_servername:
+                            type: string
+                            nullable: true
+                          dc_hadr_standby_port:
+                            type: string
+                            nullable: true
+                          dc_hadr_validation_timeout:
+                            type: number
+                          dc_hadr_retry_interval_for_client_reroute:
+                            type: number
+                          dc_hadr_max_retries_for_client_reroute:
+                            type: number
                     dc_icn_datasource:
                       type: object
                       description: Database configuration for ICN (Navigator) - aka BAN (Business Automation Navigator)
@@ -704,6 +751,82 @@ spec:
                   x-kubernetes-preserve-unknown-fields: true
                   properties:
                     ban_secret_name:
+                      type: string
+                      nullable: true
+                    replica_count:
+                      type: number
+                      nullable: true
+                    resources:
+                      type: object
+                      nullable: true
+                      x-kubernetes-preserve-unknown-fields: true
+                      properties:
+                        requests:
+                          type: object
+                          nullable: true
+                          x-kubernetes-preserve-unknown-fields: true
+                          properties:
+                            cpu:
+                              type: string
+                              nullable: true
+                            memory:
+                              type: string
+                              nullable: true
+                        limits:
+                          type: object
+                          nullable: true
+                          x-kubernetes-preserve-unknown-fields: true
+                          properties:
+                            cpu:
+                              type: string
+                              nullable: true
+                            memory:
+                              type: string
+                              nullable: true
+                ier_configuration:
+                  type: object
+                  nullable: true
+                  x-kubernetes-preserve-unknown-fields: true
+                  properties:
+                    ier_secret_name:
+                      type: string
+                      nullable: true
+                    replica_count:
+                      type: number
+                      nullable: true
+                    resources:
+                      type: object
+                      nullable: true
+                      x-kubernetes-preserve-unknown-fields: true
+                      properties:
+                        requests:
+                          type: object
+                          nullable: true
+                          x-kubernetes-preserve-unknown-fields: true
+                          properties:
+                            cpu:
+                              type: string
+                              nullable: true
+                            memory:
+                              type: string
+                              nullable: true
+                        limits:
+                          type: object
+                          nullable: true
+                          x-kubernetes-preserve-unknown-fields: true
+                          properties:
+                            cpu:
+                              type: string
+                              nullable: true
+                            memory:
+                              type: string
+                              nullable: true
+                iccsap_configuration:
+                  type: object
+                  nullable: true
+                  x-kubernetes-preserve-unknown-fields: true
+                  properties:
+                    iccsap_secret_name:
                       type: string
                       nullable: true
                     replica_count:
